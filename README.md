@@ -16,7 +16,9 @@ La guàrdia la juguen dues posicions alhora, cadascuna des del seu ordinador:
 
 El **tutor** (`/tutor`) prepara la guàrdia (CECOS, temàtiques, ritme, velocitat del rellotge, si la valoració és immediata o al final de cada incident, nota de briefing), la dirigeix (fer entrar incidents per temàtica, avaries, pics d'activitat, informació nova al registre) i veu la realitat de cada cas i totes les decisions. En acabar té la reconstrucció cronològica de la guàrdia.
 
-L'**editor de casos** (`/editor`) permet al tutor marcar cada opció com a òptima, acceptable, subòptima o perillosa per a cada variant, amb la seva explicació, i editar preguntes, respostes, fitxa, informes de la unitat i desenllaços. Els casos editats es desen a `casos-locals/` (fora de git, no es perden en actualitzar).
+La **gestió de casos** (`/editor`) permet crear casos nous (en blanc, duplicant o important un JSON), editar-los, activar-los o desactivar-los, esborrar-los o tornar a l'original. Per a cada opció i variant es marca si és òptima, acceptable, subòptima o perillosa, amb la seva explicació; també s'editen variants, preguntes, respostes, fitxa, informes de la unitat, decisions i desenllaços. Els casos editats es desen a `casos-locals/` (fora de git, no es perden en actualitzar).
+
+Les comunicacions de ràdio segueixen el **Codi 3** del SEM (`data/codis3.json`): 3.35 mobilització, 3.50 temps estimat, 3.4 arribada, 3.1 S consulta sanitària, 3.5 dades de l'afectat, 3.51/3.52 trasllat assistit o no, 3.22 alta, 3.6 finalització, 3.11 anul·lació, 3.10 retorn a base, 3.54 cobrint zona fora de base.
 
 El **públic** (`/vota`) vota amb un àlies la darrera decisió oberta i suma punts.
 

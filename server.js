@@ -33,7 +33,9 @@ function carregaCasos() {
   const locals = fs.existsSync(DIR_CASOS_LOCALS) ? fs.readdirSync(DIR_CASOS_LOCALS).filter(f => f.endsWith('.json')).map(f => f.slice(0, -5)) : [];
   return [...new Set([...ids, ...locals])].map(id => {
     const local = path.join(DIR_CASOS_LOCALS, `${id}.json`);
-    return fs.existsSync(local) ? { ...JSON.parse(fs.readFileSync(local, 'utf8')), local: true } : llegeix(`casos/${id}.json`);
+    // origen: "original" (from the repository), "editat" (local version of an original) or "nou" (only local)
+    if (!fs.existsSync(local)) return { ...llegeix(`casos/${id}.json`), origen: 'original' };
+    return { ...JSON.parse(fs.readFileSync(local, 'utf8')), origen: ids.includes(id) ? 'editat' : 'nou' };
   });
 }
 
@@ -159,13 +161,21 @@ async function api(req, res, ruta, params) {
   if (req.method === 'POST') {
     try { const s = await llegeixCos(req); cos = s ? JSON.parse(s) : {}; } catch { return json(res, 400, { error: 'JSON invàlid' }); }
   }
-  if (['/api/sala', '/api/casos'].includes(ruta) && !autoritzat) return json(res, 401, { error: 'Cal contrasenya' });
+  if (['/api/sala', '/api/casos', '/api/casos/esborra'].includes(ruta) && !autoritzat) return json(res, 401, { error: 'Cal contrasenya' });
   if (ruta === '/api/sala' && req.method === 'POST') return json(res, 200, { sala: novaSala(cos.config || {}) });
   if (ruta === '/api/casos' && req.method === 'GET') return json(res, 200, { casos: dades.casos });
+  if (ruta === '/api/casos/esborra' && req.method === 'POST') {   // delete a local case, or go back to the original
+    const fitxer = path.join(DIR_CASOS_LOCALS, `${String(cos.id || '').replace(/[^a-z0-9-]/g, '')}.json`);
+    if (!fs.existsSync(fitxer)) return json(res, 404, { error: 'Aquest cas no té cap versió local' });
+    fs.unlinkSync(fitxer);
+    dades.casos = carregaCasos();
+    return json(res, 200, { ok: true });
+  }
   if (ruta === '/api/casos' && req.method === 'POST') {   // save a case edited by the tutor
     const error = validaCas(cos.cas);
     if (error) return json(res, 400, { error });
-    const { local, ...cas } = cos.cas;
+    const { origen, local, ...cas } = cos.cas;
+    if (cos.nou && dades.casos.some(c => c.id === cas.id)) return json(res, 409, { error: `Ja existeix un cas amb l'identificador ${cas.id}` });
     fs.mkdirSync(DIR_CASOS_LOCALS, { recursive: true });
     fs.writeFileSync(path.join(DIR_CASOS_LOCALS, `${cas.id}.json`), JSON.stringify(cas, null, 1));
     dades.casos = carregaCasos();

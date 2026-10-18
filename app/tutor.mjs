@@ -7,9 +7,17 @@ const ordre = o => envia(codi, 'tutor', o);
 
 async function carrega() {
   const get = f => fetch(f).then(r => (r.ok ? r.json() : Promise.reject(r.status)));
-  const [cecos, tem, c] = await Promise.all([get('/data/cecos.json'), get('/data/tematiques.json'), get('/api/casos')]);
+  const [cecos, tem, c, codis] = await Promise.all([get('/data/cecos.json'), get('/data/tematiques.json'), get('/api/casos'), get('/data/codis3.json')]);
+  $('msg-predefinit').innerHTML += codis.missatges_tutor.map(m => `<option value="${esc(m.text)}">${esc(m.codi)} · ${esc(codis.codis[m.codi] || '')}</option>`).join('');
+  $('msg-predefinit').onchange = e => {
+    if (!e.target.value) return;
+    $('msg-codi').value = 'R';
+    const inc = vistaActual?.incidents.find(i => String(i.id) === $('msg-incident').value);
+    const unitat = inc?.unitats[0]?.indicatiu;
+    $('msg-text').value = `${unitat ? unitat + ' ' : ''}${e.target.value}`;
+  };
   tematiques = tem;
-  casos = c.casos;
+  casos = c.casos.filter(x => x.actiu !== false);
   $('cecos').innerHTML = cecos.cecos.map(x => `<label class="casella"><input type="checkbox" name="cecos" value="${x.id}" data-zones="${esc(JSON.stringify(x.zones))}">${esc(x.nom)}</label>`).join('');
   $('tematiques').innerHTML = tematiques.map(t => {
     const n = casos.filter(x => x.tematiques?.includes(t.id)).length;
@@ -65,7 +73,9 @@ $('envia-msg').onclick = () => {
   $('msg-text').value = '';
 };
 
+let vistaActual = null;
 function render(v) {
+  vistaActual = v;
   const estat = { preparada: 'preparada', enmarxa: '', pausa: ' · pausa', finalitzada: ' · finalitzada' }[v.estat];
   $('rellotge').textContent = v.rellotge + estat;
   $('punts').textContent = `Equip ${v.punts.punts}/${v.punts.maxim} · ` + v.rols.map(r => `${ROLS[r]} ${v.puntsRol[r].punts}/${v.puntsRol[r].maxim}`).join(' · ');

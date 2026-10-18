@@ -1,0 +1,41 @@
+{
+ "font": "U100.U00.0.D6.008 · Codificacions de transmissió de dades pels recursos SEM (v02, 19/07/2023)",
+ "codis": {
+  "3.0": "Aturada cardiorespiratòria", "3.01": "Aturada cardiorespiratòria recuperada", "3.02": "Aturada cardiorespiratòria no recuperada",
+  "3.03": "ACR perllongada. Activació del protocol de cor aturat",
+  "3.1": "Trucada telefònica", "3.1 O": "Trucada telefònica operativa", "3.1 S": "Trucada telefònica sanitària",
+  "3.1 M": "Trucada telefònica suport mèdic des de CECOS", "3.1 E": "Trucada a 3 amb CECOS i ECO", "3.1 MC": "Trucada a metge de CECOS de crítics adult / pediàtric",
+  "3.2": "Recurs no operatiu per descans", "3.3": "Recurs operatiu", "3.4": "Arribada al lloc de l'incident",
+  "3.5": "Informació de la situació o dades de l'afectat", "3.6": "Finalització del servei. La unitat es troba operativa",
+  "3.7": "Es precisa ajut policial", "3.7 GU/PL": "Es precisa ajut policial - Guàrdia Urbana / Policia local", "3.7 ME": "Es precisa ajut policial - Mossos d'Esquadra",
+  "3.70": "Es precisa ajut policial URGENT. Situació de risc físic", "3.8": "Èxitus", "3.9": "Recurs no operatiu per accident",
+  "3.9 F": "Recurs no operatiu per accident amb personal assistencial lesionat", "3.10": "Retorn a base", "3.11": "Anul·lació del servei",
+  "3.13": "Fer ús correcte de l'equip de ràdio", "3.14": "Es precisa ajut d'una altra unitat (s'especificarà el tipus)", "3.15": "Relleu de l'equip assistencial",
+  "3.16": "Recurs no operatiu per reposar combustible", "3.17": "Recurs no operatiu per reposar material sanitari", "3.18": "Es precisa ajut de Bombers",
+  "3.19": "Es precisa una unitat de transport sanitari (USVB)", "3.20": "Resteu atents en espera de noves dades o informació",
+  "3.21": "Donar coordenades de situació o localització de la unitat", "3.22 M": "Alta mèdica", "3.22": "Alta voluntària / rebuig assistència",
+  "3.23": "Accident de trànsit", "3.24": "Indigent / sociopatia", "3.25": "Intoxicació enòlica", "3.26": "Sobredosi per drogues",
+  "3.28": "Pacient amb patologia psiquiàtrica. Es troba agitat", "3.29": "Caiguda / trauma a via pública / domicili", "3.30": "IAM / angor",
+  "3.31": "Intent d'autòlisi", "3.32": "Pacient inconscient", "3.33": "Pacient amb dispnea aguda",
+  "3.34": "Pacient intoxicat. Exposició potencial a tòxics de risc pels assistencials", "3.35": "Mobilització",
+  "3.40": "Silenci a la xarxa, comunicat d'emergència", "3.43": "Arribada unitat a punt de trobada segur",
+  "3.50": "Indiqueu el temps estimat per arribar al lloc de l'incident", "3.51": "Trasllat assistit per metge / infermer",
+  "3.52": "Trasllat no assistit per metge / infermer", "3.53": "Unitat assistint i operativa per a noves necessitats de servei",
+  "3.54": "Unitat operativa, cobrint zona fora de base habitual", "3.60": "La unitat sol·licita temps de disposició lliure",
+  "3.62": "Unitat finalitza servei i resta inoperativa temporalment per contingut d'alt impacte emocional",
+  "3.71": "Incident amb possible afectat per violència sexual", "3.73": "Punt de seguretat indicat per CECOS. Trobada amb cossos policials",
+  "3.78": "S'informa a les unitats d'activació per incident de múltiples afectats (IMA)", "3.79": "S'informa a les unitats per IMA intencionat"
+ },
+ "missatges_tutor": [
+  {"codi": "3.7 ME", "text": "3.7 ME ES PRECISA AJUT POLICIAL, MOSSOS D'ESQUADRA"},
+  {"codi": "3.70", "text": "3.70 AJUT POLICIAL URGENT, SITUACIÓ DE RISC FÍSIC"},
+  {"codi": "3.18", "text": "3.18 ES PRECISA AJUT DE BOMBERS"},
+  {"codi": "3.14", "text": "3.14 ES PRECISA AJUT D'UNA ALTRA UNITAT: SVA"},
+  {"codi": "3.19", "text": "3.19 ES PRECISA UNA UNITAT DE TRANSPORT SANITARI (USVB)"},
+  {"codi": "3.8", "text": "3.8 ÈXITUS"},
+  {"codi": "3.01", "text": "3.01 ACR RECUPERADA"},
+  {"codi": "3.22", "text": "3.22 ALTA VOLUNTÀRIA / REBUIG ASSISTÈNCIA"},
+  {"codi": "3.16", "text": "3.16 NO OPERATIVA PER REPOSAR COMBUSTIBLE"},
+  {"codi": "3.62", "text": "3.62 FINALITZEM I RESTEM INOPERATIUS PER CONTINGUT D'ALT IMPACTE EMOCIONAL"}
+ ]
+}

@@ -37,7 +37,8 @@ export function pintaUnitats(capa, vista, unitats, { filtre = () => true, destac
       radius: u.tipus === 'HELI' ? 10 : 7, color: destacades.has(u.indicatiu) ? '#fff' : e.movent ? '#ffeb3b' : '#0b1220',
       weight: destacades.has(u.indicatiu) || e.movent ? 3 : 1, dashArray: e.movent ? '3' : null,
       fillColor: COLOR[u.tipus], fillOpacity: lliure || destacades.has(u.indicatiu) ? 0.95 : 0.15,
-    }).addTo(capa).bindTooltip(`<b>${esc(u.indicatiu)}</b> · ${u.tipus} · ${e.movent ? 'desplaçant-se' : e.estat}<br>${esc(u.base.nom)}`);
+    }).addTo(capa).bindTooltip(`<b>${esc(u.indicatiu)}</b> · ${u.tipus} · ${e.movent ? 'desplaçant-se' : e.estat}`
+      + `${e.incident ? ` a l'incident ${vista.incidents.find(i => i.id === e.incident)?.numero ?? ''}` : ''}<br>${esc(u.base.nom)}`);
     if (onClick) marca.on('click', () => onClick(u, e));
   }
 }

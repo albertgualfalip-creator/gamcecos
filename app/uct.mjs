@@ -112,7 +112,7 @@ function pintaMapa() {
   pintaUnitats(capa, vista, unitats, {
     filtre: (u, e) => distanciaKm(e, i.punt) <= 60, destacades: meves,
     onClick: (u, e) => i.estat === 'obert' && (meves.has(u.indicatiu) ? accio({ tipus: 'allibera', incident: i.id, unitat: u.indicatiu })
-      : e.estat === 'disponible' && accio({ tipus: 'assigna', incident: i.id, unitat: u.indicatiu })),
+      : ['disponible', 'assignada'].includes(e.estat) && accio({ tipus: 'assigna', incident: i.id, unitat: u.indicatiu })),
   });
   if (centrat !== i.id) {
     centrat = i.id;

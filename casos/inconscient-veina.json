@@ -258,8 +258,8 @@
    "titol": "Trasllat",
    "pregunta": "La unitat demana consulta. Què hi indiqueu?",
    "informe": {
-    "aturada": "3.1 AL LLOC. RCP DEL VEÍ EN CURS. FV, 2 DESCÀRREGUES, ROSC ALS 8 MIN. IOT. TA 95/60, FC 110.",
-    "hipoglucemia": "3.1 AL LLOC. GLUCÈMIA 38, ES TRACTA AMB GLUCOSA. ARA CONSCIENT I ORIENTADA, GLUCÈMIA 142. VIU AMB LA FILLA."
+    "aturada": "3.4 AL LLOC. 3.5: RCP DEL VEÍ EN CURS. FV, 2 DESCÀRREGUES, ROSC ALS 8 MIN. IOT. TA 95/60, FC 110.",
+    "hipoglucemia": "3.4 AL LLOC. 3.5: GLUCÈMIA 38, ES TRACTA AMB GLUCOSA. ARA CONSCIENT I ORIENTADA, GLUCÈMIA 142. VIU AMB LA FILLA."
    },
    "opcions": [
     {

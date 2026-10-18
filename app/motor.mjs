@@ -168,7 +168,9 @@ export function faseDe(pas) {
 }
 
 // Shuffled queue of cases for the selected themes (all cases if none selected); reshuffled when exhausted
-export function baralla(casos, tematiques, rnd) {
+export function baralla(totsElsCasos, tematiques, rnd) {
+  const actius = totsElsCasos.filter(c => c.actiu !== false);   // deactivated cases never come up at random
+  const casos = actius.length ? actius : totsElsCasos;
   const valids = tematiques?.length ? casos.filter(c => c.tematiques?.some(t => tematiques.includes(t))) : casos;
   const llista = [...(valids.length ? valids : casos)];
   for (let i = llista.length - 1; i > 0; i--) {

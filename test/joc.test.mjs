@@ -89,3 +89,16 @@ test('cobertura: descobrir una zona la fa baixar i un moviment la torna a pujar'
   g.ordre({ tipus: 'final' });
   assert.ok(g.resultatsGlobals.some(r => r.pas === 'Cobertura territorial' && r.rol === 'uct'));
 });
+
+test('una unitat activada en un incident no surt al següent fins que es desactiva', () => {
+  const g = new Guardia({ zones: ['Barcelona ciutat'], incidents: 0 }, dades, 21);
+  g.ordre({ tipus: 'inicia' });
+  const a = g.nouIncident({ casId: 'inconscient-veina', manual: true });
+  const b = g.nouIncident({ casId: 'consum-toxics', manual: true });
+  const u = g.candidates(a)[0].indicatiu;
+  assert.equal(g.accio('uct', { tipus: 'assigna', incident: a.id, unitat: u }), null);
+  assert.ok(!g.candidates(b).some(c => c.indicatiu === u));
+  assert.match(g.accio('uct', { tipus: 'assigna', incident: b.id, unitat: u }), /desactiveu-la/);
+  assert.equal(g.accio('uct', { tipus: 'allibera', incident: a.id, unitat: u }), null);
+  assert.equal(g.accio('uct', { tipus: 'assigna', incident: b.id, unitat: u }), null);
+});

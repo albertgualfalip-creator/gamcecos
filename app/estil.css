@@ -231,3 +231,13 @@ select.val-perillosa { background: color-mix(in srgb, var(--perillosa) 30%, var(
 .llegenda-cob { font-size: .82rem; margin: 0 .3rem; }
 .llegenda-cob span { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin: 0 .2rem 0 .6rem; }
 .cob-ok { background: #00c853; } .cob-mitja { background: #ffb300; } .cob-no { background: #ff5252; }
+
+/* Case management */
+.barra-cas { position: sticky; top: 0; background: var(--panell); z-index: 5; padding-bottom: .4rem; border-bottom: 1px solid var(--vora); margin-bottom: .6rem; }
+.boto.perill { background: var(--perillosa); }
+.incident-fila.inactiu { opacity: .55; }
+.cerca { width: 100%; font: inherit; padding: .45rem; border-radius: 6px; border: 1px solid var(--vora); background: var(--camp); color: var(--text); margin: .5rem 0 0; }
+.importa { cursor: pointer; }
+.bloc-pas { border-top: 2px solid var(--vora); margin-top: 1rem; padding-top: .4rem; }
+.bloc-pas h3 { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; }
+.afegeix-pas { margin-top: 1rem; align-items: flex-end; }

@@ -286,9 +286,9 @@
    "titol": "Trasllat",
    "pregunta": "La unitat demana consulta. Què hi indiqueu?",
    "informe": {
-    "caiguda": "3.1 AL LLOC. DONA A TERRA, CONSCIENT. ESCURÇAMENT I ROTACIÓ EXTERNA DE LA CAMA DRETA. PREN SINTROM. SENSE TCE.",
-    "inconscient": "3.1 AL LLOC. TROBADA A TERRA, GCS 8, GLUCÈMIA 30. ES TRACTA AMB GLUCOSA, RECUPERA FINS A GCS 14. VIU SOLA.",
-    "falsa_alarma": "3.1 AL LLOC. USUÀRIA BÉ, HA PREMUT EL BOTÓ PER ERROR. SENSE LESIONS."
+    "caiguda": "3.4 AL LLOC. 3.5: DONA A TERRA, CONSCIENT. ESCURÇAMENT I ROTACIÓ EXTERNA DE LA CAMA DRETA. PREN SINTROM. SENSE TCE.",
+    "inconscient": "3.4 AL LLOC. 3.5: TROBADA A TERRA, GCS 8, GLUCÈMIA 30. ES TRACTA AMB GLUCOSA, RECUPERA FINS A GCS 14. VIU SOLA.",
+    "falsa_alarma": "3.4 AL LLOC. 3.5: USUÀRIA BÉ, HA PREMUT EL BOTÓ PER ERROR. SENSE LESIONS."
    },
    "opcions": [
     {

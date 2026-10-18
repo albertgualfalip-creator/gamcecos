@@ -318,13 +318,17 @@ export class Guardia {
     const inc = this.incidents.find(i => i.id === Number(incident));
     const u = this.unitats.find(x => x.indicatiu === indicatiu);
     if (!inc || inc.estat === 'tancat') return 'Incident tancat';
+    if (u?.estat === 'assignada') {
+      const altre = this.incidents.find(i => i.id === u.incident);
+      return `${indicatiu} està activada a l'incident ${altre?.numero}: desactiveu-la allà (3.11) abans d'assignar-la aquí`;
+    }
     if (!u || u.estat !== 'disponible') return 'Unitat no disponible';
     const eta = tempsArribada(u.tipus, u, inc.punt, inc.entorn);
     Object.assign(u, { estat: 'assignada', incident: inc.id, fase: 'ruta', eta, arribaT: this.t + eta * 60, moviment: null });
     inc.unitats.add(indicatiu);
     inc.historic.add(indicatiu);
     inc.primeraActivacio ??= this.real;
-    this.missatgeRadio(inc, `${indicatiu} 3.0 ACTIVADA, SORTIM · ARRIBADA ESTIMADA ${eta} MIN`);
+    this.missatgeRadio(inc, `${indicatiu} 3.35 MOBILITZACIÓ · 3.50: ${eta} MIN`);
     return null;
   }
 
@@ -335,7 +339,7 @@ export class Guardia {
     inc.unitats.delete(indicatiu);
     inc.historic.delete(indicatiu);
     Object.assign(u, { estat: 'disponible', incident: null, fase: null });
-    this.missatgeRadio(inc, `${indicatiu} DESACTIVADA, TORNA A BASE`);
+    this.missatgeRadio(inc, `${indicatiu} 3.11 ANUL·LACIÓ DEL SERVEI`);
     return null;
   }
 
@@ -350,14 +354,14 @@ export class Guardia {
     for (const u of this.unitats) {
       if (u.estat === 'ocupada' && u.fins <= this.real) {
         u.estat = enServei(u.horari, this.hora(), mes) ? 'disponible' : 'fora de servei';
-        if (u.alliberadaDe) this.missatgeRadio(u.alliberadaDe, `${u.indicatiu} 3.6 LLIURE, TORNA A ESTAR DISPONIBLE`);
+        if (u.alliberadaDe) this.missatgeRadio(u.alliberadaDe, `${u.indicatiu} 3.6 FINALITZA EL SERVEI, OPERATIVA`);
         u.alliberadaDe = null;
       }
       if (u.estat !== 'assignada') continue;
       const inc = this.incidents.find(i => i.id === u.incident);
       if (u.fase === 'ruta' && this.t >= u.arribaT) {
         u.fase = 'lloc';
-        this.missatgeRadio(inc, `${u.indicatiu} 3.1 AL LLOC`);
+        this.missatgeRadio(inc, `${u.indicatiu} 3.4 ARRIBADA AL LLOC`);
         inc.informeT ??= this.t + SEGONS_INFORME;
       }
     }
@@ -366,13 +370,14 @@ export class Guardia {
       const unitat = this.unitats.find(u => inc.unitats.has(u.indicatiu) && u.fase === 'lloc');
       if (!pas || !unitat) continue;
       inc.informe = `${unitat.indicatiu}: ${perVariant(pas.informe, inc.variant.id)}`;
-      this.missatgeRadio(inc, `${unitat.indicatiu} DEMANA CONSULTA`);
-      this.novaTrucada(inc, 'unitat', `${unitat.indicatiu} demana consulta des del lloc`);
+      this.missatgeRadio(inc, `${unitat.indicatiu} 3.1 S DEMANA CONSULTA SANITÀRIA`);
+      this.novaTrucada(inc, 'unitat', `${unitat.indicatiu} · 3.1 S: consulta sanitària des del lloc`);
     }
   }
 
   iniciaTrasllat(inc, opcio) {
-    const senseTrasllat = SENSE_TRASLLAT.has(opcio);
+    const o = inc.cas.passos.find(p => p.id === 'trasllat')?.opcions.find(x => x.id === opcio);
+    const senseTrasllat = o?.sense_trasllat ?? SENSE_TRASLLAT.has(opcio);
     const alLloc = this.unitats.filter(u => inc.unitats.has(u.indicatiu));
     const ordre = { SVA: 0, HEMS: 1, SVB: 2 };
     const portadora = senseTrasllat ? null : [...alLloc].sort((a, b) => ordre[CATEGORIA[a.tipus]] - ordre[CATEGORIA[b.tipus]])[0];
@@ -382,7 +387,10 @@ export class Guardia {
       Object.assign(u, { estat: 'ocupada', fase: null, incident: null, fins: this.real + (minuts * 60) / this.config.factor, alliberadaDe: inc });
       inc.unitats.delete(u.indicatiu);
     }
-    this.missatgeRadio(inc, portadora ? `${portadora.indicatiu} 3.51 INICIEN TRASLLAT` : 'FINALITZEM ASSISTÈNCIA SENSE TRASLLAT');
+    const ambSva = alLloc.some(u => CATEGORIA[u.tipus] === 'SVA');
+    const assistit = portadora && CATEGORIA[portadora.tipus] !== 'SVB';
+    this.missatgeRadio(inc, portadora ? `${portadora.indicatiu} ${assistit ? '3.51 TRASLLAT ASSISTIT' : '3.52 TRASLLAT NO ASSISTIT'}`
+      : opcio === 'acceptar' ? '3.22 ALTA VOLUNTÀRIA / REBUIG DEL TRASLLAT' : ambSva ? '3.22 M ALTA MÈDICA IN SITU' : 'FINALITZEN L\'ASSISTÈNCIA SENSE TRASLLAT');
   }
 
   comprovaTancament(inc) {
@@ -531,7 +539,7 @@ export class Guardia {
     const minuts = tempsArribada(u.tipus, u, base, 'suburba');
     u.moviment = { origen: { lat: u.lat, lon: u.lon }, desti: base, inici: this.t, arribaT: this.t + minuts * 60 };
     this.moviments.push({ rol, unitat, desti: base.nom, hora: this.textHora(), minuts });
-    this.missatgeRadio(null, `${unitat} ES DESPLAÇA A ${base.nom.toUpperCase()} PER COBERTURA · ${minuts} MIN`);
+    this.missatgeRadio(null, desti === 'base' ? `${unitat} 3.10 RETORN A BASE` : `${unitat} ES DESPLAÇA A ${base.nom.toUpperCase()} PER COBERTURA · ${minuts} MIN`);
     this.cobCache = null;
     return null;
   }
@@ -545,7 +553,7 @@ export class Guardia {
       if (f >= 1) {
         u.moviment = null;
         u.ubicacio = m.desti.nom === u.base.nom ? null : m.desti.nom;
-        this.missatgeRadio(null, `${u.indicatiu} EN POSICIÓ A ${m.desti.nom.toUpperCase()}`);
+        this.missatgeRadio(null, m.desti.nom === u.base.nom ? `${u.indicatiu} 3.3 OPERATIVA A BASE` : `${u.indicatiu} 3.54 OPERATIVA COBRINT ZONA FORA DE BASE: ${m.desti.nom.toUpperCase()}`);
         this.cobCache = null;
       }
     }
