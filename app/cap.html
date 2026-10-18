@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GamCECOS · Cap de torn</title>
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="estil.css">
+<script src="vendor/leaflet/leaflet.js"></script>
+</head>
+<body class="operatiu">
+<form id="entrada" class="formulari panell">
+  <h1>GamCECOS · Cap de torn</h1>
+  <p class="suau">Visió global de la central: cobertura del territori, moviments preventius d'unitats i coordinació de l'equip.</p>
+  <label>Codi de la guàrdia <input name="sala" maxlength="4" required autocapitalize="characters" style="text-transform:uppercase"></label>
+  <button class="boto">Entrar</button>
+  <p class="error suau"></p>
+</form>
+
+<div id="joc" class="estacio cap" hidden>
+  <header class="capcalera">
+    <span class="marca">CAP DE TORN</span>
+    <span id="cecos" class="suau"></span>
+    <span class="rellotge" id="rellotge">--:--</span>
+    <span id="estat"></span>
+    <div class="info" id="indicadors"></div>
+  </header>
+  <section class="columna">
+    <div class="panell"><h3>Cobertura i moviments</h3><div id="moviments"></div></div>
+    <div class="panell"><h3>Incidents oberts</h3><div id="incidents"></div></div>
+  </section>
+  <section class="columna">
+    <div class="panell mapa-panell gran"><div id="mapa"></div></div>
+    <p class="suau llegenda-cob"><span class="cob-ok"></span> SVA i SVB a temps <span class="cob-mitja"></span> només una <span class="cob-no"></span> cap a temps · fes clic en una unitat lliure per triar-la</p>
+  </section>
+  <section class="columna">
+    <div class="panell"><h3>Ràdio</h3><div id="radio" class="radio"></div></div>
+    <div class="panell"><h3>Comunicació de sala</h3>
+      <div class="rapids">
+        <button data-msg="Revisem la cobertura: prioritzeu SVB per als N3">Prioritzar SVB per N3</button>
+        <button data-msg="Atenció: zona descoberta, consulteu abans de moure més SVA">Zona descoberta</button>
+        <button data-msg="Possible incident múltiple: coincideixen trucades a la mateixa zona">Possible IMV</button>
+      </div>
+      <form id="form-msg" class="fila-msg"><input name="text" placeholder="Missatge a l'equip"><button class="boto">Enviar</button></form>
+      <div id="missatges" class="missatges"></div>
+    </div>
+  </section>
+</div>
+<div id="capa"></div>
+<script type="module" src="cap.mjs"></script>
+</body>
+</html>

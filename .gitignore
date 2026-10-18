@@ -2,3 +2,4 @@
 *.xlsx
 *.pptx
 __pycache__/
+casos-locals/

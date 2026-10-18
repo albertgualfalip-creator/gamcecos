@@ -79,8 +79,7 @@
    "id": "retrucada",
    "tipus": "retrucada",
    "titol": "Retrucada",
-   "pregunta": "Retruqueu el telèfon de l'eCall. Teniu temps per a 3 preguntes: quines feu?",
-   "max": 3,
+   "pregunta": "Pregunteu el que necessiteu: cada pregunta allarga la trucada.",
    "preguntes": [
     {
      "id": "atrapat",
@@ -89,7 +88,14 @@
      "resposta": {
       "sense_ferits": "No, no, ja hem sortit tots dos. Abans em pensava que l'altre no podia sortir.",
       "atrapat_greu": "L'altre conductor no pot sortir, té la cama enganxada."
-     }
+     },
+     "fitxa": {
+      "sense_ferits": "Cap atrapat",
+      "atrapat_greu": "1 atrapat (cama)"
+     },
+     "alarma": [
+      "atrapat_greu"
+     ]
     },
     {
      "id": "ferits",
@@ -98,7 +104,14 @@
      "resposta": {
       "sense_ferits": "Jo estic bé. L'altre conductor diu que també, només espantat.",
       "atrapat_greu": "Diu que li fa molt mal el pit i li costa respirar."
-     }
+     },
+     "fitxa": {
+      "sense_ferits": "Sense símptomes",
+      "atrapat_greu": "Dolor toràcic · dispnea"
+     },
+     "alarma": [
+      "atrapat_greu"
+     ]
     },
     {
      "id": "velocitat",
@@ -107,7 +120,14 @@
      "resposta": {
       "sense_ferits": "No, ha estat a la rotonda, anàvem a poc a poc. No han saltat.",
       "atrapat_greu": "Era a la carretera, anàvem a 80 o 90. Sí, airbags dels dos cotxes."
-     }
+     },
+     "fitxa": {
+      "sense_ferits": "Baixa velocitat · sense airbags",
+      "atrapat_greu": "80-90 km/h · airbags"
+     },
+     "alarma": [
+      "atrapat_greu"
+     ]
     },
     {
      "id": "quants",
@@ -116,7 +136,12 @@
      "resposta": {
       "sense_ferits": "Jo sol, i l'altre conductor sol.",
       "atrapat_greu": "Jo sol, i a l'altre cotxe només el conductor."
-     }
+     },
+     "fitxa": {
+      "sense_ferits": "2 persones",
+      "atrapat_greu": "2 persones"
+     },
+     "alarma": []
     },
     {
      "id": "perill",
@@ -125,7 +150,14 @@
      "resposta": {
       "sense_ferits": "No. Ocupem un carril però la policia ja ve.",
       "atrapat_greu": "Surt una mica de fum del capó de l'altre cotxe."
-     }
+     },
+     "fitxa": {
+      "sense_ferits": "Sense perill",
+      "atrapat_greu": "Fum del capó"
+     },
+     "alarma": [
+      "atrapat_greu"
+     ]
     }
    ]
   },
@@ -207,6 +239,54 @@
      "feedback": {
       "sense_ferits": "Ocupa un recurs escàs sense cap indicació.",
       "atrapat_greu": "Valorable si la SVA tarda més de 20 min o el destí és lluny; mireu els temps al mapa."
+     }
+    }
+   ]
+  },
+  {
+   "id": "trasllat",
+   "tipus": "decisio",
+   "titol": "Trasllat",
+   "pregunta": "La unitat demana consulta. Què hi indiqueu?",
+   "informe": {
+    "sense_ferits": "3.1 AL LLOC. DOS CONDUCTORS CONSCIENTS, SENSE LESIONS APARENTS, CINTURÓ POSAT. REBUTGEN TRASLLAT.",
+    "atrapat_greu": "3.1 AL LLOC. EXCARCERAT. DOLOR TORÀCIC, FR 32, SPO2 86 %, HIPOFONESI ESQUERRA: PNEUMOTÒRAX A TENSIÓ, ES DESCOMPRIMEIX. TA 90/60. CRITERIS PPT."
+   },
+   "opcions": [
+    {
+     "id": "alta",
+     "text": "Alta in situ amb pautes de reconsulta i rebuig de trasllat signat",
+     "valoracio": {
+      "sense_ferits": "optima",
+      "atrapat_greu": "perillosa"
+     },
+     "feedback": {
+      "sense_ferits": "Correcte: sense lesions i ho rebutgen; queda documentat.",
+      "atrapat_greu": "Infratriatge greu."
+     }
+    },
+    {
+     "id": "svb",
+     "text": "Trasllat amb SVB a l'hospital més proper per control",
+     "valoracio": {
+      "sense_ferits": "acceptable",
+      "atrapat_greu": "perillosa"
+     },
+     "feedback": {
+      "sense_ferits": "Possible si ho volen, però no és necessari.",
+      "atrapat_greu": "Pacient inestable: necessita SVA i hospital de trauma."
+     }
+    },
+    {
+     "id": "ppt",
+     "text": "Codi PPT: trasllat amb SVA a hospital de trauma",
+     "valoracio": {
+      "sense_ferits": "suboptima",
+      "atrapat_greu": "optima"
+     },
+     "feedback": {
+      "sense_ferits": "Sense criteris PPT.",
+      "atrapat_greu": "Correcte: criteris PPT, centre de trauma."
      }
     }
    ]

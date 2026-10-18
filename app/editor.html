@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GamCECOS · Editor de casos</title>
+<link rel="stylesheet" href="estil.css">
+</head>
+<body>
+<main class="editor">
+  <header class="capcalera">
+    <span class="marca">GamCECOS · Editor de casos</span>
+    <a href="/tutor" class="boto secundari">Tornar al tutor</a>
+    <div class="info"><span id="estat-desat" class="suau"></span></div>
+  </header>
+  <aside class="panell">
+    <h3>Casos</h3>
+    <div id="llista" class="llista-casos"></div>
+    <button class="boto secundari" id="nou">+ Duplicar el cas actual</button>
+  </aside>
+  <section class="panell" id="formulari"><p class="suau">Trieu un cas.</p></section>
+</main>
+<script type="module" src="editor.mjs"></script>
+</body>
+</html>

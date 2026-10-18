@@ -72,8 +72,7 @@
    "id": "retrucada",
    "tipus": "retrucada",
    "titol": "Retrucada a l'alertant",
-   "pregunta": "Retruqueu el veí. Teniu temps per a 3 preguntes: quines feu?",
-   "max": 3,
+   "pregunta": "Pregunteu el que necessiteu: cada pregunta allarga la trucada.",
    "preguntes": [
     {
      "id": "respira",
@@ -82,7 +81,14 @@
      "resposta": {
       "aturada": "No ho sé... de tant en tant fa com un badall estrany, però el pit no es mou.",
       "hipoglucemia": "Sí, respira, però no em contesta quan la crido."
-     }
+     },
+     "fitxa": {
+      "aturada": "No respira · gasping",
+      "hipoglucemia": "Respira"
+     },
+     "alarma": [
+      "aturada"
+     ]
     },
     {
      "id": "estimul",
@@ -91,7 +97,15 @@
      "resposta": {
       "aturada": "No, res de res. Està tova.",
       "hipoglucemia": "Obre una mica els ulls i es queixa, però no diu res que s'entengui."
-     }
+     },
+     "fitxa": {
+      "aturada": "No respon",
+      "hipoglucemia": "Respon poc al dolor"
+     },
+     "alarma": [
+      "aturada",
+      "hipoglucemia"
+     ]
     },
     {
      "id": "antecedents",
@@ -100,7 +114,14 @@
      "resposta": {
       "aturada": "Uns setanta. Pren pastilles del cor, crec.",
       "hipoglucemia": "Uns setanta. És diabètica, es punxa insulina."
-     }
+     },
+     "fitxa": {
+      "aturada": "~70 anys · cardiòpata",
+      "hipoglucemia": "Diabètica amb insulina"
+     },
+     "alarma": [
+      "hipoglucemia"
+     ]
     },
     {
      "id": "glucosa",
@@ -109,7 +130,14 @@
      "resposta": {
       "aturada": "No en tinc ni idea, no puc deixar-la.",
       "hipoglucemia": "La seva filla m'ho ensenya... posa 38."
-     }
+     },
+     "fitxa": {
+      "aturada": "Glucèmia: no disponible",
+      "hipoglucemia": "Glucèmia 38"
+     },
+     "alarma": [
+      "hipoglucemia"
+     ]
     },
     {
      "id": "quan",
@@ -118,7 +146,12 @@
      "resposta": {
       "aturada": "Ara mateix, fa un o dos minuts.",
       "hipoglucemia": "Fa uns deu minuts, l'he trobada a l'escala."
-     }
+     },
+     "fitxa": {
+      "aturada": "Fa 1-2 min",
+      "hipoglucemia": "Fa 10 min"
+     },
+     "alarma": []
     },
     {
      "id": "dea",
@@ -127,7 +160,12 @@
      "resposta": {
       "aturada": "Potser a la farmàcia de baix... hi ha una altra veïna que hi pot anar.",
       "hipoglucemia": "No ho sé."
-     }
+     },
+     "fitxa": {
+      "aturada": "Possible DEA a la farmàcia",
+      "hipoglucemia": "DEA: no ho sap"
+     },
+     "alarma": []
     }
    ]
   },
@@ -213,6 +251,54 @@
     }
    ],
    "mostra_dea": true
+  },
+  {
+   "id": "trasllat",
+   "tipus": "decisio",
+   "titol": "Trasllat",
+   "pregunta": "La unitat demana consulta. Què hi indiqueu?",
+   "informe": {
+    "aturada": "3.1 AL LLOC. RCP DEL VEÍ EN CURS. FV, 2 DESCÀRREGUES, ROSC ALS 8 MIN. IOT. TA 95/60, FC 110.",
+    "hipoglucemia": "3.1 AL LLOC. GLUCÈMIA 38, ES TRACTA AMB GLUCOSA. ARA CONSCIENT I ORIENTADA, GLUCÈMIA 142. VIU AMB LA FILLA."
+   },
+   "opcions": [
+    {
+     "id": "hemo",
+     "text": "Trasllat amb SVA a hospital amb hemodinàmica (PCR recuperada)",
+     "valoracio": {
+      "aturada": "optima",
+      "hipoglucemia": "suboptima"
+     },
+     "feedback": {
+      "aturada": "Correcte: PCR recuperada, centre amb hemodinàmica i UCI.",
+      "hipoglucemia": "Hipoglucèmia resolta: no cal SVA ni hemodinàmica."
+     }
+    },
+    {
+     "id": "proper",
+     "text": "Trasllat amb SVB a l'hospital més proper",
+     "valoracio": {
+      "aturada": "perillosa",
+      "hipoglucemia": "acceptable"
+     },
+     "feedback": {
+      "aturada": "Un pacient intubat post-ROSC no pot anar en SVB.",
+      "hipoglucemia": "Acceptable, però si està resolta i acompanyada pot quedar a domicili."
+     }
+    },
+    {
+     "id": "alta",
+     "text": "Alta in situ amb pautes, acompanyada per la filla",
+     "valoracio": {
+      "aturada": "perillosa",
+      "hipoglucemia": "optima"
+     },
+     "feedback": {
+      "aturada": "Infratriatge greu.",
+      "hipoglucemia": "Correcte: resolta, acompanyada i amb pautes; cal avisar el seu metge."
+     }
+    }
+   ]
   }
  ],
  "aprenentatge": [

@@ -151,13 +151,20 @@ export function majoria(recompte) {
   return entrades.length ? entrades[0][0] : null;
 }
 
-// Who takes each kind of decision in the team (AURE roles)
-export const ROLS = { gestor: 'Gestor de recursos', consultor: 'Consultor', coordinacio: 'Coordinació' };
+// Two positions play together: the consultor (calls and clinical decisions) and the UCT
+// (auxiliar and coordinator: activation, resources and operational decisions)
+export const ROLS = { consultor: 'Consultor', uct: 'UCT', cap: 'Cap de torn' };
 export function rolDe(pas) {
   if (pas.rol) return pas.rol;
-  if (pas.id === 'activacio') return 'gestor';
-  if (['retrucada', 'nivell', 'maniobres', 'consell'].includes(pas.id) || pas.tipus !== 'decisio') return 'consultor';
-  return 'coordinacio';
+  return ['activacio', 'reajust', 'acces'].includes(pas.id) ? 'uct' : 'consultor';
+}
+
+// When a decision becomes available: at the alert, during the call, after the call (management) or when a unit is on scene
+export function faseDe(pas) {
+  if (pas.id === 'activacio') return 'entrada';
+  if (pas.id === 'trasllat') return 'lloc';
+  if (['retrucada', 'nivell', 'maniobres', 'consell'].includes(pas.id) || pas.tipus === 'retrucada' || pas.tipus === 'nivell') return 'trucada';
+  return 'gestio';
 }
 
 // Shuffled queue of cases for the selected themes (all cases if none selected); reshuffled when exhausted

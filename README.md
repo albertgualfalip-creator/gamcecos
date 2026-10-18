@@ -8,12 +8,19 @@ Joc en equip per entrenar l'atenció no presencial i la gestió de recursos de l
 npm start            # http://localhost:8080
 ```
 
-1. **Tutor** (`/tutor`): tria les CECOS, les temàtiques a treballar, l'hora del torn, el nombre d'incidents i el ritme. Crea la guàrdia i obté un codi de 4 lletres.
-2. **Equip** (`/sala`, al projector): entra amb el codi. Quan el tutor inicia la guàrdia, els incidents van entrant a l'atzar (segons les temàtiques) amb so i rellotge. Cada decisió porta el rol que la pren: **gestor de recursos** (activa i allibera unitats al mapa), **consultor** (retrucada, nivell, consell) i **coordinació** (reajustos). En tancar cada incident es veu el desenllaç del pacient.
-3. **Públic** (`/vota`, amb el QR): vota cada decisió amb un àlies i suma punts; hi ha classificació.
-4. El **tutor** veu el que l'equip no veu (què passa realment i el nivell real), llança incidents d'una temàtica concreta, injecta complicacions (avaria d'una unitat, pic d'activitat), afegeix informació al registre d'un incident, pausa i finalitza.
+La guàrdia la juguen dues posicions alhora, cadascuna des del seu ordinador:
 
-Només cal Node.js (sense dependències). Leaflet i el generador de QR van inclosos a `app/vendor/`. Proves: `npm test`.
+- **Consultor** (`/consultor`): cua de trucades que sonen i s'abandonen si no es despengen, consulta sanitària en format conversa (cada pregunta, la seva resposta), fitxa de valoració amb els signes d'alarma, nivell N1-N5, consell, reiteracions i la consulta de trasllat quan la unitat és al lloc.
+- **UCT** (`/uct`, auxiliar i coordinació): safata d'incidents, activació i desactivació d'unitats al mapa, cobertura per zona, ràdio de les unitats (3.0, 3.1, 3.51, 3.6) i decisions operatives (activació, reajust, accés).
+- Es comuniquen amb un canal de sala (missatges ràpids o escrits).
+
+El **tutor** (`/tutor`) prepara la guàrdia (CECOS, temàtiques, ritme, velocitat del rellotge, si la valoració és immediata o al final de cada incident, nota de briefing), la dirigeix (fer entrar incidents per temàtica, avaries, pics d'activitat, informació nova al registre) i veu la realitat de cada cas i totes les decisions. En acabar té la reconstrucció cronològica de la guàrdia.
+
+L'**editor de casos** (`/editor`) permet al tutor marcar cada opció com a òptima, acceptable, subòptima o perillosa per a cada variant, amb la seva explicació, i editar preguntes, respostes, fitxa, informes de la unitat i desenllaços. Els casos editats es desen a `casos-locals/` (fora de git, no es perden en actualitzar).
+
+El **públic** (`/vota`) vota amb un àlies la darrera decisió oberta i suma punts.
+
+Només cal Node.js (sense dependències). El motor de la guàrdia és a `joc.mjs` i s'executa al servidor. Proves: `npm test`.
 
 ## Casos
 

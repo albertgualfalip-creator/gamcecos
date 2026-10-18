@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GamCECOS · UCT</title>
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="estil.css">
+<script src="vendor/leaflet/leaflet.js"></script>
+<script src="vendor/qrcodejs/qrcode.min.js"></script>
+</head>
+<body class="operatiu">
+<form id="entrada" class="formulari panell">
+  <h1>GamCECOS · UCT</h1>
+  <p class="suau">Auxiliar i coordinació: activació de recursos, mapa i decisions operatives.</p>
+  <label>Codi de la guàrdia <input name="sala" maxlength="4" required autocapitalize="characters" style="text-transform:uppercase"></label>
+  <button class="boto">Entrar</button>
+  <p class="error suau"></p>
+</form>
+
+<div id="joc" class="estacio" hidden>
+  <header class="capcalera">
+    <span class="marca">UCT</span>
+    <span id="cecos" class="suau"></span>
+    <span class="rellotge" id="rellotge">--:--</span>
+    <span id="estat"></span>
+    <div id="cobertura" class="cobertures"></div>
+    <div class="info"><span id="cua-consultor"></span><div class="qr"><div id="qr"></div><span id="url-vot"></span></div></div>
+  </header>
+  <section class="columna">
+    <div class="panell"><h3>Incidents</h3><div id="safata" class="cua"></div></div>
+  </section>
+  <section class="columna">
+    <div class="panell" id="detall"><p class="suau">Seleccioneu un incident.</p></div>
+    <div class="panell registre"><div class="pestanyes"><span class="activa">Registre</span></div><div id="registre"></div></div>
+  </section>
+  <section class="columna">
+    <div class="panell mapa-panell"><div id="mapa"></div>
+      <label class="commuta"><input type="checkbox" id="veure-cobertura"> Cobertura</label></div>
+    <div class="panell" id="panell-cobertura"><h3>Cobertura i moviments</h3><div id="moviments"></div></div>
+    <div class="panell"><h3>Ràdio</h3><div id="radio" class="radio"></div></div>
+    <div class="panell"><h3>Comunicació amb el consultor</h3>
+      <div class="rapids">
+        <button data-msg="SVA en camí">SVA en camí</button>
+        <button data-msg="No hi ha SVA disponible a prop">No hi ha SVA</button>
+        <button data-msg="Necessito el nivell per decidir el recurs">Necessito el nivell</button>
+        <button data-msg="Mossos / Bombers activats">Altres cossos activats</button>
+      </div>
+      <form id="form-msg" class="fila-msg"><input name="text" placeholder="Missatge al consultor"><button class="boto">Enviar</button></form>
+      <div id="missatges" class="missatges"></div>
+    </div>
+  </section>
+</div>
+<div id="capa"></div>
+<script type="module" src="uct.mjs"></script>
+</body>
+</html>

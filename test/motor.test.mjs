@@ -93,6 +93,6 @@ test('guàrdia: baralla per temàtica, temps d\'activació i desenllaç', async 
   for (const cas of casos) {
     assert.ok(cas.tematiques?.length, `${cas.id}: temàtiques`);
     for (const v of cas.variants) assert.ok(v.desenllac?.bo && v.desenllac?.dolent, `${cas.id}/${v.id}: desenllaç`);
-    for (const p of cas.passos) assert.ok(['gestor', 'consultor', 'coordinacio'].includes(rolDe(p)));
+    for (const p of cas.passos) assert.ok(['consultor', 'uct'].includes(rolDe(p)));
   }
 });

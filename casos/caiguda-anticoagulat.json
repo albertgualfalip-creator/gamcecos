@@ -66,8 +66,7 @@
    "id": "retrucada",
    "tipus": "retrucada",
    "titol": "Valoració telefònica",
-   "pregunta": "Parleu amb l'esposa. Teniu temps per a 3 preguntes: quines feu?",
-   "max": 3,
+   "pregunta": "Pregunteu el que necessiteu: cada pregunta allarga la trucada.",
    "preguntes": [
     {
      "id": "cap",
@@ -76,7 +75,15 @@
      "resposta": {
       "tce_aco": "Sí, s'ha donat un cop al front, té un hematoma, però no ha perdut el coneixement.",
       "tce_deteriorament": "Sí, al cap. Al principi parlava, però ara està molt adormit."
-     }
+     },
+     "fitxa": {
+      "tce_aco": "Cop al front · sense pèrdua de consciència",
+      "tce_deteriorament": "Cop al cap · ara molt adormit"
+     },
+     "alarma": [
+      "tce_aco",
+      "tce_deteriorament"
+     ]
     },
     {
      "id": "aco",
@@ -85,7 +92,15 @@
      "resposta": {
       "tce_aco": "Pren Eliquis, però fa uns dies que no se'l pren bé.",
       "tce_deteriorament": "Sí, Eliquis, ahir va ser l'última dosi."
-     }
+     },
+     "fitxa": {
+      "tce_aco": "Pren Eliquis (irregular)",
+      "tce_deteriorament": "Pren Eliquis"
+     },
+     "alarma": [
+      "tce_aco",
+      "tce_deteriorament"
+     ]
     },
     {
      "id": "vomits",
@@ -94,7 +109,14 @@
      "resposta": {
       "tce_aco": "No, està com sempre, té Alzheimer.",
       "tce_deteriorament": "Ha vomitat dues vegades i costa despertar-lo."
-     }
+     },
+     "fitxa": {
+      "tce_aco": "Sense vòmits · com sempre",
+      "tce_deteriorament": "Vòmits · costa despertar-lo"
+     },
+     "alarma": [
+      "tce_deteriorament"
+     ]
     },
     {
      "id": "maluc",
@@ -103,7 +125,12 @@
      "resposta": {
       "tce_aco": "No, es queixa del cap i prou. No el podem aixecar perquè pesa molt.",
       "tce_deteriorament": "No ho sé, no es queixa de res."
-     }
+     },
+     "fitxa": {
+      "tce_aco": "Sense dolor de maluc",
+      "tce_deteriorament": "No es queixa"
+     },
+     "alarma": []
     },
     {
      "id": "com",
@@ -112,7 +139,12 @@
      "resposta": {
       "tce_aco": "Ha relliscat, ha estat casual, fa cinc minuts.",
       "tce_deteriorament": "Ha relliscat fa una hora."
-     }
+     },
+     "fitxa": {
+      "tce_aco": "Relliscada fa 5 min",
+      "tce_deteriorament": "Relliscada fa 1 h"
+     },
+     "alarma": []
     }
    ]
   },
@@ -143,10 +175,10 @@
    }
   },
   {
-   "id": "rebuig",
+   "id": "trasllat",
    "tipus": "decisio",
-   "titol": "La família rebutja el trasllat",
-   "pregunta": "La USVB ja és al lloc: TA 149/81, FC 72, SpO2 95 %. La família rebutja el trasllat. Què indiqueu?",
+   "titol": "Trasllat",
+   "pregunta": "La unitat demana consulta. Què hi indiqueu?",
    "opcions": [
     {
      "id": "insistir",
@@ -184,7 +216,11 @@
       "tce_deteriorament": "Correcte: deteriorament neurològic en anticoagulat, SVA i trasllat."
      }
     }
-   ]
+   ],
+   "informe": {
+    "tce_aco": "3.1 AL LLOC. TA 149/81, FC 72, SPO2 95 %. HEMATOMA FRONTAL, GCS 15 (ALZHEIMER BASAL). PREN APIXABAN. LA FAMÍLIA REBUTJA EL TRASLLAT.",
+    "tce_deteriorament": "3.1 AL LLOC. GCS 12, VÒMITS, LLEUGERA ANISOCÒRIA. PREN APIXABAN. LA FAMÍLIA DUBTA DEL TRASLLAT."
+   }
   }
  ],
  "aprenentatge": [

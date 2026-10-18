@@ -101,8 +101,7 @@
    "id": "retrucada",
    "tipus": "retrucada",
    "titol": "Retrucades",
-   "pregunta": "Teniu temps per a 3 trucades o preguntes: quines feu?",
-   "max": 3,
+   "pregunta": "Pregunteu el que necessiteu: cada pregunta allarga la trucada.",
    "preguntes": [
     {
      "id": "usuaria",
@@ -112,7 +111,16 @@
       "caiguda": "Contesta molt fluix: \"he caigut, no em puc aixecar, em fa molt mal la cama\".",
       "inconscient": "No contesta. Sona fins que salta la bústia.",
       "falsa_alarma": "Contesta: \"ai, perdoni, he tocat el botó sense voler, estic bé\"."
-     }
+     },
+     "fitxa": {
+      "caiguda": "Contesta: caiguda, dolor cama",
+      "inconscient": "No contesta",
+      "falsa_alarma": "Contesta: està bé"
+     },
+     "alarma": [
+      "caiguda",
+      "inconscient"
+     ]
     },
     {
      "id": "claus",
@@ -122,7 +130,13 @@
       "caiguda": "Tenim la filla com a contacte de claus, viu a 20 minuts.",
       "inconscient": "La veïna del costat té claus, la truquem ara.",
       "falsa_alarma": "La filla té claus."
-     }
+     },
+     "fitxa": {
+      "caiguda": "Claus: filla a 20 min",
+      "inconscient": "Claus: veïna del costat",
+      "falsa_alarma": "Claus: filla"
+     },
+     "alarma": []
     },
     {
      "id": "dispositiu",
@@ -132,7 +146,16 @@
       "caiguda": "Sí, el sensor ha detectat una caiguda i sentíem queixes.",
       "inconscient": "Ha detectat caiguda i no se sent res.",
       "falsa_alarma": "No hi ha detecció de caiguda, només el botó."
-     }
+     },
+     "fitxa": {
+      "caiguda": "Sensor de caiguda + queixes",
+      "inconscient": "Sensor de caiguda, silenci",
+      "falsa_alarma": "Només botó"
+     },
+     "alarma": [
+      "caiguda",
+      "inconscient"
+     ]
     },
     {
      "id": "antecedents",
@@ -142,7 +165,16 @@
       "caiguda": "Hipertensa, artrosi. Pren Sintrom.",
       "inconscient": "Diabètica amb insulina, cardiopatia.",
       "falsa_alarma": "Hipertensa, res més rellevant."
-     }
+     },
+     "fitxa": {
+      "caiguda": "Pren Sintrom",
+      "inconscient": "Diabètica amb insulina",
+      "falsa_alarma": "Hipertensa"
+     },
+     "alarma": [
+      "caiguda",
+      "inconscient"
+     ]
     },
     {
      "id": "contacte",
@@ -152,7 +184,15 @@
       "caiguda": "La filla no en sap res, hi va de seguida.",
       "inconscient": "El fill diu que ahir ja la veia rara i cansada.",
       "falsa_alarma": "La filla diu que sovint toca el botó sense voler."
-     }
+     },
+     "fitxa": {
+      "caiguda": "La filla hi va",
+      "inconscient": "Ahir la veien rara",
+      "falsa_alarma": "Sovint toca el botó"
+     },
+     "alarma": [
+      "inconscient"
+     ]
     }
    ]
   },
@@ -236,6 +276,61 @@
       "caiguda": "Allarga el temps a terra; cal un pla B.",
       "inconscient": "Massa temps sense accés al pacient.",
       "falsa_alarma": "Ja no cal entrar."
+     }
+    }
+   ]
+  },
+  {
+   "id": "trasllat",
+   "tipus": "decisio",
+   "titol": "Trasllat",
+   "pregunta": "La unitat demana consulta. Què hi indiqueu?",
+   "informe": {
+    "caiguda": "3.1 AL LLOC. DONA A TERRA, CONSCIENT. ESCURÇAMENT I ROTACIÓ EXTERNA DE LA CAMA DRETA. PREN SINTROM. SENSE TCE.",
+    "inconscient": "3.1 AL LLOC. TROBADA A TERRA, GCS 8, GLUCÈMIA 30. ES TRACTA AMB GLUCOSA, RECUPERA FINS A GCS 14. VIU SOLA.",
+    "falsa_alarma": "3.1 AL LLOC. USUÀRIA BÉ, HA PREMUT EL BOTÓ PER ERROR. SENSE LESIONS."
+   },
+   "opcions": [
+    {
+     "id": "svb",
+     "text": "Trasllat amb SVB a l'hospital de referència",
+     "valoracio": {
+      "caiguda": "optima",
+      "inconscient": "optima",
+      "falsa_alarma": "suboptima"
+     },
+     "feedback": {
+      "caiguda": "Correcte: sospita de fractura de maluc.",
+      "inconscient": "Correcte: hipoglucèmia per insulina en persona sola, cal observació.",
+      "falsa_alarma": "No cal: està bé."
+     }
+    },
+    {
+     "id": "sva",
+     "text": "Trasllat amb SVA a l'hospital",
+     "valoracio": {
+      "caiguda": "suboptima",
+      "inconscient": "acceptable",
+      "falsa_alarma": "suboptima"
+     },
+     "feedback": {
+      "caiguda": "Estable: no cal SVA durant el trasllat.",
+      "inconscient": "Ja està recuperada; amb SVB n'hi ha prou.",
+      "falsa_alarma": "No cal."
+     }
+    },
+    {
+     "id": "alta",
+     "text": "Alta in situ amb pautes i avís a la família i la teleassistència",
+     "valoracio": {
+      "caiguda": "perillosa",
+      "inconscient": "suboptima",
+      "falsa_alarma": "optima"
+     },
+     "feedback": {
+      "caiguda": "Una possible fractura de maluc no es pot quedar a casa.",
+      "inconscient": "Risc de recaiguda de la hipoglucèmia vivint sola.",
+      "falsa_alarma": "Correcte."
      }
     }
    ]

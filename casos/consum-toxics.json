@@ -79,8 +79,7 @@
    "id": "retrucada",
    "tipus": "retrucada",
    "titol": "Valoració telefònica",
-   "pregunta": "Parleu amb l'afectat. Teniu temps per a 3 preguntes: quines feu?",
-   "max": 3,
+   "pregunta": "Pregunteu el que necessiteu: cada pregunta allarga la trucada.",
    "preguntes": [
     {
      "id": "pit",
@@ -89,7 +88,14 @@
      "resposta": {
       "consell": "No, només el cor una mica accelerat i suo molt.",
       "greu": "Sí, m'oprimeix el pit des de fa mitja hora i em costa respirar."
-     }
+     },
+     "fitxa": {
+      "consell": "Sense dolor toràcic",
+      "greu": "Dolor toràcic opressiu"
+     },
+     "alarma": [
+      "greu"
+     ]
     },
     {
      "id": "que",
@@ -98,7 +104,14 @@
      "resposta": {
       "consell": "Dissabte: metamfetamina, GHB i popper. Alcohol no.",
       "greu": "Metamfetamina, i n'he tornat a prendre fa una hora."
-     }
+     },
+     "fitxa": {
+      "consell": "Fa 3 dies: meta, GHB, popper",
+      "greu": "Metamfetamina fa 1 h"
+     },
+     "alarma": [
+      "greu"
+     ]
     },
     {
      "id": "consciencia",
@@ -107,7 +120,14 @@
      "resposta": {
       "consell": "No, estic bé de cap. Estic amb una amiga.",
       "greu": "Estic molt nerviós. Estic sol."
-     }
+     },
+     "fitxa": {
+      "consell": "Orientat · acompanyat",
+      "greu": "Nerviós · sol"
+     },
+     "alarma": [
+      "greu"
+     ]
     },
     {
      "id": "simptomes",
@@ -116,7 +136,14 @@
      "resposta": {
       "consell": "Mal de cap i molt cansament.",
       "greu": "Tremolors i suor freda."
-     }
+     },
+     "fitxa": {
+      "consell": "Cefalea, cansament",
+      "greu": "Tremolors, suor freda"
+     },
+     "alarma": [
+      "greu"
+     ]
     },
     {
      "id": "antecedents",
@@ -125,7 +152,12 @@
      "resposta": {
       "consell": "No, res.",
       "greu": "No, res."
-     }
+     },
+     "fitxa": {
+      "consell": "Sense antecedents",
+      "greu": "Sense antecedents"
+     },
+     "alarma": []
     }
    ]
   },
@@ -195,6 +227,54 @@
      "feedback": {
       "consell": "No calia recurs.",
       "greu": "Correcte: repòs i preparar l'accés per a l'equip."
+     }
+    }
+   ]
+  },
+  {
+   "id": "trasllat",
+   "tipus": "decisio",
+   "titol": "Trasllat",
+   "pregunta": "La unitat demana consulta. Què hi indiqueu?",
+   "informe": {
+    "consell": "3.1 AL LLOC. JOVE CONSCIENT, FC 104, TA 135/80, ECG SINUSAL SENSE ALTERACIONS. ACOMPANYAT.",
+    "greu": "3.1 AL LLOC. DOLOR TORÀCIC OPRESSIU. ECG: ELEVACIÓ DEL ST A CARA INFERIOR. TA 170/100, FC 130."
+   },
+   "opcions": [
+    {
+     "id": "alta",
+     "text": "Alta in situ amb pautes de reconsulta",
+     "valoracio": {
+      "consell": "optima",
+      "greu": "perillosa"
+     },
+     "feedback": {
+      "consell": "Correcte.",
+      "greu": "SCA amb elevació del ST: no es pot quedar."
+     }
+    },
+    {
+     "id": "svb",
+     "text": "Trasllat amb SVB a urgències",
+     "valoracio": {
+      "consell": "suboptima",
+      "greu": "perillosa"
+     },
+     "feedback": {
+      "consell": "No cal.",
+      "greu": "Un IAM necessita SVA i hemodinàmica."
+     }
+    },
+    {
+     "id": "iam",
+     "text": "Codi IAM: trasllat amb SVA a hospital amb hemodinàmica",
+     "valoracio": {
+      "consell": "suboptima",
+      "greu": "optima"
+     },
+     "feedback": {
+      "consell": "ECG normal: sense indicació.",
+      "greu": "Correcte: Codi IAM."
      }
     }
    ]

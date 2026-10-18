@@ -72,8 +72,7 @@
    "id": "retrucada",
    "tipus": "retrucada",
    "titol": "Retrucada a l'esposa",
-   "pregunta": "Retruqueu l'esposa. Teniu temps per a 3 preguntes: quines feu?",
-   "max": 3,
+   "pregunta": "Pregunteu el que necessiteu: cada pregunta allarga la trucada.",
    "preguntes": [
     {
      "id": "hora",
@@ -82,7 +81,14 @@
      "resposta": {
       "codi_ictus": "Fa una hora estàvem dinant i parlava normal.",
       "final_vida": "Fa dies que va de baixa, des de dilluns que no s'aixeca gaire."
-     }
+     },
+     "fitxa": {
+      "codi_ictus": "Inici fa 1 h",
+      "final_vida": "Deteriorament de dies"
+     },
+     "alarma": [
+      "codi_ictus"
+     ]
     },
     {
      "id": "nou",
@@ -91,7 +97,14 @@
      "resposta": {
       "codi_ictus": "És d'ara! L'ictus va ser fa anys i no li va deixar res.",
       "final_vida": "Des de l'ictus de l'any passat ja parla una mica malament, però avui està més adormit."
-     }
+     },
+     "fitxa": {
+      "codi_ictus": "Dèficit NOU",
+      "final_vida": "Dèficit antic"
+     },
+     "alarma": [
+      "codi_ictus"
+     ]
     },
     {
      "id": "piic",
@@ -100,7 +113,14 @@
      "resposta": {
       "codi_ictus": "No, el càncer està curat, només fa revisions.",
       "final_vida": "Sí, el PADES ve cada setmana. Vam parlar que no volíem anar més a l'hospital."
-     }
+     },
+     "fitxa": {
+      "codi_ictus": "Sense PIIC · càncer curat",
+      "final_vida": "PADES + PIIC: no hospital"
+     },
+     "alarma": [
+      "final_vida"
+     ]
     },
     {
      "id": "cara",
@@ -109,7 +129,14 @@
      "resposta": {
       "codi_ictus": "Té la boca torta cap a un costat i el braç dret no l'aixeca.",
       "final_vida": "No ho sé, està molt adormit, no aixeca cap braç."
-     }
+     },
+     "fitxa": {
+      "codi_ictus": "Comissura desviada · braç dret",
+      "final_vida": "No mou braços, adormit"
+     },
+     "alarma": [
+      "codi_ictus"
+     ]
     },
     {
      "id": "respira",
@@ -118,7 +145,12 @@
      "resposta": {
       "codi_ictus": "Respira bé, té els ulls oberts però no s'entén el que diu.",
       "final_vida": "Respira a poc a poc, obre els ulls si el crido."
-     }
+     },
+     "fitxa": {
+      "codi_ictus": "Respira bé · afàsia",
+      "final_vida": "Respira lent, obre ulls"
+     },
+     "alarma": []
     },
     {
      "id": "anticoag",
@@ -127,7 +159,12 @@
      "resposta": {
       "codi_ictus": "No, només la de la pressió.",
       "final_vida": "No ho sé, porta moltes pastilles i morfina en pegats."
-     }
+     },
+     "fitxa": {
+      "codi_ictus": "Sense anticoagulants",
+      "final_vida": "Morfina en pegats"
+     },
+     "alarma": []
     }
    ]
   },
@@ -209,6 +246,54 @@
      "feedback": {
       "codi_ictus": "Infratriatge greu.",
       "final_vida": "Deixar la família sola amb un deteriorament agut no és adequat: cal contactar PADES / atenció primària avui."
+     }
+    }
+   ]
+  },
+  {
+   "id": "trasllat",
+   "tipus": "decisio",
+   "titol": "Trasllat",
+   "pregunta": "La unitat demana consulta. Què hi indiqueu?",
+   "informe": {
+    "codi_ictus": "3.1 AL LLOC. AFÀSIA, DESVIACIÓ DE LA COMISSURA, HEMIPARÈSIA DRETA, RACE 7. GLUCÈMIA 110. INICI FA 70 MIN.",
+    "final_vida": "3.1 AL LLOC. PACIENT CAQUÈCTIC, SOMNOLENT, RESPON A ESTÍMULS. SIGNES DE FINAL DE VIDA. LA FAMÍLIA DEMANA NO TRASLLADAR-LO. PIIC D'ADEQUACIÓ."
+   },
+   "opcions": [
+    {
+     "id": "cte",
+     "text": "Codi Ictus: trasllat amb SVA a centre amb trombectomia, amb preavís",
+     "valoracio": {
+      "codi_ictus": "optima",
+      "final_vida": "suboptima"
+     },
+     "feedback": {
+      "codi_ictus": "Correcte: RACE ≥ 5, centre amb trombectomia.",
+      "final_vida": "No respecta el PIIC ni la voluntat de la família."
+     }
+    },
+    {
+     "id": "comarcal",
+     "text": "Trasllat a l'hospital comarcal més proper",
+     "valoracio": {
+      "codi_ictus": "suboptima",
+      "final_vida": "suboptima"
+     },
+     "feedback": {
+      "codi_ictus": "Amb RACE alt, l'hospital útil és el de trombectomia.",
+      "final_vida": "La família ha demanat no traslladar-lo."
+     }
+    },
+    {
+     "id": "confort",
+     "text": "No traslladar: confort a domicili i contacte amb el PADES",
+     "valoracio": {
+      "codi_ictus": "perillosa",
+      "final_vida": "optima"
+     },
+     "feedback": {
+      "codi_ictus": "Infratriatge d'un ictus en finestra terapèutica.",
+      "final_vida": "Correcte: es respecta el PIIC i es dona suport a domicili."
      }
     }
    ]

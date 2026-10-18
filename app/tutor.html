@@ -10,17 +10,25 @@
 <body>
 <form id="config" class="formulari panell ample">
   <h1>GamCECOS · Preparar la guàrdia</h1>
+  <p class="suau">Dues posicions juguen alhora: el <b>Consultor</b> (trucades i decisions clíniques) i la <b>UCT</b> (auxiliar i coordinació: recursos i decisions operatives). <a href="/editor">Editar els casos</a></p>
+  <fieldset><legend>Rols de l'equip</legend><div class="caselles">
+    <label class="casella"><input type="checkbox" name="rol" value="consultor" checked disabled>Consultor</label>
+    <label class="casella"><input type="checkbox" name="rol" value="uct" checked disabled>UCT (auxiliar i coordinació)</label>
+    <label class="casella"><input type="checkbox" name="rol" value="cap">Cap de torn <span class="suau">(si no hi és, la UCT fa els moviments de cobertura)</span></label>
+  </div></fieldset>
   <fieldset><legend>CECOS i zones</legend><div id="cecos" class="caselles"></div></fieldset>
   <fieldset><legend>Temàtiques a treballar <span class="suau">(cap marcada = totes)</span></legend><div id="tematiques" class="caselles"></div></fieldset>
   <div class="fila">
     <label>Hora d'inici del torn <input name="hora" type="time" value="19:50"></label>
-    <label>Incidents automàtics <input name="incidents" type="number" min="0" max="20" value="6"></label>
-    <label>Un incident cada (minuts reals) <input name="ritme" type="number" min="0.5" max="15" step="0.5" value="2.5"></label>
+    <label>Incidents automàtics <input name="incidents" type="number" min="0" max="20" value="5"></label>
+    <label>Un incident cada (minuts reals) <input name="ritme" type="number" min="0.5" max="15" step="0.5" value="2"></label>
   </div>
   <div class="fila">
     <label>Unitats ocupades a l'inici <select name="ocupacio"><option value="0.1">Poques (10 %)</option><option value="0.25" selected>Normal (25 %)</option><option value="0.45">Moltes (45 %)</option></select></label>
     <label>Velocitat del rellotge <select name="factor"><option value="1">Temps real</option><option value="3" selected>x3</option><option value="6">x6</option></select></label>
+    <label>Valoració de les decisions <select name="feedback"><option value="final" selected>En tancar cada incident</option><option value="immediat">Immediata</option></select></label>
   </div>
+  <label>Nota per al briefing de relleu (opcional) <textarea name="briefing" rows="2" placeholder="Ex.: S'espera augment de demanda per la calor. Hi ha un concert a la zona nord."></textarea></label>
   <button class="boto">Crear la guàrdia</button>
   <p class="suau" id="error"></p>
 </form>
@@ -28,47 +36,53 @@
 <main id="panell" class="tutor" hidden>
   <header class="capcalera">
     <span class="marca">GamCECOS · Tutor</span>
-    <span>Codi de la guàrdia: <b id="codi" class="codi"></b></span>
+    <span>Codi: <b id="codi" class="codi"></b></span>
     <span class="rellotge" id="rellotge">--:--</span>
     <span id="punts"></span>
-    <div class="info"><a id="enllac-sala" class="boto secundari" target="_blank">Obrir la pantalla de l'equip</a></div>
+    <div class="info">
+      <a id="enllac-uct" class="boto secundari" target="_blank">Pantalla UCT</a>
+      <a id="enllac-consultor" class="boto secundari" target="_blank">Pantalla Consultor</a>
+      <a id="enllac-cap" class="boto secundari" target="_blank" hidden>Pantalla Cap de torn</a>
+    </div>
   </header>
   <section class="columna">
     <div class="panell">
       <h3>Control</h3>
       <div class="accions">
-        <button class="boto" data-ordre="inicia">Iniciar la guàrdia</button>
+        <button class="boto" data-ordre="inicia">Iniciar</button>
         <button class="boto secundari" data-ordre="pausa">Pausa</button>
         <button class="boto secundari" data-ordre="repren">Reprendre</button>
         <button class="boto secundari" data-ordre="final">Finalitzar</button>
       </div>
-      <h3 style="margin-top:1rem">Llançar un incident ara</h3>
+      <h3 style="margin-top:1rem">Fer entrar un incident</h3>
       <div class="fila">
         <label>Temàtica <select id="tematica-ara"><option value="">Qualsevol de la guàrdia</option></select></label>
-        <label>o cas concret <select id="cas-ara"><option value="">Aleatori</option></select></label>
+        <label>o cas <select id="cas-ara"><option value="">Aleatori</option></select></label>
       </div>
-      <button class="boto" id="llanca">Fer entrar l'incident</button>
+      <button class="boto" id="llanca">Fer entrar</button>
       <h3 style="margin-top:1rem">Complicacions</h3>
       <div class="accions">
-        <button class="boto secundari" data-ordre="avaria" title="Una unitat de l'incident seleccionat queda avariada">Avaria d'una unitat</button>
+        <button class="boto secundari" data-ordre="avaria" title="Una unitat en ruta (o lliure) queda avariada">Avaria d'una unitat</button>
         <button class="boto secundari" data-ordre="pic" title="Un 30 % de les unitats lliures passen a ocupades">Pic d'activitat</button>
       </div>
-      <h3 style="margin-top:1rem">Informació nova a un incident</h3>
+      <div class="fila"><label>Descobrir una zona <select id="zona-descobreix"></select></label></div>
+      <button class="boto secundari" id="descobreix" title="Totes les SVA lliures de la zona queden ocupades uns minuts">Ocupar les SVA de la zona</button>
+      <h3 style="margin-top:1rem">Informació nova al registre</h3>
       <div class="fila">
         <label>Incident <select id="msg-incident"></select></label>
         <label>Origen <select id="msg-codi"><option value="T">112 / SITREM</option><option value="R">Ràdio d'una unitat</option><option value="O">Coordinació</option></select></label>
       </div>
       <textarea id="msg-text" rows="2" placeholder="Ex.: MOSSOS INFORMEN QUE L'ESCENA ÉS SEGURA"></textarea>
-      <button class="boto secundari" id="envia-msg">Enviar al registre</button>
+      <button class="boto secundari" id="envia-msg">Enviar</button>
     </div>
-    <div class="panell">
-      <h3>Públic</h3>
-      <div class="qr"><div id="qr"></div><span id="url-vot"></span></div>
-      <ol id="classificacio"></ol>
-    </div>
+    <div class="panell"><h3>Comunicació de sala</h3><div id="missatges" class="missatges"></div></div>
+    <div class="panell"><h3>Públic</h3><div class="qr"><div id="qr"></div><span id="url-vot"></span></div><ol id="classificacio"></ol></div>
   </section>
   <section class="columna">
+    <div class="panell"><h3>Cobertura del territori</h3><div id="cobertura" class="cobertura-zones"></div><div id="moviments" class="suau moviments"></div></div>
+    <div class="panell"><h3>Trucades en curs</h3><div id="trucades"></div></div>
     <div class="panell"><h3>Incidents (el que l'equip no veu)</h3><div id="incidents"><p class="suau">La guàrdia encara no ha començat.</p></div></div>
+    <div class="panell" id="cronologia-panell" hidden><h3>Reconstrucció de la guàrdia</h3><div id="cronologia" class="registre"></div></div>
   </section>
 </main>
 <script type="module" src="tutor.mjs"></script>

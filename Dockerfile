@@ -1,6 +1,6 @@
 FROM node:22-alpine
 WORKDIR /srv/gamcecos
-COPY package.json server.js ./
+COPY package.json server.js joc.mjs ./
 COPY app app
 COPY data data
 COPY casos casos

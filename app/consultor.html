@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GamCECOS · Consultor</title>
+<link rel="stylesheet" href="estil.css">
+</head>
+<body class="operatiu">
+<form id="entrada" class="formulari panell">
+  <h1>GamCECOS · Consultor</h1>
+  <p class="suau">Consulta sanitària: atendre les trucades, valorar, assignar el nivell, aconsellar i decidir el trasllat.</p>
+  <label>Codi de la guàrdia <input name="sala" maxlength="4" required autocapitalize="characters" style="text-transform:uppercase"></label>
+  <button class="boto">Entrar</button>
+  <p class="error suau"></p>
+</form>
+
+<div id="joc" class="estacio consultor" hidden>
+  <header class="capcalera">
+    <span class="marca">CONSULTOR</span>
+    <span class="rellotge" id="rellotge">--:--</span>
+    <span id="estat"></span>
+    <div class="info" id="resum-cua"></div>
+  </header>
+  <section class="columna">
+    <div class="panell"><h3>Trucades</h3><div id="cua" class="cua"></div></div>
+    <div class="panell"><h3>Els meus incidents</h3><div id="meus"></div></div>
+  </section>
+  <section class="columna">
+    <div class="panell trucada" id="trucada"></div>
+  </section>
+  <section class="columna">
+    <div class="panell"><h3>Fitxa de valoració</h3><div id="fitxa" class="fitxa"></div></div>
+    <div class="panell"><h3>Comunicació amb la UCT</h3>
+      <div class="rapids">
+        <button data-msg="Cal SVA: criteris de gravetat">Cal SVA</button>
+        <button data-msg="Es pot desactivar la SVA, n'hi ha prou amb SVB">Desactivar SVA</button>
+        <button data-msg="Cal activar Mossos / Bombers">Cal altres cossos</button>
+        <button data-msg="Consell telefònic: no cal recurs">No cal recurs</button>
+      </div>
+      <form id="form-msg" class="fila-msg"><input name="text" placeholder="Missatge a la UCT"><button class="boto">Enviar</button></form>
+      <div id="missatges" class="missatges"></div>
+    </div>
+  </section>
+</div>
+<div id="capa"></div>
+<script type="module" src="consultor.mjs"></script>
+</body>
+</html>

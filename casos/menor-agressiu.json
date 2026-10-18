@@ -72,8 +72,7 @@
    "id": "retrucada",
    "tipus": "retrucada",
    "titol": "Retrucada al treballador",
-   "pregunta": "Retruqueu el centre. Teniu temps per a 3 preguntes: quines feu?",
-   "max": 3,
+   "pregunta": "Pregunteu el que necessiteu: cada pregunta allarga la trucada.",
    "preguntes": [
     {
      "id": "ara",
@@ -82,7 +81,14 @@
      "resposta": {
       "agitacio_greu": "Sí, ha trencat una porta i està cridant al passadís. No ens hi podem acostar.",
       "contingut": "L'educador s'ha quedat amb ell a la seva habitació i sembla més tranquil."
-     }
+     },
+     "fitxa": {
+      "agitacio_greu": "Continua agressiu",
+      "contingut": "Més tranquil, amb educador"
+     },
+     "alarma": [
+      "agitacio_greu"
+     ]
     },
     {
      "id": "armes",
@@ -91,7 +97,14 @@
      "resposta": {
       "agitacio_greu": "Té un tros de fusta de la porta a la mà.",
       "contingut": "No, hem tret les coses de l'habitació."
-     }
+     },
+     "fitxa": {
+      "agitacio_greu": "Té un tros de fusta",
+      "contingut": "Sense objectes"
+     },
+     "alarma": [
+      "agitacio_greu"
+     ]
     },
     {
      "id": "vigilant",
@@ -100,7 +113,12 @@
      "resposta": {
       "agitacio_greu": "Té un tall a la cella, sagna però està dret i parla bé.",
       "contingut": "Té una ferida al cap, ja no sagna gaire. Està conscient."
-     }
+     },
+     "fitxa": {
+      "agitacio_greu": "Vigilant: tall a la cella",
+      "contingut": "Vigilant: ferida al cap"
+     },
+     "alarma": []
     },
     {
      "id": "medicacio",
@@ -109,7 +127,14 @@
      "resposta": {
       "agitacio_greu": "Té 15 anys, pren medicació psiquiàtrica però avui no se l'ha volgut prendre. No sabem si ha pres res més.",
       "contingut": "16 anys. Té pautada una medicació de rescat per via oral, li acabem de donar."
-     }
+     },
+     "fitxa": {
+      "agitacio_greu": "15 a · no ha pres medicació",
+      "contingut": "16 a · rescat oral donat"
+     },
+     "alarma": [
+      "agitacio_greu"
+     ]
     },
     {
      "id": "policia",
@@ -118,7 +143,14 @@
      "resposta": {
       "agitacio_greu": "Només hi ha el vigilant ferit. No hem trucat a ningú més.",
       "contingut": "El vigilant ferit és l'única seguretat."
-     }
+     },
+     "fitxa": {
+      "agitacio_greu": "Sense policia",
+      "contingut": "Sense policia"
+     },
+     "alarma": [
+      "agitacio_greu"
+     ]
     },
     {
      "id": "referent",
@@ -127,7 +159,12 @@
      "resposta": {
       "agitacio_greu": "La seva educadora no hi és avui.",
       "contingut": "Sí, l'educador de torn és qui l'ha calmat."
-     }
+     },
+     "fitxa": {
+      "agitacio_greu": "Sense referent",
+      "contingut": "Educador present"
+     },
+     "alarma": []
     }
    ]
   },
@@ -189,6 +226,54 @@
      "text": "Tancar-lo sol en una habitació fins que arribin",
      "valoracio": "suboptima",
      "feedback": "Aïllar-lo sense supervisió augmenta el risc d'autolesió."
+    }
+   ]
+  },
+  {
+   "id": "trasllat",
+   "tipus": "decisio",
+   "titol": "Trasllat",
+   "pregunta": "La unitat demana consulta. Què hi indiqueu?",
+   "informe": {
+    "agitacio_greu": "3.1 AL LLOC AMB MOSSOS. MENOR MOLT AGITAT, S'ADMINISTRA MIDAZOLAM IM. ARA SEDAT, CONSTANTS ESTABLES. VIGILANT AMB TALL A LA CELLA.",
+    "contingut": "3.1 AL LLOC. MENOR TRANQUIL, COL·LABORA, NO S'HAVIA PRES LA MEDICACIÓ. VIGILANT: FERIDA DE 2 CM AL CUIR CABELLUT."
+   },
+   "opcions": [
+    {
+     "id": "svai",
+     "text": "Trasllat amb SVAi a urgències psiquiàtriques amb contenció (trasllat no voluntari)",
+     "valoracio": {
+      "agitacio_greu": "optima",
+      "contingut": "suboptima"
+     },
+     "feedback": {
+      "agitacio_greu": "Correcte: sedat, cal monitoratge i fitxa de trasllat no voluntari.",
+      "contingut": "Desproporcionat: col·labora i està tranquil."
+     }
+    },
+    {
+     "id": "svb",
+     "text": "Trasllat en SVB amb l'educador per a valoració psiquiàtrica; el vigilant al CUAP",
+     "valoracio": {
+      "agitacio_greu": "perillosa",
+      "contingut": "optima"
+     },
+     "feedback": {
+      "agitacio_greu": "Un pacient sedat amb midazolam necessita SVA.",
+      "contingut": "Correcte: valoració psiquiàtrica sense contenció i el vigilant atès."
+     }
+    },
+    {
+     "id": "queda",
+     "text": "No traslladar: queda al centre amb control del seu psiquiatre",
+     "valoracio": {
+      "agitacio_greu": "perillosa",
+      "contingut": "acceptable"
+     },
+     "feedback": {
+      "agitacio_greu": "Risc greu: acaba de rebre sedació.",
+      "contingut": "Possible si el psiquiatre el veu aviat, però perd l'oportunitat de valoració."
+     }
     }
    ]
   }
