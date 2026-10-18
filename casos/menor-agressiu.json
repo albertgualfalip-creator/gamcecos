@@ -1,0 +1,94 @@
+{
+ "id": "menor-agressiu",
+ "titol": "Menor agressiu en un centre",
+ "tipus_servei": "emergencia",
+ "entrada": "carta_112",
+ "tipus_demanda": "Malaltia en lloc públic",
+ "carta": "TREBALLADOR. INFORMA QUE HI HA UN MENOR MOLT AGRESSIU, HA AGREDIT ALS TREBALLADORS. HI HA UN VIGILANT AMB SANG, NO FERITS GREUS. EL NOI TÉ TRASTORN MENTAL.",
+ "alertant": "Treballador del centre",
+ "pacient": {"edat": [14, 17], "sexe": "Home"},
+ "variants": [
+  {"id": "agitacio_greu", "pes": 0.65, "nivell": 1, "descripcio": "Agitació psicomotora greu persistent, amb risc per a ell i per als altres"},
+  {"id": "contingut", "pes": 0.35, "nivell": 2, "descripcio": "S'ha calmat parcialment després d'allunyar-lo, el vigilant té una ferida al cuir cabellut"}
+ ],
+ "passos": [
+  {
+   "id": "activacio",
+   "tipus": "decisio",
+   "titol": "Activació inicial",
+   "pregunta": "Entra la carta del 112. Què feu ara mateix?",
+   "opcions": [
+    {"id": "sva_policia", "text": "Activar USVB + USVA i demanar Mossos: les unitats esperen en zona segura fins que la policia hi sigui", "valoracio": "optima",
+     "feedback": "Agitació és d'activació immediata (Taula 1, SE) i la seguretat de l'equip és prioritària: policia + sanitaris."},
+    {"id": "sva_sola", "text": "Activar USVB + USVA, sense avisar la policia", "valoracio": "perillosa",
+     "feedback": "Ja hi ha hagut agressions: enviar l'equip sense suport policial el posa en risc."},
+    {"id": "policia_sola", "text": "Avisar només Mossos i esperar que ens confirmin què passa", "valoracio": "suboptima",
+     "feedback": "Hi ha un ferit i un menor amb agitació: la resposta sanitària no ha d'esperar, ha d'esperar en zona segura."},
+    {"id": "svb_valorar", "text": "Activar USVB i passar a valorar", "valoracio": "suboptima",
+     "feedback": "L'agitació greu amb agressió és categoria d'activació immediata: pot necessitar contenció farmacològica (SVA)."}
+   ]
+  },
+  {
+   "id": "retrucada",
+   "tipus": "retrucada",
+   "titol": "Retrucada al treballador",
+   "pregunta": "Retruqueu el centre. Teniu temps per a 3 preguntes: quines feu?",
+   "max": 3,
+   "preguntes": [
+    {"id": "ara", "text": "Ara mateix, el noi continua agressiu? On és?", "clau": true,
+     "resposta": {"agitacio_greu": "Sí, ha trencat una porta i està cridant al passadís. No ens hi podem acostar.", "contingut": "L'educador s'ha quedat amb ell a la seva habitació i sembla més tranquil."}},
+    {"id": "armes", "text": "Té cap objecte perillós a l'abast o a les mans?", "clau": true,
+     "resposta": {"agitacio_greu": "Té un tros de fusta de la porta a la mà.", "contingut": "No, hem tret les coses de l'habitació."}},
+    {"id": "vigilant", "text": "Com està el vigilant? D'on sagna?", "clau": false,
+     "resposta": {"agitacio_greu": "Té un tall a la cella, sagna però està dret i parla bé.", "contingut": "Té una ferida al cap, ja no sagna gaire. Està conscient."}},
+    {"id": "medicacio", "text": "Quina edat té i quina medicació pren? Ha pres alguna cosa (tòxics)?", "clau": true,
+     "resposta": {"agitacio_greu": "Té 15 anys, pren medicació psiquiàtrica però avui no se l'ha volgut prendre. No sabem si ha pres res més.", "contingut": "16 anys. Té pautada una medicació de rescat per via oral, li acabem de donar."}},
+    {"id": "policia", "text": "Ja heu trucat a la policia? Hi ha seguretat al centre?", "clau": false,
+     "resposta": {"agitacio_greu": "Només hi ha el vigilant ferit. No hem trucat a ningú més.", "contingut": "El vigilant ferit és l'única seguretat."}},
+    {"id": "referent", "text": "Hi ha un educador referent o algú en qui confiï?", "clau": false,
+     "resposta": {"agitacio_greu": "La seva educadora no hi és avui.", "contingut": "Sí, l'educador de torn és qui l'ha calmat."}}
+   ]
+  },
+  {
+   "id": "nivell",
+   "tipus": "nivell",
+   "titol": "Nivell de triatge",
+   "pregunta": "Quin nivell hi poseu?",
+   "valoracio": {
+    "agitacio_greu": {"1": "optima", "2": "acceptable", "3": "perillosa", "4": "perillosa", "5": "perillosa"},
+    "contingut": {"1": "acceptable", "2": "optima", "3": "suboptima", "4": "perillosa", "5": "perillosa"}
+   },
+   "feedback": {
+    "agitacio_greu": "Agitació greu amb risc imminent i probable trasllat no voluntari: N1 (Annex 1, D · Agitat).",
+    "contingut": "S'ha calmat amb medicació de rescat, però pot reaparèixer: N2. El vigilant ferit és un segon pacient a valorar."
+   }
+  },
+  {
+   "id": "consell",
+   "tipus": "decisio",
+   "titol": "Consell telefònic",
+   "pregunta": "Quin consell doneu al treballador?",
+   "opcions": [
+    {"id": "seguretat", "text": "Allunyar-se, no confrontar-lo, retirar objectes perillosos i esperar la policia en lloc segur", "valoracio": "optima",
+     "feedback": "Correcte: seguretat de l'entorn i del pacient, no confrontar (Annex 1, D · Agitat)."},
+    {"id": "subjectar", "text": "Intentar subjectar-lo entre diversos treballadors", "valoracio": "perillosa",
+     "feedback": "La contenció mecànica sense equip ni formació causa lesions al pacient i als treballadors."},
+    {"id": "rescat", "text": "Si té medicació de rescat pautada i és segur donar-la, que la hi donin", "valoracio": {"agitacio_greu": "acceptable", "contingut": "optima"},
+     "feedback": "Útil si és segur fer-ho; si està armat o fora de control, primer la seguretat."},
+    {"id": "tancar", "text": "Tancar-lo sol en una habitació fins que arribin", "valoracio": "suboptima",
+     "feedback": "Aïllar-lo sense supervisió augmenta el risc d'autolesió."}
+   ]
+  },
+  {
+   "id": "recurs",
+   "tipus": "recurs",
+   "titol": "Recursos",
+   "pregunta": "Quins recursos queden assignats? Recordeu que hi ha un segon ferit lleu (el vigilant)."
+  }
+ ],
+ "aprenentatge": [
+  "Agitació és categoria d'activació immediata, però la seguretat de l'equip és el primer: Mossos i espera en zona segura.",
+  "Pregunteu sempre si encara està agressiu, si té objectes perillosos i la medicació o tòxics.",
+  "Si cal contenció farmacològica parenteral, cal una SVA (SVAi n'hi pot haver prou)."
+ ]
+}

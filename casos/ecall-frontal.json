@@ -1,0 +1,92 @@
+{
+ "id": "ecall-frontal",
+ "titol": "eCall: xoc frontal amb un atrapat",
+ "tipus_servei": "emergencia",
+ "entrada": "carta_112",
+ "tipus_demanda": "Accident/Traumatisme",
+ "carta": "112 AMPLIA DADES: TRUCADA ECALL AUTOMÀTICA, TRUCA VEU HOME, INFORMA QUE HI HA HAGUT UN ACCIDENT ENTRE DOS COTXES, XOC FRONTAL. UN HOME ESTÀ ATRAPAT, POTSER FERIT. AFECTEN AL TRÀNSIT, ESTÀ TOT PARAT.",
+ "alertant": "eCall automàtica",
+ "pacient": {"edat": [25, 70], "sexe": "Home"},
+ "variants": [
+  {"id": "sense_ferits", "pes": 0.55, "nivell": 3, "descripcio": "Xoc a poca velocitat: ningú atrapat, els dos conductors fora del vehicle, sense ferits aparents"},
+  {"id": "atrapat_greu", "pes": 0.45, "nivell": 1, "descripcio": "Conductor atrapat amb dolor toràcic i dificultat per respirar (trauma d'alta energia)"}
+ ],
+ "passos": [
+  {
+   "id": "activacio",
+   "tipus": "decisio",
+   "titol": "Activació inicial",
+   "pregunta": "Entra la carta del 112 per una eCall. Què feu?",
+   "opcions": [
+    {"id": "sva_svb_bombers", "text": "Activar USVB + USVA i confirmar que Bombers i policia estan avisats; retrucar", "valoracio": "optima",
+     "feedback": "Xoc frontal amb un possible atrapat: categoria E (ferit greu) d'activació immediata, i l'atrapat necessita Bombers."},
+    {"id": "sva_svb", "text": "Activar USVB + USVA i retrucar", "valoracio": "acceptable",
+     "feedback": "Bona resposta sanitària, però un atrapat necessita Bombers: cal confirmar que estan activats."},
+    {"id": "svb_valorar", "text": "Activar USVB, USVA en 3.20 SEM, i retrucar", "valoracio": {"sense_ferits": "acceptable", "atrapat_greu": "suboptima"},
+     "feedback": {"sense_ferits": "Aquest cop no calia la SVA, però a l'entrada la carta parlava d'un atrapat.", "atrapat_greu": "Un atrapat en xoc frontal és d'activació immediata: la SVA arriba tard."}},
+    {"id": "esperar", "text": "Esperar la retrucada abans d'activar res", "valoracio": "perillosa",
+     "feedback": "Amb un possible atrapat no s'espera: s'activa i després es reajusta."}
+   ]
+  },
+  {
+   "id": "retrucada",
+   "tipus": "retrucada",
+   "titol": "Retrucada",
+   "pregunta": "Retruqueu el telèfon de l'eCall. Teniu temps per a 3 preguntes: quines feu?",
+   "max": 3,
+   "preguntes": [
+    {"id": "atrapat", "text": "Hi ha algú que no pugui sortir del cotxe?", "clau": true,
+     "resposta": {"sense_ferits": "No, no, ja hem sortit tots dos. Abans em pensava que l'altre no podia sortir.", "atrapat_greu": "L'altre conductor no pot sortir, té la cama enganxada."}},
+    {"id": "ferits", "text": "Algú està ferit? Algú té dificultat per respirar o està inconscient?", "clau": true,
+     "resposta": {"sense_ferits": "Jo estic bé. L'altre conductor diu que també, només espantat.", "atrapat_greu": "Diu que li fa molt mal el pit i li costa respirar."}},
+    {"id": "velocitat", "text": "Anaven ràpid? Han saltat els airbags?", "clau": false,
+     "resposta": {"sense_ferits": "No, ha estat a la rotonda, anàvem a poc a poc. No han saltat.", "atrapat_greu": "Era a la carretera, anàvem a 80 o 90. Sí, airbags dels dos cotxes."}},
+    {"id": "quants", "text": "Quantes persones hi ha als dos cotxes?", "clau": true,
+     "resposta": {"sense_ferits": "Jo sol, i l'altre conductor sol.", "atrapat_greu": "Jo sol, i a l'altre cotxe només el conductor."}},
+    {"id": "perill", "text": "Hi ha perill: foc, fum, olor de gasolina, cotxes que passen?", "clau": false,
+     "resposta": {"sense_ferits": "No. Ocupem un carril però la policia ja ve.", "atrapat_greu": "Surt una mica de fum del capó de l'altre cotxe."}}
+   ]
+  },
+  {
+   "id": "nivell",
+   "tipus": "nivell",
+   "titol": "Nivell de triatge",
+   "pregunta": "Quin nivell hi poseu?",
+   "valoracio": {
+    "sense_ferits": {"1": "suboptima", "2": "suboptima", "3": "optima", "4": "acceptable", "5": "suboptima"},
+    "atrapat_greu": {"1": "optima", "2": "acceptable", "3": "perillosa", "4": "perillosa", "5": "perillosa"}
+   },
+   "feedback": {
+    "sense_ferits": "Mecanisme de baixa energia i tothom fora del vehicle sense símptomes: N3, una SVB valora els dos conductors.",
+    "atrapat_greu": "Trauma d'alta energia amb atrapat i dificultat respiratòria: N1 (Annex 1, E · criteris PPT)."
+   }
+  },
+  {
+   "id": "reajust",
+   "tipus": "decisio",
+   "titol": "Reajust de la resposta",
+   "pregunta": "Amb la retrucada feta, com queda la resposta?",
+   "opcions": [
+    {"id": "mantenir", "text": "Mantenir USVA + USVB i Bombers; donar consells de seguretat", "valoracio": {"sense_ferits": "suboptima", "atrapat_greu": "optima"},
+     "feedback": {"sense_ferits": "La SVA queda bloquejada per un accident sense ferits.", "atrapat_greu": "Correcte. Consells: no moure el ferit, allunyar-se del fum, no fumar."}},
+    {"id": "desescalar", "text": "Desactivar la USVA i mantenir la USVB per valorar els dos conductors", "valoracio": {"sense_ferits": "optima", "atrapat_greu": "perillosa"},
+     "feedback": {"sense_ferits": "Correcte: la reavaluació permet alliberar la SVA.", "atrapat_greu": "Infratriatge greu d'un trauma d'alta energia."}},
+    {"id": "tot", "text": "Desactivar tots els recursos sanitaris", "valoracio": {"sense_ferits": "suboptima", "atrapat_greu": "perillosa"},
+     "feedback": {"sense_ferits": "Sense valoració presencial no es pot descartar lesió en un xoc frontal.", "atrapat_greu": "Infratriatge greu."}},
+    {"id": "hems", "text": "Afegir l'helicòpter a la resposta", "valoracio": {"sense_ferits": "perillosa", "atrapat_greu": "acceptable"},
+     "feedback": {"sense_ferits": "Ocupa un recurs escàs sense cap indicació.", "atrapat_greu": "Valorable si la SVA tarda més de 20 min o el destí és lluny; mireu els temps al mapa."}}
+   ]
+  },
+  {
+   "id": "recurs",
+   "tipus": "recurs",
+   "titol": "Recursos",
+   "pregunta": "Quins recursos queden assignats finalment?"
+  }
+ ],
+ "aprenentatge": [
+  "Una eCall amb atrapat s'activa amb USVB + USVA i Bombers sense esperar.",
+  "La retrucada pot canviar-ho tot: si no hi ha atrapats ni ferits, alliberar la SVA.",
+  "Pregunteu sempre: atrapats, nombre de persones, símptomes greus i perills a l'escena."
+ ]
+}

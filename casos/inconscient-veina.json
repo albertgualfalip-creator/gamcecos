@@ -1,0 +1,221 @@
+{
+ "id": "inconscient-veina",
+ "titol": "Veïna inconscient a l'escala",
+ "tipus_servei": "emergencia",
+ "entrada": "carta_112",
+ "tipus_demanda": "Malaltia en domicili",
+ "carta": "ALERTANT, VEÍ AL LLOC, INDICA QUE LA SEVA VEÏNA S'HA DESMAIAT, ESTÀ INCONSCIENT.",
+ "alertant": "Veí al lloc",
+ "pacient": {
+  "edat": [
+   62,
+   84
+  ],
+  "sexe": "Dona"
+ },
+ "variants": [
+  {
+   "id": "aturada",
+   "pes": 0.45,
+   "nivell": 1,
+   "descripcio": "Aturada cardiorespiratòria amb respiració agònica (gasping)"
+  },
+  {
+   "id": "hipoglucemia",
+   "pes": 0.55,
+   "nivell": 2,
+   "descripcio": "Hipoglucèmia greu en pacient diabètica, respira i respon poc"
+  }
+ ],
+ "passos": [
+  {
+   "id": "activacio",
+   "tipus": "decisio",
+   "titol": "Activació inicial",
+   "pregunta": "Acaba d'entrar la carta del 112. Què feu ara mateix?",
+   "opcions": [
+    {
+     "id": "immediata",
+     "text": "Activar USVB + USVA més properes de forma immediata i retrucar",
+     "valoracio": "optima",
+     "feedback": "\"No contesta\" és categoria d'activació immediata (Taula 1, A): USVB + USVA sense esperar la valoració."
+    },
+    {
+     "id": "svb_320",
+     "text": "Activar USVB, USVA en 3.20 SEM i passar a valorar",
+     "valoracio": "suboptima",
+     "feedback": "El 3.20 és per a categories que no són d'activació immediata. Una persona que no contesta ho és: es perden minuts de SVA."
+    },
+    {
+     "id": "svb_sola",
+     "text": "Activar només USVB i passar a valorar",
+     "valoracio": "perillosa",
+     "feedback": "Infratriatge: sense SVA en una possible aturada."
+    },
+    {
+     "id": "valorar",
+     "text": "Passar a valorar sense activar cap recurs",
+     "valoracio": "perillosa",
+     "feedback": "En una categoria d'activació immediata no s'espera la valoració clínica per activar."
+    }
+   ]
+  },
+  {
+   "id": "retrucada",
+   "tipus": "retrucada",
+   "titol": "Retrucada a l'alertant",
+   "pregunta": "Retruqueu el veí. Teniu temps per a 3 preguntes: quines feu?",
+   "max": 3,
+   "preguntes": [
+    {
+     "id": "respira",
+     "text": "Respira? Mira si el pit es mou i si fa sorolls estranys",
+     "clau": true,
+     "resposta": {
+      "aturada": "No ho sé... de tant en tant fa com un badall estrany, però el pit no es mou.",
+      "hipoglucemia": "Sí, respira, però no em contesta quan la crido."
+     }
+    },
+    {
+     "id": "estimul",
+     "text": "Respon si li crides fort i la sacseges per les espatlles?",
+     "clau": true,
+     "resposta": {
+      "aturada": "No, res de res. Està tova.",
+      "hipoglucemia": "Obre una mica els ulls i es queixa, però no diu res que s'entengui."
+     }
+    },
+    {
+     "id": "antecedents",
+     "text": "Quants anys té? Té alguna malaltia o pren medicació?",
+     "clau": false,
+     "resposta": {
+      "aturada": "Uns setanta. Pren pastilles del cor, crec.",
+      "hipoglucemia": "Uns setanta. És diabètica, es punxa insulina."
+     }
+    },
+    {
+     "id": "glucosa",
+     "text": "Té aparell per mirar el sucre? Li pots mirar?",
+     "clau": false,
+     "resposta": {
+      "aturada": "No en tinc ni idea, no puc deixar-la.",
+      "hipoglucemia": "La seva filla m'ho ensenya... posa 38."
+     }
+    },
+    {
+     "id": "quan",
+     "text": "Quant fa que l'has trobat així?",
+     "clau": false,
+     "resposta": {
+      "aturada": "Ara mateix, fa un o dos minuts.",
+      "hipoglucemia": "Fa uns deu minuts, l'he trobada a l'escala."
+     }
+    },
+    {
+     "id": "dea",
+     "text": "Hi ha un desfibril·lador a prop (farmàcia, escola, comerç)?",
+     "clau": false,
+     "resposta": {
+      "aturada": "Potser a la farmàcia de baix... hi ha una altra veïna que hi pot anar.",
+      "hipoglucemia": "No ho sé."
+     }
+    }
+   ]
+  },
+  {
+   "id": "nivell",
+   "tipus": "nivell",
+   "titol": "Nivell de triatge",
+   "pregunta": "Amb la informació de la retrucada, quin nivell hi poseu?",
+   "valoracio": {
+    "aturada": {
+     "1": "optima",
+     "2": "perillosa",
+     "3": "perillosa",
+     "4": "perillosa",
+     "5": "perillosa"
+    },
+    "hipoglucemia": {
+     "1": "acceptable",
+     "2": "optima",
+     "3": "perillosa",
+     "4": "perillosa",
+     "5": "perillosa"
+    }
+   },
+   "feedback": {
+    "aturada": "No respon i no respira (gasping): N1. Annex 1, A · No respira.",
+    "hipoglucemia": "Alteració de consciència en diabètica amb signes clars d'hipoglucèmia: N2 (Annex 1, D). N1 també és defensable si hi ha dubte: en cas de dubte, sobretriar."
+   }
+  },
+  {
+   "id": "maniobres",
+   "tipus": "decisio",
+   "titol": "Consell i maniobres",
+   "pregunta": "Què li indiqueu al veí mentre arriben les unitats?",
+   "opcions": [
+    {
+     "id": "rcp",
+     "text": "RCP telefònica: compressions fortes al centre del pit, 100-120/min, i que algú porti el DEA",
+     "valoracio": {
+      "aturada": "optima",
+      "hipoglucemia": "perillosa"
+     },
+     "feedback": {
+      "aturada": "Correcte: gasping = aturada. RCP telefònica immediata i DEA si n'hi ha a prop.",
+      "hipoglucemia": "Respira i respon a estímuls: no està en aturada."
+     }
+    },
+    {
+     "id": "pls",
+     "text": "Posar-la de costat (PLS) i vigilar que continuï respirant",
+     "valoracio": {
+      "aturada": "perillosa",
+      "hipoglucemia": "acceptable"
+     },
+     "feedback": {
+      "aturada": "La respiració agònica no és respirar: cal iniciar RCP.",
+      "hipoglucemia": "Correcte per protegir la via aèria, però si té glucagó, cal administrar-lo."
+     }
+    },
+    {
+     "id": "glucago",
+     "text": "Si té glucagó, que li posin, i després de costat (PLS) sense donar res per boca",
+     "valoracio": {
+      "aturada": "perillosa",
+      "hipoglucemia": "optima"
+     },
+     "feedback": {
+      "aturada": "No és el moment: no respira.",
+      "hipoglucemia": "Correcte: glucagó si en disposa + PLS i dieta absoluta (Annex 1, D)."
+     }
+    },
+    {
+     "id": "sucre",
+     "text": "Donar-li aigua amb sucre",
+     "valoracio": "perillosa",
+     "feedback": "Amb baix nivell de consciència, res per boca: risc de broncoaspiració."
+    },
+    {
+     "id": "esperar",
+     "text": "Que no la toqui i esperi l'ambulància",
+     "valoracio": "perillosa",
+     "feedback": "Sempre hi ha alguna indicació útil per telèfon."
+    }
+   ],
+   "mostra_dea": true
+  },
+  {
+   "id": "recurs",
+   "tipus": "recurs",
+   "titol": "Recursos",
+   "pregunta": "Quins recursos queden assignats? Trieu la combinació i les unitats al mapa."
+  }
+ ],
+ "aprenentatge": [
+  "\"No contesta\" i \"no respira\" són d'activació immediata: USVB + USVA sense esperar.",
+  "La primera pregunta de la retrucada sempre és si respira. El gasping no és respirar.",
+  "En una aturada, mira al mapa si hi ha un DEA a menys de 300 m i fes que algú el vagi a buscar."
+ ]
+}

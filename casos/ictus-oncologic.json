@@ -1,0 +1,94 @@
+{
+ "id": "ictus-oncologic",
+ "titol": "Home amb càncer que parla malament",
+ "tipus_servei": "emergencia",
+ "entrada": "carta_112",
+ "tipus_demanda": "Malaltia en domicili",
+ "carta": "INFORMA QUE EL SEU MARIT ESTÀ MOLT MALAMENT. TÉ CÀNCER I HA TINGUT ICTUS. ARA NO EL POT AIXECAR. MIG CONSCIENT, PARLA MOLT MALAMENT.",
+ "alertant": "Esposa",
+ "pacient": {"edat": [68, 82], "sexe": "Home"},
+ "variants": [
+  {"id": "codi_ictus", "pes": 0.5, "nivell": 1, "descripcio": "Ictus agut d'inici fa 1 hora en pacient amb càncer en remissió i bona situació basal"},
+  {"id": "final_vida", "pes": 0.5, "nivell": 3, "descripcio": "Càncer avançat amb PADES i PIIC d'adequació de l'esforç terapèutic, deteriorament progressiu de dies, ictus antic"}
+ ],
+ "passos": [
+  {
+   "id": "activacio",
+   "tipus": "decisio",
+   "titol": "Activació inicial",
+   "pregunta": "Entra la carta del 112. Què feu ara mateix?",
+   "opcions": [
+    {"id": "immediata", "text": "Activar USVB + USVA de forma immediata i retrucar", "valoracio": "optima",
+     "feedback": "\"Parla molt malament\" és categoria D d'activació immediata (Taula 1). Després de la retrucada es pot desescalar."},
+    {"id": "svb_320", "text": "Activar USVB, USVA en 3.20 SEM i passar a valorar", "valoracio": "suboptima",
+     "feedback": "Amb un possible ictus, cada minut compta: la Taula 1 diu activació immediata."},
+    {"id": "svb_sola", "text": "Activar només USVB i passar a valorar", "valoracio": "perillosa",
+     "feedback": "Si és un codi ictus, sense SVA es retarda tot el circuit."},
+    {"id": "valorar", "text": "Passar a valorar sense activar: segurament és la seva malaltia", "valoracio": "perillosa",
+     "feedback": "No es pot suposar sense preguntar: primer activar, després valorar."}
+   ]
+  },
+  {
+   "id": "retrucada",
+   "tipus": "retrucada",
+   "titol": "Retrucada a l'esposa",
+   "pregunta": "Retruqueu l'esposa. Teniu temps per a 3 preguntes: quines feu?",
+   "max": 3,
+   "preguntes": [
+    {"id": "hora", "text": "A quina hora el vau veure bé per última vegada?", "clau": true,
+     "resposta": {"codi_ictus": "Fa una hora estàvem dinant i parlava normal.", "final_vida": "Fa dies que va de baixa, des de dilluns que no s'aixeca gaire."}},
+    {"id": "nou", "text": "Això de parlar malament és d'ara o ja el va deixar així l'ictus?", "clau": true,
+     "resposta": {"codi_ictus": "És d'ara! L'ictus va ser fa anys i no li va deixar res.", "final_vida": "Des de l'ictus de l'any passat ja parla una mica malament, però avui està més adormit."}},
+    {"id": "piic", "text": "Té un pla d'atenció (PIIC) o el visita un equip de pal·liatius (PADES)?", "clau": true,
+     "resposta": {"codi_ictus": "No, el càncer està curat, només fa revisions.", "final_vida": "Sí, el PADES ve cada setmana. Vam parlar que no volíem anar més a l'hospital."}},
+    {"id": "cara", "text": "Li mira la cara: té la boca torta? Pot aixecar els dos braços?", "clau": false,
+     "resposta": {"codi_ictus": "Té la boca torta cap a un costat i el braç dret no l'aixeca.", "final_vida": "No ho sé, està molt adormit, no aixeca cap braç."}},
+    {"id": "respira", "text": "Respira bé? Està despert?", "clau": false,
+     "resposta": {"codi_ictus": "Respira bé, té els ulls oberts però no s'entén el que diu.", "final_vida": "Respira a poc a poc, obre els ulls si el crido."}},
+    {"id": "anticoag", "text": "Pren algun medicament per aclarir la sang (Sintrom, etc.)?", "clau": false,
+     "resposta": {"codi_ictus": "No, només la de la pressió.", "final_vida": "No ho sé, porta moltes pastilles i morfina en pegats."}}
+   ]
+  },
+  {
+   "id": "nivell",
+   "tipus": "nivell",
+   "titol": "Nivell de triatge",
+   "pregunta": "Quin nivell hi poseu?",
+   "valoracio": {
+    "codi_ictus": {"1": "optima", "2": "acceptable", "3": "perillosa", "4": "perillosa", "5": "perillosa"},
+    "final_vida": {"1": "suboptima", "2": "acceptable", "3": "optima", "4": "acceptable", "5": "suboptima"}
+   },
+   "feedback": {
+    "codi_ictus": "Focalitat neurològica d'inici fa 1 hora: sospita d'ictus temps-depenent, N1. És candidat a Codi Ictus.",
+    "final_vida": "Deteriorament progressiu en pacient amb PADES i PIIC d'adequació: el modulador (etiquetes actives, procés oncològic) desescala. N3 amb suport de PADES / atenció primària."
+   }
+  },
+  {
+   "id": "reajust",
+   "tipus": "decisio",
+   "titol": "Reajust de la resposta",
+   "pregunta": "Amb tota la informació, com quedarà la resposta?",
+   "opcions": [
+    {"id": "codi", "text": "Activar Codi Ictus: mantenir SVA + SVB i preavisar el centre d'ictus", "valoracio": {"codi_ictus": "optima", "final_vida": "suboptima"},
+     "feedback": {"codi_ictus": "Correcte: inici < 24 h, bona situació basal, focalitat clara.", "final_vida": "No respecta el PIIC ni la voluntat expressada, i ocupa una SVA."}},
+    {"id": "svb_hospital", "text": "Desactivar la SVA i que la SVB el porti a l'hospital més proper", "valoracio": {"codi_ictus": "perillosa", "final_vida": "suboptima"},
+     "feedback": {"codi_ictus": "Un ictus agut ha d'anar a un centre útil amb SVA, no al més proper.", "final_vida": "La família ha manifestat que no vol més hospital: cal valorar abans amb el PADES."}},
+    {"id": "pades", "text": "Desactivar la SVA, deixar la SVB per valorar confort i contactar PADES / atenció primària", "valoracio": {"codi_ictus": "perillosa", "final_vida": "optima"},
+     "feedback": {"codi_ictus": "Infratriatge d'un ictus temps-depenent.", "final_vida": "Correcte: es respecta el PIIC i es dona suport a domicili."}},
+    {"id": "consell", "text": "Desactivar tot i que truqui demà al seu metge", "valoracio": {"codi_ictus": "perillosa", "final_vida": "suboptima"},
+     "feedback": {"codi_ictus": "Infratriatge greu.", "final_vida": "Deixar la família sola amb un deteriorament agut no és adequat: cal contactar PADES / atenció primària avui."}}
+   ]
+  },
+  {
+   "id": "recurs",
+   "tipus": "recurs",
+   "titol": "Recursos",
+   "pregunta": "Quins recursos queden assignats? Trieu la combinació i les unitats al mapa."
+  }
+ ],
+ "aprenentatge": [
+  "Una carta amb \"parla malament\" s'activa de forma immediata; la retrucada decideix si es manté o es desescala.",
+  "Les tres preguntes clau: hora d'inici, si el dèficit és nou i si té PIIC / PADES.",
+  "Els moduladors (MACA, PADES, procés oncològic) poden desescalar la resposta, però només amb informació confirmada."
+ ]
+}

@@ -2,6 +2,21 @@
 
 Joc en equip per entrenar l'atenció no presencial i la gestió de recursos de les emergències sanitàries a Catalunya. Vegeu [docs/disseny.md](docs/disseny.md).
 
+## Com jugar
+
+```
+npm start            # http://localhost:8080
+```
+
+- **Sala** (`/`): pantalla per al projector i l'equip. Es tria la zona, l'hora del torn i el cas.
+- **Públic** (`/vota`, amb el QR de la sala): cada participant vota des del mòbil; l'equip veu els vots abans de confirmar.
+- Només cal Node.js (sense dependències). Leaflet i el generador de QR van inclosos a `app/vendor/`, així funciona en xarxes on els CDN estan bloquejats. El fons del mapa (OpenStreetMap) sí que necessita internet.
+- Proves: `npm test`.
+
+## Casos
+
+Cada cas és un fitxer a `casos/` (llistat a `casos/index.json`) amb la carta d'entrada, variants (què passa realment), passos de decisió, preguntes de retrucada amb respostes per variant i valoració de cada opció (òptima, acceptable, subòptima, perillosa). Els casos es basen en registres reals anonimitzats: no hi ha noms ni telèfons.
+
 ## Dades
 
 - `data/unitats.json` es genera a partir del Registre únic de bases i indicatius (només camps necessaris):

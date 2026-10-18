@@ -166,6 +166,13 @@ Principi del protocol: *en cas de dubte, el criteri més segur*. L'infratriatge 
 - Diagnòstics: codi infart (angioplàstia, IAM, IMSEST), malaltia cerebrovascular, agitació / psicosi, hemorràgia digestiva.
 
 
+## Prototip jugable (primera part: alertes de pacient o entorn)
+
+- 7 casos: veïna inconscient, menor agressiu, home amb càncer que parla malament, teleassistència sense resposta, eCall amb xoc frontal, caiguda en anticoagulat (veu passada a valorar), consum de tòxics (distractor N5).
+- Passos: activació inicial → retrucada (3 preguntes) → nivell → consell / reajust → recursos al mapa.
+- Registre a l'estil de la sala: `data hora | codi | usuari` (T = SITREM, L = valoració, O = coordinació, R = ràdio).
+- Temps d'arribada calibrats amb les medianes reals dels exports; un 25 % d'unitats ocupades a l'atzar i horaris reals de servei.
+
 ## Fases
 
 1. **Pilot:** mapa amb unitats, 3-4 plantilles, torns generats i revisats, equip + vots, debriefing.

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GamCECOS · Sala</title>
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="estil.css">
+<script src="vendor/leaflet/leaflet.js"></script>
+<script src="vendor/qrcodejs/qrcode.min.js"></script>
+</head>
+<body>
+<div id="config" class="formulari panell">
+  <h1>GamCECOS · Nova partida</h1>
+  <p class="suau">L'equip decideix; el públic vota des del mòbil i l'equip veu els vots abans de confirmar.</p>
+  <label>Zona <select id="zona"></select></label>
+  <label>Hora del torn <input id="hora" type="time" value="19:50"></label>
+  <label>Cas <select id="cas"><option value="">Aleatori</option></select></label>
+  <button class="boto" id="comencar">Començar</button>
+</div>
+
+<div id="joc" class="sala" hidden>
+  <header class="capcalera">
+    <span class="marca">GamCECOS</span>
+    <span id="titol-cas" class="suau"></span>
+    <div class="info">
+      <span id="estat-zona"></span>
+      <b id="puntuacio"></b>
+      <div class="qr"><div id="qr"></div><span>Vota a<br><b id="url-vot"></b></span></div>
+    </div>
+  </header>
+  <section class="columna">
+    <div class="panell">
+      <h3>Incident seleccionat</h3>
+      <div class="incident" id="incident"></div>
+      <div class="camps" id="camps"></div>
+    </div>
+    <div class="panell registre">
+      <div class="pestanyes"><span class="activa">Registre</span></div>
+      <div id="registre"></div>
+    </div>
+  </section>
+  <section class="columna">
+    <div class="panell" id="pas"></div>
+  </section>
+  <section class="panell mapa-panell">
+    <div id="mapa"></div>
+  </section>
+</div>
+<script type="module" src="sala.mjs"></script>
+</body>
+</html>

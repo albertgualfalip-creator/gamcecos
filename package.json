@@ -1,0 +1,9 @@
+{
+  "name": "gamcecos",
+  "private": true,
+  "description": "Joc en equip per entrenar l'atenció no presencial i la gestió de recursos de les emergències sanitàries",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test test/*.test.mjs"
+  }
+}

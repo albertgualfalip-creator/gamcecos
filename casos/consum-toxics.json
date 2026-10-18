@@ -1,0 +1,88 @@
+{
+ "id": "consum-toxics",
+ "titol": "Jove amb palpitacions després de consumir drogues",
+ "tipus_servei": "emergencia",
+ "entrada": "carta_112",
+ "tipus_demanda": "Malaltia en domicili",
+ "carta": "TRUCA L'AFECTAT. INFORMA QUE FA 3 DIES VA CONSUMIR MÚLTIPLES DROGUES I ES TROBA AMB SUORS I TAQUICÀRDIES.",
+ "alertant": "Afectat",
+ "pacient": {"edat": [22, 35], "sexe": "Home"},
+ "variants": [
+  {"id": "consell", "pes": 0.75, "nivell": 5, "descripcio": "Ressaca després d'un consum de cap de setmana: suors, palpitacions, mal de cap i cansament, sense signes de gravetat; està acompanyat"},
+  {"id": "greu", "pes": 0.25, "nivell": 2, "descripcio": "Dolor toràcic opressiu i palpitacions molt ràpides després del consum de metamfetamina"}
+ ],
+ "passos": [
+  {
+   "id": "activacio",
+   "tipus": "decisio",
+   "titol": "Activació inicial",
+   "pregunta": "Entra la carta del 112. Què feu?",
+   "opcions": [
+    {"id": "valorar", "text": "Passar a valorar (VPS): parlar amb l'afectat abans de decidir", "valoracio": {"consell": "optima", "greu": "acceptable"},
+     "feedback": {"consell": "Sense criteris de Taula 1 i fa 3 dies del consum: la valoració telefònica decideix.", "greu": "Correcte que es valori, però en una carta amb taquicàrdia la USVB pot anar sortint."}},
+    {"id": "svb_valorar", "text": "Activar USVB i passar a valorar", "valoracio": {"consell": "acceptable", "greu": "optima"},
+     "feedback": {"consell": "Segons el protocol la USVB es pot activar d'entrada; després caldrà desactivar-la.", "greu": "Correcte: es guanya temps si la valoració confirma gravetat."}},
+    {"id": "sva_svb", "text": "Activar USVB + USVA de forma immediata", "valoracio": "suboptima",
+     "feedback": "Cap criteri d'activació immediata a la carta."}
+   ]
+  },
+  {
+   "id": "retrucada",
+   "tipus": "retrucada",
+   "titol": "Valoració telefònica",
+   "pregunta": "Parleu amb l'afectat. Teniu temps per a 3 preguntes: quines feu?",
+   "max": 3,
+   "preguntes": [
+    {"id": "pit", "text": "Tens dolor al pit o falta d'aire?", "clau": true,
+     "resposta": {"consell": "No, només el cor una mica accelerat i suo molt.", "greu": "Sí, m'oprimeix el pit des de fa mitja hora i em costa respirar."}},
+    {"id": "que", "text": "Què vas prendre, quant i quan?", "clau": true,
+     "resposta": {"consell": "Dissabte: metamfetamina, GHB i popper. Alcohol no.", "greu": "Metamfetamina, i n'he tornat a prendre fa una hora."}},
+    {"id": "consciencia", "text": "Estàs marejat o confús? Algú et pot ajudar?", "clau": true,
+     "resposta": {"consell": "No, estic bé de cap. Estic amb una amiga.", "greu": "Estic molt nerviós. Estic sol."}},
+    {"id": "simptomes", "text": "Quins altres símptomes tens?", "clau": false,
+     "resposta": {"consell": "Mal de cap i molt cansament.", "greu": "Tremolors i suor freda."}},
+    {"id": "antecedents", "text": "Tens alguna malaltia o prens medicació?", "clau": false,
+     "resposta": {"consell": "No, res.", "greu": "No, res."}}
+   ]
+  },
+  {
+   "id": "nivell",
+   "tipus": "nivell",
+   "titol": "Nivell de triatge",
+   "pregunta": "Quin nivell hi poseu?",
+   "valoracio": {
+    "consell": {"1": "perillosa", "2": "suboptima", "3": "suboptima", "4": "acceptable", "5": "optima"},
+    "greu": {"1": "acceptable", "2": "optima", "3": "suboptima", "4": "perillosa", "5": "perillosa"}
+   },
+   "feedback": {
+    "consell": "Símptomes lleus 3 dies després del consum, conscient i acompanyat: consell telefònic (N5) amb pautes de reconsulta.",
+    "greu": "Dolor toràcic amb consum recent de metamfetamina: sospita de SCA per tòxics, N2 (Annex 1, C · dolor toràcic)."
+   }
+  },
+  {
+   "id": "consell",
+   "tipus": "decisio",
+   "titol": "Consell telefònic",
+   "pregunta": "Què li indiqueu?",
+   "opcions": [
+    {"id": "hidratacio", "text": "Augmentar la ingesta d'aigua, descansar, no consumir més, i tornar a trucar si apareix dolor al pit, falta d'aire o confusió", "valoracio": {"consell": "optima", "greu": "perillosa"},
+     "feedback": {"consell": "Correcte: consell i pautes clares de reconsulta.", "greu": "Té dolor toràcic: necessita valoració presencial."}},
+    {"id": "urgencies", "text": "Que vagi pel seu compte a urgències", "valoracio": {"consell": "suboptima", "greu": "perillosa"},
+     "feedback": {"consell": "No cal; satura urgències.", "greu": "Amb dolor toràcic no ha d'anar pel seu compte."}},
+    {"id": "repos_ambulancia", "text": "Repòs absolut, no prendre res més i esperar l'ambulància amb la porta oberta", "valoracio": {"consell": "suboptima", "greu": "optima"},
+     "feedback": {"consell": "No calia recurs.", "greu": "Correcte: repòs i preparar l'accés per a l'equip."}}
+   ]
+  },
+  {
+   "id": "recurs",
+   "tipus": "recurs",
+   "titol": "Recursos",
+   "pregunta": "Quins recursos queden assignats finalment?"
+  }
+ ],
+ "aprenentatge": [
+  "No tota trucada per drogues és una emergència: el temps des del consum i els símptomes decideixen.",
+  "Preguntes clau: dolor toràcic, què ha pres i quan, i si està sol.",
+  "Un consell sempre acaba amb pautes de reconsulta clares."
+ ]
+}
