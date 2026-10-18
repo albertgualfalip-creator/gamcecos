@@ -46,25 +46,46 @@
      "id": "sva_policia",
      "text": "Activar USVB + USVA i demanar Mossos: les unitats esperen en zona segura fins que la policia hi sigui",
      "valoracio": "optima",
-     "feedback": "Agitació és d'activació immediata (Taula 1, SE) i la seguretat de l'equip és prioritària: policia + sanitaris."
+     "feedback": "Agitació és d'activació immediata (Taula 1, SE) i la seguretat de l'equip és prioritària: policia + sanitaris.",
+     "accio": {
+      "recursos": "sva_svb",
+      "serveis": {
+       "mossos": true
+      }
+     }
     },
     {
      "id": "sva_sola",
      "text": "Activar USVB + USVA, sense avisar la policia",
      "valoracio": "perillosa",
-     "feedback": "Ja hi ha hagut agressions: enviar l'equip sense suport policial el posa en risc."
+     "feedback": "Ja hi ha hagut agressions: enviar l'equip sense suport policial el posa en risc.",
+     "accio": {
+      "recursos": "sva_svb",
+      "serveis": {
+       "mossos": false
+      }
+     }
     },
     {
      "id": "policia_sola",
      "text": "Avisar només Mossos i esperar que ens confirmin què passa",
      "valoracio": "suboptima",
-     "feedback": "Hi ha un ferit i un menor amb agitació: la resposta sanitària no ha d'esperar, ha d'esperar en zona segura."
+     "feedback": "Hi ha un ferit i un menor amb agitació: la resposta sanitària no ha d'esperar, ha d'esperar en zona segura.",
+     "accio": {
+      "recursos": "cap",
+      "serveis": {
+       "mossos": true
+      }
+     }
     },
     {
      "id": "svb_valorar",
      "text": "Activar USVB i passar a valorar",
      "valoracio": "suboptima",
-     "feedback": "L'agitació greu amb agressió és categoria d'activació immediata: pot necessitar contenció farmacològica (SVA)."
+     "feedback": "L'agitació greu amb agressió és categoria d'activació immediata: pot necessitar contenció farmacològica (SVA).",
+     "accio": {
+      "recursos": "svb"
+     }
     }
    ]
   },
@@ -249,6 +270,11 @@
      "feedback": {
       "agitacio_greu": "Correcte: sedat, cal monitoratge i fitxa de trasllat no voluntari.",
       "contingut": "Desproporcionat: col·labora i està tranquil."
+     },
+     "accio": {
+      "resolucio": "trasllat",
+      "mode": "SVA",
+      "desti": "psiquiatria"
      }
     },
     {
@@ -261,6 +287,11 @@
      "feedback": {
       "agitacio_greu": "Un pacient sedat amb midazolam necessita SVA.",
       "contingut": "Correcte: valoració psiquiàtrica sense contenció i el vigilant atès."
+     },
+     "accio": {
+      "resolucio": "trasllat",
+      "mode": "SVB",
+      "desti": "psiquiatria"
      }
     },
     {
@@ -273,6 +304,12 @@
      "feedback": {
       "agitacio_greu": "Risc greu: acaba de rebre sedació.",
       "contingut": "Possible si el psiquiatre el veu aviat, però perd l'oportunitat de valoració."
+     },
+     "accio": {
+      "resolucio": [
+       "alta",
+       "rebuig"
+      ]
      }
     }
    ]

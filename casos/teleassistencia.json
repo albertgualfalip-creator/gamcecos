@@ -65,6 +65,9 @@
       "caiguda": "Correcte: no podem valorar-la, cal anar-hi. La retrucada ens dirà si cal més.",
       "inconscient": "Correcte com a punt de partida; si la retrucada no aclareix res i hi ha signes de gravetat, cal escalar.",
       "falsa_alarma": "Prudent: sense contacte no es pot descartar res. La retrucada permetrà desactivar."
+     },
+     "accio": {
+      "recursos": "svb"
      }
     },
     {
@@ -79,6 +82,9 @@
       "caiguda": "Sobretriatge: \"no contesta\" al telèfon no és \"no contesta\" a estímuls. La SVA queda bloquejada.",
       "inconscient": "Encertat si es confirma que no respon, però a l'entrada no ho sabíem.",
       "falsa_alarma": "Sobretriatge: una SVA bloquejada per una alarma sense informació clínica."
+     },
+     "accio": {
+      "recursos": "sva_svb"
      }
     },
     {
@@ -93,6 +99,9 @@
       "caiguda": "Una persona gran sola que no contesta: esperar a parlar-hi pot allargar molt el temps a terra.",
       "inconscient": "Si no contesta perquè està inconscient, es perden minuts.",
       "falsa_alarma": "Aquest cop ha anat bé, però és arriscat."
+     },
+     "accio": {
+      "recursos": "cap"
      }
     }
    ]
@@ -248,6 +257,11 @@
       "caiguda": "Correcte: es prioritza l'accés amb claus i Bombers com a reforç.",
       "inconscient": "Correcte però lent: amb sospita de baix nivell de consciència, val la pena activar Bombers ja.",
       "falsa_alarma": "Correcte, tot i que si es desactiva el recurs ja no cal."
+     },
+     "accio": {
+      "serveis": {
+       "claus": true
+      }
      }
     },
     {
@@ -262,6 +276,11 @@
       "caiguda": "Acceptable si les claus tardaran molt; obrir una porta té cost.",
       "inconscient": "Correcte: no podem esperar 20 minuts amb una persona que no respon.",
       "falsa_alarma": "No cal: està bé i ho ha confirmat."
+     },
+     "accio": {
+      "serveis": {
+       "bombers": true
+      }
      }
     },
     {
@@ -276,7 +295,8 @@
       "caiguda": "Allarga el temps a terra; cal un pla B.",
       "inconscient": "Massa temps sense accés al pacient.",
       "falsa_alarma": "Ja no cal entrar."
-     }
+     },
+     "accio": {}
     }
    ]
   },
@@ -303,6 +323,10 @@
       "caiguda": "Correcte: sospita de fractura de maluc.",
       "inconscient": "Correcte: hipoglucèmia per insulina en persona sola, cal observació.",
       "falsa_alarma": "No cal: està bé."
+     },
+     "accio": {
+      "resolucio": "trasllat",
+      "mode": "SVB"
      }
     },
     {
@@ -317,6 +341,10 @@
       "caiguda": "Estable: no cal SVA durant el trasllat.",
       "inconscient": "Ja està recuperada; amb SVB n'hi ha prou.",
       "falsa_alarma": "No cal."
+     },
+     "accio": {
+      "resolucio": "trasllat",
+      "mode": "SVA"
      }
     },
     {
@@ -331,6 +359,12 @@
       "caiguda": "Una possible fractura de maluc no es pot quedar a casa.",
       "inconscient": "Risc de recaiguda de la hipoglucèmia vivint sola.",
       "falsa_alarma": "Correcte."
+     },
+     "accio": {
+      "resolucio": [
+       "alta",
+       "rebuig"
+      ]
      }
     }
    ]

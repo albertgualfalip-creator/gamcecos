@@ -241,3 +241,24 @@ select.val-perillosa { background: color-mix(in srgb, var(--perillosa) 30%, var(
 .bloc-pas { border-top: 2px solid var(--vora); margin-top: 1rem; padding-top: .4rem; }
 .bloc-pas h3 { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; }
 .afegeix-pas { margin-top: 1rem; align-items: flex-end; }
+
+/* ---------- Actions instead of questions ---------- */
+.candidata { display: flex; gap: .25rem; }
+.candidata .opcio { flex: 1; }
+.boto-320 { border: 1px solid var(--vora); background: var(--camp); color: var(--suau); border-radius: 6px; padding: 0 .4rem; font-size: .8rem; font-weight: 700; }
+.boto-320.actiu, .unitat-assignada.preavis { border-color: var(--acceptable); color: var(--acceptable); background: color-mix(in srgb, var(--acceptable) 15%, transparent); }
+.serveis, .resolucions, .modes { display: flex; flex-wrap: wrap; gap: .4rem; margin: .3rem 0 .6rem; }
+.xip-boto { border: 1px solid var(--vora); background: var(--camp); color: var(--text); border-radius: 999px; padding: .35rem .8rem; }
+.xip-boto.actiu { border-color: var(--accent); background: var(--accent); color: #fff; }
+.estat-consultor { margin: .4rem 0; }
+.barra-nivell { display: flex; align-items: center; gap: .6rem; margin: .6rem 0; }
+.barra-nivell .nivells { flex: 1; margin: 0; }
+.barra-nivell .opcio { opacity: .45; }
+.barra-nivell .opcio.triada { opacity: 1; outline: 3px solid var(--text); }
+.hospitals { display: grid; gap: .3rem; max-height: 260px; overflow-y: auto; margin: .3rem 0 .6rem; }
+.hospital { text-align: left; border: 1px solid var(--vora); background: var(--camp); color: var(--text); border-radius: 6px; padding: .4rem .6rem; }
+.hospital.triat { border-color: var(--accent); background: var(--tria); }
+.hospital .cap { display: inline-block; font-size: .72rem; border: 1px solid var(--vora); border-radius: 4px; padding: 0 .3rem; margin-left: .25rem; color: var(--suau); }
+.accio-editor { display: flex; flex-wrap: wrap; gap: .3rem .6rem; margin-top: .3rem; font-size: .8rem; color: var(--suau); }
+.accio-editor label { display: flex; flex-direction: column; }
+.accio-editor select { font-size: .8rem; padding: .2rem; }

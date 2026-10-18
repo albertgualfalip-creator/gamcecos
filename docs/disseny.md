@@ -171,9 +171,24 @@ Principi del protocol: *en cas de dubte, el criteri més segur*. L'infratriatge 
 Basat en el procés assistencial del SEM (alerta → incident → consulta → activació → arribada al lloc → assistència → trasllat → finalització):
 
 - **Consultor**: atén una cua de trucades (consultes, reiteracions, unitats al lloc). Una trucada sense despenjar 120 s s'abandona i torna més tard. La consulta és una conversa: cada pregunta allarga la trucada i la resposta queda a la fitxa de valoració, amb els signes d'alarma destacats. Decideix nivell, consell i, quan la unitat ho demana, el trasllat.
-- **UCT** (auxiliar + coordinador): decideix l'activació (Taula 1), activa unitats al mapa, veu la cobertura per zona i la ràdio, decideix reajustos i accés, i finalitza incidents sense recurs.
-- **Unitats**: 3.0 sortida, 3.1 al lloc, consulta al consultor amb l'informe de l'afectat, 3.51 trasllat, 3.6 lliure.
+- **UCT** (auxiliar + coordinador): activa unitats al mapa, prealerta SVA (3.20 SEM), avisa altres serveis (Mossos, Bombers, contacte de claus, PADES), veu la cobertura per zona i la ràdio, i finalitza incidents sense recurs.
+- **Unitats**: 3.35 mobilització, 3.4 al lloc, 3.1 S consulta al consultor amb l'informe (3.5), 3.51/3.52 trasllat, 3.6 lliure.
 - **Valoració**: per a cada decisió (editable pel tutor), temps de resposta a les trucades, temps fins a la primera activació, recursos adequats i desenllaç del pacient.
+
+### Decisions amb accions, no preguntes (fase 1)
+
+L'equip no respon preguntes de tipus test: actua amb els controls de la sala i el joc compara el que ha fet amb les opcions del cas. Cada opció porta un camp `accio` que descriu les accions que representa:
+
+| Pas | Quan es valora | Què es compara |
+|---|---|---|
+| Activació inicial (UCT) | Al primer minut de l'alerta, o en penjar la consulta si és abans | Recursos activats (`cap`, `svb`, `svb_320`, `sva_svb`, `sva_svb_hems`) i altres serveis avisats (`serveis: {mossos: true}`) |
+| Reajust i accés (UCT) | Quan la unitat fa la consulta des del lloc (3.1 S) | El mateix: recursos que continuen activats i serveis avisats |
+| Nivell (consultor) | En penjar la consulta (es pot canviar fins aleshores) | Taula de valoració del nivell |
+| Trasllat (consultor) | En confirmar la resolució del servei | `resolucio` (trasllat, alta, rebuig), `mode` (SVA o SVB) i `desti` (capacitat que ha de tenir l'hospital: hemodinàmica, trombectomia, trauma, psiquiatria, TC) |
+
+Es tria l'opció que compleix totes les condicions, la més específica primer. Si cap encaixa exactament, compta la més semblant (com a màxim subòptima). Un destí útil però més de 15 km més lluny que el més proper amb la mateixa capacitat baixa a acceptable. Les capacitats dels hospitals són a `data/capacitats_hospitals.json` (**provisional, cal validar-les**).
+
+El públic continua votant aquestes decisions: veu la pregunta i les opcions mentre l'equip actua.
 - **Debriefing**: resultats per incident i rol, i reconstrucció cronològica de tota la guàrdia.
 
 ## Prototip jugable (primera part: alertes de pacient o entorn)

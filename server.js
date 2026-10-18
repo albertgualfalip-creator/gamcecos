@@ -244,7 +244,7 @@ const DRECERES = { '/': '/app/index.html', '/vota': '/app/vota.html', '/tutor': 
 async function arrenca() {
   ({ Guardia } = await import('./joc.mjs'));
   dades = { unitats: llegeix('data/unitats.json'), centres: llegeix('data/centres.json'), dea: llegeix('data/dea.json'),
-    aure: llegeix('data/resposta_aure.json'), casos: carregaCasos() };
+    aure: llegeix('data/resposta_aure.json'), capacitats: llegeix('data/capacitats_hospitals.json'), casos: carregaCasos() };
   http.createServer(async (req, res) => {
     const url = new URL(req.url, 'http://x');
     const ruta = url.pathname;

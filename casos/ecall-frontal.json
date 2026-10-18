@@ -47,13 +47,22 @@
      "id": "sva_svb_bombers",
      "text": "Activar USVB + USVA i confirmar que Bombers i policia estan avisats; retrucar",
      "valoracio": "optima",
-     "feedback": "Xoc frontal amb un possible atrapat: categoria E (ferit greu) d'activació immediata, i l'atrapat necessita Bombers."
+     "feedback": "Xoc frontal amb un possible atrapat: categoria E (ferit greu) d'activació immediata, i l'atrapat necessita Bombers.",
+     "accio": {
+      "recursos": "sva_svb",
+      "serveis": {
+       "bombers": true
+      }
+     }
     },
     {
      "id": "sva_svb",
      "text": "Activar USVB + USVA i retrucar",
      "valoracio": "acceptable",
-     "feedback": "Bona resposta sanitària, però un atrapat necessita Bombers: cal confirmar que estan activats."
+     "feedback": "Bona resposta sanitària, però un atrapat necessita Bombers: cal confirmar que estan activats.",
+     "accio": {
+      "recursos": "sva_svb"
+     }
     },
     {
      "id": "svb_valorar",
@@ -65,13 +74,19 @@
      "feedback": {
       "sense_ferits": "Aquest cop no calia la SVA, però a l'entrada la carta parlava d'un atrapat.",
       "atrapat_greu": "Un atrapat en xoc frontal és d'activació immediata: la SVA arriba tard."
+     },
+     "accio": {
+      "recursos": "svb_320"
      }
     },
     {
      "id": "esperar",
      "text": "Esperar la retrucada abans d'activar res",
      "valoracio": "perillosa",
-     "feedback": "Amb un possible atrapat no s'espera: s'activa i després es reajusta."
+     "feedback": "Amb un possible atrapat no s'espera: s'activa i després es reajusta.",
+     "accio": {
+      "recursos": "cap"
+     }
     }
    ]
   },
@@ -203,6 +218,12 @@
      "feedback": {
       "sense_ferits": "La SVA queda bloquejada per un accident sense ferits.",
       "atrapat_greu": "Correcte. Consells: no moure el ferit, allunyar-se del fum, no fumar."
+     },
+     "accio": {
+      "recursos": "sva_svb",
+      "serveis": {
+       "bombers": true
+      }
      }
     },
     {
@@ -215,6 +236,9 @@
      "feedback": {
       "sense_ferits": "Correcte: la reavaluació permet alliberar la SVA.",
       "atrapat_greu": "Infratriatge greu d'un trauma d'alta energia."
+     },
+     "accio": {
+      "recursos": "svb"
      }
     },
     {
@@ -227,6 +251,9 @@
      "feedback": {
       "sense_ferits": "Sense valoració presencial no es pot descartar lesió en un xoc frontal.",
       "atrapat_greu": "Infratriatge greu."
+     },
+     "accio": {
+      "recursos": "cap"
      }
     },
     {
@@ -239,6 +266,9 @@
      "feedback": {
       "sense_ferits": "Ocupa un recurs escàs sense cap indicació.",
       "atrapat_greu": "Valorable si la SVA tarda més de 20 min o el destí és lluny; mireu els temps al mapa."
+     },
+     "accio": {
+      "recursos": "sva_svb_hems"
      }
     }
    ]
@@ -263,6 +293,12 @@
      "feedback": {
       "sense_ferits": "Correcte: sense lesions i ho rebutgen; queda documentat.",
       "atrapat_greu": "Infratriatge greu."
+     },
+     "accio": {
+      "resolucio": [
+       "alta",
+       "rebuig"
+      ]
      }
     },
     {
@@ -275,6 +311,10 @@
      "feedback": {
       "sense_ferits": "Possible si ho volen, però no és necessari.",
       "atrapat_greu": "Pacient inestable: necessita SVA i hospital de trauma."
+     },
+     "accio": {
+      "resolucio": "trasllat",
+      "mode": "SVB"
      }
     },
     {
@@ -287,6 +327,11 @@
      "feedback": {
       "sense_ferits": "Sense criteris PPT.",
       "atrapat_greu": "Correcte: criteris PPT, centre de trauma."
+     },
+     "accio": {
+      "resolucio": "trasllat",
+      "mode": "SVA",
+      "desti": "trauma"
      }
     }
    ]

@@ -1,0 +1,26 @@
+{
+ "nota": "PROVISIONAL: cal validar-ho amb la sala. Patrons (expressions regulars) sobre el nom del centre a centres.json. Tots els hospitals amb urgències tenen TC; els de sense_urgencies no surten com a destí.",
+ "sense_urgencies": [
+  "^ICO ", "Guttmann", "Puigvert", "Hospitalàries", "seu Plató", "Sabino de Arana", "Edifici Garbí", "Edifici Gregal",
+  "Esperança", "Centre MQ", "Clínica Girona", "Salus Infirmorum", "NovAliança", "Clínica Terres de l'Ebre", "Maternoinfantil"
+ ],
+ "capacitats": {
+  "hemodinamica": [
+   "General de la Vall d'Hebron", "Bellvitge", "Germans Trias", "Santa Creu i Sant Pau", "^Hospital Clínic de Barcelona$", "Hospital del Mar",
+   "Mútua Terrassa", "Hospital de Sabadell", "Joan XXIII", "Sant Joan de Reus", "Arnau de Vilanova", "Josep Trueta", "Sant Joan de Déu de Manresa"
+  ],
+  "ictus": [
+   "General de la Vall d'Hebron", "Bellvitge", "Germans Trias", "Santa Creu i Sant Pau", "^Hospital Clínic de Barcelona$", "Hospital del Mar",
+   "Josep Trueta", "Arnau de Vilanova", "Joan XXIII"
+  ],
+  "trauma": [
+   "General de la Vall d'Hebron", "Traumatologia i Rehabilitació de la Vall d'Hebron", "Bellvitge", "Germans Trias", "^Hospital Clínic de Barcelona$",
+   "Hospital de Sabadell", "Mútua Terrassa", "Joan XXIII", "Arnau de Vilanova", "Josep Trueta"
+  ],
+  "psiquiatria": [
+   "General de la Vall d'Hebron", "Bellvitge", "Germans Trias", "Santa Creu i Sant Pau", "^Hospital Clínic de Barcelona$", "Hospital del Mar",
+   "Parc Sanitari Sant Joan de Déu", "Mútua Terrassa", "Hospital de Sabadell", "Sant Joan de Déu de Manresa", "Hospital de Mataró",
+   "Hospital General de Granollers", "Santa Caterina", "Santa Maria", "Sant Joan de Reus", "Verge de la Cinta"
+  ]
+ }
+}

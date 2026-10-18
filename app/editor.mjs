@@ -1,7 +1,7 @@
 // Case management for tutors: create, duplicate, import, edit, activate/deactivate, delete or restore cases.
 // Every option is marked optimal, acceptable, suboptimal or dangerous per variant, with its feedback.
 import { $, esc } from './client.mjs';
-import { rolDe, ROLS } from './motor.mjs';
+import { rolDe, ROLS, RECURSOS, SERVEIS, MODES, CAPACITATS, esImplicit } from './motor.mjs';
 
 const VALORS = [['optima', 'Òptima'], ['acceptable', 'Acceptable'], ['suboptima', 'Subòptima'], ['perillosa', 'Perillosa']];
 const ORIGEN = { original: 'original', editat: 'editat', nou: 'nou' };
@@ -13,6 +13,9 @@ const PASSOS_OPCIONALS = {
   acces: { titol: 'Accés i altres cossos', pregunta: 'Com es resol l\'accés o quins altres cossos cal activar?', descripcio: 'UCT, després de la valoració' },
 };
 const NUCLI = ['activacio', 'retrucada', 'nivell', 'trasllat'];
+// Steps the team plays with actions: each option says which actions it stands for
+const AMB_ACCIONS = ['activacio', 'reajust', 'acces', 'trasllat'];
+const RESOLUCIO = { trasllat: 'Trasllat', alta: 'Sense trasllat (alta in situ)', rebuig: 'Rebuig del trasllat', 'alta,rebuig': 'Sense trasllat o rebuig' };
 
 let casos = [], tematiques = [], cas = null, nou = false, canvis = false;
 
@@ -74,7 +77,7 @@ function obre(id) {
 
 // ---------- new cases ----------
 
-const opcio = (id, text, variants, valoracio) => ({ id, text, valoracio: Object.fromEntries(variants.map(v => [v.id, valoracio])), feedback: Object.fromEntries(variants.map(v => [v.id, ''])) });
+const opcio = (id, text, variants, valoracio, accio) => ({ id, text, valoracio: Object.fromEntries(variants.map(v => [v.id, valoracio])), feedback: Object.fromEntries(variants.map(v => [v.id, ''])), ...(accio ? { accio } : {}) });
 
 function casEnBlanc(id) {
   const variants = [
@@ -87,18 +90,18 @@ function casEnBlanc(id) {
     tematiques: [], variants, actiu: true, aprenentatge: [],
     passos: [
       { id: 'activacio', tipus: 'decisio', titol: 'Activació inicial', pregunta: 'Entra la carta del 112. Què feu?', opcions: [
-        opcio('immediata', 'Activar USVB + USVA de forma immediata i retrucar', variants, 'acceptable'),
-        opcio('svb_320', 'Activar USVB, USVA en 3.20 SEM i passar a valorar', variants, 'acceptable'),
-        opcio('valorar', 'Passar a valorar sense activar', variants, 'acceptable')] },
+        opcio('immediata', 'Activar USVB + USVA de forma immediata i retrucar', variants, 'acceptable', { recursos: 'sva_svb' }),
+        opcio('svb_320', 'Activar USVB, USVA en 3.20 SEM i passar a valorar', variants, 'acceptable', { recursos: 'svb_320' }),
+        opcio('valorar', 'Passar a valorar sense activar', variants, 'acceptable', { recursos: 'cap' })] },
       { id: 'retrucada', tipus: 'retrucada', titol: 'Retrucada', pregunta: 'Pregunteu el que necessiteu: cada pregunta allarga la trucada.', preguntes: [
         { id: 'p1', text: 'Primera pregunta clau', clau: true, resposta: { greu: '', lleu: '' }, fitxa: { greu: '', lleu: '' }, alarma: [] }] },
       { id: 'nivell', tipus: 'nivell', titol: 'Nivell de triatge', pregunta: 'Quin nivell hi poseu?',
         valoracio: { greu: nivellsPerDefecte(1), lleu: nivellsPerDefecte(3) }, feedback: { greu: '', lleu: '' } },
       { id: 'trasllat', tipus: 'decisio', titol: 'Trasllat', pregunta: 'La unitat demana consulta. Què hi indiqueu?',
         informe: { greu: '3.4 AL LLOC. 3.5: ', lleu: '3.4 AL LLOC. 3.5: ' }, opcions: [
-          opcio('sva', 'Trasllat amb SVA a hospital útil', variants, 'acceptable'),
-          opcio('svb', "Trasllat amb SVB a l'hospital de referència", variants, 'acceptable'),
-          opcio('alta', 'Alta in situ amb pautes de reconsulta', variants, 'acceptable')] },
+          opcio('sva', 'Trasllat amb SVA a hospital útil', variants, 'acceptable', { resolucio: 'trasllat', mode: 'SVA' }),
+          opcio('svb', "Trasllat amb SVB a l'hospital de referència", variants, 'acceptable', { resolucio: 'trasllat', mode: 'SVB' }),
+          opcio('alta', 'Alta in situ amb pautes de reconsulta', variants, 'acceptable', { resolucio: ['alta', 'rebuig'] })] },
     ],
   });
 }
@@ -191,9 +194,14 @@ function render() {
       ${NUCLI.includes(p.id) ? '' : `<button class="boto-petit" data-treu-pas="${pi}">✕ Treure decisió</button>`}</h3>`;
     if (p.tipus !== 'retrucada') html += `<div class="fila"><label>Títol ${camp(`passos.${pi}.titol`, p.titol)}</label><label>Pregunta ${camp(`passos.${pi}.pregunta`, p.pregunta)}</label></div>`;
     if (p.id === 'trasllat') html += `<table class="taula-editor"><tr><th>Informe de la unitat al lloc</th>${capVariants}</tr><tr><td class="suau">Text que rep el consultor</td>${vs.map(v => `<td>${text(`passos.${pi}.informe.${v.id}`, p.informe[v.id], 3)}</td>`).join('')}</tr></table>`;
+    if (p.tipus === 'decisio' && AMB_ACCIONS.includes(p.id)) {
+      html += esImplicit(p)
+        ? '<p class="suau">L\'equip no veu aquesta pregunta: actua (activa unitats, avisa altres serveis, tria el destí) i el joc compara el que ha fet amb aquestes opcions. El text només el veu el públic quan vota.</p>'
+        : '<p class="suau">Alguna opció no té les accions definides: mentre sigui així, l\'equip veurà aquesta decisió com una pregunta.</p>';
+    }
     if (p.tipus === 'decisio') {
       html += `<table class="taula-editor"><tr><th>Opció</th>${capVariants}<th></th></tr>
-        ${p.opcions.map((o, oi) => `<tr><td>${text(`passos.${pi}.opcions.${oi}.text`, o.text)}${p.id === 'trasllat' ? `<label class="casella"><input type="checkbox" data-sense-trasllat="${pi}.${oi}" ${o.sense_trasllat || ['alta', 'queda', 'confort', 'acceptar'].includes(o.id) ? 'checked' : ''}>Sense trasllat</label>` : ''}</td>
+        ${p.opcions.map((o, oi) => `<tr><td>${text(`passos.${pi}.opcions.${oi}.text`, o.text)}${AMB_ACCIONS.includes(p.id) ? accioHtml(p, pi, o, oi) : ''}</td>
           ${vs.map(v => `<td>${selector(`passos.${pi}.opcions.${oi}.valoracio.${v.id}`, o.valoracio[v.id])}${text(`passos.${pi}.opcions.${oi}.feedback.${v.id}`, o.feedback[v.id])}</td>`).join('')}
           <td><button class="boto-petit" data-treu="passos.${pi}.opcions.${oi}">✕</button></td></tr>`).join('')}</table>
         <button class="boto-petit" data-afegeix-opcio="${pi}">+ Afegir opció</button>`;
@@ -224,6 +232,20 @@ function render() {
   html += `<h3>Aprenentatges (un per línia)</h3><textarea id="aprenentatge" rows="4">${esc(c.aprenentatge.join('\n'))}</textarea>`;
   $('formulari').innerHTML = html;
   lliga();
+}
+
+// Which team actions an option stands for: resources and services (UCT) or how the on-scene call ends (transfer)
+function accioHtml(p, pi, o, oi) {
+  const a = o.accio;
+  const sel = (camp, valors, actual, buit = 'Indiferent') => `<select data-accio="${pi}.${oi}.${camp}"><option value="">${buit}</option>${Object.entries(valors)
+    .map(([v, t]) => `<option value="${v}" ${String(actual ?? '') === v ? 'selected' : ''}>${esc(t)}</option>`).join('')}</select>`;
+  if (!a) return `<div class="accio-editor"><button class="boto-petit" data-accio-nova="${pi}.${oi}">+ Definir les accions</button></div>`;
+  if (p.id === 'trasllat') {
+    return `<div class="accio-editor"><label>Resolució ${sel('resolucio', RESOLUCIO, [a.resolucio].flat().join(','), '—')}</label>
+      <label>Tipus ${sel('mode', MODES, a.mode)}</label><label>Destí ha de tenir ${sel('desti', CAPACITATS, a.desti)}</label></div>`;
+  }
+  return `<div class="accio-editor"><label>Recursos ${sel('recursos', RECURSOS, a.recursos)}</label>
+    ${Object.entries(SERVEIS).map(([id, nom]) => `<label>${esc(nom)} ${sel(`serveis.${id}`, { true: 'Sí', false: 'No' }, a.serveis?.[id])}</label>`).join('')}</div>`;
 }
 
 function posa(ruta, valor) {
@@ -289,9 +311,23 @@ function lliga() {
     q.alarma = el.checked ? [...new Set([...q.alarma, v])] : q.alarma.filter(x => x !== v);
     modificat();
   });
-  f.querySelectorAll('[data-sense-trasllat]').forEach(el => el.onchange = () => {
-    const [pi, oi] = el.dataset.senseTrasllat.split('.').map(Number);
-    posa(`passos.${pi}.opcions.${oi}.sense_trasllat`, el.checked);
+  f.querySelectorAll('[data-accio]').forEach(el => el.onchange = () => {
+    const [pi, oi, camp, servei] = el.dataset.accio.split('.');
+    const o = cas.passos[pi].opcions[oi];
+    const a = o.accio;
+    if (camp === 'serveis') {
+      a.serveis ??= {};
+      if (el.value) a.serveis[servei] = el.value === 'true'; else delete a.serveis[servei];
+      if (!Object.keys(a.serveis).length) delete a.serveis;
+    } else if (!el.value) delete a[camp];
+    else a[camp] = camp === 'resolucio' && el.value.includes(',') ? el.value.split(',') : el.value;
+    delete o.sense_trasllat;
+    modificat();
+  });
+  f.querySelectorAll('[data-accio-nova]').forEach(el => el.onclick = () => {
+    const [pi, oi] = el.dataset.accioNova.split('.').map(Number);
+    cas.passos[pi].opcions[oi].accio = cas.passos[pi].id === 'trasllat' ? { resolucio: 'trasllat' } : {};
+    torna();
   });
   f.querySelectorAll('[data-treu]').forEach(el => el.onclick = () => {
     const parts = el.dataset.treu.split('.');
@@ -302,7 +338,9 @@ function lliga() {
     torna();
   });
   f.querySelectorAll('[data-afegeix-opcio]').forEach(el => el.onclick = () => {
-    cas.passos[el.dataset.afegeixOpcio].opcions.push(opcio(`opcio${Date.now() % 100000}`, 'Nova opció', cas.variants, 'acceptable'));
+    const pas = cas.passos[el.dataset.afegeixOpcio];
+    const accio = AMB_ACCIONS.includes(pas.id) ? (pas.id === 'trasllat' ? { resolucio: 'trasllat' } : {}) : undefined;
+    pas.opcions.push(opcio(`opcio${Date.now() % 100000}`, 'Nova opció', cas.variants, 'acceptable', accio));
     torna();
   });
   f.querySelectorAll('[data-afegeix-pregunta]').forEach(el => el.onclick = () => {
@@ -322,7 +360,7 @@ function lliga() {
   };
   $('afegeix-pas')?.addEventListener('click', () => {
     const id = $('nou-pas').value, d = PASSOS_OPCIONALS[id];
-    const pas = { id, tipus: 'decisio', titol: d.titol, pregunta: d.pregunta, opcions: [opcio('opcio1', 'Primera opció', cas.variants, 'acceptable')] };
+    const pas = { id, tipus: 'decisio', titol: d.titol, pregunta: d.pregunta, opcions: [opcio('opcio1', 'Primera opció', cas.variants, 'acceptable', AMB_ACCIONS.includes(id) ? {} : undefined)] };
     const abansDe = cas.passos.findIndex(p => p.id === 'trasllat');
     cas.passos.splice(abansDe < 0 ? cas.passos.length : abansDe, 0, pas);
     torna();

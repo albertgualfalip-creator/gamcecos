@@ -53,6 +53,9 @@
      "feedback": {
       "consell": "Sense criteris de Taula 1 i fa 3 dies del consum: la valoració telefònica decideix.",
       "greu": "Correcte que es valori, però en una carta amb taquicàrdia la USVB pot anar sortint."
+     },
+     "accio": {
+      "recursos": "cap"
      }
     },
     {
@@ -65,13 +68,19 @@
      "feedback": {
       "consell": "Segons el protocol la USVB es pot activar d'entrada; després caldrà desactivar-la.",
       "greu": "Correcte: es guanya temps si la valoració confirma gravetat."
+     },
+     "accio": {
+      "recursos": "svb"
      }
     },
     {
      "id": "sva_svb",
      "text": "Activar USVB + USVA de forma immediata",
      "valoracio": "suboptima",
-     "feedback": "Cap criteri d'activació immediata a la carta."
+     "feedback": "Cap criteri d'activació immediata a la carta.",
+     "accio": {
+      "recursos": "sva_svb"
+     }
     }
    ]
   },
@@ -251,6 +260,12 @@
      "feedback": {
       "consell": "Correcte.",
       "greu": "SCA amb elevació del ST: no es pot quedar."
+     },
+     "accio": {
+      "resolucio": [
+       "alta",
+       "rebuig"
+      ]
      }
     },
     {
@@ -263,6 +278,10 @@
      "feedback": {
       "consell": "No cal.",
       "greu": "Un IAM necessita SVA i hemodinàmica."
+     },
+     "accio": {
+      "resolucio": "trasllat",
+      "mode": "SVB"
      }
     },
     {
@@ -275,6 +294,11 @@
      "feedback": {
       "consell": "ECG normal: sense indicació.",
       "greu": "Correcte: Codi IAM."
+     },
+     "accio": {
+      "resolucio": "trasllat",
+      "mode": "SVA",
+      "desti": "hemodinamica"
      }
     }
    ]

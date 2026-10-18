@@ -46,25 +46,37 @@
      "id": "immediata",
      "text": "Activar USVB + USVA més properes de forma immediata i retrucar",
      "valoracio": "optima",
-     "feedback": "\"No contesta\" és categoria d'activació immediata (Taula 1, A): USVB + USVA sense esperar la valoració."
+     "feedback": "\"No contesta\" és categoria d'activació immediata (Taula 1, A): USVB + USVA sense esperar la valoració.",
+     "accio": {
+      "recursos": "sva_svb"
+     }
     },
     {
      "id": "svb_320",
      "text": "Activar USVB, USVA en 3.20 SEM i passar a valorar",
      "valoracio": "suboptima",
-     "feedback": "El 3.20 és per a categories que no són d'activació immediata. Una persona que no contesta ho és: es perden minuts de SVA."
+     "feedback": "El 3.20 és per a categories que no són d'activació immediata. Una persona que no contesta ho és: es perden minuts de SVA.",
+     "accio": {
+      "recursos": "svb_320"
+     }
     },
     {
      "id": "svb_sola",
      "text": "Activar només USVB i passar a valorar",
      "valoracio": "perillosa",
-     "feedback": "Infratriatge: sense SVA en una possible aturada."
+     "feedback": "Infratriatge: sense SVA en una possible aturada.",
+     "accio": {
+      "recursos": "svb"
+     }
     },
     {
      "id": "valorar",
      "text": "Passar a valorar sense activar cap recurs",
      "valoracio": "perillosa",
-     "feedback": "En una categoria d'activació immediata no s'espera la valoració clínica per activar."
+     "feedback": "En una categoria d'activació immediata no s'espera la valoració clínica per activar.",
+     "accio": {
+      "recursos": "cap"
+     }
     }
    ]
   },
@@ -272,6 +284,11 @@
      "feedback": {
       "aturada": "Correcte: PCR recuperada, centre amb hemodinàmica i UCI.",
       "hipoglucemia": "Hipoglucèmia resolta: no cal SVA ni hemodinàmica."
+     },
+     "accio": {
+      "resolucio": "trasllat",
+      "mode": "SVA",
+      "desti": "hemodinamica"
      }
     },
     {
@@ -284,6 +301,10 @@
      "feedback": {
       "aturada": "Un pacient intubat post-ROSC no pot anar en SVB.",
       "hipoglucemia": "Acceptable, però si està resolta i acompanyada pot quedar a domicili."
+     },
+     "accio": {
+      "resolucio": "trasllat",
+      "mode": "SVB"
      }
     },
     {
@@ -296,6 +317,12 @@
      "feedback": {
       "aturada": "Infratriatge greu.",
       "hipoglucemia": "Correcte: resolta, acompanyada i amb pautes; cal avisar el seu metge."
+     },
+     "accio": {
+      "resolucio": [
+       "alta",
+       "rebuig"
+      ]
      }
     }
    ]

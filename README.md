@@ -10,8 +10,8 @@ npm start            # http://localhost:8080
 
 La guàrdia la juguen dues posicions alhora, cadascuna des del seu ordinador:
 
-- **Consultor** (`/consultor`): cua de trucades que sonen i s'abandonen si no es despengen, consulta sanitària en format conversa (cada pregunta, la seva resposta), fitxa de valoració amb els signes d'alarma, nivell N1-N5, consell, reiteracions i la consulta de trasllat quan la unitat és al lloc.
-- **UCT** (`/uct`, auxiliar i coordinació): safata d'incidents, activació i desactivació d'unitats al mapa, cobertura per zona, ràdio de les unitats (3.0, 3.1, 3.51, 3.6) i decisions operatives (activació, reajust, accés).
+- **Consultor** (`/consultor`): cua de trucades que sonen i s'abandonen si no es despengen, consulta sanitària en format conversa (cada pregunta, la seva resposta), fitxa de valoració amb els signes d'alarma, barra de nivell N1-N5 (es pot canviar fins a penjar), consell, reiteracions i, quan la unitat és al lloc, la resolució del servei: trasllat (assistit o no, i a quin hospital), alta in situ o rebuig.
+- **UCT** (`/uct`, auxiliar i coordinació): safata d'incidents, activació i desactivació d'unitats al mapa, cobertura per zona, ràdio de les unitats (codis 3), prealerta de SVA (3.20 SEM) i avisos a altres serveis. La UCT no respon preguntes: el joc valora el que ha activat i quan.
 - Es comuniquen amb un canal de sala (missatges ràpids o escrits).
 
 El **tutor** (`/tutor`) prepara la guàrdia (CECOS, temàtiques, ritme, velocitat del rellotge, si la valoració és immediata o al final de cada incident, nota de briefing), la dirigeix (fer entrar incidents per temàtica, avaries, pics d'activitat, informació nova al registre) i veu la realitat de cada cas i totes les decisions. En acabar té la reconstrucció cronològica de la guàrdia.

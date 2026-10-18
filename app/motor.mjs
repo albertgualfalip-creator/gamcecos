@@ -95,6 +95,46 @@ export function avaluaNivell(pas, nivell, variant) {
   return { valoracio: pas.valoracio[variant][String(nivell)], feedback: perVariant(pas.feedback, variant) };
 }
 
+// What the team can do instead of answering a question. A case option describes the actions it stands for
+// ("accio"), and the team's real actions are matched against those descriptions.
+export const RECURSOS = { cap: 'Sense recurs', svb: 'Només SVB', svb_320: 'SVB + SVA en 3.20 SEM', sva_svb: 'SVA + SVB', sva_svb_hems: 'SVA + SVB + helicòpter' };
+export const SERVEIS = { mossos: 'Mossos', bombers: 'Bombers', claus: 'Contacte de claus', pades: 'PADES' };
+export const RESOLUCIONS = { trasllat: 'Trasllat', alta: 'Sense trasllat (alta in situ, queda al domicili o al centre)', rebuig: 'Rebuig del trasllat (alta voluntària)' };
+export const MODES = { SVA: 'Assistit (SVA)', SVB: 'No assistit (SVB)' };
+export const CAPACITATS = { hemodinamica: 'Hemodinàmica', ictus: 'Trombectomia', trauma: 'Trauma greu', psiquiatria: 'Psiquiatria', tc: 'Urgències amb TC' };
+const RELAXA = { svb_320: 'svb', sva_svb_hems: 'sva_svb' };
+
+// A step is played with actions (no question) when every option says which actions it stands for
+export const esImplicit = pas => pas.tipus === 'nivell' || (pas.opcions?.length > 0 && pas.opcions.every(o => o.accio));
+
+function condicions(accio) {
+  return Object.entries(accio).flatMap(([k, v]) => (k === 'serveis' ? Object.entries(v).map(([s, si]) => [`serveis.${s}`, si]) : [[k, v]]));
+}
+
+function compleix([k, v], fet) {
+  if (k.startsWith('serveis.')) return (fet.serveis || []).includes(k.slice(8)) === v;
+  if (k === 'desti') return (fet.capacitats || []).includes(v);
+  return Array.isArray(v) ? v.includes(fet[k]) : fet[k] === v;
+}
+
+// Option that best describes what the team did: every condition met, the most specific first. When none fits
+// exactly, the closest one with the same resources or resolution counts, at most as suboptimal.
+export function avaluaAccions(pas, fet, variant) {
+  const valor = o => PUNTS[perVariant(o.valoracio, variant)] ?? 0;
+  const exacta = f => pas.opcions.filter(o => condicions(o.accio).every(c => compleix(c, f)))
+    .sort((a, b) => condicions(b.accio).length - condicions(a.accio).length || valor(b) - valor(a))[0];
+  const o = exacta(fet) || (RELAXA[fet.recursos] && exacta({ ...fet, recursos: RELAXA[fet.recursos] }));
+  if (o) return { opcio: o.id, valoracio: perVariant(o.valoracio, variant), feedback: perVariant(o.feedback, variant) };
+  const principal = ([k]) => k === 'recursos' || k === 'resolucio';
+  const propera = pas.opcions
+    .filter(x => condicions(x.accio).filter(principal).every(c => compleix(c, fet) || compleix(c, { ...fet, recursos: RELAXA[fet.recursos] })))
+    .map(x => ({ x, falten: condicions(x.accio).filter(c => !compleix(c, fet)).length }))
+    .sort((a, b) => a.falten - b.falten || valor(b.x) - valor(a.x))[0]?.x;
+  if (!propera) return null;
+  return { opcio: propera.id, valoracio: pitjor(perVariant(propera.valoracio, variant), 'suboptima'),
+    feedback: `El més semblant al que heu fet: "${propera.text}". ${perVariant(propera.feedback, variant) || ''}`.trim() };
+}
+
 export function avaluaRetrucada(pas, triades) {
   const claus = pas.preguntes.filter(p => p.clau);
   const falten = claus.filter(p => !triades.includes(p.id));

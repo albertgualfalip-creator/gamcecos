@@ -46,19 +46,28 @@
      "id": "svb_valorar",
      "text": "Activar USVB i valorar per telèfon",
      "valoracio": "optima",
-     "feedback": "No és categoria d'activació immediata: USVB activada i la USVA espera la valoració clínica."
+     "feedback": "No és categoria d'activació immediata: USVB activada i la USVA espera la valoració clínica.",
+     "accio": {
+      "recursos": "svb"
+     }
     },
     {
      "id": "sva_svb",
      "text": "Activar USVB + USVA de forma immediata",
      "valoracio": "suboptima",
-     "feedback": "Persona conscient que ha caigut: no és Taula 1. Primer valorar."
+     "feedback": "Persona conscient que ha caigut: no és Taula 1. Primer valorar.",
+     "accio": {
+      "recursos": "sva_svb"
+     }
     },
     {
      "id": "valorar",
      "text": "Valorar per telèfon abans d'activar res",
      "valoracio": "acceptable",
-     "feedback": "Possible, però la USVB s'activa en qualsevol criteri de demanda: la valoració no hauria de retardar-la."
+     "feedback": "Possible, però la USVB s'activa en qualsevol criteri de demanda: la valoració no hauria de retardar-la.",
+     "accio": {
+      "recursos": "cap"
+     }
     }
    ]
   },
@@ -190,6 +199,11 @@
      "feedback": {
       "tce_aco": "Correcte: cal TC per l'anticoagulant; si es rebutja, queda documentat (alta voluntària) amb pautes de reconsulta.",
       "tce_deteriorament": "Amb deteriorament de consciència el pacient no pot decidir: cal escalar a SVA i traslladar."
+     },
+     "accio": {
+      "resolucio": "trasllat",
+      "mode": "SVB",
+      "desti": "tc"
      }
     },
     {
@@ -202,6 +216,12 @@
      "feedback": {
       "tce_aco": "Cal informar del risc, documentar l'alta voluntària i donar pautes de reconsulta.",
       "tce_deteriorament": "Risc d'hemorràgia intracranial no tractada."
+     },
+     "accio": {
+      "resolucio": [
+       "rebuig",
+       "alta"
+      ]
      }
     },
     {
@@ -214,6 +234,11 @@
      "feedback": {
       "tce_aco": "Estable i conscient: no necessita SVA.",
       "tce_deteriorament": "Correcte: deteriorament neurològic en anticoagulat, SVA i trasllat."
+     },
+     "accio": {
+      "resolucio": "trasllat",
+      "mode": "SVA",
+      "desti": "tc"
      }
     }
    ],

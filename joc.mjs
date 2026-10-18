@@ -3,6 +3,7 @@
 import {
   PUNTS, CATEGORIA, aleatori, distanciaKm, tempsArribada, enServei, entornDe, triaVariant, baralla, rolDe, faseDe,
   perVariant, avaluaDecisio, avaluaNivell, avaluaRetrucada, comboDe, avaluaCombo, avaluaUnitats, avaluaActivacio, desenllac, pitjor,
+  esImplicit, avaluaAccions, RECURSOS, SERVEIS, RESOLUCIONS, MODES,
 } from './app/motor.mjs';
 
 const RADI_KM = 60;
@@ -10,7 +11,11 @@ const ESPERA_ABANDONAMENT = 120;      // real seconds before a ringing call hang
 const SEGONS_INFORME = 120;           // simulated seconds on scene before the unit reports to the consultor
 const MINUTS_TRASLLAT = 35;           // simulated minutes of transport and transfer
 const MINUTS_SENSE_TRASLLAT = 8;
+const SEGONS_RETRUCADA = 10;          // real seconds before a 112 data card reaches the consultor's queue to be called back
+const FINESTRA_ACTIVACIO = 60;        // real seconds after the alert when the initial activation is judged
+const KM_DESTI_MES_LLUNY = 15;        // extra km over the nearest suitable hospital before the destination counts as worse
 const SENSE_TRASLLAT = new Set(['alta', 'queda', 'confort', 'acceptar']);
+const RELAXA_COMBO = { svb_320: 'svb' };
 const NIVELLS = [1, 2, 3, 4, 5].map(n => ({ id: String(n), text: `N${n}` }));
 // A population point is covered when the nearest free unit of each kind arrives within these minutes
 const LLINDARS = { urba: { SVB: 10, SVA: 15 }, suburba: { SVB: 15, SVA: 20 }, rural: { SVB: 20, SVA: 30 } };
@@ -51,6 +56,12 @@ export class Guardia {
     const vistes = new Set();
     this.bases = this.unitats.filter(u => this.zones.includes(u.subzona || u.regio) && !vistes.has(u.base.nom) && vistes.add(u.base.nom))
       .map(u => ({ nom: u.base.nom, municipi: u.base.municipi, zona: u.subzona || u.regio, lat: u.base.lat, lon: u.base.lon }));
+    // Hospitals with an emergency department, with what they can treat (provisional list in data/capacitats_hospitals.json)
+    const cap = dades.capacitats || { sense_urgencies: [], capacitats: {} };
+    const encaixa = (patrons, nom) => patrons.some(p => new RegExp(p, 'i').test(nom));
+    this.hospitals = dades.centres.filter(c => c.tipus === 'HOSPITAL' && !encaixa(cap.sense_urgencies, c.nom))
+      .map(c => ({ nom: c.nom, municipi: c.municipi, lat: c.lat, lon: c.lon,
+        capacitats: ['tc', ...Object.entries(cap.capacitats).filter(([, ps]) => encaixa(ps, c.nom)).map(([k]) => k)] }));
     this.moviments = [];
     this.historicCobertura = [];
     this.resultatsGlobals = [];
@@ -86,6 +97,7 @@ export class Guardia {
     this.actualitzaUnitats();
     this.actualitzaMoviments();
     this.actualitzaTrucades();
+    this.actualitzaAvaluacions();
     if (this.real - (this.historicCobertura.at(-1)?.real ?? -99) >= SEGONS_HISTORIC) {
       this.historicCobertura.push({ real: this.real, hora: this.textHora(this.hora(), false), zones: this.cobertura().map(c => [c.zona, c.pct]) });
     }
@@ -120,6 +132,7 @@ export class Guardia {
       arribada: this.real, horaAlerta: this.hora(), estat: 'obert',
       decisions: {}, desbloquejat: {}, resultats: [], registre: [], unitats: new Set(), historic: new Set(),
       primeraActivacio: null, preguntes: [], transcript: [], trucadaFeta: false, informe: null, reiteracions: 0,
+      serveis: new Set(), preavis: new Set(),
       dea: this.dades.dea.map(d => ({ nom: d.nom, lat: d.lat, lon: d.lon, dist: Math.round(distanciaKm(d, punt) * 1000) }))
         .filter(d => d.dist <= 400).sort((a, b) => a.dist - b.dist).slice(0, 5),
     };
@@ -130,6 +143,8 @@ export class Guardia {
     if (cas.entrada === 'veu_sanitaria') {
       this.registre(inc, 'T', 'SITREM', 'VPS', '112');
       this.novaTrucada(inc, 'consulta', `${cas.alertant}: trucada passada a valorar`);
+    } else if (!this.pas(inc, 'activacio') || esImplicit(this.pas(inc, 'activacio'))) {
+      inc.retrucadaA = this.real + SEGONS_RETRUCADA;   // the data card goes to the consultor's queue while the UCT activates
     }
     return inc;
   }
@@ -139,6 +154,7 @@ export class Guardia {
   }
 
   passos(inc, fase) { return inc.cas.passos.filter(p => faseDe(p) === fase); }
+  pas(inc, id) { return inc.cas.passos.find(p => p.id === id); }
 
   desbloqueja(inc, fase) {
     for (const p of this.passos(inc, fase)) inc.desbloquejat[p.id] ??= this.real;
@@ -147,7 +163,7 @@ export class Guardia {
   pendents(inc, rol) {
     if (inc.estat === 'tancat') return [];
     return inc.cas.passos
-      .filter(p => p.tipus !== 'retrucada' && rolDe(p) === rol && inc.desbloquejat[p.id] != null && !inc.decisions[p.id])
+      .filter(p => p.tipus !== 'retrucada' && !esImplicit(p) && rolDe(p) === rol && inc.desbloquejat[p.id] != null && !inc.decisions[p.id])
       .filter(p => faseDe(p) !== 'trucada' || this.trucadaActiva()?.incident === inc.id && this.trucadaActiva().tipus === 'consulta')
       .filter(p => faseDe(p) !== 'lloc' || this.trucadaActiva()?.incident === inc.id && this.trucadaActiva().tipus === 'unitat')
       .map(p => this.descriptor(inc, p));
@@ -181,7 +197,140 @@ export class Guardia {
 
     if (pasId === 'activacio') this.novaTrucada(inc, 'consulta', `Retrucada a ${inc.cas.alertant.toLowerCase()}`);
     if (pas.tipus === 'nivell') this.desbloqueja(inc, 'gestio');
-    if (pasId === 'trasllat') this.iniciaTrasllat(inc, opcio);
+    if (pasId === 'trasllat') {
+      const o = pas.opcions.find(x => x.id === opcio);
+      const sense = o?.sense_trasllat ?? SENSE_TRASLLAT.has(opcio);
+      this.iniciaTrasllat(inc, { resolucio: sense ? (opcio === 'acceptar' ? 'rebuig' : 'alta') : 'trasllat' });
+    }
+    return null;
+  }
+
+  // ---------- decisions taken with actions ----------
+
+  // What the UCT has done so far in an incident: resources activated or pre-alerted and other services warned
+  fetUct(inc) {
+    const cats = new Set([...inc.unitats].map(id => CATEGORIA[this.unitats.find(u => u.indicatiu === id).tipus]));
+    const preavis = [...inc.preavis].some(id => this.unitats.find(u => u.indicatiu === id)?.preavis === inc.id);
+    const recursos = cats.has('HEMS') ? 'sva_svb_hems' : cats.has('SVA') ? 'sva_svb' : cats.has('SVB') ? (preavis ? 'svb_320' : 'svb') : 'cap';
+    const unitats = [...inc.unitats].join(', ');
+    const text = [unitats ? `${RECURSOS[recursos]}: ${unitats}` : 'Sense recurs activat', preavis && `3.20: ${[...inc.preavis].join(', ')}`,
+      ...[...inc.serveis].map(s => SERVEIS[s])].filter(Boolean).join(' · ');
+    return { fet: { recursos, serveis: [...inc.serveis] }, text };
+  }
+
+  // Scores a step from what the team did, as if they had chosen the option that describes it
+  avaluaImplicit(inc, pas, fet, text, ajusta = r => r) {
+    const v = inc.variant.id;
+    let r = avaluaAccions(pas, fet, v);
+    if (!r && pas.id === 'activacio') {
+      const combo = avaluaCombo(RELAXA_COMBO[fet.recursos] || fet.recursos, inc.variant.nivell, inc.entorn, null);
+      r = { opcio: null, valoracio: combo.valoracio, feedback: combo.feedback };
+    }
+    r = ajusta(r || { opcio: null, valoracio: 'suboptima', feedback: 'El que heu fet no correspon a cap de les actuacions previstes per al cas.' });
+    const rol = rolDe(pas);
+    inc.decisions[pas.id] = { opcio: r.opcio, text, t: this.real };
+    inc.resultats.push({ pas: pas.titol, rol, valoracio: r.valoracio, feedback: r.feedback, equip: text });
+    const valoracions = Object.fromEntries(pas.opcions.map(o => [o.id, perVariant(o.valoracio, v)]));
+    this.tancades.push({ id: `${inc.id}:${pas.id}`, valoracions, resultat: { equip: text, valoracio: r.valoracio, feedback: r.feedback } });
+    return r;
+  }
+
+  // UCT steps of a phase that are judged now from the state of the incident
+  avaluaPassos(inc, fase) {
+    for (const p of this.passos(inc, fase)) {
+      if (p.tipus === 'nivell' || !esImplicit(p) || rolDe(p) !== 'uct' || inc.desbloquejat[p.id] == null || inc.decisions[p.id]) continue;
+      const { fet, text } = this.fetUct(inc);
+      this.avaluaImplicit(inc, p, fet, text);
+    }
+  }
+
+  actualitzaAvaluacions() {
+    for (const inc of this.incidents.filter(i => i.estat === 'obert')) {
+      if (inc.retrucadaA != null && this.real >= inc.retrucadaA) {
+        inc.retrucadaA = null;
+        this.registre(inc, 'T', 'SITREM', 'PASSA A VALORAR', '112');
+        this.novaTrucada(inc, 'consulta', `Retrucada a ${inc.cas.alertant.toLowerCase()}`);
+      }
+      if (this.real - inc.arribada >= FINESTRA_ACTIVACIO) this.avaluaPassos(inc, 'entrada');
+    }
+  }
+
+  // The consultor sets (or changes) the triage level while on the call; it is judged when the call ends
+  posaNivell(nivell) {
+    const tr = this.trucadaActiva();
+    if (!tr || tr.tipus !== 'consulta') return 'El nivell es posa durant la consulta';
+    const n = Number(nivell);
+    if (![1, 2, 3, 4, 5].includes(n)) return 'Nivell desconegut';
+    const inc = this.incidents.find(i => i.id === tr.incident);
+    if (inc.decisions.nivell?.opcio === String(n)) return null;
+    inc.decisions.nivell = { opcio: String(n), text: `N${n}`, t: this.real, provisional: true };
+    this.registre(inc, 'L', 'CONSULTOR', `Triatge avançat: N${n}`, 'consultor');
+    return null;
+  }
+
+  // Hospitals the consultor can send the patient to: the nearest ones and the nearest with each capability
+  hospitalsPer(inc) {
+    const tots = this.hospitals.map(h => ({ ...h, km: Math.round(distanciaKm(h, inc.punt) * 1.35) })).sort((a, b) => a.km - b.km);
+    const triats = new Set(tots.slice(0, 5));
+    for (const c of ['hemodinamica', 'ictus', 'trauma', 'psiquiatria']) { const h = tots.find(x => x.capacitats.includes(c)); if (h) triats.add(h); }
+    return [...triats].sort((a, b) => a.km - b.km).map(h => ({ ...h, minuts: tempsArribada('SVB', inc.punt, h, inc.entorn) }));
+  }
+
+  // The consultor resolves the on-scene consultation: transfer (how and where), discharge on site or refusal
+  resolTrasllat({ resolucio, mode, desti }) {
+    const tr = this.trucadaActiva();
+    if (!tr || tr.tipus !== 'unitat') return 'Cal tenir en línia la unitat al lloc';
+    const inc = this.incidents.find(i => i.id === tr.incident);
+    const pas = this.pas(inc, 'trasllat');
+    if (!pas || inc.decisions.trasllat) return 'El trasllat ja està decidit';
+    if (!esImplicit(pas)) return 'Aquest cas encara té el trasllat en format de pregunta';
+    if (!RESOLUCIONS[resolucio]) return 'Trieu com es resol el servei';
+    const hospitals = this.hospitalsPer(inc);
+    const hospital = resolucio === 'trasllat' ? hospitals.find(h => h.nom === desti) : null;
+    if (resolucio === 'trasllat' && !MODES[mode]) return 'Trieu si el trasllat és assistit o no';
+    if (resolucio === 'trasllat' && !hospital) return 'Trieu el centre de destí';
+    const text = hospital ? `Trasllat ${mode === 'SVA' ? 'assistit (SVA)' : 'no assistit (SVB)'} a ${hospital.nom}` : RESOLUCIONS[resolucio];
+    const fet = { resolucio, mode: hospital ? mode : null, capacitats: hospital?.capacitats || [] };
+    this.avaluaImplicit(inc, pas, fet, text, r => {
+      if (!hospital || !r.opcio) return r;
+      // A suitable but much farther hospital is worse than the nearest one that can treat the patient
+      const cal = pas.opcions.find(o => o.id === r.opcio).accio.desti || 'tc';
+      const proper = hospitals.find(h => h.capacitats.includes(cal));
+      if (!proper || !hospital.capacitats.includes(cal) || hospital.km - proper.km <= KM_DESTI_MES_LLUNY) return r;
+      return { ...r, valoracio: pitjor(r.valoracio, 'acceptable'), feedback: `${r.feedback || ''} L'hospital útil més proper era ${proper.nom} (${proper.km} km; el vostre, ${hospital.km} km).`.trim() };
+    });
+    this.registre(inc, 'L', 'CONSULTOR', text.toUpperCase(), 'consultor');
+    this.iniciaTrasllat(inc, { resolucio, mode, hospital });
+    return null;
+  }
+
+  // Other services warned by the UCT (police, fire brigade, key holder, palliative team)
+  servei(incident, servei) {
+    const inc = this.incidents.find(i => i.id === Number(incident));
+    if (!inc || inc.estat === 'tancat') return 'Incident tancat';
+    if (!SERVEIS[servei]) return 'Servei desconegut';
+    const actiu = inc.serveis.has(servei);
+    actiu ? inc.serveis.delete(servei) : inc.serveis.add(servei);
+    this.registre(inc, 'O', 'UCT', `${actiu ? 'ANUL·LO L\'AVÍS A' : 'AVÍS A'} ${SERVEIS[servei].toUpperCase()}`, 'uct');
+    return null;
+  }
+
+  // 3.20 SEM: an advanced unit is pre-alerted for the incident while the call is assessed; it stays free
+  preavisa(incident, indicatiu) {
+    const inc = this.incidents.find(i => i.id === Number(incident));
+    const u = this.unitats.find(x => x.indicatiu === indicatiu);
+    if (!inc || inc.estat === 'tancat') return 'Incident tancat';
+    if (!u || u.estat !== 'disponible' || CATEGORIA[u.tipus] !== 'SVA') return 'Només es pot prealertar una SVA lliure';
+    if (u.preavis === inc.id) {
+      u.preavis = null;
+      inc.preavis.delete(indicatiu);
+      this.missatgeRadio(inc, `${indicatiu} ANUL·LACIÓ DEL 3.20`);
+      return null;
+    }
+    if (u.preavis) return `${indicatiu} ja està en 3.20 per a un altre incident`;
+    u.preavis = inc.id;
+    inc.preavis.add(indicatiu);
+    this.missatgeRadio(inc, `${indicatiu} 3.20 SEM: PREALERTA, PENDENT DE VALORACIÓ`);
     return null;
   }
 
@@ -240,8 +389,18 @@ export class Guardia {
     if (!tr) return 'No hi ha cap trucada en curs';
     const inc = this.incidents.find(i => i.id === tr.incident);
     if (tr.tipus === 'consulta') {
-      const falten = this.pendents(inc, 'consultor').filter(d => d.pas !== 'trasllat');
-      if (falten.length) return `Abans de penjar: ${falten.map(d => d.titol.toLowerCase()).join(', ')}`;
+      const falten = this.pendents(inc, 'consultor').filter(d => d.pas !== 'trasllat').map(d => d.titol.toLowerCase());
+      const pasNivell = inc.cas.passos.find(p => p.tipus === 'nivell');
+      if (pasNivell && !inc.decisions.nivell) falten.unshift('poseu el nivell');
+      if (falten.length) return `Abans de penjar: ${falten.join(', ')}`;
+      if (pasNivell && inc.decisions.nivell.provisional) {
+        const n = inc.decisions.nivell.opcio, v = inc.variant.id;
+        const r = avaluaNivell(pasNivell, n, v);
+        inc.decisions.nivell = { ...inc.decisions.nivell, provisional: false };
+        inc.resultats.push({ pas: pasNivell.titol, rol: 'consultor', valoracio: r.valoracio, feedback: r.feedback, equip: `N${n}` });
+        this.tancades.push({ id: `${inc.id}:${pasNivell.id}`, valoracions: Object.fromEntries(NIVELLS.map(o => [o.id, avaluaNivell(pasNivell, o.id, v).valoracio])),
+          resultat: { equip: `N${n}`, valoracio: r.valoracio, feedback: r.feedback } });
+      }
       const pas = inc.cas.passos.find(p => p.tipus === 'retrucada');
       if (pas) {
         const r = avaluaRetrucada(pas, inc.preguntes);
@@ -251,6 +410,7 @@ export class Guardia {
       const v = espera <= 20 ? 'optima' : espera <= 60 ? 'acceptable' : 'suboptima';
       inc.resultats.push({ pas: 'Resposta a la trucada', rol: 'consultor', valoracio: v, feedback: `Despenjada als ${espera} s.`, equip: `${espera} s` });
       inc.trucadaFeta = true;
+      this.avaluaPassos(inc, 'entrada');
       this.desbloqueja(inc, 'gestio');
     }
     if (tr.tipus === 'unitat' && !inc.decisions.trasllat) return 'Abans de penjar, decidiu el trasllat';
@@ -310,7 +470,7 @@ export class Guardia {
   candidates(inc) {
     return this.unitats
       .filter(u => u.estat === 'disponible' && distanciaKm(u, inc.punt) <= (u.tipus === 'HELI' ? 200 : RADI_KM))
-      .map(u => ({ indicatiu: u.indicatiu, tipus: u.tipus, eta: tempsArribada(u.tipus, u, inc.punt, inc.entorn), base: u.base.nom }))
+      .map(u => ({ indicatiu: u.indicatiu, tipus: u.tipus, eta: tempsArribada(u.tipus, u, inc.punt, inc.entorn), base: u.base.nom, preavis: u.preavis ?? null }))
       .sort((a, b) => a.eta - b.eta);
   }
 
@@ -324,7 +484,8 @@ export class Guardia {
     }
     if (!u || u.estat !== 'disponible') return 'Unitat no disponible';
     const eta = tempsArribada(u.tipus, u, inc.punt, inc.entorn);
-    Object.assign(u, { estat: 'assignada', incident: inc.id, fase: 'ruta', eta, arribaT: this.t + eta * 60, moviment: null });
+    if (u.preavis) this.incidents.find(i => i.id === u.preavis)?.preavis.delete(indicatiu);
+    Object.assign(u, { estat: 'assignada', incident: inc.id, fase: 'ruta', eta, arribaT: this.t + eta * 60, moviment: null, preavis: null });
     inc.unitats.add(indicatiu);
     inc.historic.add(indicatiu);
     inc.primeraActivacio ??= this.real;
@@ -369,18 +530,18 @@ export class Guardia {
       const pas = inc.cas.passos.find(p => p.id === 'trasllat');
       const unitat = this.unitats.find(u => inc.unitats.has(u.indicatiu) && u.fase === 'lloc');
       if (!pas || !unitat) continue;
+      this.avaluaPassos(inc, 'gestio');   // what the UCT adjusted before the unit reports from the scene
       inc.informe = `${unitat.indicatiu}: ${perVariant(pas.informe, inc.variant.id)}`;
       this.missatgeRadio(inc, `${unitat.indicatiu} 3.1 S DEMANA CONSULTA SANITÀRIA`);
       this.novaTrucada(inc, 'unitat', `${unitat.indicatiu} · 3.1 S: consulta sanitària des del lloc`);
     }
   }
 
-  iniciaTrasllat(inc, opcio) {
-    const o = inc.cas.passos.find(p => p.id === 'trasllat')?.opcions.find(x => x.id === opcio);
-    const senseTrasllat = o?.sense_trasllat ?? SENSE_TRASLLAT.has(opcio);
+  iniciaTrasllat(inc, { resolucio, mode, hospital }) {
     const alLloc = this.unitats.filter(u => inc.unitats.has(u.indicatiu));
-    const ordre = { SVA: 0, HEMS: 1, SVB: 2 };
-    const portadora = senseTrasllat ? null : [...alLloc].sort((a, b) => ordre[CATEGORIA[a.tipus]] - ordre[CATEGORIA[b.tipus]])[0];
+    // The unit that carries the patient: the advanced one for an assisted transfer, the basic one otherwise
+    const ordre = mode === 'SVB' ? { SVB: 0, SVA: 1, HEMS: 2 } : { SVA: 0, HEMS: 1, SVB: 2 };
+    const portadora = resolucio !== 'trasllat' ? null : [...alLloc].sort((a, b) => ordre[CATEGORIA[a.tipus]] - ordre[CATEGORIA[b.tipus]])[0];
     inc.unitatsFinals = alLloc.map(u => ({ indicatiu: u.indicatiu, tipus: u.tipus, eta: u.eta }));
     for (const u of alLloc) {
       const minuts = u === portadora ? MINUTS_TRASLLAT : MINUTS_SENSE_TRASLLAT;
@@ -389,8 +550,9 @@ export class Guardia {
     }
     const ambSva = alLloc.some(u => CATEGORIA[u.tipus] === 'SVA');
     const assistit = portadora && CATEGORIA[portadora.tipus] !== 'SVB';
-    this.missatgeRadio(inc, portadora ? `${portadora.indicatiu} ${assistit ? '3.51 TRASLLAT ASSISTIT' : '3.52 TRASLLAT NO ASSISTIT'}`
-      : opcio === 'acceptar' ? '3.22 ALTA VOLUNTÀRIA / REBUIG DEL TRASLLAT' : ambSva ? '3.22 M ALTA MÈDICA IN SITU' : 'FINALITZEN L\'ASSISTÈNCIA SENSE TRASLLAT');
+    const desti = hospital ? ` A ${hospital.nom.toUpperCase()}` : '';
+    this.missatgeRadio(inc, portadora ? `${portadora.indicatiu} ${assistit ? '3.51 TRASLLAT ASSISTIT' : '3.52 TRASLLAT NO ASSISTIT'}${desti}`
+      : resolucio === 'rebuig' ? '3.22 ALTA VOLUNTÀRIA / REBUIG DEL TRASLLAT' : ambSva ? '3.22 M ALTA MÈDICA IN SITU' : 'FINALITZEN L\'ASSISTÈNCIA SENSE TRASLLAT');
   }
 
   comprovaTancament(inc) {
@@ -413,6 +575,10 @@ export class Guardia {
   }
 
   tanca(inc) {
+    this.avaluaPassos(inc, 'entrada');
+    this.avaluaPassos(inc, 'gestio');
+    for (const id of inc.preavis) { const u = this.unitats.find(x => x.indicatiu === id); if (u?.preavis === inc.id) u.preavis = null; }
+    inc.preavis.clear();
     const totes = [...inc.historic].map(id => this.unitats.find(u => u.indicatiu === id));
     const finals = (inc.unitatsFinals || totes.map(u => ({ indicatiu: u.indicatiu, tipus: u.tipus, eta: u.eta ?? tempsArribada(u.tipus, u, inc.punt, inc.entorn) })));
     const disponibles = this.candidates(inc);
@@ -479,6 +645,10 @@ export class Guardia {
     if (rol === 'uct' && a.tipus === 'assigna') error = this.assigna(a.incident, a.unitat);
     if (rol === 'uct' && a.tipus === 'allibera') error = this.allibera(a.incident, a.unitat);
     if (rol === 'uct' && a.tipus === 'finalitza') error = this.finalitza(a.incident);
+    if (rol === 'uct' && a.tipus === 'servei') error = this.servei(a.incident, a.servei);
+    if (rol === 'uct' && a.tipus === 'preavisa') error = this.preavisa(a.incident, a.unitat);
+    if (rol === 'consultor' && a.tipus === 'nivell') error = this.posaNivell(a.nivell);
+    if (rol === 'consultor' && a.tipus === 'trasllat') error = this.resolTrasllat(a);
     if (rol === 'consultor' && a.tipus === 'despenja') error = this.despenja(a.trucada);
     if (rol === 'consultor' && a.tipus === 'pregunta') error = this.pregunta(a.pregunta);
     if (rol === 'consultor' && a.tipus === 'penja') error = this.penja();
@@ -593,12 +763,13 @@ export class Guardia {
   // The audience votes the most recent decision that has become available
   actualitzaVotacio() {
     let millor = null;
-    for (const inc of this.incidents) {
-      for (const rol of ['uct', 'consultor']) {
-        for (const d of this.pendents(inc, rol)) {
-          const des = inc.desbloquejat[d.pas];
-          if (!millor || des > millor.des) millor = { ...d, des, id: `${inc.id}:${d.pas}` };
-        }
+    // Steps played with actions are voted too: the audience says what they would do while the team acts
+    for (const inc of this.incidents.filter(i => i.estat === 'obert')) {
+      for (const p of inc.cas.passos) {
+        const des = inc.desbloquejat[p.id];
+        if (p.tipus === 'retrucada' || des == null || (inc.decisions[p.id] && !inc.decisions[p.id].provisional)) continue;
+        if (!esImplicit(p) && !this.pendents(inc, rolDe(p)).some(d => d.pas === p.id)) continue;
+        if (!millor || des > millor.des) millor = { ...this.descriptor(inc, p), des, id: `${inc.id}:${p.id}` };
       }
     }
     this.votacio = millor && { id: millor.id, titol: `Incident ${millor.numero} · ${millor.titol}`, pregunta: millor.pregunta, opcions: millor.opcions, max: 1 };
@@ -641,6 +812,7 @@ export class Guardia {
       }),
       nivell: inc.decisions.nivell ? Number(inc.decisions.nivell.opcio) : null,
       pendents: rol === 'tutor' ? [] : this.pendents(inc, rol),
+      serveis: [...inc.serveis], preavis: [...inc.preavis], valorat: inc.trucadaFeta,
       registre: inc.registre, dea: inc.dea,
       finalitzable: rol === 'uct' && inc.estat === 'obert' && inc.trucadaFeta && !inc.unitats.size && !this.pendents(inc, 'uct').length,
       candidates: rol === 'uct' && inc.estat === 'obert' ? this.candidates(inc).slice(0, 12) : [],
@@ -672,6 +844,12 @@ export class Guardia {
           fitxa: pas ? inc.preguntes.map(id => pas.preguntes.find(q => q.id === id)).filter(q => q?.fitxa)
             .map(q => ({ text: perVariant(q.fitxa, inc.variant.id), alarma: (q.alarma || []).includes(inc.variant.id) })) : [],
           reiteracio: activa.tipus === 'reiteracio' ? REITERACIO : null,
+          demanaNivell: activa.tipus === 'consulta' && inc.cas.passos.some(p => p.tipus === 'nivell'),
+          nivell: inc.decisions.nivell ? Number(inc.decisions.nivell.opcio) : null,
+          trasllat: activa.tipus === 'unitat' && esImplicit(this.pas(inc, 'trasllat') || {}) && !inc.decisions.trasllat
+            ? { hospitals: this.hospitalsPer(inc).map(h => ({ nom: h.nom, municipi: h.municipi, km: h.km, minuts: h.minuts, capacitats: h.capacitats })),
+              unitats: [...inc.unitats].map(id => this.unitats.find(u => u.indicatiu === id)).map(u => ({ indicatiu: u.indicatiu, tipus: u.tipus, fase: u.fase })) }
+            : null,
         },
         incidents: this.incidents.map(i => ({ id: i.id, numero: i.numero, municipi: i.municipi, estat: i.estat,
           nivell: i.decisions.nivell ? Number(i.decisions.nivell.opcio) : null, desenllac: i.estat === 'tancat' ? i.desenllac : null,

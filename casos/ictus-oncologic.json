@@ -46,25 +46,37 @@
      "id": "immediata",
      "text": "Activar USVB + USVA de forma immediata i retrucar",
      "valoracio": "optima",
-     "feedback": "\"Parla molt malament\" és categoria D d'activació immediata (Taula 1). Després de la retrucada es pot desescalar."
+     "feedback": "\"Parla molt malament\" és categoria D d'activació immediata (Taula 1). Després de la retrucada es pot desescalar.",
+     "accio": {
+      "recursos": "sva_svb"
+     }
     },
     {
      "id": "svb_320",
      "text": "Activar USVB, USVA en 3.20 SEM i passar a valorar",
      "valoracio": "suboptima",
-     "feedback": "Amb un possible ictus, cada minut compta: la Taula 1 diu activació immediata."
+     "feedback": "Amb un possible ictus, cada minut compta: la Taula 1 diu activació immediata.",
+     "accio": {
+      "recursos": "svb_320"
+     }
     },
     {
      "id": "svb_sola",
      "text": "Activar només USVB i passar a valorar",
      "valoracio": "perillosa",
-     "feedback": "Si és un codi ictus, sense SVA es retarda tot el circuit."
+     "feedback": "Si és un codi ictus, sense SVA es retarda tot el circuit.",
+     "accio": {
+      "recursos": "svb"
+     }
     },
     {
      "id": "valorar",
      "text": "Passar a valorar sense activar: segurament és la seva malaltia",
      "valoracio": "perillosa",
-     "feedback": "No es pot suposar sense preguntar: primer activar, després valorar."
+     "feedback": "No es pot suposar sense preguntar: primer activar, després valorar.",
+     "accio": {
+      "recursos": "cap"
+     }
     }
    ]
   },
@@ -210,6 +222,9 @@
      "feedback": {
       "codi_ictus": "Correcte: inici < 24 h, bona situació basal, focalitat clara.",
       "final_vida": "No respecta el PIIC ni la voluntat expressada, i ocupa una SVA."
+     },
+     "accio": {
+      "recursos": "sva_svb"
      }
     },
     {
@@ -222,6 +237,9 @@
      "feedback": {
       "codi_ictus": "Un ictus agut ha d'anar a un centre útil amb SVA, no al més proper.",
       "final_vida": "La família ha manifestat que no vol més hospital: cal valorar abans amb el PADES."
+     },
+     "accio": {
+      "recursos": "svb"
      }
     },
     {
@@ -234,6 +252,12 @@
      "feedback": {
       "codi_ictus": "Infratriatge d'un ictus temps-depenent.",
       "final_vida": "Correcte: es respecta el PIIC i es dona suport a domicili."
+     },
+     "accio": {
+      "recursos": "svb",
+      "serveis": {
+       "pades": true
+      }
      }
     },
     {
@@ -246,6 +270,9 @@
      "feedback": {
       "codi_ictus": "Infratriatge greu.",
       "final_vida": "Deixar la família sola amb un deteriorament agut no és adequat: cal contactar PADES / atenció primària avui."
+     },
+     "accio": {
+      "recursos": "cap"
      }
     }
    ]
@@ -270,6 +297,11 @@
      "feedback": {
       "codi_ictus": "Correcte: RACE ≥ 5, centre amb trombectomia.",
       "final_vida": "No respecta el PIIC ni la voluntat de la família."
+     },
+     "accio": {
+      "resolucio": "trasllat",
+      "mode": "SVA",
+      "desti": "ictus"
      }
     },
     {
@@ -282,6 +314,9 @@
      "feedback": {
       "codi_ictus": "Amb RACE alt, l'hospital útil és el de trombectomia.",
       "final_vida": "La família ha demanat no traslladar-lo."
+     },
+     "accio": {
+      "resolucio": "trasllat"
      }
     },
     {
@@ -294,6 +329,12 @@
      "feedback": {
       "codi_ictus": "Infratriatge d'un ictus en finestra terapèutica.",
       "final_vida": "Correcte: es respecta el PIIC i es dona suport a domicili."
+     },
+     "accio": {
+      "resolucio": [
+       "alta",
+       "rebuig"
+      ]
      }
     }
    ]
