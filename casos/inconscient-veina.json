@@ -18,13 +18,21 @@
    "id": "aturada",
    "pes": 0.45,
    "nivell": 1,
-   "descripcio": "Aturada cardiorespiratòria amb respiració agònica (gasping)"
+   "descripcio": "Aturada cardiorespiratòria amb respiració agònica (gasping)",
+   "desenllac": {
+    "bo": "El veí ha iniciat compressions i una veïna ha portat el DEA: primera descàrrega abans de l'arribada de la SVA. Recupera pols (ROSC) i ingressa a l'UCI.",
+    "dolent": "Sense RCP telefònica ni recurs avançat a temps, la SVA arriba a una asistòlia. Èxitus."
+   }
   },
   {
    "id": "hipoglucemia",
    "pes": 0.55,
    "nivell": 2,
-   "descripcio": "Hipoglucèmia greu en pacient diabètica, respira i respon poc"
+   "descripcio": "Hipoglucèmia greu en pacient diabètica, respira i respon poc",
+   "desenllac": {
+    "bo": "La SVB administra glucosa, la pacient recupera la consciència i queda a domicili amb la filla i pautes.",
+    "dolent": "Li han donat aigua amb sucre amb baix nivell de consciència: broncoaspiració i ingrés per pneumònia."
+   }
   }
  ],
  "passos": [
@@ -205,17 +213,16 @@
     }
    ],
    "mostra_dea": true
-  },
-  {
-   "id": "recurs",
-   "tipus": "recurs",
-   "titol": "Recursos",
-   "pregunta": "Quins recursos queden assignats? Trieu la combinació i les unitats al mapa."
   }
  ],
  "aprenentatge": [
   "\"No contesta\" i \"no respira\" són d'activació immediata: USVB + USVA sense esperar.",
   "La primera pregunta de la retrucada sempre és si respira. El gasping no és respirar.",
   "En una aturada, mira al mapa si hi ha un DEA a menys de 300 m i fes que algú el vagi a buscar."
+ ],
+ "tematiques": [
+  "activacio-immediata",
+  "rcp",
+  "valoracio"
  ]
 }

@@ -1,27 +1,28 @@
-// Audience screen: shows the open question and sends this viewer's vote.
+// Audience screen: joins a room with its code and a nickname, votes the open decision and collects points.
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const contingut = document.getElementById('contingut');
 
-function idClient() {
+function guardat(clau, valor) {
   try {
-    let id = localStorage.getItem('gamcecos-client');
-    if (!id) localStorage.setItem('gamcecos-client', id = crypto.randomUUID());
-    return id;
+    if (valor !== undefined) localStorage.setItem(clau, valor);
+    return localStorage.getItem(clau);
   } catch {
-    return window.idTemporal ||= Math.random().toString(36).slice(2);
+    return (window.memoria ||= {})[clau] = valor ?? window.memoria?.[clau] ?? null;
   }
 }
-
+const client = guardat('gamcecos-client') || guardat('gamcecos-client', crypto.randomUUID());
 const sala = (new URLSearchParams(location.search).get('sala') || '').toUpperCase();
-let pas = null, tria = new Set(), enviat = false;
+let nom = guardat('gamcecos-nom') || '';
+let pas = null, tria = new Set(), enviat = false, punts = null;
 
 function render() {
+  const marcador = punts ? `<p class="marcador">${esc(nom)} · <b>${punts.punts} punts</b>${punts.posicio ? ` · posició ${punts.posicio} de ${punts.total}` : ''}</p>` : '';
   if (!pas) {
-    contingut.innerHTML = '<p class="suau">Esperant que l\'equip obri la següent decisió...</p>';
+    contingut.innerHTML = `${marcador}<p class="suau">Esperant la següent decisió de l'equip...</p>`;
     return;
   }
   const max = pas.max || 1;
-  let html = `<div class="suau">${esc(pas.titol)}</div><h2>${esc(pas.pregunta)}</h2>`;
+  let html = `${marcador}<div class="suau">${esc(pas.titol)}</div><h2>${esc(pas.pregunta)}</h2>`;
   if (max > 1) html += `<p class="suau">Pots triar fins a ${max} opcions.</p>`;
   html += `<div class="opcions">${pas.opcions.map(o =>
     `<button class="opcio ${tria.has(o.id) ? 'triada' : ''}" data-id="${o.id}" ${pas.obert ? '' : 'disabled'}>${esc(o.text)}</button>`).join('')}</div>`;
@@ -37,9 +38,7 @@ function render() {
   contingut.innerHTML = html;
   contingut.querySelectorAll('.opcio').forEach(b => b.onclick = () => {
     const id = b.dataset.id;
-    if (max === 1) { tria.clear(); tria.add(id); }
-    else if (tria.has(id)) tria.delete(id);
-    else if (tria.size < max) tria.add(id);
+    if (max === 1) { tria.clear(); tria.add(id); } else if (tria.has(id)) tria.delete(id); else if (tria.size < max) tria.add(id);
     render();
   });
   document.getElementById('envia')?.addEventListener('click', envia);
@@ -47,25 +46,40 @@ function render() {
 
 async function envia() {
   const r = await fetch(`/api/vot?sala=${sala}`, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ client: idClient(), opcions: [...tria] }) });
+    body: JSON.stringify({ client, nom, opcions: [...tria] }) });
   enviat = r.ok;
   render();
 }
 
-if (!sala) {
-  contingut.innerHTML = `<form class="opcions" id="entra"><label>Codi de la sala <input name="sala" maxlength="4" autocapitalize="characters" required
-    style="font:inherit;padding:.6rem;text-transform:uppercase"></label><button class="boto">Entrar</button></form>`;
-  document.getElementById('entra').onsubmit = e => {
-    e.preventDefault();
-    location.search = `?sala=${encodeURIComponent(new FormData(e.target).get('sala').trim().toUpperCase())}`;
-  };
+async function actualitzaPunts() {
+  punts = await fetch(`/api/punts?sala=${sala}&client=${client}`).then(r => r.json()).catch(() => punts);
+  render();
 }
 
-const fonts = sala ? new EventSource(`/api/events?sala=${sala}`) : new EventTarget();
-fonts.onerror = () => { if (fonts.readyState === EventSource.CLOSED) contingut.innerHTML = '<p>No s\'ha trobat la sala. Reviseu el codi.</p>'; };
-fonts.addEventListener('pas', e => {
-  const nou = JSON.parse(e.data);
-  if (!nou || nou.id !== pas?.id || (nou.obert && !pas?.obert)) { tria = new Set(); enviat = false; }
-  pas = nou;
-  render();
-});
+function entra() {
+  const fonts = new EventSource(`/api/events?sala=${sala}&rol=public`);
+  fonts.onerror = () => { if (fonts.readyState === EventSource.CLOSED) contingut.innerHTML = '<p>No s\'ha trobat la sala. Reviseu el codi.</p>'; };
+  fonts.addEventListener('pas', e => {
+    const nou = JSON.parse(e.data);
+    if (!nou || nou.id !== pas?.id || (nou.obert && !pas?.obert)) { tria = new Set(); enviat = false; }
+    pas = nou;
+    render();
+  });
+  fonts.addEventListener('classificacio', actualitzaPunts);
+  actualitzaPunts();
+}
+
+if (!sala || !nom) {
+  contingut.innerHTML = `<form class="opcions" id="entra">
+    <label>Codi de la sala <input name="sala" maxlength="4" value="${esc(sala)}" autocapitalize="characters" required style="text-transform:uppercase"></label>
+    <label>El teu àlies <input name="nom" maxlength="24" value="${esc(nom)}" required></label>
+    <button class="boto">Entrar</button></form>`;
+  document.getElementById('entra').onsubmit = e => {
+    e.preventDefault();
+    const f = new FormData(e.target);
+    guardat('gamcecos-nom', f.get('nom').trim());
+    location.search = `?sala=${encodeURIComponent(f.get('sala').trim().toUpperCase())}`;
+  };
+} else {
+  entra();
+}

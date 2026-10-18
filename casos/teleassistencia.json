@@ -6,11 +6,45 @@
  "tipus_demanda": "Malaltia en domicili",
  "carta": "TRUCA TELEASSISTÈNCIA. INFORMA QUE LA USUÀRIA HA PREMUT EL BOTÓ D'ALARMA I NO CONTESTA. VIU SOLA I UTILITZA BASTÓ, TÉ 81 ANYS.",
  "alertant": "Teleassistència",
- "pacient": {"edat": [81, 81], "sexe": "Dona"},
+ "pacient": {
+  "edat": [
+   81,
+   81
+  ],
+  "sexe": "Dona"
+ },
  "variants": [
-  {"id": "caiguda", "pes": 0.6, "nivell": 3, "descripcio": "Caiguda a casa, porta una hora a terra, conscient, dolor al maluc"},
-  {"id": "inconscient", "pes": 0.25, "nivell": 1, "descripcio": "Trobada inconscient a terra, respira (baix nivell de consciència)"},
-  {"id": "falsa_alarma", "pes": 0.15, "nivell": 5, "descripcio": "Ha premut el botó sense voler; estava al lavabo i no ha sentit el telèfon"}
+  {
+   "id": "caiguda",
+   "pes": 0.6,
+   "nivell": 3,
+   "descripcio": "Caiguda a casa, porta una hora a terra, conscient, dolor al maluc",
+   "desenllac": {
+    "bo": "La SVB entra amb la filla, la valora i la trasllada per sospita de fractura de maluc.",
+    "dolent": "Porta tres hores a terra quan hi entren: rabdomiòlisi i ingrés llarg."
+   }
+  },
+  {
+   "id": "inconscient",
+   "pes": 0.25,
+   "nivell": 1,
+   "descripcio": "Trobada inconscient a terra, respira (baix nivell de consciència)",
+   "desenllac": {
+    "bo": "Bombers obren la porta, la SVA tracta una hipoglucèmia greu i la pacient es recupera.",
+    "dolent": "Sense accés al domicili durant 25 minuts, entra en coma i ingressa a l'UCI."
+   }
+  },
+  {
+   "id": "falsa_alarma",
+   "pes": 0.15,
+   "nivell": 5,
+   "descripcio": "Ha premut el botó sense voler; estava al lavabo i no ha sentit el telèfon",
+   "desenllac": {
+    "bo": "Recurs desactivat ràpid: la unitat queda lliure per a la següent alerta.",
+    "dolent": "Una SVA bloquejada 40 minuts per una alarma involuntària.",
+    "criteri": "sobrerecurs"
+   }
+  }
  ],
  "passos": [
   {
@@ -19,12 +53,48 @@
    "titol": "Activació inicial",
    "pregunta": "Alerta sense veu: només tenim les dades de la teleassistència. Què feu?",
    "opcions": [
-    {"id": "svb_retrucar", "text": "Activar USVB i, mentre va, retrucar la usuària i la teleassistència", "valoracio": {"caiguda": "optima", "inconscient": "acceptable", "falsa_alarma": "acceptable"},
-     "feedback": {"caiguda": "Correcte: no podem valorar-la, cal anar-hi. La retrucada ens dirà si cal més.", "inconscient": "Correcte com a punt de partida; si la retrucada no aclareix res i hi ha signes de gravetat, cal escalar.", "falsa_alarma": "Prudent: sense contacte no es pot descartar res. La retrucada permetrà desactivar."}},
-    {"id": "sva_svb", "text": "Activar USVB + USVA de forma immediata", "valoracio": {"caiguda": "suboptima", "inconscient": "optima", "falsa_alarma": "suboptima"},
-     "feedback": {"caiguda": "Sobretriatge: \"no contesta\" al telèfon no és \"no contesta\" a estímuls. La SVA queda bloquejada.", "inconscient": "Encertat si es confirma que no respon, però a l'entrada no ho sabíem.", "falsa_alarma": "Sobretriatge: una SVA bloquejada per una alarma sense informació clínica."}},
-    {"id": "retrucar_primer", "text": "No activar res fins haver parlat amb la usuària", "valoracio": {"caiguda": "suboptima", "inconscient": "perillosa", "falsa_alarma": "acceptable"},
-     "feedback": {"caiguda": "Una persona gran sola que no contesta: esperar a parlar-hi pot allargar molt el temps a terra.", "inconscient": "Si no contesta perquè està inconscient, es perden minuts.", "falsa_alarma": "Aquest cop ha anat bé, però és arriscat."}}
+    {
+     "id": "svb_retrucar",
+     "text": "Activar USVB i, mentre va, retrucar la usuària i la teleassistència",
+     "valoracio": {
+      "caiguda": "optima",
+      "inconscient": "acceptable",
+      "falsa_alarma": "acceptable"
+     },
+     "feedback": {
+      "caiguda": "Correcte: no podem valorar-la, cal anar-hi. La retrucada ens dirà si cal més.",
+      "inconscient": "Correcte com a punt de partida; si la retrucada no aclareix res i hi ha signes de gravetat, cal escalar.",
+      "falsa_alarma": "Prudent: sense contacte no es pot descartar res. La retrucada permetrà desactivar."
+     }
+    },
+    {
+     "id": "sva_svb",
+     "text": "Activar USVB + USVA de forma immediata",
+     "valoracio": {
+      "caiguda": "suboptima",
+      "inconscient": "optima",
+      "falsa_alarma": "suboptima"
+     },
+     "feedback": {
+      "caiguda": "Sobretriatge: \"no contesta\" al telèfon no és \"no contesta\" a estímuls. La SVA queda bloquejada.",
+      "inconscient": "Encertat si es confirma que no respon, però a l'entrada no ho sabíem.",
+      "falsa_alarma": "Sobretriatge: una SVA bloquejada per una alarma sense informació clínica."
+     }
+    },
+    {
+     "id": "retrucar_primer",
+     "text": "No activar res fins haver parlat amb la usuària",
+     "valoracio": {
+      "caiguda": "suboptima",
+      "inconscient": "perillosa",
+      "falsa_alarma": "acceptable"
+     },
+     "feedback": {
+      "caiguda": "Una persona gran sola que no contesta: esperar a parlar-hi pot allargar molt el temps a terra.",
+      "inconscient": "Si no contesta perquè està inconscient, es perden minuts.",
+      "falsa_alarma": "Aquest cop ha anat bé, però és arriscat."
+     }
+    }
    ]
   },
   {
@@ -34,16 +104,56 @@
    "pregunta": "Teniu temps per a 3 trucades o preguntes: quines feu?",
    "max": 3,
    "preguntes": [
-    {"id": "usuaria", "text": "Trucar directament al telèfon de la usuària", "clau": true,
-     "resposta": {"caiguda": "Contesta molt fluix: \"he caigut, no em puc aixecar, em fa molt mal la cama\".", "inconscient": "No contesta. Sona fins que salta la bústia.", "falsa_alarma": "Contesta: \"ai, perdoni, he tocat el botó sense voler, estic bé\"."}},
-    {"id": "claus", "text": "Teleassistència: teniu claus o un contacte que pugui obrir la porta?", "clau": true,
-     "resposta": {"caiguda": "Tenim la filla com a contacte de claus, viu a 20 minuts.", "inconscient": "La veïna del costat té claus, la truquem ara.", "falsa_alarma": "La filla té claus."}},
-    {"id": "dispositiu", "text": "Teleassistència: el dispositiu ha detectat caiguda o heu sentit res per l'altaveu?", "clau": false,
-     "resposta": {"caiguda": "Sí, el sensor ha detectat una caiguda i sentíem queixes.", "inconscient": "Ha detectat caiguda i no se sent res.", "falsa_alarma": "No hi ha detecció de caiguda, només el botó."}},
-    {"id": "antecedents", "text": "Teleassistència: quines malalties té i quina medicació pren?", "clau": false,
-     "resposta": {"caiguda": "Hipertensa, artrosi. Pren Sintrom.", "inconscient": "Diabètica amb insulina, cardiopatia.", "falsa_alarma": "Hipertensa, res més rellevant."}},
-    {"id": "contacte", "text": "Trucar al contacte familiar per si sap res", "clau": false,
-     "resposta": {"caiguda": "La filla no en sap res, hi va de seguida.", "inconscient": "El fill diu que ahir ja la veia rara i cansada.", "falsa_alarma": "La filla diu que sovint toca el botó sense voler."}}
+    {
+     "id": "usuaria",
+     "text": "Trucar directament al telèfon de la usuària",
+     "clau": true,
+     "resposta": {
+      "caiguda": "Contesta molt fluix: \"he caigut, no em puc aixecar, em fa molt mal la cama\".",
+      "inconscient": "No contesta. Sona fins que salta la bústia.",
+      "falsa_alarma": "Contesta: \"ai, perdoni, he tocat el botó sense voler, estic bé\"."
+     }
+    },
+    {
+     "id": "claus",
+     "text": "Teleassistència: teniu claus o un contacte que pugui obrir la porta?",
+     "clau": true,
+     "resposta": {
+      "caiguda": "Tenim la filla com a contacte de claus, viu a 20 minuts.",
+      "inconscient": "La veïna del costat té claus, la truquem ara.",
+      "falsa_alarma": "La filla té claus."
+     }
+    },
+    {
+     "id": "dispositiu",
+     "text": "Teleassistència: el dispositiu ha detectat caiguda o heu sentit res per l'altaveu?",
+     "clau": false,
+     "resposta": {
+      "caiguda": "Sí, el sensor ha detectat una caiguda i sentíem queixes.",
+      "inconscient": "Ha detectat caiguda i no se sent res.",
+      "falsa_alarma": "No hi ha detecció de caiguda, només el botó."
+     }
+    },
+    {
+     "id": "antecedents",
+     "text": "Teleassistència: quines malalties té i quina medicació pren?",
+     "clau": false,
+     "resposta": {
+      "caiguda": "Hipertensa, artrosi. Pren Sintrom.",
+      "inconscient": "Diabètica amb insulina, cardiopatia.",
+      "falsa_alarma": "Hipertensa, res més rellevant."
+     }
+    },
+    {
+     "id": "contacte",
+     "text": "Trucar al contacte familiar per si sap res",
+     "clau": false,
+     "resposta": {
+      "caiguda": "La filla no en sap res, hi va de seguida.",
+      "inconscient": "El fill diu que ahir ja la veia rara i cansada.",
+      "falsa_alarma": "La filla diu que sovint toca el botó sense voler."
+     }
+    }
    ]
   },
   {
@@ -52,9 +162,27 @@
    "titol": "Nivell de triatge",
    "pregunta": "Amb el que sabeu, quin nivell hi poseu?",
    "valoracio": {
-    "caiguda": {"1": "suboptima", "2": "acceptable", "3": "optima", "4": "suboptima", "5": "perillosa"},
-    "inconscient": {"1": "optima", "2": "acceptable", "3": "perillosa", "4": "perillosa", "5": "perillosa"},
-    "falsa_alarma": {"1": "suboptima", "2": "suboptima", "3": "suboptima", "4": "acceptable", "5": "optima"}
+    "caiguda": {
+     "1": "suboptima",
+     "2": "acceptable",
+     "3": "optima",
+     "4": "suboptima",
+     "5": "perillosa"
+    },
+    "inconscient": {
+     "1": "optima",
+     "2": "acceptable",
+     "3": "perillosa",
+     "4": "perillosa",
+     "5": "perillosa"
+    },
+    "falsa_alarma": {
+     "1": "suboptima",
+     "2": "suboptima",
+     "3": "suboptima",
+     "4": "acceptable",
+     "5": "optima"
+    }
    },
    "feedback": {
     "caiguda": "Caiguda amb dolor al maluc, conscient: N3. Atenció: pren Sintrom; si hi ha cop al cap, el modulador fa pujar la prioritat.",
@@ -68,24 +196,58 @@
    "titol": "Accés al domicili",
    "pregunta": "La unitat arribarà abans que les claus. Com s'entra al domicili?",
    "opcions": [
-    {"id": "claus_bombers", "text": "Que el contacte de claus hi vagi i, si la unitat arriba i no pot entrar, activar Bombers", "valoracio": {"caiguda": "optima", "inconscient": "acceptable", "falsa_alarma": "optima"},
-     "feedback": {"caiguda": "Correcte: es prioritza l'accés amb claus i Bombers com a reforç.", "inconscient": "Correcte però lent: amb sospita de baix nivell de consciència, val la pena activar Bombers ja.", "falsa_alarma": "Correcte, tot i que si es desactiva el recurs ja no cal."}},
-    {"id": "bombers_ja", "text": "Activar Bombers ara per obrir la porta", "valoracio": {"caiguda": "acceptable", "inconscient": "optima", "falsa_alarma": "suboptima"},
-     "feedback": {"caiguda": "Acceptable si les claus tardaran molt; obrir una porta té cost.", "inconscient": "Correcte: no podem esperar 20 minuts amb una persona que no respon.", "falsa_alarma": "No cal: està bé i ho ha confirmat."}},
-    {"id": "esperar", "text": "Esperar que arribi la filla amb les claus", "valoracio": {"caiguda": "suboptima", "inconscient": "perillosa", "falsa_alarma": "acceptable"},
-     "feedback": {"caiguda": "Allarga el temps a terra; cal un pla B.", "inconscient": "Massa temps sense accés al pacient.", "falsa_alarma": "Ja no cal entrar."}}
+    {
+     "id": "claus_bombers",
+     "text": "Que el contacte de claus hi vagi i, si la unitat arriba i no pot entrar, activar Bombers",
+     "valoracio": {
+      "caiguda": "optima",
+      "inconscient": "acceptable",
+      "falsa_alarma": "optima"
+     },
+     "feedback": {
+      "caiguda": "Correcte: es prioritza l'accés amb claus i Bombers com a reforç.",
+      "inconscient": "Correcte però lent: amb sospita de baix nivell de consciència, val la pena activar Bombers ja.",
+      "falsa_alarma": "Correcte, tot i que si es desactiva el recurs ja no cal."
+     }
+    },
+    {
+     "id": "bombers_ja",
+     "text": "Activar Bombers ara per obrir la porta",
+     "valoracio": {
+      "caiguda": "acceptable",
+      "inconscient": "optima",
+      "falsa_alarma": "suboptima"
+     },
+     "feedback": {
+      "caiguda": "Acceptable si les claus tardaran molt; obrir una porta té cost.",
+      "inconscient": "Correcte: no podem esperar 20 minuts amb una persona que no respon.",
+      "falsa_alarma": "No cal: està bé i ho ha confirmat."
+     }
+    },
+    {
+     "id": "esperar",
+     "text": "Esperar que arribi la filla amb les claus",
+     "valoracio": {
+      "caiguda": "suboptima",
+      "inconscient": "perillosa",
+      "falsa_alarma": "acceptable"
+     },
+     "feedback": {
+      "caiguda": "Allarga el temps a terra; cal un pla B.",
+      "inconscient": "Massa temps sense accés al pacient.",
+      "falsa_alarma": "Ja no cal entrar."
+     }
+    }
    ]
-  },
-  {
-   "id": "recurs",
-   "tipus": "recurs",
-   "titol": "Recursos",
-   "pregunta": "Amb tota la informació, quins recursos queden assignats?"
   }
  ],
  "aprenentatge": [
   "Una alerta sense veu no es pot valorar: es retruca la usuària, la teleassistència i el contacte.",
   "\"No contesta al telèfon\" no és el mateix que \"no contesta a estímuls\" de la Taula 1.",
   "Planifiqueu l'accés al domicili (claus, veïns, Bombers) des del primer moment."
+ ],
+ "tematiques": [
+  "alerta-sense-veu",
+  "valoracio"
  ]
 }

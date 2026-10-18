@@ -150,3 +150,40 @@ export function majoria(recompte) {
   const entrades = Object.entries(recompte || {}).filter(([, n]) => n > 0).sort((a, b) => b[1] - a[1]);
   return entrades.length ? entrades[0][0] : null;
 }
+
+// Who takes each kind of decision in the team (AURE roles)
+export const ROLS = { gestor: 'Gestor de recursos', consultor: 'Consultor', coordinacio: 'Coordinació' };
+export function rolDe(pas) {
+  if (pas.rol) return pas.rol;
+  if (pas.id === 'activacio') return 'gestor';
+  if (['retrucada', 'nivell', 'maniobres', 'consell'].includes(pas.id) || pas.tipus !== 'decisio') return 'consultor';
+  return 'coordinacio';
+}
+
+// Shuffled queue of cases for the selected themes (all cases if none selected); reshuffled when exhausted
+export function baralla(casos, tematiques, rnd) {
+  const valids = tematiques?.length ? casos.filter(c => c.tematiques?.some(t => tematiques.includes(t))) : casos;
+  const llista = [...(valids.length ? valids : casos)];
+  for (let i = llista.length - 1; i > 0; i--) {
+    const j = Math.floor(rnd() * (i + 1));
+    [llista[i], llista[j]] = [llista[j], llista[i]];
+  }
+  return llista;
+}
+
+// Seconds from the alert to the first unit assigned, for time-dependent levels
+export function avaluaActivacio(nivell, segons) {
+  if (nivell > 2) return { valoracio: 'optima', feedback: '' };
+  if (segons == null) return { valoracio: 'perillosa', feedback: 'Cap unitat activada en un incident N1/N2.' };
+  const valoracio = segons <= 90 ? 'optima' : segons <= 180 ? 'acceptable' : 'suboptima';
+  return { valoracio, feedback: `Primera unitat activada als ${segons} s de l'alerta${segons > 90 ? ' (objectiu: menys de 90 s en N1/N2)' : ''}.` };
+}
+
+// Outcome: bad when any decision was dangerous, the response to a time-dependent case was late or, for
+// variants whose risk is wasting resources ("sobrerecurs"), when more resources than needed were sent
+export function desenllac(resultats, nivell, criteri) {
+  const greu = resultats.some(r => r.valoracio === 'perillosa');
+  const tard = nivell <= 2 && resultats.some(r => r.tipus === 'temps' && r.valoracio === 'suboptima');
+  const sobrerecurs = criteri === 'sobrerecurs' && resultats.some(r => r.tipus === 'recursos' && ['suboptima', 'perillosa'].includes(r.valoracio));
+  return greu || tard || sobrerecurs ? 'dolent' : 'bo';
+}

@@ -1,0 +1,10 @@
+[
+ {"id": "activacio-immediata", "nom": "Activació immediata (Taula 1)", "descripcio": "Reconèixer les categories que activen USVB + USVA sense esperar la valoració."},
+ {"id": "alerta-sense-veu", "nom": "Alertes sense veu", "descripcio": "Teleassistència, eCall i cartes de dades: decidir amb informació incompleta i retrucar."},
+ {"id": "valoracio", "nom": "Valoració estructurada i nivell", "descripcio": "Preguntes clau de la retrucada i assignació del nivell N1-N5."},
+ {"id": "desescalada", "nom": "Reavaluació i desescalada", "descripcio": "Ajustar la resposta quan la retrucada canvia el que sabíem."},
+ {"id": "seguretat", "nom": "Seguretat i altres cossos", "descripcio": "Escenes amb risc: Mossos, Bombers, zona segura."},
+ {"id": "moduladors", "nom": "Moduladors", "descripcio": "PIIC, PADES, anticoagulants, fragilitat: quan escalen o desescalen la resposta."},
+ {"id": "consell", "nom": "Consell telefònic (N4-N5)", "descripcio": "No gastar recursos on no cal i donar pautes de reconsulta."},
+ {"id": "rcp", "nom": "RCP telefònica i DEA", "descripcio": "Reconèixer l'aturada, guiar la RCP i fer servir el DEA proper."}
+]

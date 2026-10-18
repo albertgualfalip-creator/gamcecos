@@ -8,10 +8,12 @@ Joc en equip per entrenar l'atenció no presencial i la gestió de recursos de l
 npm start            # http://localhost:8080
 ```
 
-- **Sala** (`/`): pantalla per al projector i l'equip. Es tria la zona, l'hora del torn i el cas.
-- **Públic** (`/vota`, amb el QR de la sala o el codi de 4 lletres): cada participant vota des del mòbil; l'equip veu els vots abans de confirmar.
-- Només cal Node.js (sense dependències). Leaflet i el generador de QR van inclosos a `app/vendor/`, així funciona en xarxes on els CDN estan bloquejats. El fons del mapa (OpenStreetMap) sí que necessita internet.
-- Proves: `npm test`.
+1. **Tutor** (`/tutor`): tria les CECOS, les temàtiques a treballar, l'hora del torn, el nombre d'incidents i el ritme. Crea la guàrdia i obté un codi de 4 lletres.
+2. **Equip** (`/sala`, al projector): entra amb el codi. Quan el tutor inicia la guàrdia, els incidents van entrant a l'atzar (segons les temàtiques) amb so i rellotge. Cada decisió porta el rol que la pren: **gestor de recursos** (activa i allibera unitats al mapa), **consultor** (retrucada, nivell, consell) i **coordinació** (reajustos). En tancar cada incident es veu el desenllaç del pacient.
+3. **Públic** (`/vota`, amb el QR): vota cada decisió amb un àlies i suma punts; hi ha classificació.
+4. El **tutor** veu el que l'equip no veu (què passa realment i el nivell real), llança incidents d'una temàtica concreta, injecta complicacions (avaria d'una unitat, pic d'activitat), afegeix informació al registre d'un incident, pausa i finalitza.
+
+Només cal Node.js (sense dependències). Leaflet i el generador de QR van inclosos a `app/vendor/`. Proves: `npm test`.
 
 ## Casos
 

@@ -1,0 +1,15 @@
+{
+ "nota": "Agrupació provisional per zona: cal ajustar-la a les CECOS reals i a les zones que cobreix cadascuna.",
+ "cecos": [
+  {"id": "barcelona", "nom": "Barcelona ciutat", "zones": ["Barcelona ciutat"]},
+  {"id": "metro-nord", "nom": "Metropolitana Nord", "zones": ["Metro Nord"]},
+  {"id": "metro-sud", "nom": "Metropolitana Sud", "zones": ["Metro Sud"]},
+  {"id": "penedes", "nom": "Penedès", "zones": ["Penedès"]},
+  {"id": "cat-central", "nom": "Catalunya Central", "zones": ["Catalunya Central"]},
+  {"id": "girona", "nom": "Girona", "zones": ["Girona"]},
+  {"id": "lleida", "nom": "Lleida", "zones": ["Lleida"]},
+  {"id": "alt-pirineu", "nom": "Alt Pirineu i Aran", "zones": ["Alt Pirineu i Aran"]},
+  {"id": "camp-tarragona", "nom": "Camp de Tarragona", "zones": ["Camp de Tarragona"]},
+  {"id": "terres-ebre", "nom": "Terres de l'Ebre", "zones": ["Terres de l'Ebre"]}
+ ]
+}

@@ -21,6 +21,18 @@ def fetch():
     with urllib.request.urlopen(API + '?' + urllib.parse.urlencode(params), timeout=120) as r:
         return json.load(r)
 
+def titol(nom):
+    """Title case for Catalan place names: "ARENYS DE MAR" -> "Arenys de Mar", "L'HOSPITALET" -> "L'Hospitalet"."""
+    menors = {'de', 'del', 'dels', 'la', 'les', 'el', 'els', 'i'}
+    paraules = []
+    for i, p in enumerate(nom.lower().split()):
+        m = re.match(r"^([dl]')(.*)", p)
+        if m:
+            paraules.append((m[1] if i else m[1].upper()) + m[2][:1].upper() + m[2][1:])
+        else:
+            paraules.append(p if i and p in menors else p[:1].upper() + p[1:])
+    return ' '.join(paraules)
+
 def horari(propietats):
     m = re.search(r'Horari\|([^|]*)', propietats or '')
     return m[1].strip() if m else None
@@ -34,7 +46,7 @@ for r in fetch():
     if tipus is None: continue
     # Region/subzone of the nearest unit base, so centres follow the same zones as the units
     regio, subzona = zones.nearest(lat, lon)
-    centres.append(dict(id=r['idequipament'], nom=r['nom'].strip(), tipus=tipus, municipi=r.get('poblacio', '').title(),
+    centres.append(dict(id=r['idequipament'], nom=r['nom'].strip(), tipus=tipus, municipi=titol(r.get('poblacio', '')),
                         lat=round(lat, 6), lon=round(lon, 6), horari=horari(r.get('propietats')),
                         regio=regio, subzona=subzona))
 

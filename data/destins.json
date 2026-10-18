@@ -15,7 +15,7 @@
  {
   "nom": "Hospital Universitari de Bellvitge",
   "tipus": "HOSPITAL",
-  "municipi": "L'Hospitalet De Llobregat",
+  "municipi": "L'Hospitalet de Llobregat",
   "lat": 41.342473,
   "lon": 2.103328,
   "regio": "Barcelona",
@@ -210,7 +210,7 @@
  {
   "nom": "Parc Sanitari Sant Joan de Déu-General",
   "tipus": "HOSPITAL",
-  "municipi": "Sant Boi De Llobregat",
+  "municipi": "Sant Boi de Llobregat",
   "lat": 41.353227,
   "lon": 2.031754,
   "regio": "Barcelona",
@@ -236,7 +236,7 @@
  {
   "nom": "Fundació Privada Hospital de Mollet",
   "tipus": "HOSPITAL",
-  "municipi": "Mollet Del Vallès",
+  "municipi": "Mollet del Vallès",
   "lat": 41.542327,
   "lon": 2.201962,
   "regio": "Barcelona",
@@ -340,7 +340,7 @@
  {
   "nom": "Hospital Residencia Sant Camil",
   "tipus": "HOSPITAL",
-  "municipi": "Sant Pere De Ribes",
+  "municipi": "Sant Pere de Ribes",
   "lat": 41.254106,
   "lon": 1.766278,
   "regio": "Barcelona",
@@ -431,7 +431,7 @@
  {
   "nom": "Hospital General de l'Hospitalet-CSI",
   "tipus": "HOSPITAL",
-  "municipi": "L'Hospitalet De Llobregat",
+  "municipi": "L'Hospitalet de Llobregat",
   "lat": 41.374442,
   "lon": 2.106724,
   "regio": "Barcelona",
@@ -444,7 +444,7 @@
  {
   "nom": "Hospital de l'Esperit Sant",
   "tipus": "HOSPITAL",
-  "municipi": "Santa Coloma De Gramenet",
+  "municipi": "Santa Coloma de Gramenet",
   "lat": 41.438076,
   "lon": 2.212027,
   "regio": "Barcelona",
@@ -457,7 +457,7 @@
  {
   "nom": "Hospital Comarcal de l'Alt Penedès",
   "tipus": "HOSPITAL",
-  "municipi": "Vilafranca Del Penedès",
+  "municipi": "Vilafranca del Penedès",
   "lat": 41.355985,
   "lon": 1.705755,
   "regio": "Barcelona",
@@ -522,7 +522,7 @@
  {
   "nom": "Hospital Sant Joan de Déu (Esplugues)",
   "tipus": "HOSPITAL",
-  "municipi": "Esplugues De Llobregat",
+  "municipi": "Esplugues de Llobregat",
   "lat": 41.384035,
   "lon": 2.101015,
   "regio": "Barcelona",
@@ -548,7 +548,7 @@
  {
   "nom": "Fundació Hospital Comarcal Sant Antoni Abat",
   "tipus": "HOSPITAL",
-  "municipi": "Vilanova I La Geltrú",
+  "municipi": "Vilanova i la Geltrú",
   "lat": 41.228712,
   "lon": 1.722825,
   "regio": "Barcelona",
@@ -665,7 +665,7 @@
  {
   "nom": "Hospital Comarcal de Mora d'Ebre",
   "tipus": "HOSPITAL",
-  "municipi": "Móra D'Ebre",
+  "municipi": "Móra d'Ebre",
   "lat": 41.0956,
   "lon": 0.637512,
   "regio": "Terres de l'Ebre",
@@ -691,7 +691,7 @@
  {
   "nom": "CUAP Santa Coloma de Gramenet",
   "tipus": "CUAP",
-  "municipi": "Santa Coloma De Gramenet",
+  "municipi": "Santa Coloma de Gramenet",
   "lat": 41.453104,
   "lon": 2.206155,
   "regio": "Barcelona",
@@ -704,7 +704,7 @@
  {
   "nom": "Hospital de La Seu d'Urgell",
   "tipus": "HOSPITAL",
-  "municipi": "La Seu D'Urgell",
+  "municipi": "La Seu d'Urgell",
   "lat": 42.354882,
   "lon": 1.460881,
   "regio": "Alt Pirineu i Aran",
@@ -743,7 +743,7 @@
  {
   "nom": "CUAP Sant Cugat",
   "tipus": "CUAP",
-  "municipi": "Sant Cugat Del Vallès",
+  "municipi": "Sant Cugat del Vallès",
   "lat": 41.475257,
   "lon": 2.081692,
   "regio": "Barcelona",
@@ -756,7 +756,7 @@
  {
   "nom": "CUAP El Serral",
   "tipus": "CUAP",
-  "municipi": "Sant Vicenç Dels Horts",
+  "municipi": "Sant Vicenç dels Horts",
   "lat": 41.397835,
   "lon": 2.010411,
   "regio": "Barcelona",
@@ -834,7 +834,7 @@
  {
   "nom": "CAP Pineda de Mar",
   "tipus": "CAP",
-  "municipi": "Pineda De Mar",
+  "municipi": "Pineda de Mar",
   "lat": 41.621538,
   "lon": 2.688282,
   "regio": "Girona",
@@ -873,7 +873,7 @@
  {
   "nom": "CAP Torroella de Montgrí",
   "tipus": "CAP",
-  "municipi": "Torroella De Montgrí",
+  "municipi": "Torroella de Montgrí",
   "lat": 42.037661,
   "lon": 3.126627,
   "regio": "Girona",
@@ -951,7 +951,7 @@
  {
   "nom": "ATINT-(PSSJD)Parc Sanitari Sant Joan de Déu-Hospital",
   "tipus": "HOSPITAL",
-  "municipi": "Sant Boi De Llobregat",
+  "municipi": "Sant Boi de Llobregat",
   "lat": 41.353227,
   "lon": 2.031754,
   "regio": "Barcelona",
@@ -964,7 +964,7 @@
  {
   "nom": "CAP Arenys de Mar",
   "tipus": "CAP",
-  "municipi": "Arenys De Mar",
+  "municipi": "Arenys de Mar",
   "lat": 41.583643,
   "lon": 2.54573,
   "regio": "Barcelona",

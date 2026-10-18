@@ -6,10 +6,34 @@
  "tipus_demanda": "Accident/Traumatisme",
  "carta": "DONA AL LLOC, INFORMA QUE EL SEU MARIT HA CAIGUT A TERRA I NO EL PODEN AIXECAR, ESTÀ CONSCIENT.",
  "alertant": "Esposa",
- "pacient": {"edat": [78, 90], "sexe": "Home"},
+ "pacient": {
+  "edat": [
+   78,
+   90
+  ],
+  "sexe": "Home"
+ },
  "variants": [
-  {"id": "tce_aco", "pes": 0.7, "nivell": 3, "descripcio": "Caiguda casual amb cop al cap sense pèrdua de consciència, pren apixaban (Eliquis). Alzheimer"},
-  {"id": "tce_deteriorament", "pes": 0.3, "nivell": 2, "descripcio": "Caiguda amb cop al cap, pren apixaban i des de fa una estona està més adormit i vomita"}
+  {
+   "id": "tce_aco",
+   "pes": 0.7,
+   "nivell": 3,
+   "descripcio": "Caiguda casual amb cop al cap sense pèrdua de consciència, pren apixaban (Eliquis). Alzheimer",
+   "desenllac": {
+    "bo": "La família accepta el trasllat després d'insistir: el TC és normal i torna a casa l'endemà.",
+    "dolent": "Es queda a casa sense informació del risc: hematoma subdural diagnosticat 48 h després."
+   }
+  },
+  {
+   "id": "tce_deteriorament",
+   "pes": 0.3,
+   "nivell": 2,
+   "descripcio": "Caiguda amb cop al cap, pren apixaban i des de fa una estona està més adormit i vomita",
+   "desenllac": {
+    "bo": "SVA i trasllat urgent: hematoma subdural drenat a temps, recuperació bona.",
+    "dolent": "Es tracta com un cop lleu: arriba en coma a l'hospital."
+   }
+  }
  ],
  "passos": [
   {
@@ -18,12 +42,24 @@
    "titol": "Activació inicial",
    "pregunta": "La trucada sanitària passa a valorar (VPS). Què activeu d'entrada?",
    "opcions": [
-    {"id": "svb_valorar", "text": "Activar USVB i valorar per telèfon", "valoracio": "optima",
-     "feedback": "No és categoria d'activació immediata: USVB activada i la USVA espera la valoració clínica."},
-    {"id": "sva_svb", "text": "Activar USVB + USVA de forma immediata", "valoracio": "suboptima",
-     "feedback": "Persona conscient que ha caigut: no és Taula 1. Primer valorar."},
-    {"id": "valorar", "text": "Valorar per telèfon abans d'activar res", "valoracio": "acceptable",
-     "feedback": "Possible, però la USVB s'activa en qualsevol criteri de demanda: la valoració no hauria de retardar-la."}
+    {
+     "id": "svb_valorar",
+     "text": "Activar USVB i valorar per telèfon",
+     "valoracio": "optima",
+     "feedback": "No és categoria d'activació immediata: USVB activada i la USVA espera la valoració clínica."
+    },
+    {
+     "id": "sva_svb",
+     "text": "Activar USVB + USVA de forma immediata",
+     "valoracio": "suboptima",
+     "feedback": "Persona conscient que ha caigut: no és Taula 1. Primer valorar."
+    },
+    {
+     "id": "valorar",
+     "text": "Valorar per telèfon abans d'activar res",
+     "valoracio": "acceptable",
+     "feedback": "Possible, però la USVB s'activa en qualsevol criteri de demanda: la valoració no hauria de retardar-la."
+    }
    ]
   },
   {
@@ -33,16 +69,51 @@
    "pregunta": "Parleu amb l'esposa. Teniu temps per a 3 preguntes: quines feu?",
    "max": 3,
    "preguntes": [
-    {"id": "cap", "text": "S'ha donat un cop al cap? Ha perdut el coneixement?", "clau": true,
-     "resposta": {"tce_aco": "Sí, s'ha donat un cop al front, té un hematoma, però no ha perdut el coneixement.", "tce_deteriorament": "Sí, al cap. Al principi parlava, però ara està molt adormit."}},
-    {"id": "aco", "text": "Pren algun medicament per aclarir la sang?", "clau": true,
-     "resposta": {"tce_aco": "Pren Eliquis, però fa uns dies que no se'l pren bé.", "tce_deteriorament": "Sí, Eliquis, ahir va ser l'última dosi."}},
-    {"id": "vomits", "text": "Ha vomitat? Està més confós o adormit del normal?", "clau": true,
-     "resposta": {"tce_aco": "No, està com sempre, té Alzheimer.", "tce_deteriorament": "Ha vomitat dues vegades i costa despertar-lo."}},
-    {"id": "maluc", "text": "Li fa mal el maluc o una cama? La pot moure?", "clau": false,
-     "resposta": {"tce_aco": "No, es queixa del cap i prou. No el podem aixecar perquè pesa molt.", "tce_deteriorament": "No ho sé, no es queixa de res."}},
-    {"id": "com", "text": "Com ha caigut? Ha relliscat o s'ha marejat abans?", "clau": false,
-     "resposta": {"tce_aco": "Ha relliscat, ha estat casual, fa cinc minuts.", "tce_deteriorament": "Ha relliscat fa una hora."}}
+    {
+     "id": "cap",
+     "text": "S'ha donat un cop al cap? Ha perdut el coneixement?",
+     "clau": true,
+     "resposta": {
+      "tce_aco": "Sí, s'ha donat un cop al front, té un hematoma, però no ha perdut el coneixement.",
+      "tce_deteriorament": "Sí, al cap. Al principi parlava, però ara està molt adormit."
+     }
+    },
+    {
+     "id": "aco",
+     "text": "Pren algun medicament per aclarir la sang?",
+     "clau": true,
+     "resposta": {
+      "tce_aco": "Pren Eliquis, però fa uns dies que no se'l pren bé.",
+      "tce_deteriorament": "Sí, Eliquis, ahir va ser l'última dosi."
+     }
+    },
+    {
+     "id": "vomits",
+     "text": "Ha vomitat? Està més confós o adormit del normal?",
+     "clau": true,
+     "resposta": {
+      "tce_aco": "No, està com sempre, té Alzheimer.",
+      "tce_deteriorament": "Ha vomitat dues vegades i costa despertar-lo."
+     }
+    },
+    {
+     "id": "maluc",
+     "text": "Li fa mal el maluc o una cama? La pot moure?",
+     "clau": false,
+     "resposta": {
+      "tce_aco": "No, es queixa del cap i prou. No el podem aixecar perquè pesa molt.",
+      "tce_deteriorament": "No ho sé, no es queixa de res."
+     }
+    },
+    {
+     "id": "com",
+     "text": "Com ha caigut? Ha relliscat o s'ha marejat abans?",
+     "clau": false,
+     "resposta": {
+      "tce_aco": "Ha relliscat, ha estat casual, fa cinc minuts.",
+      "tce_deteriorament": "Ha relliscat fa una hora."
+     }
+    }
    ]
   },
   {
@@ -51,8 +122,20 @@
    "titol": "Nivell de triatge",
    "pregunta": "Quin nivell hi poseu?",
    "valoracio": {
-    "tce_aco": {"1": "suboptima", "2": "acceptable", "3": "optima", "4": "perillosa", "5": "perillosa"},
-    "tce_deteriorament": {"1": "acceptable", "2": "optima", "3": "perillosa", "4": "perillosa", "5": "perillosa"}
+    "tce_aco": {
+     "1": "suboptima",
+     "2": "acceptable",
+     "3": "optima",
+     "4": "perillosa",
+     "5": "perillosa"
+    },
+    "tce_deteriorament": {
+     "1": "acceptable",
+     "2": "optima",
+     "3": "perillosa",
+     "4": "perillosa",
+     "5": "perillosa"
+    }
    },
    "feedback": {
     "tce_aco": "TCE lleu sense pèrdua de consciència: N3, però l'anticoagulant obliga a valoració presencial i TC.",
@@ -65,24 +148,52 @@
    "titol": "La família rebutja el trasllat",
    "pregunta": "La USVB ja és al lloc: TA 149/81, FC 72, SpO2 95 %. La família rebutja el trasllat. Què indiqueu?",
    "opcions": [
-    {"id": "insistir", "text": "Recomanar i insistir en el trasllat per fer TC; si el rebutgen, alta voluntària signada i pautes de reconsulta", "valoracio": {"tce_aco": "optima", "tce_deteriorament": "suboptima"},
-     "feedback": {"tce_aco": "Correcte: cal TC per l'anticoagulant; si es rebutja, queda documentat (alta voluntària) amb pautes de reconsulta.", "tce_deteriorament": "Amb deteriorament de consciència el pacient no pot decidir: cal escalar a SVA i traslladar."}},
-    {"id": "acceptar", "text": "Acceptar el rebuig i finalitzar", "valoracio": {"tce_aco": "suboptima", "tce_deteriorament": "perillosa"},
-     "feedback": {"tce_aco": "Cal informar del risc, documentar l'alta voluntària i donar pautes de reconsulta.", "tce_deteriorament": "Risc d'hemorràgia intracranial no tractada."}},
-    {"id": "escalar", "text": "Activar la USVA i traslladar a un hospital amb TC", "valoracio": {"tce_aco": "suboptima", "tce_deteriorament": "optima"},
-     "feedback": {"tce_aco": "Estable i conscient: no necessita SVA.", "tce_deteriorament": "Correcte: deteriorament neurològic en anticoagulat, SVA i trasllat."}}
+    {
+     "id": "insistir",
+     "text": "Recomanar i insistir en el trasllat per fer TC; si el rebutgen, alta voluntària signada i pautes de reconsulta",
+     "valoracio": {
+      "tce_aco": "optima",
+      "tce_deteriorament": "suboptima"
+     },
+     "feedback": {
+      "tce_aco": "Correcte: cal TC per l'anticoagulant; si es rebutja, queda documentat (alta voluntària) amb pautes de reconsulta.",
+      "tce_deteriorament": "Amb deteriorament de consciència el pacient no pot decidir: cal escalar a SVA i traslladar."
+     }
+    },
+    {
+     "id": "acceptar",
+     "text": "Acceptar el rebuig i finalitzar",
+     "valoracio": {
+      "tce_aco": "suboptima",
+      "tce_deteriorament": "perillosa"
+     },
+     "feedback": {
+      "tce_aco": "Cal informar del risc, documentar l'alta voluntària i donar pautes de reconsulta.",
+      "tce_deteriorament": "Risc d'hemorràgia intracranial no tractada."
+     }
+    },
+    {
+     "id": "escalar",
+     "text": "Activar la USVA i traslladar a un hospital amb TC",
+     "valoracio": {
+      "tce_aco": "suboptima",
+      "tce_deteriorament": "optima"
+     },
+     "feedback": {
+      "tce_aco": "Estable i conscient: no necessita SVA.",
+      "tce_deteriorament": "Correcte: deteriorament neurològic en anticoagulat, SVA i trasllat."
+     }
+    }
    ]
-  },
-  {
-   "id": "recurs",
-   "tipus": "recurs",
-   "titol": "Recursos",
-   "pregunta": "Quins recursos queden assignats finalment?"
   }
  ],
  "aprenentatge": [
   "Caiguda + cop al cap + anticoagulant = valoració presencial i TC, encara que estigui bé.",
   "Pregunteu per vòmits i canvis de consciència: són el senyal d'alarma.",
   "Si rebutgen el trasllat: informar del risc, alta voluntària signada i pautes de reconsulta."
+ ],
+ "tematiques": [
+  "moduladors",
+  "valoracio"
  ]
 }

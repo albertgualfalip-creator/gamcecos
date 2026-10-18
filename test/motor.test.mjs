@@ -74,3 +74,25 @@ test('tots els casos són coherents: cada variant té valoració i resposta a ca
     }
   }
 });
+
+test('guàrdia: baralla per temàtica, temps d\'activació i desenllaç', async () => {
+  const { baralla, avaluaActivacio, desenllac, aleatori, rolDe } = await import('../app/motor.mjs');
+  const rnd = aleatori(1);
+  const rcp = baralla(casos, ['rcp'], rnd);
+  assert.ok(rcp.length >= 1 && rcp.every(c => c.tematiques.includes('rcp')));
+  assert.equal(baralla(casos, [], rnd).length, casos.length);
+  assert.equal(avaluaActivacio(1, 60).valoracio, 'optima');
+  assert.equal(avaluaActivacio(1, 200).valoracio, 'suboptima');
+  assert.equal(avaluaActivacio(1, null).valoracio, 'perillosa');
+  assert.equal(avaluaActivacio(4, null).valoracio, 'optima');
+  assert.equal(desenllac([{ valoracio: 'optima' }], 1), 'bo');
+  assert.equal(desenllac([{ valoracio: 'perillosa' }], 3), 'dolent');
+  assert.equal(desenllac([{ valoracio: 'suboptima', tipus: 'temps' }], 1), 'dolent');
+  assert.equal(desenllac([{ valoracio: 'suboptima', tipus: 'recursos' }], 5, 'sobrerecurs'), 'dolent');
+  assert.equal(desenllac([{ valoracio: 'suboptima', tipus: 'recursos' }], 3), 'bo');
+  for (const cas of casos) {
+    assert.ok(cas.tematiques?.length, `${cas.id}: temàtiques`);
+    for (const v of cas.variants) assert.ok(v.desenllac?.bo && v.desenllac?.dolent, `${cas.id}/${v.id}: desenllaç`);
+    for (const p of cas.passos) assert.ok(['gestor', 'consultor', 'coordinacio'].includes(rolDe(p)));
+  }
+});

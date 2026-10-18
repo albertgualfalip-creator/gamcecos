@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GamCECOS · Tutor</title>
+<link rel="stylesheet" href="estil.css">
+<script src="vendor/qrcodejs/qrcode.min.js"></script>
+</head>
+<body>
+<form id="config" class="formulari panell ample">
+  <h1>GamCECOS · Preparar la guàrdia</h1>
+  <fieldset><legend>CECOS i zones</legend><div id="cecos" class="caselles"></div></fieldset>
+  <fieldset><legend>Temàtiques a treballar <span class="suau">(cap marcada = totes)</span></legend><div id="tematiques" class="caselles"></div></fieldset>
+  <div class="fila">
+    <label>Hora d'inici del torn <input name="hora" type="time" value="19:50"></label>
+    <label>Incidents automàtics <input name="incidents" type="number" min="0" max="20" value="6"></label>
+    <label>Un incident cada (minuts reals) <input name="ritme" type="number" min="0.5" max="15" step="0.5" value="2.5"></label>
+  </div>
+  <div class="fila">
+    <label>Unitats ocupades a l'inici <select name="ocupacio"><option value="0.1">Poques (10 %)</option><option value="0.25" selected>Normal (25 %)</option><option value="0.45">Moltes (45 %)</option></select></label>
+    <label>Velocitat del rellotge <select name="factor"><option value="1">Temps real</option><option value="3" selected>x3</option><option value="6">x6</option></select></label>
+  </div>
+  <button class="boto">Crear la guàrdia</button>
+  <p class="suau" id="error"></p>
+</form>
+
+<main id="panell" class="tutor" hidden>
+  <header class="capcalera">
+    <span class="marca">GamCECOS · Tutor</span>
+    <span>Codi de la guàrdia: <b id="codi" class="codi"></b></span>
+    <span class="rellotge" id="rellotge">--:--</span>
+    <span id="punts"></span>
+    <div class="info"><a id="enllac-sala" class="boto secundari" target="_blank">Obrir la pantalla de l'equip</a></div>
+  </header>
+  <section class="columna">
+    <div class="panell">
+      <h3>Control</h3>
+      <div class="accions">
+        <button class="boto" data-ordre="inicia">Iniciar la guàrdia</button>
+        <button class="boto secundari" data-ordre="pausa">Pausa</button>
+        <button class="boto secundari" data-ordre="repren">Reprendre</button>
+        <button class="boto secundari" data-ordre="final">Finalitzar</button>
+      </div>
+      <h3 style="margin-top:1rem">Llançar un incident ara</h3>
+      <div class="fila">
+        <label>Temàtica <select id="tematica-ara"><option value="">Qualsevol de la guàrdia</option></select></label>
+        <label>o cas concret <select id="cas-ara"><option value="">Aleatori</option></select></label>
+      </div>
+      <button class="boto" id="llanca">Fer entrar l'incident</button>
+      <h3 style="margin-top:1rem">Complicacions</h3>
+      <div class="accions">
+        <button class="boto secundari" data-ordre="avaria" title="Una unitat de l'incident seleccionat queda avariada">Avaria d'una unitat</button>
+        <button class="boto secundari" data-ordre="pic" title="Un 30 % de les unitats lliures passen a ocupades">Pic d'activitat</button>
+      </div>
+      <h3 style="margin-top:1rem">Informació nova a un incident</h3>
+      <div class="fila">
+        <label>Incident <select id="msg-incident"></select></label>
+        <label>Origen <select id="msg-codi"><option value="T">112 / SITREM</option><option value="R">Ràdio d'una unitat</option><option value="O">Coordinació</option></select></label>
+      </div>
+      <textarea id="msg-text" rows="2" placeholder="Ex.: MOSSOS INFORMEN QUE L'ESCENA ÉS SEGURA"></textarea>
+      <button class="boto secundari" id="envia-msg">Enviar al registre</button>
+    </div>
+    <div class="panell">
+      <h3>Públic</h3>
+      <div class="qr"><div id="qr"></div><span id="url-vot"></span></div>
+      <ol id="classificacio"></ol>
+    </div>
+  </section>
+  <section class="columna">
+    <div class="panell"><h3>Incidents (el que l'equip no veu)</h3><div id="incidents"><p class="suau">La guàrdia encara no ha començat.</p></div></div>
+  </section>
+</main>
+<script type="module" src="tutor.mjs"></script>
+</body>
+</html>
