@@ -10,5 +10,6 @@ Joc en equip per entrenar l'atenció no presencial i la gestió de recursos de l
   `cd scripts && python3 build_centres.py ../data/unitats.json ../data/centres.json`
 - `data/dea.json`: `cd scripts && python3 build_dea.py ../data/unitats.json ../data/dea.json`
 - `data/estadistiques_activacions.json` (només agregats, l'Excel original no es puja):
-  `python3 scripts/build_stats.py <export_activacions.xlsx> data/estadistiques_activacions.json`
+  `python3 scripts/build_stats.py <export1.xlsx> [<export2.xlsx> ...] data/estadistiques_activacions.json`
+  (el nivell de triatge s'aproxima pel recurs: SVA = N1/N2, només SVB = N3)
 - `data/resposta_aure.json` i `data/criteris_valoracio.json` provenen de la infografia AURE.

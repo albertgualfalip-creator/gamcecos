@@ -76,7 +76,7 @@ Principi del protocol: *en cas de dubte, el criteri més segur*. L'infratriatge 
 ### Què diuen les activacions (1-2 d'octubre de 2026, 4.835 emergències)
 
 - **Tipus de demanda:** malaltia en domicili, accident/traumatisme i malaltia en lloc públic, en proporcions semblants.
-- **Recursos:** el 14 % dels incidents tenen SVA. La combinació més habitual és només SVB; després SVA + SVB i dues SVB.
+- **Nivell aproximat** (mentre la base de dades no tingui el triatge): SVA activada = N1/N2, només SVB = N3, N4/N5 no hi surten perquè no es mobilitza recurs. **Recursos:** el 14 % dels incidents tenen SVA (N1/N2). La combinació més habitual és només SVB; després SVA + SVB i dues SVB.
 - **Diagnòstics més freqüents amb SVA:** dolor toràcic, dispnea, aturada cardíaca, convulsions, síncope, baix nivell de consciència.
 - **Diagnòstics més freqüents només amb SVB:** caigudes, dispnea, dolor abdominal, mareig, febre, traumatismes lleus. Bons candidats per a distractors i per a decisions SVB vs SVA.
 - **Ritme:** pic entre les 9 i les 19 h (≈ 400-500 incidents/hora a tot Catalunya), mínim a les 3-6 h.

@@ -4,6 +4,7 @@
   "2026-10-01",
   "2026-10-02"
  ],
+ "dies": 2,
  "incidents_totals": 6628,
  "incidents_emergencia": 4835,
  "tipus_demanda_totals": {
@@ -107,12 +108,75 @@
   "SVA T + SVA T + SVA T + SVB + SVB": 9
  },
  "percent_incidents_amb_sva": 14.0,
- "diagnostics_amb_sva": {
+ "nivell_aproximat": {
+  "criteri": "SVA activada = N1/N2; només SVB = N3",
+  "total": {
+   "N3": 4157,
+   "N1/N2": 678
+  },
+  "per_zona": {
+   "Alt Pirineu i Aran": {
+    "N3": 22,
+    "N1/N2": 5
+   },
+   "Barcelona ciutat": {
+    "N3": 1159,
+    "N1/N2": 140
+   },
+   "Camp de Tarragona": {
+    "N3": 302,
+    "N1/N2": 56
+   },
+   "Catalunya Central": {
+    "N3": 190,
+    "N1/N2": 36
+   },
+   "Girona": {
+    "N3": 378,
+    "N1/N2": 95
+   },
+   "Lleida": {
+    "N3": 154,
+    "N1/N2": 31
+   },
+   "Metro Nord": {
+    "N3": 993,
+    "N1/N2": 176
+   },
+   "Metro Sud": {
+    "N3": 570,
+    "N1/N2": 98
+   },
+   "Penedès": {
+    "N3": 263,
+    "N1/N2": 29
+   },
+   "Terres de l'Ebre": {
+    "N3": 126,
+    "N1/N2": 12
+   }
+  },
+  "per_tipus_demanda": {
+   "Accident/Traumatisme": {
+    "N3": 1601,
+    "N1/N2": 199
+   },
+   "Malaltia en Domicili": {
+    "N3": 1552,
+    "N1/N2": 315
+   },
+   "Malaltia en lloc públic": {
+    "N3": 1004,
+    "N1/N2": 164
+   }
+  }
+ },
+ "diagnostics_n1_n2": {
   "Dolor toràcic no especificat": 28,
   "Dispnea": 21,
   "Síncope i col·lapse": 6
  },
- "diagnostics_nomes_svb": {
+ "diagnostics_n3": {
   "Caigudes repetides": 108,
   "Dispnea": 102,
   "Vertigen i mareig": 75,
