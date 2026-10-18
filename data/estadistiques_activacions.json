@@ -1,0 +1,281 @@
+{
+ "font": "Export d'activacions (agregat, anonimitzat)",
+ "periode": [
+  "2026-10-01",
+  "2026-10-02"
+ ],
+ "incidents_totals": 6628,
+ "incidents_emergencia": 4835,
+ "tipus_demanda_totals": {
+  "Malaltia en Domicili": 1867,
+  "Accident/Traumatisme": 1800,
+  "Transport sanitari": 1726,
+  "Malaltia en lloc públic": 1168,
+  "Consulta Especialista": 61,
+  "Atenció no presencia no urgent": 5
+ },
+ "emergencies_per_zona_i_tipus": {
+  "Alt Pirineu i Aran": {
+   "Malaltia en lloc públic": 12,
+   "Accident/Traumatisme": 10,
+   "Malaltia en Domicili": 5
+  },
+  "Barcelona ciutat": {
+   "Accident/Traumatisme": 495,
+   "Malaltia en Domicili": 411,
+   "Malaltia en lloc públic": 393
+  },
+  "Camp de Tarragona": {
+   "Accident/Traumatisme": 139,
+   "Malaltia en Domicili": 137,
+   "Malaltia en lloc públic": 82
+  },
+  "Catalunya Central": {
+   "Malaltia en Domicili": 92,
+   "Accident/Traumatisme": 82,
+   "Malaltia en lloc públic": 52
+  },
+  "Girona": {
+   "Malaltia en Domicili": 186,
+   "Accident/Traumatisme": 170,
+   "Malaltia en lloc públic": 117
+  },
+  "Lleida": {
+   "Accident/Traumatisme": 71,
+   "Malaltia en Domicili": 62,
+   "Malaltia en lloc públic": 52
+  },
+  "Metro Nord": {
+   "Malaltia en Domicili": 531,
+   "Accident/Traumatisme": 399,
+   "Malaltia en lloc públic": 239
+  },
+  "Metro Sud": {
+   "Malaltia en Domicili": 295,
+   "Accident/Traumatisme": 230,
+   "Malaltia en lloc públic": 143
+  },
+  "Penedès": {
+   "Accident/Traumatisme": 128,
+   "Malaltia en Domicili": 105,
+   "Malaltia en lloc públic": 59
+  },
+  "Terres de l'Ebre": {
+   "Accident/Traumatisme": 76,
+   "Malaltia en Domicili": 43,
+   "Malaltia en lloc públic": 19
+  }
+ },
+ "emergencies_per_hora": {
+  "0": 152,
+  "1": 144,
+  "2": 115,
+  "3": 107,
+  "4": 126,
+  "5": 95,
+  "6": 117,
+  "7": 207,
+  "8": 220,
+  "9": 264,
+  "10": 289,
+  "11": 308,
+  "12": 326,
+  "13": 310,
+  "14": 292,
+  "15": 267,
+  "16": 244,
+  "17": 274,
+  "18": 256,
+  "19": 240,
+  "20": 137,
+  "21": 131,
+  "22": 114,
+  "23": 100
+ },
+ "combinacio_recursos": {
+  "SVB": 3190,
+  "SVA T + SVB": 258,
+  "SVB + SVB": 244,
+  "SVA T + SVA T + SVB": 158,
+  "SVA T": 66,
+  "SVA T + SVA T + SVA T + SVB": 36,
+  "SVA T + SVA T": 35,
+  "SVB + SVB + SVB": 32,
+  "SVA T + SVB + SVB": 31,
+  "SVA T + SVA T + SVB + SVB": 26,
+  "SVA T + SVA T + SVA T + SVA T + SVB": 10,
+  "SVA T + SVA T + SVA T + SVB + SVB": 9
+ },
+ "percent_incidents_amb_sva": 14.0,
+ "diagnostics_amb_sva": {
+  "Dolor toràcic no especificat": 28,
+  "Dispnea": 21,
+  "Síncope i col·lapse": 6
+ },
+ "diagnostics_nomes_svb": {
+  "Caigudes repetides": 108,
+  "Dispnea": 102,
+  "Vertigen i mareig": 75,
+  "Dolor abdominal i pelvià": 73,
+  "Dolor toràcic no especificat": 35,
+  "Febre no especificada": 32,
+  "Malestar i fatiga": 31,
+  "Dolor abdominal no especificat": 31,
+  "Dolor agut causat per traumatisme": 30,
+  "Síncope i col·lapse": 25,
+  "Lumbàlgia": 24,
+  "Vòmits": 23,
+  "Traumatisme cranial difús sense pèrdua de consciència": 22,
+  "Trastorn d'ansietat no especificat": 20,
+  "Agitació i agitació psicomotora": 20,
+  "Idees suïcides": 15,
+  "Contusió de part no especificada del cap": 15,
+  "Antecedents de caiguda": 15,
+  "Hematúria": 13,
+  "Dolor epigàstric": 12,
+  "Desorientació no especificada": 12,
+  "Malaltia cerebrovascular no especificada": 11,
+  "Urgència hipertensiva": 11,
+  "Hipertensió (primària) essencial": 10,
+  "Diarrea no especificada": 10
+ },
+ "temps_resposta_min": {
+  "Alt Pirineu i Aran": {
+   "SVA T": {
+    "n": 5,
+    "mediana": 8.5,
+    "p90": 26.5
+   },
+   "SVB": {
+    "n": 21,
+    "mediana": 8.4,
+    "p90": 25.8
+   }
+  },
+  "Barcelona ciutat": {
+   "SVA T": {
+    "n": 114,
+    "mediana": 7.5,
+    "p90": 11.8
+   },
+   "SVB": {
+    "n": 870,
+    "mediana": 8.3,
+    "p90": 15.1
+   }
+  },
+  "Camp de Tarragona": {
+   "SVA T": {
+    "n": 55,
+    "mediana": 10.5,
+    "p90": 20.6
+   },
+   "SVB": {
+    "n": 265,
+    "mediana": 9.4,
+    "p90": 21.0
+   }
+  },
+  "Catalunya Central": {
+   "SVA T": {
+    "n": 29,
+    "mediana": 11.5,
+    "p90": 23.9
+   },
+   "SVB": {
+    "n": 176,
+    "mediana": 10.2,
+    "p90": 22.8
+   }
+  },
+  "Girona": {
+   "SVA T": {
+    "n": 63,
+    "mediana": 10.1,
+    "p90": 20.8
+   },
+   "SVB": {
+    "n": 391,
+    "mediana": 8.6,
+    "p90": 19.1
+   }
+  },
+  "Lleida": {
+   "SVA T": {
+    "n": 26,
+    "mediana": 9.4,
+    "p90": 19.1
+   },
+   "SVB": {
+    "n": 143,
+    "mediana": 8.2,
+    "p90": 21.1
+   }
+  },
+  "Metro Nord": {
+   "SVA T": {
+    "n": 130,
+    "mediana": 8.9,
+    "p90": 17.0
+   },
+   "SVB": {
+    "n": 973,
+    "mediana": 9.8,
+    "p90": 17.1
+   }
+  },
+  "Metro Sud": {
+   "SVA T": {
+    "n": 68,
+    "mediana": 9.6,
+    "p90": 17.2
+   },
+   "SVB": {
+    "n": 584,
+    "mediana": 9.8,
+    "p90": 16.6
+   }
+  },
+  "Penedès": {
+   "SVA T": {
+    "n": 18,
+    "mediana": 9.9,
+    "p90": 18.2
+   },
+   "SVB": {
+    "n": 248,
+    "mediana": 9.5,
+    "p90": 21.3
+   }
+  },
+  "Terres de l'Ebre": {
+   "SVA T": {
+    "n": 15,
+    "mediana": 19.6,
+    "p90": 78.5
+   },
+   "SVB": {
+    "n": 92,
+    "mediana": 9.0,
+    "p90": 20.2
+   }
+  }
+ },
+ "finalitzacio": {
+  "Transport Realitzat": 3070,
+  "Cancel·lat previ activació": 1951,
+  "Servei realitzat": 995,
+  "Cancel·lat amb mobilització": 635,
+  "N/D": 377,
+  "Cancel·lat sense mobilització": 272,
+  "Error": 198,
+  "Assistència al Trasllat": 19,
+  "Recurs no disponible": 16,
+  "Preventiu": 15
+ },
+ "trasllat": {
+  "NP": 2297,
+  "S": 2150,
+  "N": 388
+ }
+}

@@ -69,9 +69,18 @@ Principi del protocol: *en cas de dubte, el criteri més segur*. L'infratriatge 
 | `data/unitats.json` | 509 unitats: indicatiu, tipus, horari, base (nom, municipi, coordenades), regió i subzona |
 | `data/resposta_aure.json` | Activació immediata, resposta per nivell i entorn, criteris HEMS i AP, principis, moduladors, rols |
 | `data/criteris_valoracio.json` | Annex 1: criteris de nivell i maniobres salvadores per motiu d'alerta |
+| `data/dea.json` | 12.343 DEA fixos del registre de desfibril·ladors (per a l'ordre "DEA si disponible" en una RCP telefònica) |
+| `data/estadistiques_activacions.json` | Estadístiques agregades i anonimitzades de l'export d'activacions: demanda per zona i hora, combinacions de recursos, diagnòstics amb SVA, temps de resposta |
 | `data/centres.json` | 899 centres de dades obertes: 730 CAP, 99 centres d'atenció continuada (PAC/CUAP) amb horari, 70 hospitals |
 
-Pendent: l'Excel d'activacions i tipus de demanda per definir les plantilles.
+### Què diuen les activacions (1-2 d'octubre de 2026, 4.835 emergències)
+
+- **Tipus de demanda:** malaltia en domicili, accident/traumatisme i malaltia en lloc públic, en proporcions semblants.
+- **Recursos:** el 14 % dels incidents tenen SVA. La combinació més habitual és només SVB; després SVA + SVB i dues SVB.
+- **Diagnòstics més freqüents amb SVA:** dolor toràcic, dispnea, aturada cardíaca, convulsions, síncope, baix nivell de consciència.
+- **Diagnòstics més freqüents només amb SVB:** caigudes, dispnea, dolor abdominal, mareig, febre, traumatismes lleus. Bons candidats per a distractors i per a decisions SVB vs SVA.
+- **Ritme:** pic entre les 9 i les 19 h (≈ 400-500 incidents/hora a tot Catalunya), mínim a les 3-6 h.
+- **Temps de resposta (mediana):** 7-10 min a l'àrea de Barcelona; 10-12 min a la Catalunya Central i Camp de Tarragona; SVA a Terres de l'Ebre ≈ 20 min (p90 > 75 min). Serviran per calibrar els temps d'arribada simulats.
 
 ## Fases
 

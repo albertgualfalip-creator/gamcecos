@@ -1,6 +1,8 @@
 """Build the game's health centre dataset (CAP, atenció continuada, hospitals) from the
 Generalitat open data catalogue "Equipaments de Catalunya" (8gmd-gz7i)."""
-import json, math, re, sys, urllib.parse, urllib.request
+import json, re, sys, urllib.parse, urllib.request
+
+from zones import Zones
 
 API = 'https://analisi.transparenciacatalunya.cat/resource/8gmd-gz7i.json'
 TIPUS = {
@@ -23,10 +25,7 @@ def horari(propietats):
     m = re.search(r'Horari\|([^|]*)', propietats or '')
     return m[1].strip() if m else None
 
-def dist(a, b):
-    return math.hypot(a[0] - b[0], (a[1] - b[1]) * math.cos(math.radians(a[0])))
-
-units = [u for u in json.load(open(sys.argv[1])) if u['tipus'] != 'HELI']
+zones = Zones(sys.argv[1])
 centres = []
 for r in fetch():
     tipus = next((t for k, t in TIPUS.items() if k in r['categoria']), None)
@@ -34,10 +33,10 @@ for r in fetch():
     except (KeyError, ValueError): continue
     if tipus is None: continue
     # Region/subzone of the nearest unit base, so centres follow the same zones as the units
-    near = min(units, key=lambda u: dist((lat, lon), (u['base']['lat'], u['base']['lon'])))
+    regio, subzona = zones.nearest(lat, lon)
     centres.append(dict(id=r['idequipament'], nom=r['nom'].strip(), tipus=tipus, municipi=r.get('poblacio', '').title(),
                         lat=round(lat, 6), lon=round(lon, 6), horari=horari(r.get('propietats')),
-                        regio=near['regio'], subzona=near['subzona']))
+                        regio=regio, subzona=subzona))
 
 centres.sort(key=lambda c: (c['tipus'], c['regio'], c['nom']))
 json.dump(centres, open(sys.argv[2], 'w'), ensure_ascii=False, indent=1)
