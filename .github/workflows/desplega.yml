@@ -1,0 +1,36 @@
+# Runs the tests and, if they pass, updates the game on the VPS.
+# Needs three repository secrets: VPS_HOST (IP or name), VPS_USER (e.g. ubuntu) and VPS_SSH_KEY (private key).
+name: Desplega al VPS
+
+on:
+  push:
+    branches: [claude/vigilant-turing-56krps, main]
+  workflow_dispatch:
+
+concurrency: desplegament
+
+jobs:
+  desplega:
+    runs-on: ubuntu-latest
+    env:
+      VPS_HOST: ${{ secrets.VPS_HOST }}
+      VPS_USER: ${{ secrets.VPS_USER }}
+      VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Proves
+        run: npm test
+      - name: Actualitza el servidor
+        if: env.VPS_HOST != ''
+        env:
+          BRANCA: ${{ github.ref_name }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/desplegament
+          chmod 600 ~/.ssh/desplegament
+          ssh-keyscan -H "$VPS_HOST" >> ~/.ssh/known_hosts
+          ssh -i ~/.ssh/desplegament "$VPS_USER@$VPS_HOST" \
+            "cd /srv/gamcecos && git fetch origin && git checkout '$BRANCA' && git pull --ff-only origin '$BRANCA' && sudo systemctl restart gamcecos && sleep 1 && systemctl is-active gamcecos"

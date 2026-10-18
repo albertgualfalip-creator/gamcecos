@@ -25,7 +25,23 @@ GamCECOS és un únic procés de Node.js sense dependències externes. Serveix l
    ```
 6. Obre `https://joc.simceos.es`.
 
-**Actualitzar** quan hi hagi canvis: `cd /srv/gamcecos && git pull && sudo systemctl restart gamcecos`.
+**Actualització automàtica (recomanat).** Cada canvi pujat a GitHub passa les proves i s'instal·la sol al VPS (`.github/workflows/desplega.yml`). Configuració, una sola vegada:
+
+1. Al VPS, crea una clau per a GitHub:
+   ```bash
+   ssh-keygen -t ed25519 -f ~/.ssh/desplegament -N ""
+   cat ~/.ssh/desplegament.pub >> ~/.ssh/authorized_keys
+   cat ~/.ssh/desplegament
+   ```
+2. A GitHub: repositori → *Settings → Secrets and variables → Actions → New repository secret*, i crea'n tres:
+   - `VPS_HOST`: la IP del VPS
+   - `VPS_USER`: l'usuari amb què entres (p. ex. `ubuntu`)
+   - `VPS_SSH_KEY`: tot el text que ha sortit de l'últim `cat` (inclou les línies `-----BEGIN` i `-----END`)
+3. L'usuari ha de poder fer `sudo systemctl restart gamcecos` sense contrasenya (als VPS d'OVH, l'usuari `ubuntu` ja pot).
+
+Es pot llançar a mà des de la pestanya *Actions → Desplega al VPS → Run workflow*.
+
+**Actualitzar a mà** quan hi hagi canvis: `cd /srv/gamcecos && git pull && sudo systemctl restart gamcecos`.
 **Veure si funciona:** `sudo systemctl status gamcecos` · **Registres:** `sudo journalctl -u gamcecos -n 50`.
 
 ## Requisits
