@@ -4,7 +4,7 @@
 # Run from the cloned repository:
 #   sudo bash scripts/instal-vps.sh <domini> <contrasenya> [correu]
 # Example:
-#   sudo bash scripts/instal-vps.sh joc.simceos.es 'una-clau-llarga' jo@exemple.cat
+#   sudo bash scripts/instal-vps.sh joc.simcecos.es 'una-clau-llarga' jo@exemple.cat
 set -euo pipefail
 
 DOMINI="${1:-}"

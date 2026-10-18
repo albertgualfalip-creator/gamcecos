@@ -4,7 +4,7 @@ GamCECOS és un únic procés de Node.js sense dependències externes. Serveix l
 
 ## VPS d'OVH amb un subdomini (manera recomanada)
 
-1. **DNS.** Al panell d'OVH: *Web Cloud → Noms de domini → simceos.es → Zona DNS → Afegir una entrada → A*. Subdomini `joc`, destinació: la IP del VPS. Pot tardar de minuts a unes hores a funcionar.
+1. **DNS.** Al panell d'OVH: *Web Cloud → Noms de domini → simcecos.es → Zona DNS → Afegir una entrada → A*. Subdomini `joc`, destinació: la IP del VPS. Pot tardar de minuts a unes hores a funcionar.
 2. **Entrar al VPS.** Des de l'ordinador: `ssh ubuntu@IP_DEL_VPS` (a OVH l'usuari sol ser `ubuntu` o `debian`).
 3. **Clau perquè el VPS pugui baixar el codi** (el repositori és privat):
    ```bash
@@ -19,11 +19,11 @@ GamCECOS és un únic procés de Node.js sense dependències externes. Serveix l
    GIT_SSH_COMMAND="ssh -i ~/.ssh/gamcecos" git clone -b claude/vigilant-turing-56krps git@github.com:albertgualfalip-creator/gamcecos.git /srv/gamcecos
    cd /srv/gamcecos && git config core.sshCommand "ssh -i ~/.ssh/gamcecos"
    ```
-5. **Instal·lar** (Node.js, servei i HTTPS; si el VPS ja té nginx per a simceos.es, hi afegeix el subdomini sense tocar la resta):
+5. **Instal·lar** (Node.js, servei i HTTPS; si el VPS ja té nginx per a simcecos.es, hi afegeix el subdomini sense tocar la resta):
    ```bash
-   sudo bash scripts/instal-vps.sh joc.simceos.es LA_TEVA_CONTRASENYA el-teu@correu
+   sudo bash scripts/instal-vps.sh joc.simcecos.es LA_TEVA_CONTRASENYA el-teu@correu
    ```
-6. Obre `https://joc.simceos.es`.
+6. Obre `https://joc.simcecos.es`.
 
 **Actualització automàtica (recomanat).** Cada canvi pujat a GitHub passa les proves i s'instal·la sol al VPS (`.github/workflows/desplega.yml`). Configuració, una sola vegada:
 
