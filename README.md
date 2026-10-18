@@ -9,7 +9,7 @@ npm start            # http://localhost:8080
 ```
 
 - **Sala** (`/`): pantalla per al projector i l'equip. Es tria la zona, l'hora del torn i el cas.
-- **Públic** (`/vota`, amb el QR de la sala): cada participant vota des del mòbil; l'equip veu els vots abans de confirmar.
+- **Públic** (`/vota`, amb el QR de la sala o el codi de 4 lletres): cada participant vota des del mòbil; l'equip veu els vots abans de confirmar.
 - Només cal Node.js (sense dependències). Leaflet i el generador de QR van inclosos a `app/vendor/`, així funciona en xarxes on els CDN estan bloquejats. El fons del mapa (OpenStreetMap) sí que necessita internet.
 - Proves: `npm test`.
 
@@ -31,6 +31,10 @@ Cada cas és un fitxer a `casos/` (llistat a `casos/index.json`) amb la carta d'
   `cd scripts && python3 build_destins.py ../data/unitats.json <export1.xlsx> [...] ../data/destins.json`
 - `data/prioritats_tih.json` prové de la guia TIH.PR.0001.
 - `data/resposta_aure.json` i `data/criteris_valoracio.json` provenen de la infografia AURE.
+
+## Instal·lar-lo en un servidor
+
+Vegeu [docs/desplegament.md](docs/desplegament.md): Node.js o Docker, contrasenya opcional (`GAMCECOS_CLAU`) i codi de sala perquè diversos grups juguin alhora.
 
 ## Obrir el joc en un ordinador (pas a pas)
 

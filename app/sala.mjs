@@ -13,7 +13,26 @@ const NIVELLS = [1, 2, 3, 4, 5].map(n => ({ id: String(n), text: `N${n}` }));
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-let dades, partida, recompte = {}, votants = 0, mapa, capaUnitats;
+let dades, partida, recompte = {}, votants = 0, mapa, capaUnitats, codiSala;
+
+const api = (ruta, cos) => fetch(`${ruta}?sala=${codiSala}`, {
+  method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cos ?? {}),
+});
+
+// One room code per screen; kept across reloads so the audience does not need to scan again
+async function obreSala() {
+  let anterior = '';
+  try { anterior = sessionStorage.getItem('gamcecos-sala') || ''; } catch {}
+  ({ sala: codiSala } = await fetch(`/api/sala?sala=${anterior}`, { method: 'POST' }).then(r => r.json()));
+  try { sessionStorage.setItem('gamcecos-sala', codiSala); } catch {}
+  const fonts = new EventSource(`/api/events?sala=${codiSala}`);
+  fonts.addEventListener('vots', e => {
+    const d = JSON.parse(e.data);
+    recompte = d.recompte;
+    votants = d.votants;
+    if (partida && !partida.tancat && $('pas').querySelector('.opcions')) renderPas();
+  });
+}
 
 async function carrega() {
   const get = f => fetch(f).then(r => r.json());
@@ -79,12 +98,13 @@ function comenca() {
 }
 
 async function mostraQr() {
-  let url = `${location.origin}/vota`;
+  let origen = location.origin;
   if (/^(localhost|127\.)/.test(location.hostname)) {
     const info = await fetch('/api/info').then(r => r.json()).catch(() => ({ urls: [] }));
-    url = info.urls[0] || url;
+    origen = info.urls[0] || origen;
   }
-  $('url-vot').textContent = url.replace(/^https?:\/\//, '');
+  const url = `${origen}/vota?sala=${codiSala}`;
+  $('url-vot').textContent = `${origen.replace(/^https?:\/\//, '')}/vota · sala ${codiSala}`;
   $('qr').innerHTML = '';
   if (window.QRCode) new QRCode($('qr'), { text: url, width: 128, height: 128 });
 }
@@ -185,8 +205,7 @@ function iniciaPas() {
   partida.tancat = false;
   recompte = {};
   votants = 0;
-  fetch('/api/pas', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ pas: { id: `${partida.cas.id}:${pas.id}`, titol: pas.titol, pregunta: pas.pregunta, opcions: opcionsDe(pas), max: pas.max || 1 } }) });
+  api('/api/pas', { pas: { id: `${partida.cas.id}:${pas.id}`, titol: pas.titol, pregunta: pas.pregunta, opcions: opcionsDe(pas), max: pas.max || 1 } });
   if (mapa) pintaUnitats();
   renderPas();
 }
@@ -277,8 +296,7 @@ function confirma() {
   };
   p.resultats.push(resultat);
   p.tancat = true;
-  fetch('/api/tanca', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ resultat: { equip: resultat.equip, valoracio: resultat.valoracio, etiqueta: ETIQUETA[resultat.valoracio], feedback: resultat.feedback } }) });
+  api('/api/tanca', { resultat: { equip: resultat.equip, valoracio: resultat.valoracio, etiqueta: ETIQUETA[resultat.valoracio], feedback: resultat.feedback } });
   renderPas();
 }
 
@@ -302,7 +320,7 @@ function avaluaRecurs() {
 function seguent() {
   partida.pas++;
   if (partida.pas < partida.cas.passos.length) return iniciaPas();
-  fetch('/api/pas', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pas: null }) });
+  api('/api/pas', { pas: null });
   resum();
 }
 
@@ -321,12 +339,4 @@ function resum() {
   $('nova').onclick = () => location.reload();
 }
 
-const fonts = new EventSource('/api/events');
-fonts.addEventListener('vots', e => {
-  const d = JSON.parse(e.data);
-  recompte = d.recompte;
-  votants = d.votants;
-  if (partida && !partida.tancat && $('pas').querySelector('.opcions')) renderPas();
-});
-
-carrega();
+obreSala().then(carrega);

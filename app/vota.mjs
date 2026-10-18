@@ -12,6 +12,7 @@ function idClient() {
   }
 }
 
+const sala = (new URLSearchParams(location.search).get('sala') || '').toUpperCase();
 let pas = null, tria = new Set(), enviat = false;
 
 function render() {
@@ -45,13 +46,23 @@ function render() {
 }
 
 async function envia() {
-  const r = await fetch('/api/vot', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+  const r = await fetch(`/api/vot?sala=${sala}`, { method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ client: idClient(), opcions: [...tria] }) });
   enviat = r.ok;
   render();
 }
 
-const fonts = new EventSource('/api/events');
+if (!sala) {
+  contingut.innerHTML = `<form class="opcions" id="entra"><label>Codi de la sala <input name="sala" maxlength="4" autocapitalize="characters" required
+    style="font:inherit;padding:.6rem;text-transform:uppercase"></label><button class="boto">Entrar</button></form>`;
+  document.getElementById('entra').onsubmit = e => {
+    e.preventDefault();
+    location.search = `?sala=${encodeURIComponent(new FormData(e.target).get('sala').trim().toUpperCase())}`;
+  };
+}
+
+const fonts = sala ? new EventSource(`/api/events?sala=${sala}`) : new EventTarget();
+fonts.onerror = () => { if (fonts.readyState === EventSource.CLOSED) contingut.innerHTML = '<p>No s\'ha trobat la sala. Reviseu el codi.</p>'; };
 fonts.addEventListener('pas', e => {
   const nou = JSON.parse(e.data);
   if (!nou || nou.id !== pas?.id || (nou.obert && !pas?.obert)) { tria = new Set(); enviat = false; }
