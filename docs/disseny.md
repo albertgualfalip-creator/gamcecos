@@ -16,6 +16,22 @@ Joc en equip per entrenar l'atenció no presencial i la gestió de recursos de l
 - **Data i hora del torn:** determinen quines unitats estan en servei (horaris) i si els helicòpters de dia volen (ocàs).
 - **Durada i intensitat:** nombre d'incidents i ritme d'entrada.
 
+## Focus clínic
+
+- El joc se centra en les **emergències (N1-N2)**: són la majoria dels incidents d'un torn.
+- Hi apareixen alguns **N3** i alguns **N4-N5** (consell telefònic, sense recurs) com a **distractors**: l'equip ha de saber no gastar recursos on no cal.
+
+## Entorn de cada incident
+
+Determina la resposta segons AURE (`entorn_per_zona` a `data/resposta_aure.json`):
+
+| Entorn | Zones |
+|---|---|
+| Urbà | Barcelona ciutat |
+| Suburbà | Tarragona ciutat, Metro Nord, Metro Sud |
+| Rural | Alt Pirineu i Aran, Catalunya Central, Terres de l'Ebre |
+| Pendent | Penedès, resta del Camp de Tarragona, Lleida, Girona |
+
 ## Tipus d'entrada
 
 | Tipus | Què veu l'equip | Decisions |
@@ -27,10 +43,10 @@ Joc en equip per entrenar l'atenció no presencial i la gestió de recursos de l
 
 Basades en el protocol AURE (`data/resposta_aure.json`, `data/criteris_valoracio.json`):
 
-1. **Activació immediata** (Taula 1, categories Omega): s'han activat USVB + USVA més properes sense esperar?
+1. **Activació immediata** (Taula 1, categories Omega): s'han activat USVB + USVA més properes sense esperar? Si no és categoria immediata: USVB activada i USVA en **3.20 SEM** (no es llença, s'espera la valoració).
 2. **Nivell de triatge** (N1-N5) segons els criteris de valoració per motiu d'alerta.
 3. **Maniobres salvadores** indicades per telèfon.
-4. **Recurs** segons nivell i entorn (urbà / suburbà / rural), incloent-hi HEMS i atenció primària quan es compleixen els criteris de temps.
+4. **Recurs** segons nivell i entorn (urbà / suburbà / rural), incloent-hi HEMS i atenció primària quan es compleixen els criteris de temps d'arribada (**3.50**) calculats sobre el mapa.
 5. **Moduladors** que escalen o desescalen la resposta.
 
 Cada decisió es puntua per nivells, perquè hi pot haver més d'una resposta correcta:
