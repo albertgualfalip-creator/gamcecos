@@ -3,6 +3,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 
 const PORT = process.env.PORT || 8080;
 const ROOT = __dirname;
@@ -48,6 +49,10 @@ async function api(req, res, ruta) {
     const ping = setInterval(() => res.write(': ping\n\n'), 25000);
     req.on('close', () => { clients.delete(res); clearInterval(ping); });
     return;
+  }
+  if (ruta === '/api/info') {        // LAN addresses, so phones on the same network can reach the vote page
+    const ips = Object.values(os.networkInterfaces()).flat().filter(i => i.family === 'IPv4' && !i.internal).map(i => i.address);
+    return json(res, 200, { urls: ips.map(ip => `http://${ip}:${PORT}/vota`) });
   }
   if (req.method !== 'POST') return json(res, 405, { error: 'POST' });
   let cos;

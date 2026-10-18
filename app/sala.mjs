@@ -78,8 +78,12 @@ function comenca() {
   iniciaPas();
 }
 
-function mostraQr() {
-  const url = `${location.origin}/vota`;
+async function mostraQr() {
+  let url = `${location.origin}/vota`;
+  if (/^(localhost|127\.)/.test(location.hostname)) {
+    const info = await fetch('/api/info').then(r => r.json()).catch(() => ({ urls: [] }));
+    url = info.urls[0] || url;
+  }
   $('url-vot').textContent = url.replace(/^https?:\/\//, '');
   $('qr').innerHTML = '';
   if (window.QRCode) new QRCode($('qr'), { text: url, width: 128, height: 128 });

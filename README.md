@@ -31,3 +31,12 @@ Cada cas és un fitxer a `casos/` (llistat a `casos/index.json`) amb la carta d'
   `cd scripts && python3 build_destins.py ../data/unitats.json <export1.xlsx> [...] ../data/destins.json`
 - `data/prioritats_tih.json` prové de la guia TIH.PR.0001.
 - `data/resposta_aure.json` i `data/criteris_valoracio.json` provenen de la infografia AURE.
+
+## Obrir el joc en un ordinador (pas a pas)
+
+1. Instal·leu **Node.js** (versió LTS) des de https://nodejs.org.
+2. Descarregueu el codi: a GitHub, trieu la branca `claude/vigilant-turing-56krps`, botó **Code → Download ZIP**, i descomprimiu-lo.
+3. Obriu una terminal a la carpeta (Windows: a l'Explorador, escriviu `cmd` a la barra d'adreces i premeu Enter).
+4. Escriviu `npm start` i premeu Enter. Deixeu la finestra oberta mentre jugueu.
+5. Obriu el navegador a `http://localhost:8080`.
+6. Els mòbils han d'estar a la **mateixa wifi** que l'ordinador i escanejar el QR de la sala. Si la xarxa no deixa connectar dispositius entre ells, es pot jugar sense vots del públic.
