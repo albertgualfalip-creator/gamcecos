@@ -44,6 +44,46 @@ inc = inc.assign(nivell=inc['Incident'].isin(amb_sva).map({True: 'N1/N2', False:
 diag = inc.set_index('Incident')['Text Diag.Central']
 diag = diag[diag != '-']
 
+def origen_tipus(sigla):
+    return {'CAP': 'CAP', 'CUAP': 'CUAP', 'RESI': 'Residència', 'Hosp': 'Hospital'}.get(sigla, 'Domicili / via pública')
+
+def temps_per(g, key):
+    t = g.dropna(subset=['resposta_min']).groupby(key)['resposta_min']
+    return {str(k): dict(n=int(len(v)), mediana=round(v.median(), 1), p90=round(v.quantile(.9), 1))
+            for k, v in t if len(v) >= MIN_COUNT}
+
+# Derivacions: sanitary transport requested by a doctor (CAP, CUAP, residència, domicili -> hospital/CAP)
+der = df[(df['Class.Inc'] == '061') & (df['Tipus Demanda'] == 'Transport sanitari')].copy()
+der['origen_tipus'] = der['Sigla Origen'].map(origen_tipus)
+der_inc = der.drop_duplicates('Incident')
+derivacions = dict(
+    incidents=int(len(der_inc)),
+    per_origen=counts(der_inc['origen_tipus']),
+    per_zona=counts(der_inc['zona']),
+    prioritat=counts(der_inc['Prioritat'].astype('Int64').astype(str)),
+    recurs=counts(der['Grup Recurs']),
+    destins=counts(der['Destí Intervenció'][der['Destí Intervenció'] != '-'], top=20),
+    finalitzacio=counts(der['Grup finalització']),
+    temps_resposta_min=temps_per(der, 'origen_tipus'),
+)
+
+# Interhospitalaris (TIH): priority, origin and destination hospitals
+tih = df[df['Class.Inc'] == 'TIH'].copy()
+tih['prioritat'] = tih['Prioritat'].astype('Int64').astype(str)
+tih_inc = tih.drop_duplicates('Incident')
+parelles = tih[tih['Destí Intervenció'] != '-'].drop_duplicates('Incident')
+interhospitalaris = dict(
+    incidents=int(len(tih_inc)),
+    per_prioritat=counts(tih_inc['prioritat']),
+    recurs_per_prioritat={p: counts(g['Grup Recurs']) for p, g in tih.groupby('prioritat')},
+    per_zona=counts(tih_inc['zona']),
+    origens=counts(tih_inc['Origen'], top=20),
+    destins=counts(parelles['Destí Intervenció'], top=20),
+    parelles_origen_desti=counts(parelles['Origen'] + ' -> ' + parelles['Destí Intervenció'], top=20),
+    diagnostics=counts(tih_inc['Text Diag.Central'][tih_inc['Text Diag.Central'] != '-'], top=15),
+    temps_resposta_min=temps_per(tih, 'prioritat'),
+)
+
 temps = {}
 for (z, g), s in em.dropna(subset=['resposta_min']).groupby(['zona', 'Grup Recurs'])['resposta_min']:
     if len(s) >= MIN_COUNT:
@@ -51,8 +91,7 @@ for (z, g), s in em.dropna(subset=['resposta_min']).groupby(['zona', 'Grup Recur
 
 out = dict(
     font='Export d\'activacions (agregat, anonimitzat)',
-    periode=[str(df['Dia Alerta'].min().date()), str(df['Dia Alerta'].max().date())],
-    dies=int(df['Dia Alerta'].dt.date.nunique()),
+    dies=sorted(str(d) for d in df['Dia Alerta'].dt.date.unique()),
     incidents_totals=int(df['Incident'].nunique()),
     incidents_emergencia=int(len(inc)),
     tipus_demanda_totals=counts(df.drop_duplicates('Incident')['Tipus Demanda']),
@@ -68,6 +107,9 @@ out = dict(
     temps_resposta_min=temps,
     finalitzacio=counts(em['Grup finalització']),
     trasllat=counts(inc['Traslladat']),
+    derivacions=derivacions,
+    interhospitalaris=interhospitalaris,
 )
 json.dump(out, open(sys.argv[-1], 'w'), ensure_ascii=False, indent=1)
-print(json.dumps({k: out[k] for k in ('periode', 'incidents_totals', 'incidents_emergencia', 'percent_incidents_amb_sva')}))
+print(json.dumps({k: out[k] for k in ('dies', 'incidents_totals', 'incidents_emergencia', 'percent_incidents_amb_sva')}),
+      'derivacions', derivacions['incidents'], 'interhospitalaris', interhospitalaris['incidents'])

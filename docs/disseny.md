@@ -32,6 +32,16 @@ Determina la resposta segons AURE (`entorn_per_zona` a `data/resposta_aure.json`
 | Rural | Alt Pirineu i Aran, Catalunya Central, Terres de l'Ebre |
 | Pendent | Penedès, resta del Camp de Tarragona, Lleida, Girona |
 
+## Tipus de servei
+
+| Servei | Exemple | Què treballa |
+|---|---|---|
+| **Emergències** | Malaltia en domicili, accident/traumatisme, malaltia en lloc públic | Triatge (N1-N5), consell i maniobres, recurs segons AURE |
+| **Derivacions** (transport sanitari a petició d'un metge) | CAP, CUAP, residència o domicili → hospital o CAP | Quin recurs (SVB o SVA), amb quina urgència, sense descobrir la zona |
+| **Interhospitalaris (TIH)** | Hospital comarcal → hospital de referència, prioritats 1-3 | Gestió operativa: recurs adequat, origen i destí, temps, impacte en la cobertura |
+
+Les derivacions i els interhospitalaris competeixen pels mateixos recursos que les emergències: és on el joc fa decidir *què sacrifico*.
+
 ## Tipus d'entrada
 
 | Tipus | Què veu l'equip | Decisions |
@@ -73,14 +83,25 @@ Principi del protocol: *en cas de dubte, el criteri més segur*. L'infratriatge 
 | `data/estadistiques_activacions.json` | Estadístiques agregades i anonimitzades de l'export d'activacions: demanda per zona i hora, combinacions de recursos, diagnòstics amb SVA, temps de resposta |
 | `data/centres.json` | 899 centres de dades obertes: 730 CAP, 99 centres d'atenció continuada (PAC/CUAP) amb horari, 70 hospitals |
 
-### Què diuen les activacions (1-2 d'octubre de 2026, 4.835 emergències)
+### Què diuen les activacions (3 exports: 11-12 d'abril, 11-12 d'agost, 1-2 d'octubre de 2026)
 
-- **Tipus de demanda:** malaltia en domicili, accident/traumatisme i malaltia en lloc públic, en proporcions semblants.
-- **Nivell aproximat** (mentre la base de dades no tingui el triatge): SVA activada = N1/N2, només SVB = N3, N4/N5 no hi surten perquè no es mobilitza recurs. **Recursos:** el 14 % dels incidents tenen SVA (N1/N2). La combinació més habitual és només SVB; després SVA + SVB i dues SVB.
-- **Diagnòstics més freqüents amb SVA:** dolor toràcic, dispnea, aturada cardíaca, convulsions, síncope, baix nivell de consciència.
-- **Diagnòstics més freqüents només amb SVB:** caigudes, dispnea, dolor abdominal, mareig, febre, traumatismes lleus. Bons candidats per a distractors i per a decisions SVB vs SVA.
-- **Ritme:** pic entre les 9 i les 19 h (≈ 400-500 incidents/hora a tot Catalunya), mínim a les 3-6 h.
-- **Temps de resposta (mediana):** 7-10 min a l'àrea de Barcelona; 10-12 min a la Catalunya Central i Camp de Tarragona; SVA a Terres de l'Ebre ≈ 20 min (p90 > 75 min). Serviran per calibrar els temps d'arribada simulats.
+**Emergències (14.798 incidents)**
+- **Nivell aproximat** (mentre la base de dades no tingui el triatge): SVA activada = N1/N2, només SVB = N3; N4/N5 no hi surten perquè no es mobilitza recurs. El 14 % són N1/N2.
+- **Combinacions de recursos:** només SVB (9.691), SVA + SVB (820), dues SVB (746), dues SVA + SVB (426).
+- **Diagnòstics més freqüents N1/N2:** dolor toràcic, dispnea, síncope, convulsions, alteració de consciència, aturada cardíaca.
+- **Diagnòstics més freqüents N3:** dispnea, caigudes, mareig, dolor abdominal, traumatismes, febre. Dispnea i dolor toràcic surten als dos: ideals per decidir SVA o SVB.
+- **Temps de resposta SVA (mediana):** 7,4 min Barcelona ciutat; 8-10 min àrea metropolitana i Lleida; 11-12 min Camp de Tarragona, Girona, Catalunya Central i Penedès; 15,5 min Terres de l'Ebre.
+
+**Derivacions (3.709 incidents)**
+- Origen: domicili o via pública (1.232), CAP (1.007), CUAP (822), residència (607).
+- Gairebé tot amb SVB; un 9 % amb SVA.
+
+**Interhospitalaris (711 incidents)**
+- Prioritats: 0 (196), 1 (323), 2 (138), 3 (54). Prioritat 0 i 1 meitat SVA, prioritat 3 majoritàriament SVB.
+- Temps de resposta (mediana): 8 min prioritat 0, 12 min prioritat 1, 19-20 min prioritats 2-3.
+- Parelles més freqüents: Sant Joan de Reus → Joan XXIII, Figueres / Palamós / Blanes → Trueta, Mataró → Germans Trias, Moisès Broggi / Viladecans / Sant Joan de Déu → Bellvitge.
+- Diagnòstics: codi infart (angioplàstia, IAM, IMSEST), malaltia cerebrovascular, agitació / psicosi, hemorràgia digestiva.
+
 
 ## Fases
 

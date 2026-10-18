@@ -1,345 +1,610 @@
 {
  "font": "Export d'activacions (agregat, anonimitzat)",
- "periode": [
+ "dies": [
+  "2026-04-11",
+  "2026-04-12",
+  "2026-08-11",
+  "2026-08-12",
   "2026-10-01",
   "2026-10-02"
  ],
- "dies": 2,
- "incidents_totals": 6628,
- "incidents_emergencia": 4835,
+ "incidents_totals": 19457,
+ "incidents_emergencia": 14798,
  "tipus_demanda_totals": {
-  "Malaltia en Domicili": 1867,
-  "Accident/Traumatisme": 1800,
-  "Transport sanitari": 1726,
-  "Malaltia en lloc públic": 1168,
-  "Consulta Especialista": 61,
-  "Atenció no presencia no urgent": 5
+  "Malaltia en Domicili": 5943,
+  "Accident/Traumatisme": 5384,
+  "Transport sanitari": 4420,
+  "Malaltia en lloc públic": 3471,
+  "Consulta Especialista": 219,
+  "Atenció no presencia no urgent": 15
  },
  "emergencies_per_zona_i_tipus": {
   "Alt Pirineu i Aran": {
-   "Malaltia en lloc públic": 12,
-   "Accident/Traumatisme": 10,
-   "Malaltia en Domicili": 5
+   "Accident/Traumatisme": 59,
+   "Malaltia en Domicili": 39,
+   "Malaltia en lloc públic": 39
   },
   "Barcelona ciutat": {
-   "Accident/Traumatisme": 495,
-   "Malaltia en Domicili": 411,
-   "Malaltia en lloc públic": 393
+   "Accident/Traumatisme": 1325,
+   "Malaltia en Domicili": 1288,
+   "Malaltia en lloc públic": 1098
   },
   "Camp de Tarragona": {
-   "Accident/Traumatisme": 139,
-   "Malaltia en Domicili": 137,
-   "Malaltia en lloc públic": 82
+   "Accident/Traumatisme": 412,
+   "Malaltia en Domicili": 410,
+   "Malaltia en lloc públic": 276
   },
   "Catalunya Central": {
-   "Malaltia en Domicili": 92,
-   "Accident/Traumatisme": 82,
-   "Malaltia en lloc públic": 52
+   "Malaltia en Domicili": 286,
+   "Accident/Traumatisme": 258,
+   "Malaltia en lloc públic": 135
   },
   "Girona": {
-   "Malaltia en Domicili": 186,
-   "Accident/Traumatisme": 170,
-   "Malaltia en lloc públic": 117
+   "Accident/Traumatisme": 691,
+   "Malaltia en Domicili": 657,
+   "Malaltia en lloc públic": 443
   },
   "Lleida": {
-   "Accident/Traumatisme": 71,
-   "Malaltia en Domicili": 62,
-   "Malaltia en lloc públic": 52
+   "Accident/Traumatisme": 221,
+   "Malaltia en Domicili": 211,
+   "Malaltia en lloc públic": 147
   },
   "Metro Nord": {
-   "Malaltia en Domicili": 531,
-   "Accident/Traumatisme": 399,
-   "Malaltia en lloc públic": 239
+   "Malaltia en Domicili": 1666,
+   "Accident/Traumatisme": 1188,
+   "Malaltia en lloc públic": 695
   },
   "Metro Sud": {
-   "Malaltia en Domicili": 295,
-   "Accident/Traumatisme": 230,
-   "Malaltia en lloc públic": 143
+   "Malaltia en Domicili": 870,
+   "Accident/Traumatisme": 683,
+   "Malaltia en lloc públic": 387
   },
   "Penedès": {
-   "Accident/Traumatisme": 128,
-   "Malaltia en Domicili": 105,
-   "Malaltia en lloc públic": 59
+   "Accident/Traumatisme": 385,
+   "Malaltia en Domicili": 381,
+   "Malaltia en lloc públic": 190
   },
   "Terres de l'Ebre": {
-   "Accident/Traumatisme": 76,
-   "Malaltia en Domicili": 43,
-   "Malaltia en lloc públic": 19
+   "Accident/Traumatisme": 162,
+   "Malaltia en Domicili": 135,
+   "Malaltia en lloc públic": 61
   }
  },
  "emergencies_per_hora": {
-  "0": 152,
-  "1": 144,
-  "2": 115,
-  "3": 107,
-  "4": 126,
-  "5": 95,
-  "6": 117,
-  "7": 207,
-  "8": 220,
-  "9": 264,
-  "10": 289,
-  "11": 308,
-  "12": 326,
-  "13": 310,
-  "14": 292,
-  "15": 267,
-  "16": 244,
-  "17": 274,
-  "18": 256,
-  "19": 240,
-  "20": 137,
-  "21": 131,
-  "22": 114,
-  "23": 100
+  "0": 523,
+  "1": 483,
+  "2": 417,
+  "3": 369,
+  "4": 382,
+  "5": 342,
+  "6": 393,
+  "7": 446,
+  "8": 581,
+  "9": 760,
+  "10": 878,
+  "11": 929,
+  "12": 896,
+  "13": 844,
+  "14": 849,
+  "15": 706,
+  "16": 722,
+  "17": 795,
+  "18": 732,
+  "19": 765,
+  "20": 623,
+  "21": 507,
+  "22": 453,
+  "23": 403
  },
  "combinacio_recursos": {
-  "SVB": 3190,
-  "SVA T + SVB": 258,
-  "SVB + SVB": 244,
-  "SVA T + SVA T + SVB": 158,
-  "SVA T": 66,
-  "SVA T + SVA T + SVA T + SVB": 36,
-  "SVA T + SVA T": 35,
-  "SVB + SVB + SVB": 32,
-  "SVA T + SVB + SVB": 31,
-  "SVA T + SVA T + SVB + SVB": 26,
-  "SVA T + SVA T + SVA T + SVA T + SVB": 10,
-  "SVA T + SVA T + SVA T + SVB + SVB": 9
+  "SVB": 9691,
+  "SVA T + SVB": 820,
+  "SVB + SVB": 746,
+  "SVA T + SVA T + SVB": 426,
+  "SVA T": 258,
+  "SVA T + SVB + SVB": 106,
+  "SVA T + SVA T + SVA T + SVB": 96,
+  "SVB + SVB + SVB": 95,
+  "SVA T + SVA T": 92,
+  "SVA T + SVA T + SVB + SVB": 60,
+  "SVA T + SVA T + SVA T + SVB + SVB": 25,
+  "SVA T + SVA T + SVA T + SVA T + SVB": 24
  },
- "percent_incidents_amb_sva": 14.0,
+ "percent_incidents_amb_sva": 13.8,
  "nivell_aproximat": {
   "criteri": "SVA activada = N1/N2; només SVB = N3",
   "total": {
-   "N3": 4157,
-   "N1/N2": 678
+   "N3": 12751,
+   "N1/N2": 2047
   },
   "per_zona": {
    "Alt Pirineu i Aran": {
-    "N3": 22,
-    "N1/N2": 5
+    "N3": 114,
+    "N1/N2": 23
    },
    "Barcelona ciutat": {
-    "N3": 1159,
-    "N1/N2": 140
+    "N3": 3289,
+    "N1/N2": 422
    },
    "Camp de Tarragona": {
-    "N3": 302,
-    "N1/N2": 56
+    "N3": 931,
+    "N1/N2": 167
    },
    "Catalunya Central": {
-    "N3": 190,
-    "N1/N2": 36
+    "N3": 579,
+    "N1/N2": 100
    },
    "Girona": {
-    "N3": 378,
-    "N1/N2": 95
+    "N3": 1468,
+    "N1/N2": 323
    },
    "Lleida": {
-    "N3": 154,
-    "N1/N2": 31
+    "N3": 485,
+    "N1/N2": 94
    },
    "Metro Nord": {
-    "N3": 993,
-    "N1/N2": 176
+    "N3": 3036,
+    "N1/N2": 513
    },
    "Metro Sud": {
-    "N3": 570,
-    "N1/N2": 98
+    "N3": 1691,
+    "N1/N2": 249
    },
    "Penedès": {
-    "N3": 263,
-    "N1/N2": 29
+    "N3": 842,
+    "N1/N2": 114
    },
    "Terres de l'Ebre": {
-    "N3": 126,
-    "N1/N2": 12
+    "N3": 316,
+    "N1/N2": 42
    }
   },
   "per_tipus_demanda": {
    "Accident/Traumatisme": {
-    "N3": 1601,
-    "N1/N2": 199
+    "N3": 4797,
+    "N1/N2": 587
    },
    "Malaltia en Domicili": {
-    "N3": 1552,
-    "N1/N2": 315
+    "N3": 4978,
+    "N1/N2": 965
    },
    "Malaltia en lloc públic": {
-    "N3": 1004,
-    "N1/N2": 164
+    "N3": 2976,
+    "N1/N2": 495
    }
   }
  },
  "diagnostics_n1_n2": {
-  "Dolor toràcic no especificat": 28,
-  "Dispnea": 21,
-  "Síncope i col·lapse": 6
+  "Dolor toràcic no especificat": 86,
+  "Dispnea": 68,
+  "Síncope i col·lapse": 22,
+  "Vertigen i mareig": 19,
+  "Convulsions no especificades": 17,
+  "Alteració transitòria de la consciència": 13,
+  "Agitació i agitació psicomotora": 12,
+  "Caigudes repetides": 10,
+  "Aturada cardíaca, causa no especificada": 9,
+  "Somnolència, estupor i coma": 8,
+  "Idees suïcides": 7,
+  "Causes de mortalitat desconegudes i causes de mortalitat mal definides": 6,
+  "Convulsions febrils": 6,
+  "Hipoglucèmia no especificada": 6,
+  "Taquicàrdia no especificada": 5,
+  "Dolor abdominal i pelvià": 5,
+  "Coma no especificat": 5,
+  "Epilèpsia i atacs recurrents": 5,
+  "Bradicàrdia no especificada": 5
  },
  "diagnostics_n3": {
-  "Caigudes repetides": 108,
-  "Dispnea": 102,
-  "Vertigen i mareig": 75,
-  "Dolor abdominal i pelvià": 73,
-  "Dolor toràcic no especificat": 35,
-  "Febre no especificada": 32,
-  "Malestar i fatiga": 31,
-  "Dolor abdominal no especificat": 31,
-  "Dolor agut causat per traumatisme": 30,
-  "Síncope i col·lapse": 25,
-  "Lumbàlgia": 24,
-  "Vòmits": 23,
-  "Traumatisme cranial difús sense pèrdua de consciència": 22,
-  "Trastorn d'ansietat no especificat": 20,
-  "Agitació i agitació psicomotora": 20,
-  "Idees suïcides": 15,
-  "Contusió de part no especificada del cap": 15,
-  "Antecedents de caiguda": 15,
-  "Hematúria": 13,
-  "Dolor epigàstric": 12,
-  "Desorientació no especificada": 12,
-  "Malaltia cerebrovascular no especificada": 11,
-  "Urgència hipertensiva": 11,
-  "Hipertensió (primària) essencial": 10,
-  "Diarrea no especificada": 10
+  "Dispnea": 358,
+  "Caigudes repetides": 307,
+  "Vertigen i mareig": 259,
+  "Dolor abdominal i pelvià": 182,
+  "Dolor agut causat per traumatisme": 109,
+  "Febre no especificada": 106,
+  "Malestar i fatiga": 98,
+  "Dolor toràcic no especificat": 91,
+  "Lumbàlgia": 83,
+  "Vòmits": 75,
+  "Agitació i agitació psicomotora": 75,
+  "Contusió de part no especificada del cap": 67,
+  "Idees suïcides": 66,
+  "Síncope i col·lapse": 65,
+  "Dolor abdominal no especificat": 65,
+  "Trastorn d'ansietat no especificat": 53,
+  "Antecedents de caiguda": 52,
+  "Debilitat muscular (generalitzada)": 49,
+  "Traumatisme cranial difús sense pèrdua de consciència": 45,
+  "Diarrea no especificada": 35,
+  "Hematúria": 34,
+  "Desorientació no especificada": 33,
+  "Còlic renal no especificat": 33,
+  "Disàrtria i anàrtria": 33,
+  "Dolor epigàstric": 32
  },
  "temps_resposta_min": {
   "Alt Pirineu i Aran": {
    "SVA T": {
-    "n": 5,
-    "mediana": 8.5,
-    "p90": 26.5
+    "n": 15,
+    "mediana": 10.3,
+    "p90": 23.5
    },
    "SVB": {
-    "n": 21,
+    "n": 82,
     "mediana": 8.4,
-    "p90": 25.8
+    "p90": 31.7
    }
   },
   "Barcelona ciutat": {
    "SVA T": {
-    "n": 114,
-    "mediana": 7.5,
-    "p90": 11.8
+    "n": 363,
+    "mediana": 7.4,
+    "p90": 12.8
    },
    "SVB": {
-    "n": 870,
-    "mediana": 8.3,
-    "p90": 15.1
+    "n": 2311,
+    "mediana": 8.4,
+    "p90": 14.8
    }
   },
   "Camp de Tarragona": {
    "SVA T": {
-    "n": 55,
-    "mediana": 10.5,
-    "p90": 20.6
+    "n": 133,
+    "mediana": 11.5,
+    "p90": 19.2
    },
    "SVB": {
-    "n": 265,
+    "n": 819,
     "mediana": 9.4,
-    "p90": 21.0
+    "p90": 18.5
    }
   },
   "Catalunya Central": {
    "SVA T": {
-    "n": 29,
-    "mediana": 11.5,
-    "p90": 23.9
+    "n": 77,
+    "mediana": 12.0,
+    "p90": 24.5
    },
    "SVB": {
-    "n": 176,
-    "mediana": 10.2,
-    "p90": 22.8
+    "n": 542,
+    "mediana": 9.7,
+    "p90": 21.0
    }
   },
   "Girona": {
    "SVA T": {
-    "n": 63,
-    "mediana": 10.1,
-    "p90": 20.8
+    "n": 213,
+    "mediana": 11.8,
+    "p90": 22.1
    },
    "SVB": {
-    "n": 391,
-    "mediana": 8.6,
-    "p90": 19.1
+    "n": 1430,
+    "mediana": 9.2,
+    "p90": 19.3
    }
   },
   "Lleida": {
    "SVA T": {
-    "n": 26,
+    "n": 82,
     "mediana": 9.4,
-    "p90": 19.1
+    "p90": 18.9
    },
    "SVB": {
-    "n": 143,
-    "mediana": 8.2,
-    "p90": 21.1
+    "n": 417,
+    "mediana": 8.3,
+    "p90": 17.9
    }
   },
   "Metro Nord": {
+   "SVA A": {
+    "n": 6,
+    "mediana": 10.5,
+    "p90": 19.0
+   },
    "SVA T": {
-    "n": 130,
-    "mediana": 8.9,
-    "p90": 17.0
+    "n": 359,
+    "mediana": 8.6,
+    "p90": 15.3
    },
    "SVB": {
-    "n": 973,
-    "mediana": 9.8,
-    "p90": 17.1
+    "n": 2891,
+    "mediana": 9.5,
+    "p90": 17.2
    }
   },
   "Metro Sud": {
+   "SVA A": {
+    "n": 6,
+    "mediana": 27.0,
+    "p90": 29.3
+   },
    "SVA T": {
-    "n": 68,
-    "mediana": 9.6,
-    "p90": 17.2
+    "n": 165,
+    "mediana": 9.4,
+    "p90": 16.1
    },
    "SVB": {
-    "n": 584,
-    "mediana": 9.8,
-    "p90": 16.6
+    "n": 1622,
+    "mediana": 9.5,
+    "p90": 17.0
    }
   },
   "Penedès": {
    "SVA T": {
-    "n": 18,
-    "mediana": 9.9,
-    "p90": 18.2
+    "n": 77,
+    "mediana": 11.9,
+    "p90": 19.8
    },
    "SVB": {
-    "n": 248,
-    "mediana": 9.5,
-    "p90": 21.3
+    "n": 797,
+    "mediana": 9.9,
+    "p90": 21.4
    }
   },
   "Terres de l'Ebre": {
    "SVA T": {
-    "n": 15,
-    "mediana": 19.6,
-    "p90": 78.5
+    "n": 34,
+    "mediana": 15.5,
+    "p90": 49.8
    },
    "SVB": {
-    "n": 92,
-    "mediana": 9.0,
-    "p90": 20.2
+    "n": 271,
+    "mediana": 8.5,
+    "p90": 20.1
    }
   }
  },
  "finalitzacio": {
-  "Transport Realitzat": 3070,
-  "Cancel·lat previ activació": 1951,
-  "Servei realitzat": 995,
-  "Cancel·lat amb mobilització": 635,
-  "N/D": 377,
-  "Cancel·lat sense mobilització": 272,
-  "Error": 198,
-  "Assistència al Trasllat": 19,
-  "Recurs no disponible": 16,
-  "Preventiu": 15
+  "Transport Realitzat": 9179,
+  "Cancel·lat previ activació": 6188,
+  "Servei realitzat": 2866,
+  "Cancel·lat amb mobilització": 2050,
+  "N/D": 1024,
+  "Cancel·lat sense mobilització": 822,
+  "Error": 651,
+  "Assistència al Trasllat": 59,
+  "Recurs no disponible": 50,
+  "Preventiu": 24,
+  "Activat": 7
  },
  "trasllat": {
-  "NP": 2297,
-  "S": 2150,
-  "N": 388
+  "NP": 6976,
+  "S": 6464,
+  "N": 1358
+ },
+ "derivacions": {
+  "incidents": 3709,
+  "per_origen": {
+   "Domicili / via pública": 1232,
+   "CAP": 1007,
+   "CUAP": 822,
+   "Residència": 607,
+   "Hospital": 41
+  },
+  "per_zona": {
+   "Metro Nord": 903,
+   "Barcelona ciutat": 838,
+   "Metro Sud": 549,
+   "Girona": 373,
+   "Camp de Tarragona": 297,
+   "Lleida": 209,
+   "Catalunya Central": 188,
+   "Penedès": 178,
+   "Terres de l'Ebre": 137,
+   "Alt Pirineu i Aran": 37
+  },
+  "prioritat": {
+   "1": 3471,
+   "0": 238
+  },
+  "recurs": {
+   "SVB": 4567,
+   "SVA T": 438,
+   "SVA A": 5
+  },
+  "destins": {
+   "Hospital Universitari General-Vall d'Hebron": 281,
+   "Hospital Universitari Arnau de Vilanova": 251,
+   "Corporació Sanitària Parc Taulí": 238,
+   "Hospital del Mar": 236,
+   "Hospital Universitari de Bellvitge": 223,
+   "Hospital de la Santa Creu i Sant Pau": 214,
+   "Hospital Universitari Germans Trias I Pujol": 198,
+   "Hospital Clínic i Provincial de Barcelona": 168,
+   "Hospital Universitari Sant Joan de Reus": 167,
+   "Althaia Manresa": 137,
+   "Hospital de Mataró": 128,
+   "Hospital Moises Broggi-CSI": 126,
+   "Parc Sanitari Sant Joan de Déu-General": 112,
+   "Hospital Universitari de Girona Doctor Josep Trueta": 108,
+   "Hospital Universitari de Tarragona Joan XXIII": 107,
+   "Hospital General de Granollers": 102,
+   "Hospital de Terrassa": 100,
+   "Hospital de Tortosa Verge de la Cinta": 99,
+   "Mutua de Terrassa": 95,
+   "Fundació Privada Hospital de Mollet": 95
+  },
+  "finalitzacio": {
+   "Transport Realitzat": 3590,
+   "Cancel·lat previ activació": 782,
+   "Cancel·lat amb mobilització": 198,
+   "Servei realitzat": 150,
+   "Cancel·lat sense mobilització": 114,
+   "Error": 98,
+   "N/D": 58,
+   "Assistència al Trasllat": 15,
+   "Recurs no disponible": 5
+  },
+  "temps_resposta_min": {
+   "CAP": {
+    "n": 1050,
+    "mediana": 9.1,
+    "p90": 20.0
+   },
+   "CUAP": {
+    "n": 832,
+    "mediana": 8.4,
+    "p90": 17.1
+   },
+   "Domicili / via pública": {
+    "n": 1261,
+    "mediana": 9.8,
+    "p90": 20.1
+   },
+   "Hospital": {
+    "n": 37,
+    "mediana": 7.2,
+    "p90": 18.8
+   },
+   "Residència": {
+    "n": 622,
+    "mediana": 10.3,
+    "p90": 20.9
+   }
+  }
+ },
+ "interhospitalaris": {
+  "incidents": 711,
+  "per_prioritat": {
+   "1": 323,
+   "0": 196,
+   "2": 138,
+   "3": 54
+  },
+  "recurs_per_prioritat": {
+   "0": {
+    "SVA T": 142,
+    "SVB": 135
+   },
+   "1": {
+    "SVB": 255,
+    "SVA T": 153
+   },
+   "2": {
+    "SVB": 86,
+    "SVA T": 64
+   },
+   "3": {
+    "SVB": 41,
+    "SVA T": 16
+   }
+  },
+  "per_zona": {
+   "Metro Nord": 151,
+   "Girona": 122,
+   "Metro Sud": 120,
+   "Barcelona ciutat": 97,
+   "Penedès": 69,
+   "Camp de Tarragona": 57,
+   "Catalunya Central": 42,
+   "Terres de l'Ebre": 19,
+   "Alt Pirineu i Aran": 18,
+   "Lleida": 16
+  },
+  "origens": {
+   "Hospital Clínic i Provincial de Barcelona": 39,
+   "Hospital Universitari de Bellvitge": 29,
+   "Parc Sanitari Sant Joan de Déu-General": 24,
+   "Mutua de Terrassa": 24,
+   "Hospital de Figueres": 23,
+   "Hospital d'Igualada": 22,
+   "Hospital Universitari Sant Joan de Reus": 22,
+   "Hospital de Blanes i Comarcal de la Selva": 22,
+   "Hospital de Mataró": 21,
+   "Hospital General de Granollers": 21,
+   "Hospital de Palamós": 20,
+   "Hospital del Mar": 20,
+   "Hospital Sant Jaume": 19,
+   "Hospital Moises Broggi-CSI": 19,
+   "Fundació Privada Hospital de Mollet": 18,
+   "Hospital del Vendrell": 18,
+   "Hospital Sant Joan de Déu (Martorell)": 17,
+   "Althaia Manresa": 17,
+   "Hospital de Viladecans": 16,
+   "Hospital Universitari de Tarragona Joan XXIII": 16
+  },
+  "destins": {
+   "Hospital Universitari de Bellvitge": 97,
+   "Hospital Universitari de Girona Doctor Josep Trueta": 65,
+   "Hospital Clínic i Provincial de Barcelona": 60,
+   "Hospital Universitari Germans Trias I Pujol": 47,
+   "Hospital Universitari de Tarragona Joan XXIII": 40,
+   "Hospital Universitari General-Vall d'Hebron": 33,
+   "Althaia Manresa": 22,
+   "Hospital General de Granollers": 21,
+   "Corporació Sanitària Parc Taulí": 20,
+   "Mutua de Terrassa": 17,
+   "Hospital de Terrassa": 17,
+   "Hospital Sant Joan de Déu (Esplugues)": 16,
+   "Hospital de la Santa Creu i Sant Pau": 16,
+   "Parc Sanitari Sant Joan de Déu-General": 14,
+   "Hospital de Tortosa Verge de la Cinta": 13,
+   "Hospital Moises Broggi-CSI": 13,
+   "Hospital Universitari Maternoinfantil-Vall d'Hebron": 12,
+   "Hospital del Mar": 11,
+   "Hospital Universitari Arnau de Vilanova": 11,
+   "Dr. Emili Mira I Lopez": 11
+  },
+  "parelles_origen_desti": {
+   "Hospital Universitari Sant Joan de Reus -> Hospital Universitari de Tarragona Joan XXIII": 18,
+   "Hospital de Figueres -> Hospital Universitari de Girona Doctor Josep Trueta": 16,
+   "Hospital de Mataró -> Hospital Universitari Germans Trias I Pujol": 15,
+   "Hospital de Palamós -> Hospital Universitari de Girona Doctor Josep Trueta": 15,
+   "Hospital Moises Broggi-CSI -> Hospital Universitari de Bellvitge": 15,
+   "Hospital de Blanes i Comarcal de la Selva -> Hospital Universitari de Girona Doctor Josep Trueta": 14,
+   "Parc Sanitari Sant Joan de Déu-General -> Hospital Universitari de Bellvitge": 14,
+   "Hospital de Viladecans -> Hospital Universitari de Bellvitge": 13,
+   "Hospital Sant Jaume -> Hospital Universitari Germans Trias I Pujol": 12,
+   "Edifici Santa Caterina-Parc Hospitalari Martí i Julià -> Hospital Universitari de Girona Doctor Josep Trueta": 12,
+   "Hospital d'Igualada -> Hospital Universitari de Bellvitge": 12,
+   "Hospital Residencia Sant Camil -> Hospital Universitari de Bellvitge": 11,
+   "Mutua de Terrassa -> Hospital de Terrassa": 11,
+   "Hospital General de Granollers -> Hospital Clínic i Provincial de Barcelona": 11,
+   "Pius Hospital de Valls -> Hospital Universitari de Tarragona Joan XXIII": 10,
+   "Hospital Sant Joan de Déu (Martorell) -> Hospital Universitari de Bellvitge": 10,
+   "Hospital de Sant Bernabé -> Althaia Manresa": 9,
+   "Hospital Universitari Germans Trias I Pujol -> Dr. Emili Mira I Lopez": 9,
+   "Fundació Privada Hospital de Mollet -> Hospital Universitari General-Vall d'Hebron": 8,
+   "Hospital Clínic i Provincial de Barcelona -> Hospital General de Granollers": 8
+  },
+  "diagnostics": {
+   "Estat d'angioplàstia coronària": 28,
+   "Infart agut de miocardi": 24,
+   "Infart de miocardi sense elevació del segment ST (IMSEST)": 23,
+   "Malaltia cerebrovascular no especificada": 19,
+   "Agitació i agitació psicomotora": 14,
+   "Trastorn psicòtic breu": 11,
+   "Hemorràgia gastrointestinal no especificada": 9,
+   "Altres malalties cerebrovasculars": 9,
+   "Apendicitis aguda no especificada": 8,
+   "Idees suïcides": 8,
+   "Psicosi no especificada no causada per una substància o un factor fisiològic conegut": 8,
+   "Infart de miocardi amb elevació del segment ST (IMEST) de localització no especificada": 7,
+   "Sèpsia causada per microorganismes no especificats": 6,
+   "Blocatge auriculoventricular, complet": 6,
+   "Angina inestable": 6
+  },
+  "temps_resposta_min": {
+   "0": {
+    "n": 217,
+    "mediana": 7.9,
+    "p90": 19.2
+   },
+   "1": {
+    "n": 342,
+    "mediana": 11.7,
+    "p90": 39.1
+   },
+   "2": {
+    "n": 134,
+    "mediana": 18.6,
+    "p90": 55.6
+   },
+   "3": {
+    "n": 50,
+    "mediana": 20.4,
+    "p90": 76.8
+   }
+  }
  }
 }
