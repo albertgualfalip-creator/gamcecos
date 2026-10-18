@@ -1,0 +1,4 @@
+# Source spreadsheets and decks stay out of the repo: only the minimal derived data is committed
+*.xlsx
+*.pptx
+__pycache__/

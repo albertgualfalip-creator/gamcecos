@@ -1,0 +1,702 @@
+[
+ {
+  "grup": "X",
+  "grup_nom": "Hemorràgia massiva",
+  "motiu": "Hemorràgia massiva no controlable",
+  "signes": [
+   "Signes de xoc descompensat"
+  ],
+  "descripcio": [
+   "No controlable amb mitjans físics",
+   "Alteració ABCD"
+  ],
+  "maniobres": [
+   "Compressió directa ferma i mantinguda",
+   "Torniquet si extremitat i disponible",
+   "No retirar apòsits"
+  ],
+  "nivell": 1
+ },
+ {
+  "grup": "X",
+  "grup_nom": "Hemorràgia massiva",
+  "motiu": "Hemorràgia externa controlable",
+  "signes": [
+   "Signes de xoc compensat"
+  ],
+  "descripcio": [
+   "Controlable amb mitjans físics",
+   "No alteració ABCD"
+  ],
+  "maniobres": [
+   "Compressió directa amb gassa/drap net",
+   "Pressió mantinguda"
+  ],
+  "nivell": 2
+ },
+ {
+  "grup": "X",
+  "grup_nom": "Hemorràgia massiva",
+  "motiu": "Amputació traumàtica / hemorràgia no compressible (juncional)",
+  "signes": [
+   "Hemorràgia no controlable amb torniquet"
+  ],
+  "descripcio": [
+   "Pacient anticoagulat = criteri de gravetat"
+  ],
+  "maniobres": [
+   "Compressió / torniquet",
+   "Part amputada: gassa humida + bossa + fred (no gel directe)"
+  ],
+  "nivell": 1
+ },
+ {
+  "grup": "A",
+  "grup_nom": "Via aèria / consciència",
+  "motiu": "No contesta",
+  "signes": [
+   "No reacciona a estímul físic intens"
+  ],
+  "descripcio": [],
+  "maniobres": [
+   "Obrir via aèria (front-mentó)",
+   "Comprovar respiració",
+   "PLS si respira; RCP si no respira/dubtes"
+  ],
+  "nivell": 1
+ },
+ {
+  "grup": "A",
+  "grup_nom": "Via aèria / consciència",
+  "motiu": "No respira",
+  "signes": [
+   "Respiració anòmala",
+   "Sospita gasping"
+  ],
+  "descripcio": [],
+  "maniobres": [
+   "Iniciar RCP telefònica: compressions 100-120/min",
+   "DEA si disponible",
+   "Valorar Agents CR"
+  ],
+  "nivell": 1
+ },
+ {
+  "grup": "A",
+  "grup_nom": "Via aèria / consciència",
+  "motiu": "Ennuegament no pot parlar",
+  "signes": [
+   "Impossibilitat de tossir o parlar",
+   "Cianosis"
+  ],
+  "descripcio": [
+   "Adult"
+  ],
+  "maniobres": [
+   "Maniobra de Heimlich (compressions abdominals)",
+   "Alternar amb cops interescapulars",
+   "Si inconsciència → RCP"
+  ],
+  "nivell": 1
+ },
+ {
+  "grup": "A",
+  "grup_nom": "Via aèria / consciència",
+  "motiu": "Ennuegament no pot parlar",
+  "signes": [
+   "Impossibilitat de tossir o parlar",
+   "Cianosis"
+  ],
+  "descripcio": [
+   "Lactant < 1 any"
+  ],
+  "maniobres": [
+   "5 cops dorsals + 5 compressions toràciques",
+   "NO Heimlich abdominal",
+   "Si inconsciència → RCP pediàtrica"
+  ],
+  "nivell": 1
+ },
+ {
+  "grup": "A",
+  "grup_nom": "Via aèria / consciència",
+  "motiu": "Ennuegament pot parlar",
+  "signes": [
+   "Pot tossir"
+  ],
+  "descripcio": [
+   "Sense alteració nivell consciència i ABCD"
+  ],
+  "maniobres": [
+   "Animar a tossir",
+   "No fer Heimlich mentre tussi eficaçment",
+   "Vigilar"
+  ],
+  "nivell": 2
+ },
+ {
+  "grup": "A",
+  "grup_nom": "Via aèria / consciència",
+  "motiu": "Reacció al·lèrgica",
+  "signes": [
+   "Edema llavis/llengua/glotis",
+   "Veu ennuegada"
+  ],
+  "descripcio": [
+   "Compromís VA o xoc descompensat",
+   "Antecedents d'exposició a l'al",
+   "lergen (inclou picada insecte)",
+   "AP: asma"
+  ],
+  "maniobres": [
+   "Adrenalina autoinjectable si en disposa",
+   "Preparar RCP"
+  ],
+  "nivell": 1
+ },
+ {
+  "grup": "A",
+  "grup_nom": "Via aèria / consciència",
+  "motiu": "Reacció al·lèrgica",
+  "signes": [
+   "Edema llavis/llengua/glotis",
+   "Veu ennuegada"
+  ],
+  "descripcio": [
+   "Sense compromís VA / xoc compensat"
+  ],
+  "maniobres": [
+   "Adrenalina autoinjectable si en disposa",
+   "Si empitjorament durant l'arribada, recontactar"
+  ],
+  "nivell": 2
+ },
+ {
+  "grup": "B",
+  "grup_nom": "Respiració",
+  "motiu": "Dispnea",
+  "signes": [
+   "Taquipnea/Dessaturació",
+   "Cianosis, Diaforesis",
+   "Gorgorisme",
+   "Estridor",
+   "Dolor tòrax",
+   "Sobtada i d'aparició brusca (TEP)"
+  ],
+  "descripcio": [
+   "Patrick 4-5 / Borg 8-10",
+   "Ha requerit IOT previ"
+  ],
+  "maniobres": [
+   "Sedestació / posició còmoda",
+   "Inhalador propi si en té",
+   "Tranquil",
+   "litzar; preparar RCP",
+   "O2 domiciliari"
+  ],
+  "nivell": 1
+ },
+ {
+  "grup": "B",
+  "grup_nom": "Respiració",
+  "motiu": "Dispnea",
+  "signes": [
+   "Taquipnea/Dessaturació",
+   "Sibilàncies"
+  ],
+  "descripcio": [
+   "AP respiratoris"
+  ],
+  "maniobres": [
+   "Sedestació",
+   "Inhalador propi"
+  ],
+  "nivell": 2
+ },
+ {
+  "grup": "C",
+  "grup_nom": "Circulació",
+  "motiu": "Dolor toràcic",
+  "signes": [
+   "Diaforesis",
+   "Taquicàrdia/Bradicàrdia",
+   "Síncope associat",
+   "Dispnea",
+   "Dolor tòrax típic",
+   "Pal",
+   "lidesa/Livideses (Hipoperfusió)",
+   "Polsos asimètrics",
+   "Dolor toràcic o abdominal sobtat i intens (Dissecció)"
+  ],
+  "descripcio": [
+   "AP cardíacs"
+  ],
+  "maniobres": [
+   "No mobilitzar",
+   "Preparar RCP",
+   "Valorar nitroglicerina SL si disponible"
+  ],
+  "nivell": 1
+ },
+ {
+  "grup": "C",
+  "grup_nom": "Circulació",
+  "motiu": "Dolor toràcic",
+  "signes": [
+   "Dolor toràcic mal definit/atípic/epigàstric: punxant, pleurític",
+   "amb FRCV"
+  ],
+  "descripcio": [
+   "Tenir en compte diabètic o sexe femení com sospita de SCA"
+  ],
+  "maniobres": [
+   "Repòs absolut",
+   "Tranquil",
+   "litzar"
+  ],
+  "nivell": 2
+ },
+ {
+  "grup": "C",
+  "grup_nom": "Circulació",
+  "motiu": "Melenes o hematèmesi",
+  "signes": [
+   "Sagnat actiu important"
+  ],
+  "descripcio": [
+   "AP varius esofàgiques, hepatitis"
+  ],
+  "maniobres": [
+   "Dieta absoluta",
+   "Decúbit, abrigar",
+   "Preparar RCP si es deteriora"
+  ],
+  "nivell": 1
+ },
+ {
+  "grup": "C",
+  "grup_nom": "Circulació",
+  "motiu": "Melenes o hematèmesi",
+  "signes": [
+   "Signes de xoc compensat"
+  ],
+  "descripcio": [],
+  "maniobres": [
+   "Dieta absoluta",
+   "Decúbit, abrigar"
+  ],
+  "nivell": 2
+ },
+ {
+  "grup": "D",
+  "grup_nom": "Neurològic / consciència",
+  "motiu": "Convulsions",
+  "signes": [
+   "Cianosis/OVACE",
+   "Agitació/Persistència convulsions",
+   "Cefalea",
+   "Gestant (sospita preeclàmpsia)"
+  ],
+  "descripcio": [
+   "Sospita Status",
+   "TCE",
+   "Persistència convulsions",
+   "Tòxics",
+   "Focalitat neurològica prèvia"
+  ],
+  "maniobres": [
+   "Protegir de lesions, retirar objectes",
+   "Medicació de rescat",
+   "No immobilitzar ni posar res a la boca",
+   "PLS en cedir; cronometrar"
+  ],
+  "nivell": 1
+ },
+ {
+  "grup": "D",
+  "grup_nom": "Neurològic / consciència",
+  "motiu": "Convulsions",
+  "signes": [
+   "Cianosis/OVACE",
+   "Agitació/Persistència convulsions",
+   "Cefalea",
+   "Gestant (sospita preeclàmpsia)"
+  ],
+  "descripcio": [
+   "Primer episodi",
+   "Febre amb postcrisis",
+   "No convulsió activa"
+  ],
+  "maniobres": [
+   "Protegir de lesions, retirar objectes",
+   "No immobilitzar ni posar res a la boca",
+   "PLS en cedir; cronometrar",
+   "Mitjans físics si febre"
+  ],
+  "nivell": 2
+ },
+ {
+  "grup": "D",
+  "grup_nom": "Neurològic / consciència",
+  "motiu": "Focalitats neurològiques",
+  "signes": [
+   "Consciència: verbal/dolor/coma",
+   "Cefalea",
+   "Desorientació",
+   "Confusió",
+   "Agitació",
+   "Risc broncoaspiració",
+   "Sospita ICTUS"
+  ],
+  "descripcio": [
+   "Sospita de GCS <8"
+  ],
+  "maniobres": [
+   "Dieta absoluta",
+   "PLS si baixa consciència"
+  ],
+  "nivell": 1
+ },
+ {
+  "grup": "D",
+  "grup_nom": "Neurològic / consciència",
+  "motiu": "Alteració nivell de consciència en pacient diabètic",
+  "signes": [
+   "Demanar glicèmia"
+  ],
+  "descripcio": [
+   "Sospita intoxicació",
+   "Focalitat NRL o convulsions"
+  ],
+  "maniobres": [
+   "Glucagó si en disposa + PLS (Dieta absoluta)"
+  ],
+  "nivell": 1
+ },
+ {
+  "grup": "D",
+  "grup_nom": "Neurològic / consciència",
+  "motiu": "Alteració nivell de consciència en pacient diabètic",
+  "signes": [
+   "Demanar glicèmia"
+  ],
+  "descripcio": [
+   "Somnolència",
+   "Alt. comportament",
+   "Confusió desorientació",
+   "Signes clars d'hipoglucèmia",
+   "Descartar altres causes"
+  ],
+  "maniobres": [
+   "Glucagó si en disposa + PLS (Dieta absoluta)"
+  ],
+  "nivell": 2
+ },
+ {
+  "grup": "D",
+  "grup_nom": "Neurològic / consciència",
+  "motiu": "Sospita intoxicacions / agents externs",
+  "signes": [
+   "Amenaça de VA",
+   "Alteració greu del nivell de consciència"
+  ],
+  "descripcio": [],
+  "maniobres": [
+   "Identificar el tòxic, no provocar vòmit",
+   "Valorar toxicologia",
+   "PLS si baixa consciència"
+  ],
+  "nivell": 1
+ },
+ {
+  "grup": "D",
+  "grup_nom": "Neurològic / consciència",
+  "motiu": "Sospita intoxicacions / agents externs",
+  "signes": [
+   "Amenaça de VA",
+   "Alteració greu del nivell de consciència"
+  ],
+  "descripcio": [],
+  "maniobres": [
+   "Identificar el tòxic, no provocar vòmit",
+   "Valorar toxicologia",
+   "PLS si baixa consciència"
+  ],
+  "nivell": 2
+ },
+ {
+  "grup": "D",
+  "grup_nom": "Neurològic / consciència",
+  "motiu": "Pèrdua transitòria de consciència",
+  "signes": [
+   "Sense pròdroms"
+  ],
+  "descripcio": [
+   "Dispnea",
+   "Dolor tòrax",
+   "Bradicàrdia/Taquicàrdia",
+   "Diaforesis",
+   "Desorientació/Agitació"
+  ],
+  "maniobres": [
+   "Decúbit"
+  ],
+  "nivell": 1
+ },
+ {
+  "grup": "D",
+  "grup_nom": "Neurològic / consciència",
+  "motiu": "Pèrdua transitòria de consciència",
+  "signes": [
+   "Sense pròdroms"
+  ],
+  "descripcio": [
+   "Recuperació parcial de símptomes"
+  ],
+  "maniobres": [],
+  "nivell": 2
+ },
+ {
+  "grup": "D",
+  "grup_nom": "Neurològic / consciència",
+  "motiu": "Agitat",
+  "signes": [
+   "AP psiquiàtrics",
+   "Heteroagressivitat",
+   "Sospita de 3.31 imminent",
+   "Afectació orgànica"
+  ],
+  "descripcio": [
+   "Agitacions greus i severes o risc imminent",
+   "Descartar codi",
+   "Necessitat de trasllat no voluntari"
+  ],
+  "maniobres": [
+   "Seguretat de l'entorn i del pacient",
+   "No confrontar",
+   "Allunyar objectes perillosos"
+  ],
+  "nivell": 1
+ },
+ {
+  "grup": "E",
+  "grup_nom": "Exposició / entorn / trauma",
+  "motiu": "Trauma amb alta energia",
+  "signes": [
+   "Criteris PPT alta energia"
+  ],
+  "descripcio": [
+   "Alta sospita de lesions greus"
+  ],
+  "maniobres": [
+   "No moure; estabilització cervical manual",
+   "Control d'hemorràgies",
+   "PLS en bloc si vòmit"
+  ],
+  "nivell": 1
+ },
+ {
+  "grup": "E",
+  "grup_nom": "Exposició / entorn / trauma",
+  "motiu": "Trauma amb alta energia",
+  "signes": [
+   "Criteris PPT alta energia"
+  ],
+  "descripcio": [
+   "Es descarten lesions greus"
+  ],
+  "maniobres": [
+   "Immobilitzar la zona lesionada",
+   "Vigilar"
+  ],
+  "nivell": 2
+ },
+ {
+  "grup": "E",
+  "grup_nom": "Exposició / entorn / trauma",
+  "motiu": "Cremades",
+  "signes": [
+   "Possible SCC >30%",
+   "Sospita afectació via aèria",
+   "Cremada circular"
+  ],
+  "descripcio": [],
+  "maniobres": [
+   "Refrescar amb aigua temperada 10-20 min",
+   "Retirar roba no adherida i joies",
+   "Cobrir amb gassa neta; no gels/pomades"
+  ],
+  "nivell": 1
+ },
+ {
+  "grup": "E",
+  "grup_nom": "Exposició / entorn / trauma",
+  "motiu": "Exposició al fred",
+  "signes": [
+   "Apnea o bradipnea",
+   "Alteració de consciència",
+   "Bradicàrdia / arrítmia"
+  ],
+  "descripcio": [
+   "Alteració nivell de consciència AVBN: dolor o no resposta",
+   "Grau III, IV (Escala Suïssa)"
+  ],
+  "maniobres": [
+   "Retirar roba mullada",
+   "Abrigar / aïllar, manipulació suau",
+   "Preparar RCP"
+  ],
+  "nivell": 1
+ },
+ {
+  "grup": "E",
+  "grup_nom": "Exposició / entorn / trauma",
+  "motiu": "Exposició al fred",
+  "signes": [
+   "Alerta i tremolant",
+   "Respon a la veu"
+  ],
+  "descripcio": [
+   "Nivell consciència Alerta o Veu",
+   "Grau I-II (Escala Suïssa)"
+  ],
+  "maniobres": [
+   "Retirar roba mullada",
+   "Abrigar / aïllar, manipulació suau"
+  ],
+  "nivell": 2
+ },
+ {
+  "grup": "E",
+  "grup_nom": "Exposició / entorn / trauma",
+  "motiu": "Cop de calor / hipertèrmia",
+  "signes": [
+   "Tª central elevada",
+   "Alteració de consciència",
+   "Pell calenta i seca"
+  ],
+  "descripcio": [],
+  "maniobres": [
+   "Moure a l'ombra, treure roba",
+   "Refredar (aigua / ventilació)",
+   "Hidratar si conscient"
+  ],
+  "nivell": 1
+ },
+ {
+  "grup": "E",
+  "grup_nom": "Exposició / entorn / trauma",
+  "motiu": "Ofegament",
+  "signes": [
+   "Immersió",
+   "Dispnea / hipòxia greu",
+   "Alertant inicia RCP"
+  ],
+  "descripcio": [],
+  "maniobres": [
+   "Treure de l'aigua amb seguretat",
+   "RCP prioritzant ventilacions",
+   "Valoreu restricció espinal"
+  ],
+  "nivell": 1
+ },
+ {
+  "grup": "E",
+  "grup_nom": "Exposició / entorn / trauma",
+  "motiu": "Ofegament",
+  "signes": [
+   "Nivell consciència conservat",
+   "Dispnea"
+  ],
+  "descripcio": [],
+  "maniobres": [],
+  "nivell": 2
+ },
+ {
+  "grup": "E",
+  "grup_nom": "Exposició / entorn / trauma",
+  "motiu": "Dolor intens",
+  "signes": [
+   "Dolor d'origen no inclòs en una altra categoria"
+  ],
+  "descripcio": [
+   "EVA ≥ 8",
+   "Maneig farmacològic"
+  ],
+  "maniobres": [
+   "Considerar al",
+   "lèrgies",
+   "Preguntar per presa de medicació"
+  ],
+  "nivell": 2
+ },
+ {
+  "grup": "O",
+  "grup_nom": "Obstetrícia",
+  "motiu": "Part imminent",
+  "signes": [
+   "Contraccions < 2 min",
+   "Sensació de pujada / coronament",
+   "Complicacions durant l'embaràs",
+   "MALINAS >7"
+  ],
+  "descripcio": [
+   "Valoreu suport pediàtric"
+  ],
+  "maniobres": [
+   "Zona i mans netes",
+   "Suport suau al cap del nadó, no estirar",
+   "Assecar i escalfar el nadó, no tallar el cordó"
+  ],
+  "nivell": 1
+ },
+ {
+  "grup": "O",
+  "grup_nom": "Obstetrícia",
+  "motiu": "Part imminent",
+  "signes": [
+   "MALINAS 5-7"
+  ],
+  "descripcio": [
+   "Valoreu suport pediàtric"
+  ],
+  "maniobres": [
+   "Mateixes indicacions"
+  ],
+  "nivell": 2
+ },
+ {
+  "grup": "O",
+  "grup_nom": "Obstetrícia",
+  "motiu": "Hemorràgia obstètrica / postpart",
+  "signes": [
+   "Sagnat vaginal abundant"
+  ],
+  "descripcio": [
+   "Valorar xoc hipovolèmic"
+  ],
+  "maniobres": [
+   "Massatge uterí (fundus) si és postpart",
+   "Decúbit, abrigar",
+   "Preparar RCP"
+  ],
+  "nivell": 1
+ },
+ {
+  "grup": "O",
+  "grup_nom": "Obstetrícia",
+  "motiu": "Prolapse de cordó umbilical",
+  "signes": [
+   "Cordó visible/palpable a vagina"
+  ],
+  "descripcio": [
+   "Emergència obstètrica"
+  ],
+  "maniobres": [
+   "Posició genupectoral (de quatre grapes)",
+   "No empènyer ni manipular el cordó",
+   "Trasllat urgent"
+  ],
+  "nivell": 1
+ }
+]

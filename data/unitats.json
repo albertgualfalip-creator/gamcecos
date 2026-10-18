@@ -1,0 +1,7128 @@
+[
+ {
+  "indicatiu": "A201",
+  "tipus": "SVAm",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "LA SEU D'URGELL 1",
+   "municipi": "La Seu d'Urgell",
+   "lat": 42.355611,
+   "lon": 1.460009
+  },
+  "regio": "Alt Pirineu i Aran",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "A202",
+  "tipus": "SVAm",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "PUIGCERDÀ 1",
+   "municipi": "Puigcerda",
+   "lat": 42.444174,
+   "lon": 1.930205
+  },
+  "regio": "Alt Pirineu i Aran",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "A203",
+  "tipus": "SVAm",
+  "horari": "09:00 - 08:59",
+  "base": {
+   "nom": "SORT 1",
+   "municipi": "Sort",
+   "lat": 42.409072,
+   "lon": 1.128538
+  },
+  "regio": "Alt Pirineu i Aran",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "A204",
+  "tipus": "SVAm",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "PONT DE SEURT 1",
+   "municipi": "El Pont de Suert",
+   "lat": 42.405901,
+   "lon": 0.74181
+  },
+  "regio": "Alt Pirineu i Aran",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "A205",
+  "tipus": "SVAm",
+  "horari": "09:00 - 08:59",
+  "base": {
+   "nom": "TREMP 1",
+   "municipi": "Tremp",
+   "lat": 42.164862,
+   "lon": 0.897522
+  },
+  "regio": "Alt Pirineu i Aran",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "A410",
+  "tipus": "SVB",
+  "horari": "08:30 - 16:29",
+  "base": {
+   "nom": "LA SEU D'URGELL 2",
+   "municipi": "La Seu d'Urgell",
+   "lat": 42.349441,
+   "lon": 1.437173
+  },
+  "regio": "Alt Pirineu i Aran",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "A411",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "LA SEU D'URGELL 2",
+   "municipi": "La Seu d'Urgell",
+   "lat": 42.349441,
+   "lon": 1.437173
+  },
+  "regio": "Alt Pirineu i Aran",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "A412",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "OLIANA",
+   "municipi": "Oliana",
+   "lat": 42.06366,
+   "lon": 1.312908
+  },
+  "regio": "Alt Pirineu i Aran",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "A420",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "PUIGCERDÀ 2",
+   "municipi": "Puigcerda",
+   "lat": 42.42565,
+   "lon": 1.92891
+  },
+  "regio": "Alt Pirineu i Aran",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "A421",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "BELLVER",
+   "municipi": "Bellver de Cerdanya",
+   "lat": 42.374241,
+   "lon": 1.761723
+  },
+  "regio": "Alt Pirineu i Aran",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "A430",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "SORT 2",
+   "municipi": "Sort",
+   "lat": 42.40607,
+   "lon": 1.128786
+  },
+  "regio": "Alt Pirineu i Aran",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "A431",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "LLAVORSÍ",
+   "municipi": "Llavorsi",
+   "lat": 42.496112,
+   "lon": 1.210871
+  },
+  "regio": "Alt Pirineu i Aran",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "A432",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "ESTERRI",
+   "municipi": "Esterri d'Aneu",
+   "lat": 42.626262,
+   "lon": 1.125158
+  },
+  "regio": "Alt Pirineu i Aran",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "A440",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "PONT DE SUERT 2",
+   "municipi": "El Pont de Suert",
+   "lat": 42.420564,
+   "lon": 0.736068
+  },
+  "regio": "Alt Pirineu i Aran",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "A441",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59 / 11:00 - 18:59",
+  "base": {
+   "nom": "VALL DE BOI",
+   "municipi": "Barruera",
+   "lat": 42.501052,
+   "lon": 0.79558
+  },
+  "regio": "Alt Pirineu i Aran",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "A450",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "TREMP 2",
+   "municipi": "Tremp",
+   "lat": 42.172241,
+   "lon": 0.894288
+  },
+  "regio": "Alt Pirineu i Aran",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "A451",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "LA POBLA DE SEGUR",
+   "municipi": "La Pobla de Segur",
+   "lat": 42.4247,
+   "lon": 1.9335
+  },
+  "regio": "Alt Pirineu i Aran",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B200",
+  "tipus": "VIR",
+  "horari": "18:30 - 06:30",
+  "base": {
+   "nom": "BCN Nord",
+   "municipi": "Barcelona",
+   "lat": 41.391134,
+   "lon": 2.193998
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B201",
+  "tipus": "SVAm",
+  "horari": "06:30 - 18:30",
+  "base": {
+   "nom": "BCN Nord",
+   "municipi": "Barcelona",
+   "lat": 41.414898,
+   "lon": 2.140496
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B204",
+  "tipus": "VIR",
+  "horari": "06:00 - 18:00",
+  "base": {
+   "nom": "BCN Dreta",
+   "municipi": "Barcelona",
+   "lat": 41.414938,
+   "lon": 2.17612
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B208",
+  "tipus": "VIR",
+  "horari": "18:00 - 06:00",
+  "base": {
+   "nom": "BCN Esquerra",
+   "municipi": "Barcelona",
+   "lat": 41.414938,
+   "lon": 2.17612
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B209",
+  "tipus": "SVAm",
+  "horari": "07:30 - 19:30",
+  "base": {
+   "nom": "BCN Esquerra",
+   "municipi": "Barcelona",
+   "lat": 41.376565,
+   "lon": 2.159871
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B210",
+  "tipus": "SVAm",
+  "horari": "18:30 - 06:30",
+  "base": {
+   "nom": "BCN Nord",
+   "municipi": "Barcelona",
+   "lat": 41.414898,
+   "lon": 2.140496
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B211",
+  "tipus": "SVAi",
+  "horari": "09:00 - 20:59",
+  "base": {
+   "nom": "BCN Nord",
+   "municipi": "Barcelona",
+   "lat": 41.439849,
+   "lon": 2.166218
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B212",
+  "tipus": "SVAm",
+  "horari": "19:30 - 07:30",
+  "base": {
+   "nom": "BCN Esquerra",
+   "municipi": "Barcelona",
+   "lat": 41.376565,
+   "lon": 2.159871
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B213",
+  "tipus": "SVAi",
+  "horari": "06:00 - 18:00",
+  "base": {
+   "nom": "BCN Esquerra",
+   "municipi": "Barcelona",
+   "lat": 41.382238,
+   "lon": 2.107424
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B214",
+  "tipus": "SVAm",
+  "horari": "09:00 - 20:59",
+  "base": {
+   "nom": "BCN Dreta",
+   "municipi": "Barcelona",
+   "lat": 41.414938,
+   "lon": 2.17612
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B215",
+  "tipus": "SVAi",
+  "horari": "07:15 - 19:15",
+  "base": {
+   "nom": "BCN Dreta",
+   "municipi": "Barcelona",
+   "lat": 41.414938,
+   "lon": 2.17612
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B216",
+  "tipus": "VIR",
+  "horari": "06:30 - 18:30",
+  "base": {
+   "nom": "BCN Litoral",
+   "municipi": "Barcelona",
+   "lat": 41.391134,
+   "lon": 2.193998
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B217",
+  "tipus": "SVAi",
+  "horari": "08:00 - 20:00",
+  "base": {
+   "nom": "BCN Litoral",
+   "municipi": "Barcelona",
+   "lat": 41.391134,
+   "lon": 2.193998
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B218",
+  "tipus": "SVAi",
+  "horari": "18:00 - 06:00",
+  "base": {
+   "nom": "BCN Esquerra",
+   "municipi": "Barcelona",
+   "lat": 41.382238,
+   "lon": 2.107424
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B219",
+  "tipus": "SVAi",
+  "horari": "07:00 - 18:59",
+  "base": {
+   "nom": "BCN Esquerra",
+   "municipi": "Barcelona",
+   "lat": 41.376565,
+   "lon": 2.159871
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B226",
+  "tipus": "SVAi",
+  "horari": "19:15 - 07:15",
+  "base": {
+   "nom": "BCN Dreta",
+   "municipi": "Barcelona",
+   "lat": 41.414938,
+   "lon": 2.17612
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B227",
+  "tipus": "SVAi",
+  "horari": "20:00 - 08:00",
+  "base": {
+   "nom": "BCN Litoral",
+   "municipi": "Barcelona",
+   "lat": 41.391134,
+   "lon": 2.193998
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B302",
+  "tipus": "SVAi",
+  "horari": "19:00 - 07:00",
+  "base": {
+   "nom": "BCN Esquerra",
+   "municipi": "Barcelona",
+   "lat": 41.376565,
+   "lon": 2.159871
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B304",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "BCN Dreta",
+   "municipi": "Barcelona",
+   "lat": 41.427697,
+   "lon": 2.203353
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B305",
+  "tipus": "SVAi",
+  "horari": "09:30 - 21:30",
+  "base": {
+   "nom": "BCN Dreta",
+   "municipi": "Barcelona",
+   "lat": 41.414938,
+   "lon": 2.17612
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B306",
+  "tipus": "VIR",
+  "horari": "07:00 - 18:59",
+  "base": {
+   "nom": "BCN Litoral",
+   "municipi": "Barcelona",
+   "lat": 41.382238,
+   "lon": 2.107424
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B307",
+  "tipus": "SVAi",
+  "horari": "14:00 - 02:00",
+  "base": {
+   "nom": "BCN Litoral",
+   "municipi": "Barcelona",
+   "lat": 41.391134,
+   "lon": 2.193998
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B431",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "GÜELL",
+   "municipi": "Barcelona",
+   "lat": 41.411526,
+   "lon": 2.175686
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B432",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "SANTANDER",
+   "municipi": "Barcelona",
+   "lat": 41.411402,
+   "lon": 2.15671
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B433",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "GÜELL",
+   "municipi": "Barcelona",
+   "lat": 41.427697,
+   "lon": 2.203353
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B434",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "SANTANDER",
+   "municipi": "Barcelona",
+   "lat": 41.411402,
+   "lon": 2.15671
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B435",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "DOS DE MAIG",
+   "municipi": "Barcelona",
+   "lat": 41.427697,
+   "lon": 2.203353
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B436",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "DOS DE MAIG",
+   "municipi": "Barcelona",
+   "lat": 41.411526,
+   "lon": 2.175686
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B437",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "GÜELL",
+   "municipi": "Barcelona",
+   "lat": 41.427697,
+   "lon": 2.203353
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B438",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "DOS DE MAIG",
+   "municipi": "Barcelona",
+   "lat": 41.411402,
+   "lon": 2.15671
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B439",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "DOS DE MAIG",
+   "municipi": "Barcelona",
+   "lat": 41.427697,
+   "lon": 2.203353
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B440",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "SANTANDER",
+   "municipi": "Barcelona",
+   "lat": 41.411526,
+   "lon": 2.175686
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B441",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "DOS DE MAIG",
+   "municipi": "Barcelona",
+   "lat": 41.427697,
+   "lon": 2.203353
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B442",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "SANTANDER",
+   "municipi": "Barcelona",
+   "lat": 41.411526,
+   "lon": 2.175686
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B443",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "DOS DE MAIG",
+   "municipi": "Barcelona",
+   "lat": 41.427697,
+   "lon": 2.203353
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B444",
+  "tipus": "SLS",
+  "horari": "08:00 - 19:59",
+  "base": {
+   "nom": "COLLSEROLA",
+   "municipi": "Barcelona",
+   "lat": 41.427697,
+   "lon": 2.203353
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B445",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "COLLSEROLA",
+   "municipi": "Barcelona",
+   "lat": 41.435153,
+   "lon": 2.146732
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B446",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "COLLSEROLA",
+   "municipi": "Barcelona",
+   "lat": 41.435153,
+   "lon": 2.146732
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B447",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "COLLSEROLA",
+   "municipi": "Barcelona",
+   "lat": 41.427697,
+   "lon": 2.203353
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B448",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "SANTANDER",
+   "municipi": "Barcelona",
+   "lat": 41.427697,
+   "lon": 2.203353
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B449",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "COLLSEROLA",
+   "municipi": "Barcelona",
+   "lat": 41.427697,
+   "lon": 2.203353
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B450",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "COLLSEROLA",
+   "municipi": "Barcelona",
+   "lat": 41.435153,
+   "lon": 2.146732
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B451",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "COLLSEROLA",
+   "municipi": "Barcelona",
+   "lat": 41.435153,
+   "lon": 2.146732
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B452",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "TORRE BARÓ",
+   "municipi": "Barcelona",
+   "lat": 41.435153,
+   "lon": 2.146732
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B453",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "MONTCADA",
+   "municipi": "Barcelona",
+   "lat": 41.459953,
+   "lon": 2.181277
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B454",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "COLLSEROLA",
+   "municipi": "Montcada i Reixach",
+   "lat": 41.427697,
+   "lon": 2.203353
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B455",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "SANTANDER",
+   "municipi": "Barcelona",
+   "lat": 41.427697,
+   "lon": 2.203353
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B456",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "COLLSEROLA",
+   "municipi": "Barcelona",
+   "lat": 41.427697,
+   "lon": 2.203353
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B457",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "COLLSEROLA",
+   "municipi": "Barcelona",
+   "lat": 41.435153,
+   "lon": 2.146732
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B458",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "SANTANDER",
+   "municipi": "Barcelona",
+   "lat": 41.435153,
+   "lon": 2.146732
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B459",
+  "tipus": "SLS",
+  "horari": "09:30 - 21:29",
+  "base": {
+   "nom": "HCP",
+   "municipi": "Barcelona",
+   "lat": 41.413554,
+   "lon": 2.175138
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B460",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "HCP",
+   "municipi": "Barcelona",
+   "lat": 41.390902,
+   "lon": 2.152052
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B461",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "A. MAILLOL",
+   "municipi": "Barcelona",
+   "lat": 41.390902,
+   "lon": 2.152052
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B462",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "HCP",
+   "municipi": "Barcelona",
+   "lat": 41.378413,
+   "lon": 2.119543
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B463",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "HCP",
+   "municipi": "Barcelona",
+   "lat": 41.390902,
+   "lon": 2.152052
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B464",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "ZONA FRANCA",
+   "municipi": "Barcelona",
+   "lat": 41.390902,
+   "lon": 2.152052
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B465",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "A. MAILLOL",
+   "municipi": "Barcelona",
+   "lat": 41.361978,
+   "lon": 2.137788
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B466",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "HCP",
+   "municipi": "Barcelona",
+   "lat": 41.378413,
+   "lon": 2.119543
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B467",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "HCP",
+   "municipi": "Barcelona",
+   "lat": 41.390902,
+   "lon": 2.152052
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B468",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "ZONA FRANCA",
+   "municipi": "Barcelona",
+   "lat": 41.390902,
+   "lon": 2.152052
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B469",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "ZONA FRANCA",
+   "municipi": "Barcelona",
+   "lat": 41.361978,
+   "lon": 2.137788
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B470",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "ZONA FRANCA",
+   "municipi": "Barcelona",
+   "lat": 41.361978,
+   "lon": 2.137788
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B471",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "A. MAILLOL",
+   "municipi": "Barcelona",
+   "lat": 41.361978,
+   "lon": 2.137788
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B472",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "ZONA FRANCA",
+   "municipi": "Barcelona",
+   "lat": 41.378413,
+   "lon": 2.119543
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B473",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "HCP",
+   "municipi": "Barcelona",
+   "lat": 41.361978,
+   "lon": 2.137788
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B474",
+  "tipus": "SLS",
+  "horari": "08:30 - 20:29",
+  "base": {
+   "nom": "WTC",
+   "municipi": "Barcelona",
+   "lat": 41.4035,
+   "lon": 2.1741
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B475",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "WTC",
+   "municipi": "Barcelona",
+   "lat": 41.371851,
+   "lon": 2.180869
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B476",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "PARAGUAI",
+   "municipi": "Barcelona",
+   "lat": 41.371851,
+   "lon": 2.180869
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B477",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "PARAGUAI",
+   "municipi": "Barcelona",
+   "lat": 41.416912,
+   "lon": 2.206711
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B478",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "WTC",
+   "municipi": "Barcelona",
+   "lat": 41.416912,
+   "lon": 2.206711
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B479",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "WTC",
+   "municipi": "Barcelona",
+   "lat": 41.371851,
+   "lon": 2.180869
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B480",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "PARAGUAI",
+   "municipi": "Barcelona",
+   "lat": 41.371851,
+   "lon": 2.180869
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B481",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "PARAGUAI",
+   "municipi": "Barcelona",
+   "lat": 41.416912,
+   "lon": 2.206711
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B482",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "PARAGUAI",
+   "municipi": "Barcelona",
+   "lat": 41.416912,
+   "lon": 2.206711
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B483",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "PARAGUAI",
+   "municipi": "Barcelona",
+   "lat": 41.416912,
+   "lon": 2.206711
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B484",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "PARAGUAI",
+   "municipi": "Barcelona",
+   "lat": 41.416912,
+   "lon": 2.206711
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B485",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "WTC",
+   "municipi": "Barcelona",
+   "lat": 41.416912,
+   "lon": 2.206711
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "B486",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "WTC",
+   "municipi": "Barcelona",
+   "lat": 41.371851,
+   "lon": 2.180869
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP10",
+  "tipus": "SVB-P",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "TREMP 3",
+   "municipi": "Tremp",
+   "lat": 42.16849,
+   "lon": 0.88974
+  },
+  "regio": "Alt Pirineu i Aran",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP11",
+  "tipus": "SVB-P",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "LA SEU D'URGELL 3",
+   "municipi": "La Seu d'Urgell",
+   "lat": 42.35877,
+   "lon": 1.46144
+  },
+  "regio": "Alt Pirineu i Aran",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP12",
+  "tipus": "SVB-P",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "PUIGCERDÀ 3",
+   "municipi": "Puigcerda",
+   "lat": 42.4199,
+   "lon": 1.9281
+  },
+  "regio": "Alt Pirineu i Aran",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP13",
+  "tipus": "SVB-P",
+  "horari": "08:00 - 19:59",
+  "base": {
+   "nom": "PONT DE SUERT 2",
+   "municipi": "El Pont de Suert",
+   "lat": 42.420564,
+   "lon": 0.736068
+  },
+  "regio": "Alt Pirineu i Aran",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP20",
+  "tipus": "SVB-P",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "LLEIDA 3",
+   "municipi": "Lleida",
+   "lat": 41.623592,
+   "lon": 0.664558
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP21",
+  "tipus": "SVB-P",
+  "horari": "09:00 - 20:59",
+  "base": {
+   "nom": "TÀRREGA 3",
+   "municipi": "Tàrrega",
+   "lat": 41.642197,
+   "lon": 1.129475
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP30",
+  "tipus": "SVB-P",
+  "horari": "09:00 - 08:59",
+  "base": {
+   "nom": "TARRAGONA 6",
+   "municipi": "Tarragona",
+   "lat": 41.137319,
+   "lon": 1.230132
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP31",
+  "tipus": "SVB-P",
+  "horari": "09:00 - 20:59",
+  "base": {
+   "nom": "REUS 2",
+   "municipi": "Reus",
+   "lat": 41.158425,
+   "lon": 1.115266
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP32",
+  "tipus": "SVB-P",
+  "horari": "09:00 - 08:59",
+  "base": {
+   "nom": "ROQUETES 2",
+   "municipi": "ROQUETES",
+   "lat": 40.814161,
+   "lon": 0.70915
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP42",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "VILAFRANCA DEL PENEDÈS 2",
+   "municipi": "Sant Pere de Ribes",
+   "lat": 41.237502,
+   "lon": 1.756493
+  },
+  "regio": "Barcelona",
+  "subzona": "Penedès",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP50",
+  "tipus": "SVB-P",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "GIRONA 2",
+   "municipi": "Girona",
+   "lat": 41.992347,
+   "lon": 2.795423
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP51",
+  "tipus": "SVB-P",
+  "horari": "09:00 - 20:59",
+  "base": {
+   "nom": "BLANES 2",
+   "municipi": "Blanes",
+   "lat": 41.68798,
+   "lon": 2.798717
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP52",
+  "tipus": "SVB-P",
+  "horari": "09:00 - 20:59",
+  "base": {
+   "nom": "OLOT 2",
+   "municipi": "Olot",
+   "lat": 42.193005,
+   "lon": 2.485217
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP60",
+  "tipus": "SVB-P",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "MANRESA 4",
+   "municipi": "Manresa",
+   "lat": 41.7398,
+   "lon": 1.8743
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP61",
+  "tipus": "SVB-P",
+  "horari": "08:00 - 19:59",
+  "base": {
+   "nom": "VIC 3",
+   "municipi": "Vic",
+   "lat": 41.9198,
+   "lon": 2.2436
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP70",
+  "tipus": "SVAi",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "L'HOSPITALET DE LLOBREGAT 2",
+   "municipi": "l'Hospitalet de Llobregat",
+   "lat": 41.3461,
+   "lon": 2.111843
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP71",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "SANT JOAN DESPÍ 2",
+   "municipi": "Sant Joan Despí",
+   "lat": 41.373035,
+   "lon": 2.058794
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP80",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "BADALONA 3",
+   "municipi": "Arenys de Munt",
+   "lat": 41.6045,
+   "lon": 2.53747
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP81",
+  "tipus": "SVAm",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "GRANOLLERS 2",
+   "municipi": "Granollers",
+   "lat": 41.61334,
+   "lon": 2.29376
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP82",
+  "tipus": "SVB",
+  "horari": "08:00 - 00:00",
+  "base": {
+   "nom": "TERRASSA 2",
+   "municipi": "Santa Perpetua de la Mogoda",
+   "lat": 41.52759,
+   "lon": 2.18714
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP83",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "SANTA COLOMA DE GRAMANET 2",
+   "municipi": "Parets del Vallés",
+   "lat": 41.56794,
+   "lon": 2.22849
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP84",
+  "tipus": "SVB-P",
+  "horari": "12:00 - 19:59",
+  "base": {
+   "nom": "SABADELL 2",
+   "municipi": "Santa Coloma de Gramanet",
+   "lat": 41.467162,
+   "lon": 2.191184
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP85",
+  "tipus": "SVB-P",
+  "horari": "12:00 - 19:59",
+  "base": {
+   "nom": "MONTORNÈS DEL VALLÈS",
+   "municipi": "Sabadell",
+   "lat": 41.54681,
+   "lon": 2.09565
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP86",
+  "tipus": "SVB-P",
+  "horari": "11:00 - 18:59",
+  "base": {
+   "nom": "MATARÓ 3",
+   "municipi": "MONTORNÈS DEL VALLÈS",
+   "lat": 41.540681,
+   "lon": 2.204113
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP87",
+  "tipus": "SVB-P",
+  "horari": "10:00 - 17:59",
+  "base": {
+   "nom": "RIPOLLET",
+   "municipi": "Mataró",
+   "lat": 41.55718,
+   "lon": 2.44947
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP88",
+  "tipus": "SVB-P",
+  "horari": "10:00 - 17:59",
+  "base": {
+   "nom": "BADALONA 3",
+   "municipi": "RIPOLLET",
+   "lat": 41.48929,
+   "lon": 2.130204
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP90",
+  "tipus": "SVAi",
+  "horari": "21:00 - 09:00",
+  "base": {
+   "nom": "SANTANDER",
+   "municipi": "Barcelona",
+   "lat": 41.414898,
+   "lon": 2.140496
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP91",
+  "tipus": "SVB-P",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "SANTANDER",
+   "municipi": "Barcelona",
+   "lat": 41.427697,
+   "lon": 2.203353
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP92",
+  "tipus": "SVB-P",
+  "horari": "06:30 - 06:29",
+  "base": {
+   "nom": "SANTANDER",
+   "municipi": "Barcelona",
+   "lat": 41.427697,
+   "lon": 2.203353
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP93",
+  "tipus": "SVB-P",
+  "horari": "07:00 - 18:59",
+  "base": {
+   "nom": "SANTANDER",
+   "municipi": "Barcelona",
+   "lat": 41.427697,
+   "lon": 2.203353
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP94",
+  "tipus": "SVB-P",
+  "horari": "10:00 - 21:59",
+  "base": {
+   "nom": "PADILLA",
+   "municipi": "Barcelona",
+   "lat": 41.427697,
+   "lon": 2.203353
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "BP95",
+  "tipus": "SVB-P",
+  "horari": "12:00 - 19:59",
+  "base": {
+   "nom": "PADILLA",
+   "municipi": "Barcelona",
+   "lat": 41.4035,
+   "lon": 2.1741
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C201",
+  "tipus": "SVAm",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "BERGA 1",
+   "municipi": "Berga",
+   "lat": 42.10657,
+   "lon": 1.85215
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C203",
+  "tipus": "SVAm",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "VIC 1",
+   "municipi": "Vic",
+   "lat": 41.93681,
+   "lon": 2.26031
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C204",
+  "tipus": "SVAm",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "SOLSONA 1",
+   "municipi": "Solsona",
+   "lat": 41.99331,
+   "lon": 1.51625
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C205",
+  "tipus": "SVAm",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "MANRESA 1",
+   "municipi": "Manresa",
+   "lat": 41.72072,
+   "lon": 1.83774
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C215",
+  "tipus": "SVAi",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "MANRESA 2",
+   "municipi": "Manresa",
+   "lat": 41.72183,
+   "lon": 1.83837
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C217",
+  "tipus": "SVAi",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "MOIÀ 1",
+   "municipi": "Moià",
+   "lat": 41.81029,
+   "lon": 2.09383
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C300",
+  "tipus": "VIR",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "MANRESA 2",
+   "municipi": "Manresa",
+   "lat": 41.72183,
+   "lon": 1.83837
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C410",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "BERGA 2",
+   "municipi": "Berga",
+   "lat": 42.096742,
+   "lon": 1.822579
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C411",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "PUIG REIG",
+   "municipi": "Puig Reig",
+   "lat": 41.97249,
+   "lon": 1.87798
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C412",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "GUARDIOLA DE BERGUEDÀ",
+   "municipi": "Guardiola de Berguedà",
+   "lat": 42.23097,
+   "lon": 1.87811
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C413",
+  "tipus": "SVB",
+  "horari": "09:00 - 16:59",
+  "base": {
+   "nom": "BERGA 2",
+   "municipi": "Berga",
+   "lat": 42.096742,
+   "lon": 1.822579
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C430",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "GURB",
+   "municipi": "Gurb",
+   "lat": 41.94227,
+   "lon": 2.24766
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C431",
+  "tipus": "SVB",
+  "horari": "08:00 - 00:00",
+  "base": {
+   "nom": "VIC 2",
+   "municipi": "Vic",
+   "lat": 41.92848,
+   "lon": 2.26272
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C432",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "PRATS DE LLUÇANES",
+   "municipi": "Prats de Lluçanes",
+   "lat": 42.00603,
+   "lon": 2.0305
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C433",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "MANLLEU",
+   "municipi": "Manlleu",
+   "lat": 41.99487,
+   "lon": 2.28217
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C434",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "TONA",
+   "municipi": "Tona",
+   "lat": 41.84944,
+   "lon": 2.22942
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C435",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "TORELLÓ",
+   "municipi": "Torelló",
+   "lat": 42.04948,
+   "lon": 2.26797
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C436",
+  "tipus": "SVB",
+  "horari": "09:00 - 16:59",
+  "base": {
+   "nom": "CENTELLES",
+   "municipi": "Centelles",
+   "lat": 41.79328,
+   "lon": 2.22053
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C440",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "OLIUS / SOLSONA",
+   "municipi": "Solsona",
+   "lat": 41.99359,
+   "lon": 1.51755
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C441",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "SANT LLORENÇ DE MORUNYS",
+   "municipi": "Sant Llorenç de Morunys",
+   "lat": 42.134701,
+   "lon": 1.595319
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C450",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "MANRESA 2",
+   "municipi": "Manresa",
+   "lat": 41.72183,
+   "lon": 1.83837
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C451",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "MANRESA 3",
+   "municipi": "Manresa",
+   "lat": 41.73883,
+   "lon": 1.847129
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C452",
+  "tipus": "SVB",
+  "horari": "09:00 - 00:59",
+  "base": {
+   "nom": "MANRESA 3",
+   "municipi": "Manresa",
+   "lat": 41.73883,
+   "lon": 1.847129
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C453",
+  "tipus": "SVB",
+  "horari": "08:00 - 00:00",
+  "base": {
+   "nom": "SANT MARTÍ DE TORRUELLA",
+   "municipi": "Sant Martí de Torruella",
+   "lat": 41.77117,
+   "lon": 1.78948
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C454",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "SANT VICENÇ DE CASTELLET",
+   "municipi": "Sant Vicenç de Castellet",
+   "lat": 41.67094,
+   "lon": 1.86182
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C455",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "SALLENT",
+   "municipi": "Sallent",
+   "lat": 41.8264,
+   "lon": 1.88932
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C456",
+  "tipus": "SVB",
+  "horari": "09:00 - 16:59",
+  "base": {
+   "nom": "ARTÉS",
+   "municipi": "Artés",
+   "lat": 41.79547,
+   "lon": 1.95516
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C457",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "CARDONA",
+   "municipi": "Cardona",
+   "lat": 41.907383,
+   "lon": 1.701508
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C458",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "CALAF",
+   "municipi": "Calaf",
+   "lat": 41.73003,
+   "lon": 1.51155
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "C459",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "MOIÀ 2",
+   "municipi": "Moià",
+   "lat": 41.81116,
+   "lon": 2.09641
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "E201",
+  "tipus": "SVAm",
+  "horari": "09:00 - 08:59",
+  "base": {
+   "nom": "MORA D'EBRE 1",
+   "municipi": "Mora d'Ebre",
+   "lat": 41.0918,
+   "lon": 0.6431
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": true
+ },
+ {
+  "indicatiu": "E203",
+  "tipus": "SVAm",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "ROQUETES 1",
+   "municipi": "Roquetes",
+   "lat": 40.805769,
+   "lon": 0.5206
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "E207",
+  "tipus": "SVAm",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "L'AMETLLA DE MAR",
+   "municipi": "L'Ametlla de Mar",
+   "lat": 40.887611,
+   "lon": 0.801322
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "E215",
+  "tipus": "SVAi",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "L'ALDEA",
+   "municipi": "L'Aldea",
+   "lat": 40.744933,
+   "lon": 0.6225
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "E216",
+  "tipus": "SVAi",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "SANTA BÀRBARA",
+   "municipi": "Santa Bàrbara",
+   "lat": 40.717861,
+   "lon": 0.492344
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "E305",
+  "tipus": "VIR",
+  "horari": "09:00 - 08:59",
+  "base": {
+   "nom": "AMPOSTA 1",
+   "municipi": "Amposta",
+   "lat": 40.701667,
+   "lon": 0.561306
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "E410",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "MORA D'EBRE 2",
+   "municipi": "Mora d'Ebre",
+   "lat": 41.0918,
+   "lon": 0.6431
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": true
+ },
+ {
+  "indicatiu": "E411",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "FLIX",
+   "municipi": "Flix",
+   "lat": 41.239028,
+   "lon": 0.549722
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "E412",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "GANDESA",
+   "municipi": "Gandesa",
+   "lat": 41.0527,
+   "lon": 0.4374
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": true
+ },
+ {
+  "indicatiu": "E413",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "BATEA",
+   "municipi": "Batea",
+   "lat": 41.0947,
+   "lon": 0.3114
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": true
+ },
+ {
+  "indicatiu": "E430",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "ROQUETES 2",
+   "municipi": "ROQUETES",
+   "lat": 40.806472,
+   "lon": 0.495333
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "E431",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "TORTOSA",
+   "municipi": "Roquetes",
+   "lat": 40.805769,
+   "lon": 0.5206
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "E432",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "XERTA",
+   "municipi": "Xerta",
+   "lat": 40.905667,
+   "lon": 0.490378
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "E433",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "HORTA DE SANT JOAN",
+   "municipi": "Horta de Sant Joan",
+   "lat": 40.956022,
+   "lon": 0.315606
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "E450",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "AMPOSTA 2",
+   "municipi": "Amposta",
+   "lat": 40.702933,
+   "lon": 0.561894
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "E451",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "AMPOSTA 2",
+   "municipi": "Amposta",
+   "lat": 40.702933,
+   "lon": 0.561894
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "E452",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "DELTEBRE",
+   "municipi": "Deltebre",
+   "lat": 40.725081,
+   "lon": 0.726789
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "E453",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "ALCANAR",
+   "municipi": "Alcanar",
+   "lat": 40.542661,
+   "lon": 0.477367
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "E454",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "SANT CARLES DE LA RÀPITA",
+   "municipi": "Sant Carles de la Ràpita",
+   "lat": 40.612403,
+   "lon": 0.583811
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "E455",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "SANT CARLES DE LA RÀPITA",
+   "municipi": "Sant Carles de la Ràpita",
+   "lat": 40.612403,
+   "lon": 0.583811
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "E460",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "LA SÈNIA",
+   "municipi": "La Sènia",
+   "lat": 40.63675,
+   "lon": 0.284667
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "E461",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "ULLDECONA",
+   "municipi": "Ulldecona",
+   "lat": 40.600819,
+   "lon": 0.440503
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "E470",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "L'AMETLLA DE MAR",
+   "municipi": "L'Ametlla de Mar",
+   "lat": 40.887611,
+   "lon": 0.801322
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "E471",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "AMPOLLA",
+   "municipi": "Ampolla",
+   "lat": 40.814161,
+   "lon": 0.70915
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "E472",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "AMPOLLA",
+   "municipi": "Ampolla",
+   "lat": 40.814161,
+   "lon": 0.70915
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "ECO02",
+  "tipus": "ECO",
+  "horari": "07:00 - 07:00",
+  "base": {
+   "nom": "L'HOSPITALET DE LLOBREGAT 1",
+   "municipi": "Barberà",
+   "lat": 41.51525,
+   "lon": 2.13186
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G202",
+  "tipus": "SVAm",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "LLAGOSTERA",
+   "municipi": "Llagostera",
+   "lat": 41.824082,
+   "lon": 2.888438
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G204",
+  "tipus": "SVAm",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "CALELLA 1",
+   "municipi": "Calella",
+   "lat": 41.615154,
+   "lon": 2.657182
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G205",
+  "tipus": "SVAm",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "OLOT 1",
+   "municipi": "Olot",
+   "lat": 42.187462,
+   "lon": 2.467516
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G206",
+  "tipus": "SVAm",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "FIGUERES 1",
+   "municipi": "Figueres",
+   "lat": 42.260949,
+   "lon": 2.979173
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G210",
+  "tipus": "SVAi",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "GIRONA 1",
+   "municipi": "Girona",
+   "lat": 41.997676,
+   "lon": 2.82015
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G211",
+  "tipus": "SVAi",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "SALT 1",
+   "municipi": "Salt",
+   "lat": 41.969571,
+   "lon": 2.797248
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G212",
+  "tipus": "SVAi",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "SANTA COLOMA DE FARNERS",
+   "municipi": "Santa Coloma de Farners*",
+   "lat": 41.850846,
+   "lon": 2.68399
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G213",
+  "tipus": "SVAi",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "PALAMOS 1",
+   "municipi": "Palamós",
+   "lat": 41.857768,
+   "lon": 3.128268
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G215",
+  "tipus": "SVAi",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "CAMPDEVÀNOL 1",
+   "municipi": "Campdevànol",
+   "lat": 42.222645,
+   "lon": 2.166926
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G216",
+  "tipus": "SVAi",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "CASTELLÓ D'EMPÚRIES 1",
+   "municipi": "Castelló d'Empúries",
+   "lat": 42.243771,
+   "lon": 3.072043
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G217",
+  "tipus": "SVAi",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "BLANES 1",
+   "municipi": "Blanes",
+   "lat": 41.68726,
+   "lon": 2.802117
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G218",
+  "tipus": "SVAi",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "LLORET DE MAR 1",
+   "municipi": "Lloret de Mar",
+   "lat": 41.695721,
+   "lon": 2.827271
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G300",
+  "tipus": "VIR",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "GIRONA 1",
+   "municipi": "Girona",
+   "lat": 41.997676,
+   "lon": 2.82015
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G303",
+  "tipus": "VIR",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "LA BISBAL D'EMPORDÀ",
+   "municipi": "La Bisbal d'Empordà",
+   "lat": 41.961009,
+   "lon": 3.040647
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G305",
+  "tipus": "VIR",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "SANT JOAN DE LES ABADESSES",
+   "municipi": "Sant Joan de les Abadesses*",
+   "lat": 42.235672,
+   "lon": 2.289648
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G306",
+  "tipus": "VIR",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "FIGUERES 1",
+   "municipi": "Figueres",
+   "lat": 42.268265,
+   "lon": 2.953781
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G307",
+  "tipus": "VIR",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "BLANES 1",
+   "municipi": "Blanes",
+   "lat": 41.68726,
+   "lon": 2.802117
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G410",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "GIRONA 2",
+   "municipi": "Girona",
+   "lat": 41.992347,
+   "lon": 2.795423
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G411",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "GIRONA 2",
+   "municipi": "Girona",
+   "lat": 41.992347,
+   "lon": 2.795423
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G412",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "SALT 2",
+   "municipi": "Salt",
+   "lat": 41.975605,
+   "lon": 2.799682
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G413",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "BANYOLES",
+   "municipi": "Banyoles",
+   "lat": 42.143131,
+   "lon": 2.74782
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G414",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "SALT 2",
+   "municipi": "Salt",
+   "lat": 41.975605,
+   "lon": 2.799682
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G415",
+  "tipus": "SVB",
+  "horari": "08:00 - 00:00",
+  "base": {
+   "nom": "GIRONA 2",
+   "municipi": "Girona",
+   "lat": 41.992347,
+   "lon": 2.795423
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G420",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "SANT HILARI DE SACALM",
+   "municipi": "Sant Hilari de Sacalm",
+   "lat": 41.876491,
+   "lon": 2.513126
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G421",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "SANTA COLOMA DE FARNERS",
+   "municipi": "Santa Coloma de Farners",
+   "lat": 41.850846,
+   "lon": 2.68399
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G422",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "HOSTALRIC",
+   "municipi": "Hostalric",
+   "lat": 41.737651,
+   "lon": 2.623819
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G423",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "ANGLÈS",
+   "municipi": "Anglès",
+   "lat": 41.959069,
+   "lon": 2.631857
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G424",
+  "tipus": "SVB",
+  "horari": "08:00 - 00:00",
+  "base": {
+   "nom": "MAÇANET DE LA SELVA",
+   "municipi": "Maçanet de la Selva",
+   "lat": 41.776249,
+   "lon": 2.729514
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G425",
+  "tipus": "SVB",
+  "horari": "08:00 - 00:00",
+  "base": {
+   "nom": "CASSÀ DE LA SELVA",
+   "municipi": "Cassà de la Selva",
+   "lat": 41.886582,
+   "lon": 2.865235
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G431",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "PALAMOS 2",
+   "municipi": "Palamós",
+   "lat": 41.857768,
+   "lon": 3.128268
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G432",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "PALAFRUGELL",
+   "municipi": "Palafrugell",
+   "lat": 41.912426,
+   "lon": 3.154741
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G433",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "LA BISBAL D'EMPORDÀ",
+   "municipi": "La Bisbal d'Empordà",
+   "lat": 41.961009,
+   "lon": 3.040647
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G434",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "TORROELLA DE MONTGRÍ/ESTARTIT",
+   "municipi": "Torroella de Montgrí/Estartit",
+   "lat": 42.037895,
+   "lon": 3.126449
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G435",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "SANT FELIU DE GUÍXOLS",
+   "municipi": "Sant Feliu de Guíxols",
+   "lat": 41.786957,
+   "lon": 3.029669
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G436",
+  "tipus": "SVB",
+  "horari": "08:00 - 00:00",
+  "base": {
+   "nom": "CASTELL D'ARO",
+   "municipi": "Castell d'Aro",
+   "lat": 41.814227,
+   "lon": 3.030832
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G437",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "TORROELLA DE MONTGRÍ/ESTARTIT",
+   "municipi": "Torroella de Montgrí/Estartit",
+   "lat": 42.037895,
+   "lon": 3.126449
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G438",
+  "tipus": "SVB",
+  "horari": "08:00 - 00:00",
+  "base": {
+   "nom": "PALAFRUGELL",
+   "municipi": "Palafrugell",
+   "lat": 41.912426,
+   "lon": 3.154741
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G439",
+  "tipus": "SVB",
+  "horari": "08:00 - 00:00",
+  "base": {
+   "nom": "PALAMOS 2",
+   "municipi": "Palamós",
+   "lat": 41.857768,
+   "lon": 3.128268
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G440",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "CALELLA 2",
+   "municipi": "Calella",
+   "lat": 41.613835,
+   "lon": 2.654292
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G441",
+  "tipus": "SVB",
+  "horari": "08:00 - 00:00",
+  "base": {
+   "nom": "CANET DE MAR",
+   "municipi": "Canet de Mar",
+   "lat": 41.588485,
+   "lon": 2.577283
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G442",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "MALGRAT DE MAR",
+   "municipi": "Malgrat de Mar",
+   "lat": 41.655792,
+   "lon": 2.739939
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G443",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "PINEDA DE MAR 1",
+   "municipi": "Pineda de Mar",
+   "lat": 41.628102,
+   "lon": 2.693232
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G444",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "PINEDA DE MAR 2",
+   "municipi": "Pineda de Mar",
+   "lat": 41.621381,
+   "lon": 2.688382
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G445",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "PINEDA DE MAR 1",
+   "municipi": "Pineda de Mar",
+   "lat": 41.628102,
+   "lon": 2.693232
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G446",
+  "tipus": "SVB",
+  "horari": "08:00 - 00:00",
+  "base": {
+   "nom": "CALELLA 2",
+   "municipi": "Calella",
+   "lat": 41.613835,
+   "lon": 2.654292
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G450",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "OLOT 2",
+   "municipi": "Olot",
+   "lat": 42.193005,
+   "lon": 2.485217
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G451",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "OLOT 2",
+   "municipi": "Olot",
+   "lat": 42.193005,
+   "lon": 2.485217
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G452",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "CAMPDEVÀNOL 2",
+   "municipi": "Campdevànol",
+   "lat": 42.227756,
+   "lon": 2.170021
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G453",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "CAMPRODON",
+   "municipi": "Camprodon",
+   "lat": 42.307558,
+   "lon": 2.363002
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G460",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "FIGUERES 2",
+   "municipi": "Figueres",
+   "lat": 42.268265,
+   "lon": 2.953781
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G461",
+  "tipus": "SVB",
+  "horari": "08:00 - 00:00",
+  "base": {
+   "nom": "FIGUERES 2",
+   "municipi": "Figueres",
+   "lat": 42.268265,
+   "lon": 2.953781
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G462",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "CADAQUÉS",
+   "municipi": "Cadaqués",
+   "lat": 42.291693,
+   "lon": 3.268813
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G463",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "PORTBOU",
+   "municipi": "Portbou",
+   "lat": 42.426472,
+   "lon": 3.162361
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G464",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "L'ESCALA",
+   "municipi": "L'Escala",
+   "lat": 42.121525,
+   "lon": 3.136849
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G465",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "LA JONQUERA",
+   "municipi": "La Jonquera",
+   "lat": 42.412498,
+   "lon": 2.875709
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G466",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "CASTELLÓ D'EMPÚRIES 2",
+   "municipi": "Castelló d'Empúries",
+   "lat": 42.263135,
+   "lon": 3.102554
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G467",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "ROSES",
+   "municipi": "Roses",
+   "lat": 42.266669,
+   "lon": 3.180127
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G468",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "LLANÇÀ",
+   "municipi": "Llançà",
+   "lat": 42.364226,
+   "lon": 3.15273
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G469",
+  "tipus": "SVB",
+  "horari": "08:00 - 00:00",
+  "base": {
+   "nom": "L'ESCALA",
+   "municipi": "L'Escala",
+   "lat": 42.121525,
+   "lon": 3.136849
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G471",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "TORDERA",
+   "municipi": "Tordera",
+   "lat": 41.692017,
+   "lon": 2.716939
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G472",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "BLANES 2",
+   "municipi": "Blanes",
+   "lat": 41.68798,
+   "lon": 2.798717
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G473",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "BLANES 2",
+   "municipi": "Blanes",
+   "lat": 41.68798,
+   "lon": 2.798717
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G474",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "LLORET DE MAR 2",
+   "municipi": "Lloret de Mar",
+   "lat": 41.695721,
+   "lon": 2.827271
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G475",
+  "tipus": "SVB",
+  "horari": "08:00 - 00:00",
+  "base": {
+   "nom": "LLORET DE MAR 2",
+   "municipi": "Lloret de Mar",
+   "lat": 41.695721,
+   "lon": 2.827271
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G476",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "TOSSA DE MAR",
+   "municipi": "Tossa de Mar",
+   "lat": 41.726675,
+   "lon": 2.926487
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G477",
+  "tipus": "SVB",
+  "horari": "08:00 - 00:00",
+  "base": {
+   "nom": "BLANES 2",
+   "municipi": "Blanes",
+   "lat": 41.68798,
+   "lon": 2.798717
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "G478",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "LLORET DE MAR 2",
+   "municipi": "Lloret de Mar",
+   "lat": 41.695721,
+   "lon": 2.827271
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "HELI-GIRONA",
+  "tipus": "HELI",
+  "horari": "09:00 - ocàs",
+  "base": {
+   "nom": "Girona",
+   "municipi": "Girona",
+   "lat": 41.901,
+   "lon": 2.7606
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": true
+ },
+ {
+  "indicatiu": "HELI-REUS",
+  "tipus": "HELI",
+  "horari": "09:00 - ocàs",
+  "base": {
+   "nom": "Reus",
+   "municipi": "Reus",
+   "lat": 41.1474,
+   "lon": 1.1672
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": true
+ },
+ {
+  "indicatiu": "HELI-SABADELL",
+  "tipus": "HELI",
+  "horari": "24h",
+  "base": {
+   "nom": "Sabadell",
+   "municipi": "Sabadell",
+   "lat": 41.5209,
+   "lon": 2.105
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": true
+ },
+ {
+  "indicatiu": "HELI-TREMP",
+  "tipus": "HELI",
+  "horari": "09:00 - 21:00",
+  "base": {
+   "nom": "Tremp",
+   "municipi": "Tremp",
+   "lat": 42.166,
+   "lon": 0.895
+  },
+  "regio": "Alt Pirineu i Aran",
+  "subzona": null,
+  "coord_aproximada": true
+ },
+ {
+  "indicatiu": "L201",
+  "tipus": "SVAm",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "BALAGUER",
+   "municipi": "Balaguer",
+   "lat": 41.786481,
+   "lon": 0.804965
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L202",
+  "tipus": "SVAm",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "LES BORGES BLANQUES",
+   "municipi": "Les Borges Blanques",
+   "lat": 41.5261,
+   "lon": 0.875466
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L203",
+  "tipus": "SVAm",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "LLEIDA 1",
+   "municipi": "Lleida",
+   "lat": 41.626252,
+   "lon": 0.615088
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L204",
+  "tipus": "SVAm",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "TÀRREGA 1",
+   "municipi": "Tàrrega",
+   "lat": 41.642197,
+   "lon": 1.129475
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L211",
+  "tipus": "SVAi",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "PONTS",
+   "municipi": "Ponts",
+   "lat": 41.91672,
+   "lon": 1.184876
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L212",
+  "tipus": "SVAi",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "MOLLERUSSA",
+   "municipi": "Mollerussa",
+   "lat": 41.624141,
+   "lon": 0.893064
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L213",
+  "tipus": "SVAi",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "ALCARRÀS 1",
+   "municipi": "Alcarràs",
+   "lat": 41.5636,
+   "lon": 0.525
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": true
+ },
+ {
+  "indicatiu": "L300",
+  "tipus": "VIR",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "LLEIDA 2",
+   "municipi": "Lleida",
+   "lat": 41.6005,
+   "lon": 0.635375
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L410",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "ARTESA DE SEGRE",
+   "municipi": "Artesa de Segre",
+   "lat": 41.8946,
+   "lon": 1.0478
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": true
+ },
+ {
+  "indicatiu": "L411",
+  "tipus": "SVB",
+  "horari": "12:00 - 19:59",
+  "base": {
+   "nom": "BALAGUER",
+   "municipi": "Balaguer",
+   "lat": 41.786481,
+   "lon": 0.804965
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L412",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "BALAGUER",
+   "municipi": "Balaguer",
+   "lat": 41.786481,
+   "lon": 0.804965
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L420",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "LA GRANADELLA",
+   "municipi": "La Granadella",
+   "lat": 41.353365,
+   "lon": 0.668695
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L421",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "LES BORGES BLANQUES",
+   "municipi": "Les Borges Blanques",
+   "lat": 41.5261,
+   "lon": 0.875466
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L422",
+  "tipus": "SVB",
+  "horari": "12:00 - 19:59",
+  "base": {
+   "nom": "MOLLERUSSA",
+   "municipi": "Mollerussa",
+   "lat": 41.624141,
+   "lon": 0.893064
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L423",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "MOLLERUSSA",
+   "municipi": "Mollerussa",
+   "lat": 41.624141,
+   "lon": 0.893064
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L430",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "ALCARRÀS 2",
+   "municipi": "Alcarràs",
+   "lat": 41.56591,
+   "lon": 0.52649
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L431",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "ALMACELLES",
+   "municipi": "Almacelles",
+   "lat": 41.73089,
+   "lon": 0.43406
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L432",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "ALMENAR",
+   "municipi": "Almenar",
+   "lat": 41.795599,
+   "lon": 0.568664
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L433",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "LLEIDA 3",
+   "municipi": "Lleida",
+   "lat": 41.623592,
+   "lon": 0.664558
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L434",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "LLEIDA 1",
+   "municipi": "Lleida",
+   "lat": 41.626252,
+   "lon": 0.615088
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L435",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "LLEIDA 3",
+   "municipi": "Lleida",
+   "lat": 41.623592,
+   "lon": 0.664558
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L436",
+  "tipus": "SVB",
+  "horari": "08:00 - 23:59",
+  "base": {
+   "nom": "LLEIDA 3",
+   "municipi": "Lleida",
+   "lat": 41.623592,
+   "lon": 0.664558
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L437",
+  "tipus": "SVB",
+  "horari": "07:30 - 07:29",
+  "base": {
+   "nom": "SERÓS",
+   "municipi": "Serós",
+   "lat": 41.46547,
+   "lon": 0.414961
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L440",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "AGRAMUNT",
+   "municipi": "Agramunt",
+   "lat": 41.78493,
+   "lon": 1.10339
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L441",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "CERVERA",
+   "municipi": "Cervera",
+   "lat": 41.67086,
+   "lon": 1.27159
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L442",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "GUISSONA",
+   "municipi": "Guissona",
+   "lat": 41.782782,
+   "lon": 1.290283
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L443",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "BELLPUIG",
+   "municipi": "Bellpuig",
+   "lat": 41.627226,
+   "lon": 1.013852
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "L444",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "TÀRREGA 2",
+   "municipi": "Tàrrega",
+   "lat": 41.642197,
+   "lon": 1.129475
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N200",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "MATARÓ 1",
+   "municipi": "Llinars del Vallés",
+   "lat": 41.64162,
+   "lon": 2.39746
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N202",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "BADALONA 1",
+   "municipi": "Badalona",
+   "lat": 41.46897,
+   "lon": 2.2409
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N203",
+  "tipus": "SVB",
+  "horari": "13:00 - 20:59",
+  "base": {
+   "nom": "TERRASSA 1",
+   "municipi": "Terrassa",
+   "lat": 41.55714,
+   "lon": 2.05588
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N206",
+  "tipus": "SVB",
+  "horari": "15:00 - 22:59",
+  "base": {
+   "nom": "SABADELL 1",
+   "municipi": "Sabadell",
+   "lat": 41.5468,
+   "lon": 2.09564
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N208",
+  "tipus": "SVB",
+  "horari": "06:30 - 06:29",
+  "base": {
+   "nom": "GRANOLLERS 1",
+   "municipi": "El Masnou",
+   "lat": 41.48305,
+   "lon": 2.32479
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N210",
+  "tipus": "SVB",
+  "horari": "06:30 - 06:29",
+  "base": {
+   "nom": "SANT CELONI 1",
+   "municipi": "Sant Celoni",
+   "lat": 41.68573,
+   "lon": 2.49472
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N211",
+  "tipus": "SLS",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "BADALONA 2",
+   "municipi": "Badalona",
+   "lat": 41.46897,
+   "lon": 2.2409
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N212",
+  "tipus": "SVB",
+  "horari": "05:00 - 04:59",
+  "base": {
+   "nom": "SANTA COLOMA DE GRAMANET 1",
+   "municipi": "Sant Quirze",
+   "lat": 41.53972,
+   "lon": 2.08218
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N214",
+  "tipus": "SVB",
+  "horari": "21:00 - 04:59",
+  "base": {
+   "nom": "TERRASSA 2",
+   "municipi": "Terrassa",
+   "lat": 41.563,
+   "lon": 1.99865
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N215",
+  "tipus": "SVB",
+  "horari": "06:30 - 06:29",
+  "base": {
+   "nom": "RUBÍ",
+   "municipi": "Rubí",
+   "lat": 41.5098,
+   "lon": 2.03429
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N216",
+  "tipus": "SVAm",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "SABADELL 1",
+   "municipi": "Sabadell",
+   "lat": 41.55684,
+   "lon": 2.10996
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N217",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "CERDANYOLA-RIPOLLET",
+   "municipi": "Castellbisbal",
+   "lat": 41.47434,
+   "lon": 1.97759
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N219",
+  "tipus": "SVB",
+  "horari": "19:00 - 06:59",
+  "base": {
+   "nom": "MOLLET DEL VALLÉS 1",
+   "municipi": "Mataró",
+   "lat": 41.53139,
+   "lon": 2.42759
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N300",
+  "tipus": "SVB",
+  "horari": "07:00 - 18:59",
+  "base": {
+   "nom": "MOLLET DEL VALLÉS 1",
+   "municipi": "Mollet del Vallès",
+   "lat": 41.54075,
+   "lon": 2.20416
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N301",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "BARBERÀ DEL VALLÈS",
+   "municipi": "Barberà",
+   "lat": 41.51525,
+   "lon": 2.13186
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N410",
+  "tipus": "SVAm",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "MATARÓ 2",
+   "municipi": "Mataró",
+   "lat": 41.55697,
+   "lon": 2.43064
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N411",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "MATARÓ 2",
+   "municipi": "Mataró",
+   "lat": 41.53139,
+   "lon": 2.42759
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N412",
+  "tipus": "SVB",
+  "horari": "06:30 - 06:29",
+  "base": {
+   "nom": "MATARÓ 2",
+   "municipi": "Mataró",
+   "lat": 41.53139,
+   "lon": 2.42759
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N413",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "MATARÓ 2",
+   "municipi": "Mataró",
+   "lat": 41.53139,
+   "lon": 2.42759
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N414",
+  "tipus": "SVB",
+  "horari": "07:00 - 18:59",
+  "base": {
+   "nom": "MATARÓ 2",
+   "municipi": "Mataró",
+   "lat": 41.53139,
+   "lon": 2.42759
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N415",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "EL MASNOU",
+   "municipi": "Cerdanyola",
+   "lat": 41.48942,
+   "lon": 2.13029
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N416",
+  "tipus": "SVB",
+  "horari": "08:00 - 15:59",
+  "base": {
+   "nom": "ALELLA",
+   "municipi": "Aiguafreda",
+   "lat": 41.76731,
+   "lon": 2.25196
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N417",
+  "tipus": "SVB",
+  "horari": "22:00 - 05:59",
+  "base": {
+   "nom": "VILASSAR DE DALT",
+   "municipi": "Terrassa",
+   "lat": 41.53953,
+   "lon": 2.0245
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N418",
+  "tipus": "SVB-P",
+  "horari": "10:00 - 17:59",
+  "base": {
+   "nom": "PREMIÀ DE MAR",
+   "municipi": "Badalona",
+   "lat": 41.46897,
+   "lon": 2.2409
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N419",
+  "tipus": "SVB",
+  "horari": "06:30 - 06:29",
+  "base": {
+   "nom": "VILASSAR DE MAR",
+   "municipi": "Vilassar de Dalt",
+   "lat": 41.51884,
+   "lon": 2.36346
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N420",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "ARENYS DE MUNT",
+   "municipi": "Arenys de Mar",
+   "lat": 41.57613,
+   "lon": 2.53658
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N421",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "ARENYS DE MAR",
+   "municipi": "Alella",
+   "lat": 41.49788,
+   "lon": 2.29305
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N422",
+  "tipus": "SVB",
+  "horari": "08:00 - 19:59",
+  "base": {
+   "nom": "MATARÓ 2",
+   "municipi": "Mataró",
+   "lat": 41.53139,
+   "lon": 2.42759
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N423",
+  "tipus": "SVAi",
+  "horari": "07:30 - 07:29",
+  "base": {
+   "nom": "BADALONA 3",
+   "municipi": "Badalona",
+   "lat": 41.45096,
+   "lon": 2.24545
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N424",
+  "tipus": "SVB",
+  "horari": "06:30 - 06:29",
+  "base": {
+   "nom": "BADALONA 3",
+   "municipi": "Badalona",
+   "lat": 41.46897,
+   "lon": 2.2409
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N425",
+  "tipus": "SVAm",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "BADALONA 4",
+   "municipi": "Badalona",
+   "lat": 41.47185,
+   "lon": 2.23398
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N426",
+  "tipus": "SVB",
+  "horari": "08:00 - 00:00",
+  "base": {
+   "nom": "BADALONA 4",
+   "municipi": "Badalona",
+   "lat": 41.43154,
+   "lon": 2.23539
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N427",
+  "tipus": "SVB",
+  "horari": "08:00 - 00:00",
+  "base": {
+   "nom": "BADALONA 4",
+   "municipi": "Badalona",
+   "lat": 41.43154,
+   "lon": 2.23539
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N428",
+  "tipus": "SVAi",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "SANTA COLOMA DE GRAMANET 2",
+   "municipi": "Santa Coloma de Gramanet",
+   "lat": 41.46037,
+   "lon": 2.213039
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N429",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "SANTA COLOMA DE GRAMANET 2",
+   "municipi": "Santa Coloma de Gramanet",
+   "lat": 41.46738,
+   "lon": 2.19151
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N430",
+  "tipus": "SVB",
+  "horari": "06:30 - 06:29",
+  "base": {
+   "nom": "SANTA COLOMA DE GRAMANET 2",
+   "municipi": "Santa Coloma de Gramanet",
+   "lat": 41.46738,
+   "lon": 2.19151
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N431",
+  "tipus": "SVAi",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "SANT ADRIÀ DE BESÒS",
+   "municipi": "Sabadell",
+   "lat": 41.55684,
+   "lon": 2.10996
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N432",
+  "tipus": "SVB",
+  "horari": "07:30 - 23:29",
+  "base": {
+   "nom": "BADALONA 4",
+   "municipi": "Badalona",
+   "lat": 41.43154,
+   "lon": 2.23539
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N433",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "SANTA COLOMA DE GRAMANET 2",
+   "municipi": "Santa Coloma de Gramanet",
+   "lat": 41.46738,
+   "lon": 2.19151
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N434",
+  "tipus": "SVB",
+  "horari": "14:00 - 21:59",
+  "base": {
+   "nom": "BADALONA 4",
+   "municipi": "Badalona",
+   "lat": 41.43154,
+   "lon": 2.23539
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N435",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "SANT ADRIÀ DE BESÒS",
+   "municipi": "Sant Adrià de Besòs",
+   "lat": 41.47635,
+   "lon": 2.21018
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N436",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "SANTA COLOMA DE GRAMANET 2",
+   "municipi": "Santa Coloma de Gramanet",
+   "lat": 41.46738,
+   "lon": 2.19151
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N437",
+  "tipus": "SVB",
+  "horari": "08:00 - 15:59",
+  "base": {
+   "nom": "SANTA COLOMA DE GRAMANET 2",
+   "municipi": "Santa Coloma de Gramanet",
+   "lat": 41.46738,
+   "lon": 2.19151
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N438",
+  "tipus": "SVB",
+  "horari": "15:00 - 22:59",
+  "base": {
+   "nom": "SANTA COLOMA DE GRAMANET 2",
+   "municipi": "Santa Coloma de Gramanet",
+   "lat": 41.46738,
+   "lon": 2.19151
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N440",
+  "tipus": "SLS",
+  "horari": "08:00 - 19:59",
+  "base": {
+   "nom": "GRANOLLERS 2",
+   "municipi": "Granollers",
+   "lat": 41.58957,
+   "lon": 2.26673
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N441",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "GRANOLLERS 2",
+   "municipi": "Granollers",
+   "lat": 41.58957,
+   "lon": 2.26673
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N442",
+  "tipus": "SVAi",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "MOLLET DEL VALLÉS 2",
+   "municipi": "Mollet del Vallés",
+   "lat": 41.54372,
+   "lon": 2.20246
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N443",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "MOLLET DEL VALLÉS 2",
+   "municipi": "Mollet del Vallés",
+   "lat": 41.54075,
+   "lon": 2.20416
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N444",
+  "tipus": "SVB",
+  "horari": "06:00 - 13:59",
+  "base": {
+   "nom": "SANT CELONI 2",
+   "municipi": "Sant Adrià de Besòs",
+   "lat": 41.47635,
+   "lon": 2.21018
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N445",
+  "tipus": "SVB",
+  "horari": "06:30 - 06:29",
+  "base": {
+   "nom": "LES FRANQUESES DEL VALLÉS",
+   "municipi": "La Garriga",
+   "lat": 41.67231,
+   "lon": 2.28355
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N446",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "LLIÇÀ DE MUNT",
+   "municipi": "Les Franqueses del Vallés",
+   "lat": 41.64205,
+   "lon": 2.2841
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N447",
+  "tipus": "SVB",
+  "horari": "07:00 - 14:59",
+  "base": {
+   "nom": "LA GARRIGA",
+   "municipi": "Granollers",
+   "lat": 41.58957,
+   "lon": 2.26673
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N448",
+  "tipus": "SVB",
+  "horari": "08:00 - 15:59",
+  "base": {
+   "nom": "LLINARS DEL VALLÉS",
+   "municipi": "Lliçà de Munt",
+   "lat": 41.62612,
+   "lon": 2.23731
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N449",
+  "tipus": "VIR",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "PARETS DEL VALLÉS",
+   "municipi": "Mollet del Vallés",
+   "lat": 41.54372,
+   "lon": 2.20246
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N450",
+  "tipus": "VIR",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "CALDES DE MONTBUI",
+   "municipi": "Barberà",
+   "lat": 41.51525,
+   "lon": 2.13186
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N451",
+  "tipus": "SVB",
+  "horari": "06:30 - 06:29",
+  "base": {
+   "nom": "CALDES DE MONTBUI",
+   "municipi": "Caldes de Montbui",
+   "lat": 41.62714,
+   "lon": 2.17046
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N453",
+  "tipus": "SVB",
+  "horari": "07:30 - 15:30",
+  "base": {
+   "nom": "SANTA PERPÈTUA DE MOGODA",
+   "municipi": "Santa Coloma de Gramanet",
+   "lat": 41.46738,
+   "lon": 2.19151
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N454",
+  "tipus": "SVB",
+  "horari": "08:00 - 15:59",
+  "base": {
+   "nom": "SANT CELONI 2",
+   "municipi": "Sant Celoni",
+   "lat": 41.68573,
+   "lon": 2.49472
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N455",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "SANTA PERPÈTUA DE MOGODA",
+   "municipi": "Santa Perpètua de Mogoda",
+   "lat": 41.52759,
+   "lon": 2.18714
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N456",
+  "tipus": "SVB",
+  "horari": "06:30 - 06:29",
+  "base": {
+   "nom": "GRANOLLERS 2",
+   "municipi": "Granollers",
+   "lat": 41.58957,
+   "lon": 2.26673
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N457",
+  "tipus": "SVB",
+  "horari": "08:00 - 00:00",
+  "base": {
+   "nom": "GRANOLLERS 2",
+   "municipi": "Granollers",
+   "lat": 41.58957,
+   "lon": 2.26673
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N458",
+  "tipus": "SVB",
+  "horari": "06:30 - 06:29",
+  "base": {
+   "nom": "MOLLET DEL VALLÉS 2",
+   "municipi": "Mollet del Vallès",
+   "lat": 41.54075,
+   "lon": 2.20416
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N459",
+  "tipus": "SVB",
+  "horari": "06:00 - 17:59",
+  "base": {
+   "nom": "MOLLET DEL VALLÉS 2",
+   "municipi": "Mollet del Vallès",
+   "lat": 41.54075,
+   "lon": 2.20416
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N460",
+  "tipus": "SVB",
+  "horari": "06:00 - 21:59",
+  "base": {
+   "nom": "CASTELLBISBAL",
+   "municipi": "Castellar",
+   "lat": 41.59525,
+   "lon": 2.09084
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N461",
+  "tipus": "SLS",
+  "horari": "09:00 - 08:59",
+  "base": {
+   "nom": "SABADELL 2",
+   "municipi": "Sabadell",
+   "lat": 41.54203,
+   "lon": 2.13419
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N462",
+  "tipus": "SVB",
+  "horari": "05:30 - 05:29",
+  "base": {
+   "nom": "SABADELL 2",
+   "municipi": "Sabadell",
+   "lat": 41.5468,
+   "lon": 2.09564
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N463",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "SABADELL 2",
+   "municipi": "Sabadell",
+   "lat": 41.5468,
+   "lon": 2.09564
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N464",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "SABADELL 2",
+   "municipi": "Sabadell",
+   "lat": 41.5468,
+   "lon": 2.09564
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N465",
+  "tipus": "SVB",
+  "horari": "08:00 - 00:00",
+  "base": {
+   "nom": "SABADELL 2",
+   "municipi": "Sabadell",
+   "lat": 41.5468,
+   "lon": 2.09564
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N466",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "SABADELL 2",
+   "municipi": "Sabadell",
+   "lat": 41.5468,
+   "lon": 2.09564
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N467",
+  "tipus": "SVAi",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "CERDANYOLA",
+   "municipi": "Cerdanyola-Ripollet",
+   "lat": 41.49278,
+   "lon": 2.15214
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N468",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "CERDANYOLA",
+   "municipi": "Cerdanyola",
+   "lat": 41.48942,
+   "lon": 2.13029
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N469",
+  "tipus": "SVB",
+  "horari": "06:30 - 06:29",
+  "base": {
+   "nom": "BARBERÀ DEL VALLÈS",
+   "municipi": "Badia del Vallès",
+   "lat": 41.50727,
+   "lon": 2.11361
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N470",
+  "tipus": "SVB",
+  "horari": "07:00 - 14:59",
+  "base": {
+   "nom": "BADIA DEL VALLÈS",
+   "municipi": "Badalona",
+   "lat": 41.43154,
+   "lon": 2.23539
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N471",
+  "tipus": "SVB",
+  "horari": "07:00 - 14:59",
+  "base": {
+   "nom": "CASTELLAR",
+   "municipi": "Caldes de Montbui",
+   "lat": 41.62714,
+   "lon": 2.17046
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N472",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "CASTELLAR",
+   "municipi": "Castellar",
+   "lat": 41.59525,
+   "lon": 2.09084
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N474",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "BARBERÀ DEL VALLÈS",
+   "municipi": "Barberà",
+   "lat": 41.51525,
+   "lon": 2.13186
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N475",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "SABADELL 2",
+   "municipi": "Sabadell",
+   "lat": 41.5468,
+   "lon": 2.09564
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N476",
+  "tipus": "SVB",
+  "horari": "08:00 - 15:59",
+  "base": {
+   "nom": "SABADELL 2",
+   "municipi": "Sabadell",
+   "lat": 41.5468,
+   "lon": 2.09564
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N477",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "SANT QUIRZE",
+   "municipi": "Sant Cugat del Vallés",
+   "lat": 41.47635,
+   "lon": 2.06859
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N480",
+  "tipus": "SVB-P",
+  "horari": "09:00 - 20:59",
+  "base": {
+   "nom": "TERRASSA 3",
+   "municipi": "Terrassa",
+   "lat": 41.53953,
+   "lon": 2.0245
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N481",
+  "tipus": "SVB",
+  "horari": "08:00 - 15:59",
+  "base": {
+   "nom": "TERRASSA 3",
+   "municipi": "Terrassa",
+   "lat": 41.563,
+   "lon": 1.99865
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N482",
+  "tipus": "SVAm",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "TERRASSA 2",
+   "municipi": "Terrassa",
+   "lat": 41.556997,
+   "lon": 2.045539
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N483",
+  "tipus": "SVAi",
+  "horari": "07:30 - 07:29",
+  "base": {
+   "nom": "TERRASSA 3",
+   "municipi": "Terrassa",
+   "lat": 41.56379,
+   "lon": 2.01708
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N484",
+  "tipus": "SVB",
+  "horari": "06:30 - 06:29",
+  "base": {
+   "nom": "TERRASSA 3",
+   "municipi": "Terrassa",
+   "lat": 41.563,
+   "lon": 1.99865
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N485",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "TERRASSA 2",
+   "municipi": "Terrassa",
+   "lat": 41.53953,
+   "lon": 2.0245
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N486",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "TERRASSA 3",
+   "municipi": "Terrassa",
+   "lat": 41.563,
+   "lon": 1.99865
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N487",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "RUBÍ",
+   "municipi": "Ripollet",
+   "lat": 41.493,
+   "lon": 2.16261
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N488",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "RUBÍ",
+   "municipi": "Rubí",
+   "lat": 41.5098,
+   "lon": 2.03429
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N489",
+  "tipus": "SVAi",
+  "horari": "09:00 - 08:59",
+  "base": {
+   "nom": "SANT CUGAT DEL VALLÉS",
+   "municipi": "Sant Celoni",
+   "lat": 41.68858,
+   "lon": 2.48598
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N490",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "SANT CUGAT DEL VALLÉS",
+   "municipi": "Sant Cugat del Vallés",
+   "lat": 41.47635,
+   "lon": 2.06859
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N491",
+  "tipus": "SVB",
+  "horari": "06:00 - 21:59",
+  "base": {
+   "nom": "TERRASSA 2",
+   "municipi": "Terrassa",
+   "lat": 41.53953,
+   "lon": 2.0245
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "N492",
+  "tipus": "SVB",
+  "horari": "06:00 - 21:59",
+  "base": {
+   "nom": "TERRASSA 2",
+   "municipi": "Terrassa",
+   "lat": 41.53953,
+   "lon": 2.0245
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "OC01",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "Santander",
+   "municipi": "Vilassar de Mar",
+   "lat": 41.50174,
+   "lon": 2.38598
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "P204",
+  "tipus": "SLS",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "VENDRELL 1",
+   "municipi": "Vilafranca del Penedès",
+   "lat": 41.329833,
+   "lon": 1.683854
+  },
+  "regio": "Barcelona",
+  "subzona": "Penedès",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "P210",
+  "tipus": "SVB",
+  "horari": "10:00 - 17:59",
+  "base": {
+   "nom": "VILAFRANCA DEL PENEDÈS 1",
+   "municipi": "Santa Margarida de Montbui",
+   "lat": 41.575112,
+   "lon": 1.61018
+  },
+  "regio": "Barcelona",
+  "subzona": "Penedès",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "P213",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "VILANOVA I LA GELTRU 1",
+   "municipi": "Sant Quintí de Mediona",
+   "lat": 41.461274,
+   "lon": 1.666182
+  },
+  "regio": "Barcelona",
+  "subzona": "Penedès",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "P410",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "VILAFRANCA DEL PENEDÈS 2",
+   "municipi": "Vilanova del Camí",
+   "lat": 41.574136,
+   "lon": 1.642353
+  },
+  "regio": "Barcelona",
+  "subzona": "Penedès",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "P411",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "VILAFRANCA DEL PENEDÈS 2",
+   "municipi": "Cubelles",
+   "lat": 41.20046,
+   "lon": 1.645701
+  },
+  "regio": "Barcelona",
+  "subzona": "Penedès",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "P412",
+  "tipus": "VIR",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "VILAFRANCA DEL PENEDÈS 2",
+   "municipi": "Sant Pere de Ribes",
+   "lat": 41.254312,
+   "lon": 1.765567
+  },
+  "regio": "Barcelona",
+  "subzona": "Penedès",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "P413",
+  "tipus": "SVAm",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "SANT SADURNI D'ANOIA",
+   "municipi": "Igualada",
+   "lat": 41.587984,
+   "lon": 1.620036
+  },
+  "regio": "Barcelona",
+  "subzona": "Penedès",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "P414",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "SANTA MARGARIDA I ELS MONJOS",
+   "municipi": "Igualada",
+   "lat": 41.578649,
+   "lon": 1.6247
+  },
+  "regio": "Barcelona",
+  "subzona": "Penedès",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "P415",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "SANT QUINTÍ DE MEDIONA",
+   "municipi": "Capellades",
+   "lat": 41.527231,
+   "lon": 1.683667
+  },
+  "regio": "Barcelona",
+  "subzona": "Penedès",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "P430",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "VILANOVA I LA GELTRU 2",
+   "municipi": "Sant Sadurni d'Anoia",
+   "lat": 41.431469,
+   "lon": 1.778423
+  },
+  "regio": "Barcelona",
+  "subzona": "Penedès",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "P431",
+  "tipus": "SVB",
+  "horari": "10:00 - 17:59",
+  "base": {
+   "nom": "VILANOVA I LA GELTRU 2",
+   "municipi": "Santa Margarida i els Monjos",
+   "lat": 41.323509,
+   "lon": 1.657119
+  },
+  "regio": "Barcelona",
+  "subzona": "Penedès",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "P432",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "VILANOVA I LA GELTRU 2",
+   "municipi": "Sitges",
+   "lat": 41.240425,
+   "lon": 1.8041
+  },
+  "regio": "Barcelona",
+  "subzona": "Penedès",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "P435",
+  "tipus": "SVB-P",
+  "horari": "08:00 - 19:59",
+  "base": {
+   "nom": "SITGES",
+   "municipi": "Igualada",
+   "lat": 41.565922,
+   "lon": 1.607134
+  },
+  "regio": "Barcelona",
+  "subzona": "Penedès",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "P436",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "SITGES",
+   "municipi": "Piera",
+   "lat": 41.526665,
+   "lon": 1.749964
+  },
+  "regio": "Barcelona",
+  "subzona": "Penedès",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "P437",
+  "tipus": "SVB",
+  "horari": "10:00 - 01:59",
+  "base": {
+   "nom": "VILANOVA I LA GELTRU 2",
+   "municipi": "Sitges",
+   "lat": 41.240425,
+   "lon": 1.8041
+  },
+  "regio": "Barcelona",
+  "subzona": "Penedès",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "P440",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "COMARRUGA",
+   "municipi": "Vilafranca del Penedès",
+   "lat": 41.329833,
+   "lon": 1.683854
+  },
+  "regio": "Barcelona",
+  "subzona": "Penedès",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "P441",
+  "tipus": "SVAi",
+  "horari": "07:30 - 07:29",
+  "base": {
+   "nom": "VENDRELL 1",
+   "municipi": "Vilanova i la Geltru",
+   "lat": 41.228694,
+   "lon": 1.721738
+  },
+  "regio": "Barcelona",
+  "subzona": "Penedès",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "P442",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "VENDRELL 1",
+   "municipi": "Vilanova i la Geltru",
+   "lat": 41.233118,
+   "lon": 1.741497
+  },
+  "regio": "Barcelona",
+  "subzona": "Penedès",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "P443",
+  "tipus": "SVAi",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "CALAFELL",
+   "municipi": "Vilafranca del Penedès",
+   "lat": 41.356101,
+   "lon": 1.706026
+  },
+  "regio": "Barcelona",
+  "subzona": "Penedès",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "P444",
+  "tipus": "SVB-P",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "SEGUR DE CALAFELL",
+   "municipi": "Vilafranca del Penedès",
+   "lat": 41.329833,
+   "lon": 1.683854
+  },
+  "regio": "Barcelona",
+  "subzona": "Penedès",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "P445",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "LA BISBAL DEL PENEDES",
+   "municipi": "Vilafranca del Penedès",
+   "lat": 41.329833,
+   "lon": 1.683854
+  },
+  "regio": "Barcelona",
+  "subzona": "Penedès",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "P446",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "CALAFELL",
+   "municipi": "Vilafranca del Penedès",
+   "lat": 41.329833,
+   "lon": 1.683854
+  },
+  "regio": "Barcelona",
+  "subzona": "Penedès",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S202",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "MARTORELL 1",
+   "municipi": "Esparraguera",
+   "lat": 41.545602,
+   "lon": 1.859235
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S203",
+  "tipus": "SVAm",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "VILADECANS 1",
+   "municipi": "Viladecans",
+   "lat": 41.313178,
+   "lon": 2.014052
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S204",
+  "tipus": "SVAm",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "CORNELLÀ DE LLOBREGAT",
+   "municipi": "Cornellà",
+   "lat": 41.350602,
+   "lon": 2.095096
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S206",
+  "tipus": "SVB",
+  "horari": "06:00 - 21:59",
+  "base": {
+   "nom": "L'HOSPITALET DE LLOBREGAT 1",
+   "municipi": "El Prat de Llobregat",
+   "lat": 41.327588,
+   "lon": 2.090068
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S214",
+  "tipus": "SVAi",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "SANT JOAN DESPÍ 1",
+   "municipi": "Sant Joan Despí",
+   "lat": 41.372915,
+   "lon": 2.07371
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S216",
+  "tipus": "SVAm",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "L'HOSPITALET DE LLOBREGAT 1",
+   "municipi": "l'Hospitalet de Llobregat",
+   "lat": 41.3461,
+   "lon": 2.111843
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S301",
+  "tipus": "VIR",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "SANT BOI DE LLOBREGAT",
+   "municipi": "Sant Boi",
+   "lat": 41.354258,
+   "lon": 2.031375
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S420",
+  "tipus": "SVB",
+  "horari": "08:30 - 16:29",
+  "base": {
+   "nom": "ABRERA",
+   "municipi": "L'Hospitalet de Llobregat",
+   "lat": 41.346301,
+   "lon": 2.120453
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S421",
+  "tipus": "SVB",
+  "horari": "08:00 - 00:00",
+  "base": {
+   "nom": "ESPARRAGUERA",
+   "municipi": "Abrera",
+   "lat": 41.518956,
+   "lon": 1.889574
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S422",
+  "tipus": "SVB",
+  "horari": "08:00 - 00:00",
+  "base": {
+   "nom": "MARTORELL 2",
+   "municipi": "Martorell",
+   "lat": 41.481322,
+   "lon": 1.926096
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S423",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "MARTORELL 2",
+   "municipi": "Martorell",
+   "lat": 41.481322,
+   "lon": 1.926096
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S424",
+  "tipus": "SVAm",
+  "horari": "08:30 - 08:29",
+  "base": {
+   "nom": "CASTELLDEFELS",
+   "municipi": "Martorell",
+   "lat": 41.471703,
+   "lon": 1.920366
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S425",
+  "tipus": "SLS",
+  "horari": "07:00 - 18:59",
+  "base": {
+   "nom": "OLESA DE MONTSERRAT",
+   "municipi": "Martorell",
+   "lat": 41.481322,
+   "lon": 1.926096
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S426",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "PALLEJÀ",
+   "municipi": "Olesa de Montserrat",
+   "lat": 41.549717,
+   "lon": 1.88614
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S427",
+  "tipus": "SVB",
+  "horari": "08:00 - 15:59",
+  "base": {
+   "nom": "SANT ANDREU DE LA BARCA",
+   "municipi": "Pallejà",
+   "lat": 41.421645,
+   "lon": 1.995853
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S430",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "VILADECANS 2",
+   "municipi": "Viladecans",
+   "lat": 41.313836,
+   "lon": 2.015291
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S431",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "VILADECANS 2",
+   "municipi": "Viladecans",
+   "lat": 41.313836,
+   "lon": 2.015291
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S432",
+  "tipus": "SVB",
+  "horari": "14:00 - 21:59",
+  "base": {
+   "nom": "SANT BOI DE LLOBREGAT",
+   "municipi": "Sant Boi de Llobregat",
+   "lat": 41.354258,
+   "lon": 2.031375
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S433",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "SANT BOI DE LLOBREGAT",
+   "municipi": "Sant Boi de Llobregat",
+   "lat": 41.354258,
+   "lon": 2.031375
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S434",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "SANT BOI DE LLOBREGAT",
+   "municipi": "Sant Boi de Llobregat",
+   "lat": 41.378307,
+   "lon": 2.040952
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S435",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "BEGUES",
+   "municipi": "Begues",
+   "lat": 41.332605,
+   "lon": 1.919658
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S436",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "CASTELLDEFELS",
+   "municipi": "Castelldefels",
+   "lat": 41.28448,
+   "lon": 1.981207
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S437",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "CASTELLDEFELS",
+   "municipi": "Castelldefels",
+   "lat": 41.28448,
+   "lon": 1.981207
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S438",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "GAVÀ",
+   "municipi": "Gavà",
+   "lat": 41.293741,
+   "lon": 2.015716
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S439",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "GAVÀ",
+   "municipi": "Gavà",
+   "lat": 41.293741,
+   "lon": 2.015716
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S440",
+  "tipus": "SVB",
+  "horari": "09:00 - 08:59",
+  "base": {
+   "nom": "CASTELLDEFELS",
+   "municipi": "Castelldefels",
+   "lat": 41.28448,
+   "lon": 1.981207
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S441",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "CORBERA DE LLOBREGAT",
+   "municipi": "Corbera de Llobregat",
+   "lat": 41.416016,
+   "lon": 1.923177
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S442",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "CORNELLÀ DE LLOBREGAT",
+   "municipi": "Cornellà de Llobregat",
+   "lat": 41.350602,
+   "lon": 2.095096
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S443",
+  "tipus": "SVB",
+  "horari": "08:00 - 00:00",
+  "base": {
+   "nom": "CORNELLÀ DE LLOBREGAT",
+   "municipi": "Cornellà de Llobregat",
+   "lat": 41.350602,
+   "lon": 2.095096
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S444",
+  "tipus": "SVB",
+  "horari": "14:00 - 21:59",
+  "base": {
+   "nom": "CORNELLÀ DE LLOBREGAT",
+   "municipi": "Cornellà de Llobregat",
+   "lat": 41.350602,
+   "lon": 2.095096
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S445",
+  "tipus": "SVB",
+  "horari": "08:00 - 00:00",
+  "base": {
+   "nom": "EL PAPIOL",
+   "municipi": "El Papiol",
+   "lat": 41.436134,
+   "lon": 2.007268
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S446",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "ESPLUGUES DE LLOBREGAT",
+   "municipi": "Esplugues de Llobregat",
+   "lat": 41.373104,
+   "lon": 2.083829
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S447",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "MOLINS DE REI",
+   "municipi": "Molins de Rei",
+   "lat": 41.420733,
+   "lon": 2.020306
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S448",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "SANT FELIU DE LLOBREGAT",
+   "municipi": "Sant Feliu de Llobregat",
+   "lat": 41.378307,
+   "lon": 2.040952
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S450",
+  "tipus": "SVB-P",
+  "horari": "10:00 - 21:59",
+  "base": {
+   "nom": "SANT JUST DESVERN",
+   "municipi": "Sant Joan Despí",
+   "lat": 41.373035,
+   "lon": 2.058794
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S451",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "SANT VICENÇ DELS HORTS",
+   "municipi": "Sant Vicenç dels Horts",
+   "lat": 41.387435,
+   "lon": 2.007757
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S452",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "SANT VICENÇ DELS HORTS",
+   "municipi": "Sant Vicenç dels Horts",
+   "lat": 41.387435,
+   "lon": 2.007757
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S453",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "VALLIRANA",
+   "municipi": "Vallirana",
+   "lat": 41.382586,
+   "lon": 1.932745
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S460",
+  "tipus": "SLS",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "L'HOSPITALET DE LLOBREGAT 2",
+   "municipi": "L'Hospitalet de Llobregat",
+   "lat": 41.346301,
+   "lon": 2.120453
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S461",
+  "tipus": "SVB",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "L'HOSPITALET DE LLOBREGAT 2",
+   "municipi": "L'Hospitalet de Llobregat",
+   "lat": 41.346301,
+   "lon": 2.120453
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S462",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "L'HOSPITALET DE LLOBREGAT 2",
+   "municipi": "L'Hospitalet de Llobregat",
+   "lat": 41.346301,
+   "lon": 2.120453
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S463",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "L'HOSPITALET DE LLOBREGAT 2",
+   "municipi": "L'Hospitalet de Llobregat",
+   "lat": 41.346301,
+   "lon": 2.120453
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S464",
+  "tipus": "SVB",
+  "horari": "07:30 - 07:29",
+  "base": {
+   "nom": "L'HOSPITALET DE LLOBREGAT 2",
+   "municipi": "L'Hospitalet de Llobregat",
+   "lat": 41.346301,
+   "lon": 2.120453
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S465",
+  "tipus": "SVB",
+  "horari": "07:30 - 23:29",
+  "base": {
+   "nom": "L'HOSPITALET DE LLOBREGAT 2",
+   "municipi": "L'Hospitalet de Llobregat",
+   "lat": 41.346301,
+   "lon": 2.120453
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S466",
+  "tipus": "SVB",
+  "horari": "06:30 - 22:29",
+  "base": {
+   "nom": "L'HOSPITALET DE LLOBREGAT 2",
+   "municipi": "L'Hospitalet de Llobregat",
+   "lat": 41.346301,
+   "lon": 2.120453
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S467",
+  "tipus": "SVB",
+  "horari": "07:30 - 23:29",
+  "base": {
+   "nom": "L'HOSPITALET DE LLOBREGAT 2",
+   "municipi": "L'Hospitalet de Llobregat",
+   "lat": 41.346301,
+   "lon": 2.120453
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S468",
+  "tipus": "SVB",
+  "horari": "09:00 - 00:59",
+  "base": {
+   "nom": "L'HOSPITALET DE LLOBREGAT 2",
+   "municipi": "L'Hospitalet de Llobregat",
+   "lat": 41.346301,
+   "lon": 2.120453
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S469",
+  "tipus": "SVB",
+  "horari": "07:30 - 23:29",
+  "base": {
+   "nom": "L'HOSPITALET DE LLOBREGAT 2",
+   "municipi": "L'Hospitalet de Llobregat",
+   "lat": 41.346301,
+   "lon": 2.120453
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "S470",
+  "tipus": "SVB",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "EL PRAT DE LLOBREGAT",
+   "municipi": "Sant Just Desvern",
+   "lat": 41.3264,
+   "lon": 2.0952
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": true
+ },
+ {
+  "indicatiu": "S471",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "EL PRAT DE LLOBREGAT",
+   "municipi": "El Prat de Llobregat",
+   "lat": 41.327588,
+   "lon": 2.090068
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "SL10",
+  "tipus": "SLS",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "TREMP 3",
+   "municipi": "Tremp",
+   "lat": 42.1685,
+   "lon": 0.88974
+  },
+  "regio": "Alt Pirineu i Aran",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "SL20",
+  "tipus": "SLS",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "LLEIDA 3",
+   "municipi": "Lleida",
+   "lat": 41.623592,
+   "lon": 0.664558
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "SL21",
+  "tipus": "SLS",
+  "horari": "07:00 - 18:59",
+  "base": {
+   "nom": "LLEIDA 3",
+   "municipi": "Lleida",
+   "lat": 41.623592,
+   "lon": 0.664558
+  },
+  "regio": "Lleida",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "SL30",
+  "tipus": "SLS",
+  "horari": "09:00 - 08:59",
+  "base": {
+   "nom": "TARRAGONA 7",
+   "municipi": "Tarragona",
+   "lat": 41.137319,
+   "lon": 1.230132
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "SL32",
+  "tipus": "SLS",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "ROQUETES 2",
+   "municipi": "ROQUETES",
+   "lat": 40.806472,
+   "lon": 0.495333
+  },
+  "regio": "Terres de l'Ebre",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "SL40",
+  "tipus": "SVB-P",
+  "horari": "08:00 - 19:59",
+  "base": {
+   "nom": "VILAFRANCA DEL PENEDÈS 2",
+   "municipi": "Sant Pere de Ribes",
+   "lat": 41.237502,
+   "lon": 1.756493
+  },
+  "regio": "Barcelona",
+  "subzona": "Penedès",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "SL50",
+  "tipus": "SLS",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "GIRONA 2",
+   "municipi": "Girona",
+   "lat": 41.992347,
+   "lon": 2.795423
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "SL51",
+  "tipus": "SLS",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "FIGUERES 2",
+   "municipi": "Figueres",
+   "lat": 42.268265,
+   "lon": 2.953781
+  },
+  "regio": "Girona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "SL60",
+  "tipus": "SLS",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "MANRESA 4",
+   "municipi": "Manresa",
+   "lat": 41.7398,
+   "lon": 1.8743
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "SL61",
+  "tipus": "SLS",
+  "horari": "08:00 - 19:59",
+  "base": {
+   "nom": "VIC 3",
+   "municipi": "Vic",
+   "lat": 41.9198,
+   "lon": 2.2436
+  },
+  "regio": "Catalunya Central",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "SL70",
+  "tipus": "SVB-P",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "L'HOSPITALET DE LLOBREGAT 2",
+   "municipi": "L'Hospitalet de Llobregat",
+   "lat": 41.346301,
+   "lon": 2.120453
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "SL71",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "MARTORELL 2",
+   "municipi": "Martorell",
+   "lat": 41.481322,
+   "lon": 1.926096
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Sud",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "SL80",
+  "tipus": "SVB-P",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "BADALONA 3",
+   "municipi": "Badalona",
+   "lat": 41.46897,
+   "lon": 2.2409
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "SL81",
+  "tipus": "SVAi",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "SABADELL 3",
+   "municipi": "Rubí",
+   "lat": 41.5098,
+   "lon": 2.03429
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "SL82",
+  "tipus": "SVB-P",
+  "horari": "08:00 - 19:59",
+  "base": {
+   "nom": "GRANOLLERS 2",
+   "municipi": "Granollers",
+   "lat": 41.58957,
+   "lon": 2.26673
+  },
+  "regio": "Barcelona",
+  "subzona": "Metro Nord",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "SL90",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "Santander",
+   "municipi": "Barcelona",
+   "lat": 41.371851,
+   "lon": 2.180869
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "SL91",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "Santander",
+   "municipi": "Barcelona",
+   "lat": 41.390902,
+   "lon": 2.152052
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "SL92",
+  "tipus": "SVB",
+  "horari": null,
+  "base": {
+   "nom": "Santander",
+   "municipi": "Barcelona",
+   "lat": 41.411526,
+   "lon": 2.175686
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "SL93",
+  "tipus": "SLS",
+  "horari": "09:00 - 20:59",
+  "base": {
+   "nom": "Santander",
+   "municipi": "Barcelona",
+   "lat": 41.4035,
+   "lon": 2.1741
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "SL94",
+  "tipus": "SLS",
+  "horari": "05:30 - 05:29",
+  "base": {
+   "nom": "Santander",
+   "municipi": "Barcelona",
+   "lat": 41.427697,
+   "lon": 2.203353
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "SL95",
+  "tipus": "SLS",
+  "horari": "06:00 - 05:59",
+  "base": {
+   "nom": "PADILLA",
+   "municipi": "Barcelona",
+   "lat": 41.427697,
+   "lon": 2.203353
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "SL96",
+  "tipus": "SLS",
+  "horari": "06:30 - 06:29",
+  "base": {
+   "nom": "PADILLA",
+   "municipi": "Barcelona",
+   "lat": 41.427697,
+   "lon": 2.203353
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "SL97",
+  "tipus": "SLS",
+  "horari": "07:00 - 06:59",
+  "base": {
+   "nom": "INDUSTRIA",
+   "municipi": "Barcelona",
+   "lat": 41.427697,
+   "lon": 2.203353
+  },
+  "regio": "Barcelona",
+  "subzona": "Barcelona ciutat",
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T205",
+  "tipus": "SVAm",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "TARRAGONA 1",
+   "municipi": "Tarragona",
+   "lat": 41.134945,
+   "lon": 1.185103
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T211",
+  "tipus": "SVAi",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "REUS 1",
+   "municipi": "Reus",
+   "lat": 41.145869,
+   "lon": 1.122955
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T212",
+  "tipus": "SVAi",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "CAMBRILS 1",
+   "municipi": "Cambrils",
+   "lat": 41.07178,
+   "lon": 1.05758
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T213",
+  "tipus": "SVAi",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "ALCOVER",
+   "municipi": "Alcover",
+   "lat": 41.262543,
+   "lon": 1.175481
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T214",
+  "tipus": "SVAi",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "MONTBLANC 1",
+   "municipi": "Montblanc",
+   "lat": 41.366335,
+   "lon": 1.167495
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T216",
+  "tipus": "SVAi",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "TORREDEMBARRA",
+   "municipi": "Torredembarra",
+   "lat": 41.155409,
+   "lon": 1.392085
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T301",
+  "tipus": "VIR",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "REUS 1",
+   "municipi": "Reus",
+   "lat": 41.145869,
+   "lon": 1.122955
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T303",
+  "tipus": "VIR",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "VALLS 1",
+   "municipi": "Valls",
+   "lat": 41.289997,
+   "lon": 1.246475
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T410",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "REUS 2",
+   "municipi": "Reus",
+   "lat": 41.158425,
+   "lon": 1.115266
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T411",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "REUS 3",
+   "municipi": "Reus",
+   "lat": 41.142803,
+   "lon": 1.116648
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T412",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "REUS 4",
+   "municipi": "Reus",
+   "lat": 41.153714,
+   "lon": 1.097977
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T413",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "RIUDOMS",
+   "municipi": "Riudoms",
+   "lat": 41.138619,
+   "lon": 1.057527
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T414",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "FALSET",
+   "municipi": "Falset",
+   "lat": 41.14447,
+   "lon": 0.809657
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T415",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "CORNUDELLA DE MONTSANT",
+   "municipi": "Cornudella de Montsant",
+   "lat": 41.264901,
+   "lon": 0.907708
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T416",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "PRADES",
+   "municipi": "Prades",
+   "lat": 41.31115,
+   "lon": 0.991386
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T420",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "CAMBRILS 2",
+   "municipi": "Cambrils",
+   "lat": 41.068804,
+   "lon": 1.053562
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T421",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "CAMBRILS 2",
+   "municipi": "Cambrils",
+   "lat": 41.068804,
+   "lon": 1.053562
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T422",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "MONTROIG DEL CAMP",
+   "municipi": "Montroig del Camp",
+   "lat": 41.085946,
+   "lon": 0.956797
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T423",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "MIAMI PLATJA",
+   "municipi": "Miami Platja",
+   "lat": 41.001297,
+   "lon": 0.931818
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T424",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "L''HOSPITALET DE L''INFANT",
+   "municipi": "L'Hospitalet de l'Infant",
+   "lat": 40.993115,
+   "lon": 0.92058
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T430",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "VALLS  2",
+   "municipi": "Valls",
+   "lat": 41.289997,
+   "lon": 1.246475
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T431",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "ALCOVER",
+   "municipi": "Alcover",
+   "lat": 41.262543,
+   "lon": 1.175481
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T432",
+  "tipus": "SVB",
+  "horari": "09:00 - 16:59",
+  "base": {
+   "nom": "VILARODONA",
+   "municipi": "Vilarodona",
+   "lat": 41.308715,
+   "lon": 1.35895
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T440",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "MONTBLANC 2",
+   "municipi": "Montblanc",
+   "lat": 41.366335,
+   "lon": 1.167495
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T441",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "SARRAL",
+   "municipi": "Sarral",
+   "lat": 41.448077,
+   "lon": 1.250758
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T450",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "TARRAGONA 2",
+   "municipi": "Tarragona",
+   "lat": 41.139317,
+   "lon": 1.25616
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T451",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "TARRAGONA 3",
+   "municipi": "Tarragona",
+   "lat": 41.157766,
+   "lon": 1.241733
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T452",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "TARRAGONA 4",
+   "municipi": "Tarragona",
+   "lat": 41.121214,
+   "lon": 1.254831
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T453",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "TARRAGONA 5",
+   "municipi": "Tarragona",
+   "lat": 41.11463,
+   "lon": 1.242792
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T454",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "SALOU",
+   "municipi": "Salou",
+   "lat": 41.084304,
+   "lon": 1.133231
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T455",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "SALOU",
+   "municipi": "Salou",
+   "lat": 41.084304,
+   "lon": 1.133231
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T456",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "LA PINEDA",
+   "municipi": "La Pineda",
+   "lat": 41.080564,
+   "lon": 1.179678
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T457",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "VILASECA",
+   "municipi": "Vilaseca",
+   "lat": 41.11124,
+   "lon": 1.153227
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T458",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "VILASECA",
+   "municipi": "Vilaseca",
+   "lat": 41.11124,
+   "lon": 1.153227
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T459",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "EL MORELL",
+   "municipi": "El Morell",
+   "lat": 41.190028,
+   "lon": 1.209029
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T460",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "ALTAFULLA",
+   "municipi": "Altafulla",
+   "lat": 41.134364,
+   "lon": 1.389876
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T461",
+  "tipus": "SVB",
+  "horari": "08:00 - 07:59",
+  "base": {
+   "nom": "TORREDEMBARRA",
+   "municipi": "Torredembarra",
+   "lat": 41.155409,
+   "lon": 1.392085
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ },
+ {
+  "indicatiu": "T462",
+  "tipus": "SVB",
+  "horari": "07:00 - 22:59",
+  "base": {
+   "nom": "RODA DE BARÀ",
+   "municipi": "Roda de Barà",
+   "lat": 41.184251,
+   "lon": 1.453272
+  },
+  "regio": "Camp de Tarragona",
+  "subzona": null,
+  "coord_aproximada": false
+ }
+]

@@ -1,0 +1,83 @@
+{
+ "font": "Infografia AURE · Triatge avançat i resposta estructurada",
+ "activacio_immediata_sva": {
+  "descripcio": "Categories Omega d'alta probabilitat de gravetat (Taula 1). Activació immediata de USVB + USVA més properes sense esperar la valoració clínica. Objectiu: metge + infermeria + TES.",
+  "categories": {
+   "X": ["Hemorràgia molt (tovallola)"],
+   "A": ["No respira", "Ennuegament no pot parlar", "Ofegament", "No contesta"],
+   "B": ["Respira amb dificultat no pot parlar"],
+   "C": [],
+   "D": ["Convulsions", "Desvia la comissura / no se l'entén quan parla / no pot aixecar cames i braços"],
+   "E": ["Ferit greu", "Precipitació", "Atropellament", "Agressió arma blanca / arma de foc"],
+   "SE": ["Part en curs", "Ginecologia / hemorràgia / dolor abdominal", "Agitació", "Amenaça en suïcidar-se"]
+  },
+  "si_no_es_categoria_immediata": "USVB més propera activada; USVA: esperar la valoració clínica (triatge avançat)."
+ },
+ "regla_usvb": "La USVB s'activa en qualsevol criteri de demanda, excepte en els trasllats interhospitalaris.",
+ "entorns": {
+  "urba": "Alta densitat de població i recursos",
+  "suburba": "Urbà que cobreix àrees rurals",
+  "rural": "Baixa densitat, recursos dispersos"
+ },
+ "nivells": {
+  "1": {
+   "nom": "Emergència mèdica clara · risc vital imminent",
+   "resposta": {
+    "urba": [["SVAi", "VIR"], ["SVAm", "SVB"]],
+    "suburba": [["SVAi", "VIR", "SVB"], ["SVAm", "SVB"]],
+    "rural": [["SVAi", "VIR", "SVB"], ["SVAm", "SVB"]]
+   },
+   "opcional": {"urba": [], "suburba": ["HEMS (valorar)"], "rural": ["HEMS (valorar)", "Atenció primària"]},
+   "urba_svb_opcional": true,
+   "no_presencial": ["ER"]
+  },
+  "2": {
+   "nom": "Potencial emergència · sensible en el temps",
+   "resposta": {
+    "urba": [["SVAi", "SVB"]],
+    "suburba": [["SVAi", "SVB"]],
+    "rural": [["SVB", "USVA de proximitat"]]
+   },
+   "opcional": {"urba": [], "suburba": ["HEMS (valorar)"], "rural": ["HEMS (valorar)", "Atenció primària"]},
+   "no_presencial": ["ER"]
+  },
+  "3": {
+   "nom": "Urgència mèdica · sense risc vital imminent",
+   "resposta": {"urba": [["SVB"]], "suburba": [["SVB"]], "rural": [["SVB"]]},
+   "opcional": {"urba": [], "suburba": [], "rural": ["Atenció primària"]},
+   "no_presencial": ["ER", "UCT"]
+  },
+  "4": {"nom": "Nivell 4/5 · pendent de definir", "resposta": null},
+  "5": {"nom": "Nivell 4/5 · pendent de definir", "resposta": null}
+ },
+ "criteris_hems": {
+  "entorns": ["suburba", "rural"],
+  "condicio": "3.50 USVA > 20 min i/o destí adient > 30 min"
+ },
+ "criteris_atencio_primaria_rural": {
+  "1": "3.50 USVA > 20 min o sense USVA",
+  "2": "3.50 USVA > 20 min",
+  "3": "3.50 USVB > 20 min"
+ },
+ "principis": [
+  "En cas de dubte, el criteri més segur. Preval el criteri clínic.",
+  "N1: mínim 4 professionals. Amb USVAm, sempre també USVB.",
+  "N2: prioritzar la isòcrona menor, encara que sigui una USVAm.",
+  "Si apareixen criteris d'N1: escalar sense esperar el primer recurs.",
+  "Indicar N1/N2 a observacions de la intervenció (Chronos).",
+  "No deixar intervencions de SVA obertes: decideix CT o cap de torn.",
+  "Reavaluació contínua: el nivell es pot modificar en qualsevol moment."
+ ],
+ "moduladors": {
+  "patologia": ["Patologia emergent", "Evolució clínica", "Etiquetes actives (MACA, ATDOM, PADES, Cuida'm)", "Fragilitat", "Mobilitat limitada", "Procés oncològic"],
+  "persona_i_entorn_social": ["DVA", "Vulnerabilitat", "Incident a la via pública", "Problemàtica social", "Pacient conegut per l'APiC", "PIIC"],
+  "entorn_fisic": ["Distància al centre de destí", "Accés per terra impossible", "Risc afegit", "IPC", "Impossibilitat de trasllat", "Saturació de l'APiC", "Dia i hora"]
+ },
+ "rols": {
+  "gestor_de_recursos": "Activa les unitats. Nexe entre les unitats i la UCT.",
+  "consultors": "Determinen el nivell, escalen o desescalen, indiquen maniobres salvadores.",
+  "auxiliar_de_coordinacio": "Assegura USVB i USVA més properes activades. Seguretat i cossos externs.",
+  "coordinacio_tecnica": "Correlaciona clínica i resposta. Valora UMA i atenció primària.",
+  "cap_de_torn": "Assegura la resposta global. Decideix en cas de dubte."
+ }
+}
