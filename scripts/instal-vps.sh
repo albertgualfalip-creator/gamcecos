@@ -4,7 +4,7 @@
 # Run from the cloned repository:
 #   sudo bash scripts/instal-vps.sh <domini> <contrasenya> [correu]
 # Example:
-#   sudo bash scripts/instal-vps.sh joc.simcecos.es 'una-clau-llarga' jo@exemple.cat
+#   sudo bash scripts/instal-vps.sh simcecos.es 'una-clau-llarga' jo@exemple.cat
 set -euo pipefail
 
 DOMINI="${1:-}"
@@ -24,6 +24,13 @@ fi
 if ! getent hosts "$DOMINI" >/dev/null; then
   echo "$DOMINI encara no apunta enlloc: crea el registre DNS (tipus A) cap a la IP del VPS i torna-ho a provar."; exit 1
 fi
+
+# For a root domain, also serve www.<domain> if it already points somewhere
+NOMS=("$DOMINI")
+if [[ "$DOMINI" != www.* && $(tr -cd '.' <<< "$DOMINI" | wc -c) -eq 1 ]] && getent hosts "www.$DOMINI" >/dev/null; then
+  NOMS+=("www.$DOMINI")
+fi
+echo "Noms: ${NOMS[*]}"
 
 echo "== 1/4 Paquets bàsics"
 apt-get update -q
@@ -63,13 +70,13 @@ systemctl restart gamcecos
 sleep 1
 curl -fsS -o /dev/null "http://127.0.0.1:$PORT/app/vota.html" && echo "El joc respon al port $PORT"
 
-echo "== 4/4 HTTPS per a $DOMINI"
+echo "== 4/4 HTTPS per a ${NOMS[*]}"
 if systemctl is-active --quiet nginx; then
   echo "nginx ja és actiu: hi afegeixo el subdomini"
   cat > /etc/nginx/sites-available/gamcecos <<EOF
 server {
     listen 80;
-    server_name $DOMINI;
+    server_name ${NOMS[*]};
     location / {
         proxy_pass http://127.0.0.1:$PORT;
         proxy_http_version 1.1;
@@ -85,7 +92,8 @@ EOF
   systemctl reload nginx
   apt-get install -y -q certbot python3-certbot-nginx
   if [[ -n "$CORREU" ]]; then MAIL=(-m "$CORREU"); else MAIL=(--register-unsafely-without-email); fi
-  certbot --nginx -d "$DOMINI" --non-interactive --agree-tos --redirect "${MAIL[@]}"
+  CERT=(); for n in "${NOMS[@]}"; do CERT+=(-d "$n"); done
+  certbot --nginx "${CERT[@]}" --non-interactive --agree-tos --redirect "${MAIL[@]}"
 elif systemctl is-active --quiet apache2; then
   echo "Hi ha Apache actiu. Configura un proxy cap a http://127.0.0.1:$PORT (vegeu docs/desplegament.md)."
   exit 1
@@ -99,9 +107,10 @@ else
     apt-get install -y -q caddy
     : > /etc/caddy/Caddyfile   # replace the welcome page of a fresh install
   fi
-  if ! grep -q "^$DOMINI " /etc/caddy/Caddyfile; then
+  if ! grep -q "^$DOMINI[ ,]" /etc/caddy/Caddyfile; then
+    LLISTA=$(IFS=,; echo "${NOMS[*]}" | sed 's/,/, /g')
     cat >> /etc/caddy/Caddyfile <<EOF
-$DOMINI {
+$LLISTA {
     reverse_proxy 127.0.0.1:$PORT {
         flush_interval -1
     }

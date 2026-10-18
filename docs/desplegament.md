@@ -2,9 +2,9 @@
 
 GamCECOS és un únic procés de Node.js sense dependències externes. Serveix la pantalla de la sala, la pàgina de vot i les dades, i reparteix els vots en temps real (Server-Sent Events).
 
-## VPS d'OVH amb un subdomini (manera recomanada)
+## VPS d'OVH amb el domini simcecos.es
 
-1. **DNS.** Al panell d'OVH: *Web Cloud → Noms de domini → simcecos.es → Zona DNS → Afegir una entrada → A*. Subdomini `joc`, destinació: la IP del VPS. Pot tardar de minuts a unes hores a funcionar.
+1. **DNS.** Al panell d'OVH: *Web Cloud → Noms de domini → simcecos.es → Zona DNS*. Les entrades de tipus **A** amb subdomini buit (simcecos.es) i amb `www` han d'apuntar a la IP del VPS (modifica-les si apunten a un altre lloc). Pot tardar de minuts a unes hores a funcionar.
 2. **Entrar al VPS.** Des de l'ordinador: `ssh ubuntu@IP_DEL_VPS` (a OVH l'usuari sol ser `ubuntu` o `debian`).
 3. **Clau perquè el VPS pugui baixar el codi** (el repositori és privat):
    ```bash
@@ -19,11 +19,13 @@ GamCECOS és un únic procés de Node.js sense dependències externes. Serveix l
    GIT_SSH_COMMAND="ssh -i ~/.ssh/gamcecos" git clone -b claude/vigilant-turing-56krps git@github.com:albertgualfalip-creator/gamcecos.git /srv/gamcecos
    cd /srv/gamcecos && git config core.sshCommand "ssh -i ~/.ssh/gamcecos"
    ```
-5. **Instal·lar** (Node.js, servei i HTTPS; si el VPS ja té nginx per a simcecos.es, hi afegeix el subdomini sense tocar la resta):
+5. **Instal·lar** (Node.js, servei i HTTPS; inclou www.simcecos.es si també apunta al VPS):
    ```bash
-   sudo bash scripts/instal-vps.sh joc.simcecos.es LA_TEVA_CONTRASENYA el-teu@correu
+   sudo bash scripts/instal-vps.sh simcecos.es LA_TEVA_CONTRASENYA el-teu@correu
    ```
-6. Obre `https://joc.simcecos.es`.
+6. Obre `https://simcecos.es`.
+
+Si el VPS ja servia una altra web a simcecos.es amb nginx, desactiva-la abans (`sudo rm /etc/nginx/sites-enabled/<aquella-web>`), perquè dues webs no poden tenir el mateix domini.
 
 **Actualització automàtica (recomanat).** Cada canvi pujat a GitHub passa les proves i s'instal·la sol al VPS (`.github/workflows/desplega.yml`). Configuració, una sola vegada:
 
