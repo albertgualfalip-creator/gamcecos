@@ -69,8 +69,9 @@ Principi del protocol: *en cas de dubte, el criteri més segur*. L'infratriatge 
 | `data/unitats.json` | 509 unitats: indicatiu, tipus, horari, base (nom, municipi, coordenades), regió i subzona |
 | `data/resposta_aure.json` | Activació immediata, resposta per nivell i entorn, criteris HEMS i AP, principis, moduladors, rols |
 | `data/criteris_valoracio.json` | Annex 1: criteris de nivell i maniobres salvadores per motiu d'alerta |
+| `data/centres.json` | 899 centres de dades obertes: 730 CAP, 99 centres d'atenció continuada (PAC/CUAP) amb horari, 70 hospitals |
 
-Pendent: centres d'atenció primària (CAP, CUAP, PAC) del portal de transparència, i l'Excel d'activacions i tipus de demanda per definir les plantilles.
+Pendent: l'Excel d'activacions i tipus de demanda per definir les plantilles.
 
 ## Fases
 
