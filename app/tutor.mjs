@@ -10,7 +10,7 @@ async function carrega() {
   const [cecos, tem, index] = await Promise.all([get('/data/cecos.json'), get('/data/tematiques.json'), get('/casos/index.json')]);
   tematiques = tem;
   casos = await Promise.all(index.map(id => get(`/casos/${id}.json`)));
-  $('cecos').innerHTML = cecos.cecos.map(c => `<label class="casella"><input type="checkbox" name="cecos" value="${c.id}" data-zones='${JSON.stringify(c.zones)}'>${esc(c.nom)}</label>`).join('');
+  $('cecos').innerHTML = cecos.cecos.map(c => `<label class="casella"><input type="checkbox" name="cecos" value="${c.id}" data-zones="${esc(JSON.stringify(c.zones))}">${esc(c.nom)}</label>`).join('');
   $('tematiques').innerHTML = tematiques.map(t => {
     const n = casos.filter(c => c.tematiques?.includes(t.id)).length;
     return `<label class="casella" title="${esc(t.descripcio)}"><input type="checkbox" name="tematica" value="${t.id}">${esc(t.nom)} <span class="suau">(${n} casos)</span></label>`;
@@ -19,8 +19,12 @@ async function carrega() {
   $('cas-ara').innerHTML += casos.map(c => `<option value="${c.id}">${esc(c.titol)}</option>`).join('');
 }
 
-$('config').onsubmit = async e => {
+$('config').onsubmit = e => {
   e.preventDefault();
+  creaGuardia().catch(err => { $('error').textContent = `No s'ha pogut crear la guàrdia: ${err.message || err}`; });
+};
+
+async function creaGuardia() {
   const f = $('config');
   const triades = [...f.querySelectorAll('[name=cecos]:checked')];
   if (!triades.length) { $('error').textContent = 'Trieu almenys una CECOS.'; return; }
@@ -43,7 +47,7 @@ $('config').onsubmit = async e => {
   $('url-vot').innerHTML = `${esc(location.host)}/vota<br>codi <b>${codiSala}</b>`;
   if (window.QRCode) new QRCode($('qr'), { text: vot, width: 128, height: 128 });
   escolta();
-};
+}
 
 const ordre = o => fetch(`/api/ordre?sala=${codiSala}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ordre: o }) });
 document.querySelectorAll('[data-ordre]').forEach(b => b.onclick = () => ordre({ tipus: b.dataset.ordre }));
