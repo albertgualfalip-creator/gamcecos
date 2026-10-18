@@ -1,0 +1,150 @@
+{
+ "font": "TIH.PR.0001 · Guia per la gestió de prioritats i elecció de tipologia de recurs en el trasllat interhospitalari (v01, juliol 2025)",
+ "competencies": [
+  "Les prioritats i la tipologia de recurs les assigna la Taula d'Interhospitalari (TIH); ningú més les pot canviar unilateralment.",
+  "El canvi de tipologia es fa amb valoració conjunta entre la unitat assistencial i el professional de la TIH.",
+  "L'activació del recurs és responsabilitat de la taula de gestió de recursos, segons la prioritat assignada.",
+  "La unitat sempre truca a la TIH abans d'iniciar el trasllat per rebre la informació clínica i la ubicació a origen i destí."
+ ],
+ "prioritats": {
+  "0": {
+   "nom": "Risc vital i patologia temps-depenent (inclosos tots els codis)",
+   "objectiu": "Arribada a l'hospital emissor < 30 min, sense demora",
+   "alarma_sense_activar_min": 10,
+   "consideracions": [
+    "Si no es pot activar la tipologia assignada a temps, la gestió de recursos adequa l'operativa a l'estat clínic.",
+    "Si no es mobilitza cap recurs: valorar escalada de recurs; el Cap de Torn / Cap de Guàrdia decideix la unitat.",
+    "Es poden fer punts de transferència intermedis amb una unitat disponible a zona i suport telemàtic."
+   ],
+   "patologies": [
+    "TCE moderat-greu amb deteriorament del nivell de consciència",
+    "Hemorràgia cerebral (TAC o sospita AVC hemorràgic) amb deteriorament de consciència en hospital sense neurocirurgia",
+    "Codi ICTUS (centre referent, teleictus o teràpia endovascular)",
+    "Traumatisme toràcic greu que requereix cirurgia toràcica urgent (inclòs Codi PPT)",
+    "Codi IAM",
+    "Pacient cardiològic amb compromís hemodinàmic greu que requereix suport ventricular",
+    "Sospita de síndrome aòrtica aguda en centre sense cirurgia vascular o cardíaca",
+    "Angioplàstia de rescat post fibrinòlisi",
+    "Sagnat gastrointestinal actiu amb inestabilitat hemodinàmica que requereix tècniques no disponibles a l'HE",
+    "Hemoptisi amenaçant (> 100 ml, insuficiència respiratòria i/o inestabilitat)",
+    "Qualsevol sagnat amb inestabilitat hemodinàmica que requereix intervencionisme urgent",
+    "Treball de part amb cervicometria > 2 cm i dilatació < 4 cm",
+    "Amputació susceptible de reimplantament",
+    "Preeclàmpsia greu, eclàmpsia o síndrome HELLP",
+    "Trasllat de dosis d'antídots"
+   ]
+  },
+  "1": {
+   "nom": "L'hospital emissor no té mitjans per a la patologia però pot iniciar el tractament",
+   "objectiu": "Arribada a l'hospital emissor preferentment < 90 min",
+   "alarma_sense_activar_min": 60,
+   "consideracions": [
+    "Si no hi ha recurs del tipus assignat ni similar a temps, s'informa la TIH, que pacta amb el metge de l'HE canviar de recurs o assumir la demora.",
+    "Inclou retorns de codi preferents quan l'HE ho demana per raons operatives."
+   ],
+   "patologies": [
+    "Criteris d'ingrés a UCI/UCO en hospital sense UCI (valorar suport QA)",
+    "Tècniques endovasculars o intervencionistes amb estabilitat clínica",
+    "Valoració per neurocirurgia sense deteriorament de consciència",
+    "Nens amb patologia que pot iniciar-se a l'hospital d'origen però no és assumible tècnicament",
+    "Pacient psiquiàtric no agitat en centre sense psiquiatre, trasllat amb contenció (SVAi si contenció farmacològica parenteral)",
+    "Gestant amb preeclàmpsia lleu en centre sense tecnologia adequada",
+    "Pacients amb necessitats clíniques urgents al seu centre de referència (oncològics, trasplantats...)"
+   ]
+  },
+  "2": {
+   "nom": "L'hospital emissor té mitjans però no llit, desescalada i retorns",
+   "objectiu": "Assignar en el moment de la petició; avís si 160 min sense unitat assignada",
+   "alarma_sense_assignar_min": 160,
+   "consideracions": [
+    "L'auxiliar de la zona que visualitza l'incident pacta amb la zona receptora qui assumeix el trasllat.",
+    "Si es demana a partir de les 22 h, es pot pactar fer-lo a les 7-8 h, excepte col·lapse de l'HE, necessitats operatives, confort, trasllat curt o retorns de la instrucció 02/2021.",
+    "Si s'ajorna més de 6 h, la TIH revalora el pacient."
+   ],
+   "patologies": [
+    "Manca de llit en serveis especialitzats a l'HE",
+    "Retorns després de tractament o prova urgent en centre de nivell superior (Instrucció 2/2021)",
+    "Trasllat a centre de nivell inferior per característiques del pacient (atenció intermèdia)",
+    "Retorns de codis (IAM, ictus)",
+    "Pacient psiquiàtric a urgències d'un hospital general amb psiquiatre però sense hospitalització de salut mental",
+    "Trasllats programats (MCP, cateterisme, cirurgia cardíaca, proves) amb < 4 h de marge fins a la cita"
+   ]
+  },
+  "3": {
+   "nom": "Derivacions per residència o reagrupament familiar i programats amb marge",
+   "objectiu": "Arribada a l'hospital emissor preferentment < 12 h; avís si 600 min sense unitat assignada",
+   "alarma_sense_assignar_min": 600,
+   "consideracions": [
+    "Mateixos criteris de pacte entre zones i d'ajornament nocturn que la prioritat 2."
+   ],
+   "patologies": [
+    "Derivació a l'hospital de referència per residència o reagrupament familiar amb necessitat de suport sanitari (no assumible per TSNU)",
+    "Trasllats programats amb > 4 h de marge fins a la cita",
+    "Pacient psiquiàtric derivat a un altre centre psiquiàtric per raó de residència"
+   ]
+  },
+  "4": {
+   "nom": "Programats amb recursos subcontractats (entre comunitats autònomes, repatriacions)",
+   "objectiu": "Pot demorar-se dies",
+   "us_al_joc": "Fora del joc"
+  }
+ },
+ "eleccio_recurs": {
+  "regla": "Es valora cada àmbit clínic i s'assigna sempre el recurs més alt que surti de qualsevol ítem.",
+  "nivells": ["TSNU", "SVB", "SVAi", "SVAm", "QA"],
+  "svam_pot_ser": ["SVAm", "SVAi + VIR"],
+  "criteris": {
+   "respiratori": {
+    "SVB": "Respiració espontània sense alteracions (FR 10-24) i/o SaO2/FiO2 ≥ 315",
+    "SVAi": "Aspiració de secrecions contínua i/o SaO2/FiO2 235-315; VMNI ben adaptat",
+    "SVAm": "SaO2/FiO2 ≤ 235, VMNI no adaptat, IOT, tòrax inestable",
+    "QA": "VMNI o VMI amb 2 o més criteris de gravetat (FiO2 > 0,7, PEEP > 10, ONAF > 40 L, PaO2/FiO2 < 150, prono)"
+   },
+   "hemodinamic": {
+    "SVB": "Estable sense tractament o amb sèrum; vasoactius a dosis mínimes o en desescalada",
+    "SVAi": "Emergència hipertensiva controlada amb fàrmacs EV",
+    "SVAm": "Inestable (TAS < 90, TAM < 60) amb vasoactius o hemoderivats; emergència hipertensiva mal controlada",
+    "QA": "2 o més criteris: noradrenalina > 0,8, dobutamina > 8, TAM < 65 amb vasoactius, baix cabal"
+   },
+   "hemorragia": {
+    "SVB": "Sense sagnat actiu o sense inestabilitat",
+    "SVAi": "Transfusió < 3 concentrats, Hb ≥ 7, estable",
+    "SVAm": "Sagnat actiu no controlat, ≥ 3 concentrats, Hb < 7, hemotòrax, dissecció o ruptura d'aorta"
+   },
+   "ritme_cardiac": {
+    "SVB": "Estable amb FC normal per al pacient",
+    "SVAi": "FA, TPSV, BAV estables, sense síncopes, poden portar BPC",
+    "SVAm": "BAV avançat o arrítmia amb repercussió, marcapàs extern amb ritme d'escapament",
+    "QA": "Marcapàs extern sense ritme d'escapament, xoc, taquicàrdia ventricular"
+   },
+   "sindrome_coronaria": {
+    "TSNU": "Coronariografia programada des de planta; retorn sense isquèmia ni lesions tractades",
+    "SVB": "Retorn de cateterisme SCASEST > 24-48 h sense complicacions",
+    "SVAi": "SCASEST < 24 h estable; retorns de Codi IAM estables amb vasodilatadors EV",
+    "SVAm": "SCAEST o SCASEST amb inestabilitat hemodinàmica o respiratòria"
+   },
+   "neurologic": {
+    "SVB": "TCE amb GW ≥ 14 sense sagnat; ictus amb consciència conservada; agitació sense risc de nou episodi; H. subdural GW 14-15",
+    "SVAi": "GW 12-13; ictus amb fibrinolític i GW ≥ 12; possibilitat de nou episodi d'agitació; convulsions sense episodi actual; HSA Fisher I-II",
+    "SVAm": "GW < 12, deteriorament de consciència, HTIC; ictus de territori basilar; status epilèptic; agitació intensa amb sedació; HSA Fisher III-IV",
+    "QA": "GW < 8 amb criteri respiratori o hemodinàmic; monitorització de PIC o drenatge ventricular"
+   },
+   "cremats": {
+    "SVB": "2n grau SCC < 15 % en mans, peus o genitals; intoxicació per fum amb afectació neurològica lleu",
+    "SVAi": "2n grau SCC 15-40 %; 3r grau SCC < 10 % estable",
+    "SVAm": "Cremades de cara o coll amb risc de via aèria, circulars al tòrax, elèctriques d'alt voltatge, 2n grau > 40 %, 3r grau ≥ 10 %"
+   },
+   "altres": {
+    "SVB": "Drenatges o sondes que no cal manejar; sense BPC",
+    "SVAi": "Drenatges amb aspiració contínua o controls d'infermeria; VM domiciliària; BPC amb fàrmacs de protocol",
+    "SVAm": "Drogues vasoactives per inestabilitat",
+    "QA": "ECMO, assistència ventricular, Impella, baló de contrapulsació"
+   }
+  },
+  "exclusio_svai": [
+   "Qualsevol ítem que doni SVAm",
+   "Pacients inestables o amb risc vital greu (aneurisma d'aorta, xoc cardiogènic, TEP massiu, politraumàtic greu)"
+  ],
+  "si_no_hi_ha_svam": "En patologia temps-depenent, una SVAi pot fer el trasllat assegurant un suport 3.14 (recurs superior) si s'inestabilitza, amb telesuport del metge TIH o QA."
+ }
+}

@@ -37,10 +37,73 @@ Determina la resposta segons AURE (`entorn_per_zona` a `data/resposta_aure.json`
 | Servei | Exemple | Què treballa |
 |---|---|---|
 | **Emergències** | Malaltia en domicili, accident/traumatisme, malaltia en lloc públic | Triatge (N1-N5), consell i maniobres, recurs segons AURE |
-| **Derivacions** (transport sanitari a petició d'un metge) | CAP, CUAP, residència o domicili → hospital o CAP | Quin recurs (SVB o SVA), amb quina urgència, sense descobrir la zona |
-| **Interhospitalaris (TIH)** | Hospital comarcal → hospital de referència, prioritats 1-3 | Gestió operativa: recurs adequat, origen i destí, temps, impacte en la cobertura |
+| **Derivacions** (transport sanitari 061 a petició d'un metge) | Centres de salut fora d'hospital (CAP, CUAP), residència o domicili → hospital o CAP | Quin recurs (SVB o SVA), amb quina urgència, sense descobrir la zona |
+| **Interhospitalaris (TIH)** | Hospital emissor → hospital receptor, prioritats 0-3 (guia TIH.PR.0001) | Gestió operativa: recurs adequat, origen i destí, temps, impacte en la cobertura |
 
 Les derivacions i els interhospitalaris competeixen pels mateixos recursos que les emergències: és on el joc fa decidir *què sacrifico*.
+
+### Interhospitalaris
+
+Regles a `data/prioritats_tih.json` (guia TIH.PR.0001):
+
+| Prioritat | Què és | Objectiu | Alarma |
+|---|---|---|---|
+| 0 | Risc vital i codis (IAM, ictus, PPT, sagnat inestable...) | Arribada a l'HE < 30 min | 10 min sense activar |
+| 1 | L'HE no té mitjans però pot iniciar tractament (UCI, neurocirurgia, psiquiatria...) | < 90 min | 60 min sense activar |
+| 2 | Sense llit, desescalada, retorns de codi, programats < 4 h | Ajornable a les 7-8 h si es demana després de les 22 h | 160 min sense assignar |
+| 3 | Residència, reagrupament familiar, programats > 4 h | < 12 h | 600 min sense assignar |
+| 4 | Entre comunitats autònomes, repatriacions | Dies | Fora del joc |
+
+El recurs es tria per àmbit clínic (respiratori, hemodinàmic, hemorràgia, ritme, SCA, neurològic, cremats, altres) i **sempre s'assigna el més alt** (TSNU < SVB < SVAi < SVAm < QA). Decisions de joc típiques: P0 sense SVAm disponible (SVAi amb suport 3.14), P2 demanat a les 23 h (ajornar o no), qui assumeix un trasllat entre zones, alarma de P1 a 60 min.
+
+### Hospitals de destí
+
+`data/destins.json`: 80 destins reals dels exports (55 hospitals, 10 CUAP, 15 CAP) situats amb el catàleg d'equipaments, amb el nombre de serveis i quantes vegades són origen o destí d'un interhospitalari. Pendents de localitzar: diversos CUAP (Casernes, Pura Fernández, Gràcia, Castelldefels, Sant Andreu de la Barca, Cerdanyola-Ripollet, Cambrils, Sant Fèlix, Bages, Sant Pere) i centres privats o de salut mental (Hospital General de Catalunya, Quirón, Clínica del Vallès, Institut Pere Mata).
+
+## Banc d'esdeveniments de guàrdia
+
+Situacions que el dinamitzador (o la IA) pot injectar durant el torn. Llista oberta per anar ampliant:
+
+**Problemes operatius amb unitats**
+- Avaria o accident de la unitat en ruta; unitat que no respon a la ràdio.
+- Unitat retinguda a la porta d'urgències (transferència lenta del pacient).
+- Unitat fora de servei per neteja i desinfecció després d'un pacient infecciós.
+- Dotació incompleta, relleu de torn, unitat que plega a mig servei (horari 12 h).
+- Agressió a l'equip, necessitat de suport policial.
+- Material esgotat o DEA de la unitat avariat.
+
+**Centres sanitaris**
+- CAP o CUAP col·lapsat que demana diversos trasllats alhora.
+- CAP inundat, sense llum o evacuat: cal redistribuir pacients.
+- Hospital saturat o sense TAC / hemodinàmica disponible: cal un altre destí.
+- Residència amb diversos pacients afectats (brot, calor, intoxicació).
+
+**Altres cossos i sales**
+- Avís de policia (Mossos, Guàrdia Urbana): persona ferida, baralla, persona agitada.
+- Bombers: incendi amb víctimes, rescat, accident de trànsit amb atrapats.
+- Avisos del 112, Salvament Marítim, GRAE (rescat de muntanya), Protecció Civil.
+
+**A quin hospital el portes**
+- Codi IAM, ictus o PPT: centre útil, no el més proper.
+- Pediatria, obstetrícia, cremats, psiquiatria, reimplantament.
+- Hospital de referència per sector vs proximitat; distància > 30 min (valorar HEMS).
+
+**Simultaneïtat i cobertura**
+- Incident amb múltiples víctimes (IMV): accident, intoxicació col·lectiva.
+- Zona sense SVA disponible: tirar d'una regió veïna o de l'helicòpter.
+- Helicòpter que no pot volar (meteorologia, ocàs).
+- Carretera tallada, neu, temporal: accés per terra impossible.
+- Esdeveniments: concerts, festes majors, proves esportives, onada de calor.
+
+**Comunicacions i sistemes**
+- Caiguda del sistema informàtic o de telefonia: treballar en paper.
+- Trucades repetides pel mateix incident, trucades abandonades, hiperfreqüentadors.
+- Trucador que no parla català ni castellà, trucada de broma.
+
+**Situacions socials i ètiques**
+- Negativa al trasllat, pacient violent, menor sol.
+- Violència masclista, intent autolític, persona sense llar amb fred.
+- Pacient amb PIIC, MACA o adequació de l'esforç terapèutic: no RCP.
 
 ## Tipus d'entrada
 
