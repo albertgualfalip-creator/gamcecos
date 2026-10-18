@@ -3,6 +3,7 @@
 //
 // Environment:
 //   PORT            port to listen on (default 8080)
+//   HOST            interface to listen on (default all; 127.0.0.1 behind a reverse proxy)
 //   GAMCECOS_CLAU   optional password for the room screen and the data; the vote page only needs the room code
 const http = require('http');
 const fs = require('fs');
@@ -11,6 +12,7 @@ const os = require('os');
 const crypto = require('crypto');
 
 const PORT = process.env.PORT || 8080;
+const HOST = process.env.HOST || undefined;
 const CLAU = process.env.GAMCECOS_CLAU || '';
 const ROOT = __dirname;
 const PUBLIC_DIRS = ['app', 'data', 'casos'];
@@ -156,4 +158,4 @@ http.createServer(async (req, res) => {
   if (ruta === '/') { res.writeHead(302, { Location: '/app/sala.html' }); return res.end(); }
   if (ruta.startsWith('/api/')) return api(req, res, ruta, url.searchParams);
   estatic(res, ruta);
-}).listen(PORT, () => console.log(`GamCECOS a http://localhost:${PORT}${CLAU ? ' (amb contrasenya)' : ''}`));
+}).listen(PORT, HOST, () => console.log(`GamCECOS a http://localhost:${PORT}${CLAU ? ' (amb contrasenya)' : ''}`));

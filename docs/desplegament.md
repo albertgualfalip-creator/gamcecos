@@ -2,6 +2,32 @@
 
 GamCECOS és un únic procés de Node.js sense dependències externes. Serveix la pantalla de la sala, la pàgina de vot i les dades, i reparteix els vots en temps real (Server-Sent Events).
 
+## VPS d'OVH amb un subdomini (manera recomanada)
+
+1. **DNS.** Al panell d'OVH: *Web Cloud → Noms de domini → simceos.es → Zona DNS → Afegir una entrada → A*. Subdomini `joc`, destinació: la IP del VPS. Pot tardar de minuts a unes hores a funcionar.
+2. **Entrar al VPS.** Des de l'ordinador: `ssh ubuntu@IP_DEL_VPS` (a OVH l'usuari sol ser `ubuntu` o `debian`).
+3. **Clau perquè el VPS pugui baixar el codi** (el repositori és privat):
+   ```bash
+   sudo apt-get update && sudo apt-get install -y git
+   ssh-keygen -t ed25519 -f ~/.ssh/gamcecos -N ""
+   cat ~/.ssh/gamcecos.pub
+   ```
+   Copia la línia que surt i, a GitHub: repositori → *Settings → Deploy keys → Add deploy key* (sense marcar "Allow write access").
+4. **Baixar el codi:**
+   ```bash
+   sudo mkdir -p /srv/gamcecos && sudo chown "$USER" /srv/gamcecos
+   GIT_SSH_COMMAND="ssh -i ~/.ssh/gamcecos" git clone -b claude/vigilant-turing-56krps git@github.com:albertgualfalip-creator/gamcecos.git /srv/gamcecos
+   cd /srv/gamcecos && git config core.sshCommand "ssh -i ~/.ssh/gamcecos"
+   ```
+5. **Instal·lar** (Node.js, servei i HTTPS; si el VPS ja té nginx per a simceos.es, hi afegeix el subdomini sense tocar la resta):
+   ```bash
+   sudo bash scripts/instal-vps.sh joc.simceos.es LA_TEVA_CONTRASENYA el-teu@correu
+   ```
+6. Obre `https://joc.simceos.es`.
+
+**Actualitzar** quan hi hagi canvis: `cd /srv/gamcecos && git pull && sudo systemctl restart gamcecos`.
+**Veure si funciona:** `sudo systemctl status gamcecos` · **Registres:** `sudo journalctl -u gamcecos -n 50`.
+
 ## Requisits
 
 - Node.js 18 o superior (recomanat 22 LTS), o bé Docker.
