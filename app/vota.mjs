@@ -1,4 +1,5 @@
 // Audience screen: joins a room with its code and a nickname, votes the open decision and collects points.
+import { canal } from './client.mjs';
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const contingut = document.getElementById('contingut');
 
@@ -57,8 +58,8 @@ async function actualitzaPunts() {
 }
 
 function entra() {
-  const fonts = new EventSource(`/api/events?sala=${sala}&rol=public`);
-  fonts.onerror = () => { if (fonts.readyState === EventSource.CLOSED) contingut.innerHTML = '<p>No s\'ha trobat la sala. Reviseu el codi.</p>'; };
+  const fonts = canal(sala, 'public');
+  fonts.addEventListener('perduda', e => { if (e.data === 'sala') contingut.innerHTML = '<p>No s\'ha trobat la sala. Reviseu el codi.</p>'; });
   fonts.addEventListener('pas', e => {
     const nou = JSON.parse(e.data);
     if (!nou || nou.id !== pas?.id || (nou.obert && !pas?.obert)) { tria = new Set(); enviat = false; }

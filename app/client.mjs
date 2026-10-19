@@ -23,11 +23,43 @@ export function so(tipus) {
   }
 }
 
-export function connecta(codi, rol, { vista, pas, vots }) {
+// Live shift data: server-sent events or, when something on the way (an antivirus, a corporate proxy)
+// holds the event stream back, asking the server every second. Events: vista, pas, vots, classificacio, perduda.
+export function canal(codi, rol) {
+  const canal = new EventTarget();
+  const emet = (tipus, data) => canal.dispatchEvent(new MessageEvent(tipus, { data }));
   const fonts = new EventSource(`/api/events?sala=${codi}&rol=${rol}`);
+  let rebut = false, enquesta = false;
+  for (const tipus of ['vista', 'pas', 'vots', 'classificacio']) {
+    fonts.addEventListener(tipus, e => { rebut = true; if (!enquesta) emet(tipus, e.data); });
+  }
+  fonts.onerror = () => { if (!enquesta && fonts.readyState === EventSource.CLOSED) emet('perduda', 'sala'); };
+  setTimeout(() => {
+    if (rebut) return;
+    fonts.close();
+    enquesta = true;
+    const darrers = {};
+    const pregunta = async () => {
+      try {
+        const r = await fetch(`/api/estat?sala=${codi}&rol=${rol}`, { cache: 'no-store' });
+        if (r.status === 404 || r.status === 401) { emet('perduda', 'sala'); return; }
+        for (const [tipus, valor] of Object.entries(await r.json())) {
+          const data = JSON.stringify(valor);
+          if (tipus === 'vista' || darrers[tipus] !== data) { darrers[tipus] = data; emet(tipus, data); }
+        }
+      } catch { emet('perduda', 'xarxa'); }
+      setTimeout(pregunta, 1000);
+    };
+    pregunta();
+  }, 4000);
+  return canal;
+}
+
+export function connecta(codi, rol, { vista, pas, vots }) {
+  const fonts = canal(codi, rol);
   // A lost live connection must be visible: otherwise the screen just stops changing
-  let senseVista = setTimeout(() => avis(`No arriben dades de la guàrdia ${codi}. Comproveu el codi o torneu a carregar la pàgina.`), 8000);
-  fonts.onerror = () => avis('Connexió perduda amb el servidor: reintentant...');
+  let senseVista = setTimeout(() => avis(`No arriben dades de la guàrdia ${codi}. Comproveu el codi o torneu a carregar la pàgina.`), 10000);
+  fonts.addEventListener('perduda', e => avis(e.data === 'sala' ? `La guàrdia ${codi} ja no existeix al servidor: creeu-ne una de nova.` : 'Connexió perduda amb el servidor: reintentant...'));
   fonts.addEventListener('vista', e => {
     clearTimeout(senseVista);
     senseVista = setTimeout(() => avis('Fa estona que no arriben dades del servidor. Torneu a carregar la pàgina.'), 15000);

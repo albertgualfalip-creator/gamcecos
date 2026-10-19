@@ -190,7 +190,8 @@ async function api(req, res, ruta, params) {
   if (ruta === '/api/events') {
     const rol = ROLS.includes(params.get('rol')) ? params.get('rol') : 'public';
     if (rol !== 'public' && !autoritzat) return json(res, 401, { error: 'Cal contrasenya' });
-    res.writeHead(200, { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' });
+    res.writeHead(200, { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache, no-transform', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' });
+    res.write(`:${' '.repeat(2048)}\n\n`);   // padding: some proxies hold the stream until they have a few KB
     sala.clients.set(res, rol);
     envia(res, 'pas', sala.pas);
     envia(res, 'vots', recompte(sala));
@@ -199,6 +200,12 @@ async function api(req, res, ruta, params) {
     const ping = setInterval(() => res.write(': ping\n\n'), 25000);
     req.on('close', () => { sala.clients.delete(res); clearInterval(ping); });
     return;
+  }
+  // Same data as the event stream, for screens whose stream is held back on the way (they ask every second)
+  if (ruta === '/api/estat') {
+    const rol = ROLS.includes(params.get('rol')) ? params.get('rol') : 'public';
+    if (rol !== 'public' && !autoritzat) return json(res, 401, { error: 'Cal contrasenya' });
+    return json(res, 200, { pas: sala.pas, vots: recompte(sala), classificacio: classificacio(sala), ...(rol !== 'public' ? { vista: sala.joc.vista(rol) } : {}) });
   }
   if (ruta === '/api/punts') {
     const pos = [...sala.punts.entries()].sort((a, b) => b[1] - a[1]).findIndex(([c]) => c === client);
