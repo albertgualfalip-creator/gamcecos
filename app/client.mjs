@@ -25,7 +25,14 @@ export function so(tipus) {
 
 export function connecta(codi, rol, { vista, pas, vots }) {
   const fonts = new EventSource(`/api/events?sala=${codi}&rol=${rol}`);
-  fonts.addEventListener('vista', e => vista(JSON.parse(e.data)));
+  // A lost live connection must be visible: otherwise the screen just stops changing
+  let senseVista = setTimeout(() => avis(`No arriben dades de la guàrdia ${codi}. Comproveu el codi o torneu a carregar la pàgina.`), 8000);
+  fonts.onerror = () => avis('Connexió perduda amb el servidor: reintentant...');
+  fonts.addEventListener('vista', e => {
+    clearTimeout(senseVista);
+    senseVista = setTimeout(() => avis('Fa estona que no arriben dades del servidor. Torneu a carregar la pàgina.'), 15000);
+    vista(JSON.parse(e.data));
+  });
   if (pas) fonts.addEventListener('pas', e => pas(JSON.parse(e.data)));
   if (vots) fonts.addEventListener('vots', e => vots(JSON.parse(e.data)));
   return fonts;
