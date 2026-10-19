@@ -94,6 +94,9 @@ EOF
   if [[ -n "$CORREU" ]]; then MAIL=(-m "$CORREU"); else MAIL=(--register-unsafely-without-email); fi
   CERT=(); for n in "${NOMS[@]}"; do CERT+=(-d "$n"); done
   certbot --nginx "${CERT[@]}" --non-interactive --agree-tos --redirect "${MAIL[@]}"
+  # Every game screen keeps a live connection open: over HTTP/1.1 a browser allows only 6 per site
+  sed -i 's/listen 443 ssl;/listen 443 ssl http2;/; s/listen \[::\]:443 ssl;/listen [::]:443 ssl http2;/' /etc/nginx/sites-available/gamcecos
+  nginx -t && systemctl reload nginx
 elif systemctl is-active --quiet apache2; then
   echo "Hi ha Apache actiu. Configura un proxy cap a http://127.0.0.1:$PORT (vegeu docs/desplegament.md)."
   exit 1
