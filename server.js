@@ -255,6 +255,7 @@ async function arrenca() {
   http.createServer(async (req, res) => {
     const url = new URL(req.url, 'http://x');
     const ruta = url.pathname;
+    if (ruta === '/favicon.ico') { res.writeHead(204); return res.end(); }   // no icon: avoids a 404 in the browser console
     if (DRECERES[ruta]) { res.writeHead(302, { Location: DRECERES[ruta] + url.search }); return res.end(); }
     if (ruta === '/entra' && req.method === 'POST') {
       const clau = new URLSearchParams(await llegeixCos(req, 1e4)).get('clau') || '';
