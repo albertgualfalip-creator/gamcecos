@@ -231,10 +231,17 @@ function estatic(res, ruta) {
   const fitxer = path.normalize(path.join(ROOT, decodeURIComponent(ruta)));
   const dir = path.relative(ROOT, fitxer).split(path.sep)[0];
   if (!fitxer.startsWith(ROOT + path.sep) || !PUBLIC_DIRS.includes(dir)) return json(res, 404, { error: 'No trobat' });
-  fs.readFile(fitxer, (err, buf) => {
-    if (err) return json(res, 404, { error: 'No trobat' });
-    res.writeHead(200, { 'Content-Type': TYPES[path.extname(fitxer)] || 'application/octet-stream' });
-    res.end(buf);
+  fs.stat(fitxer, (err, info) => {
+    if (err || !info.isFile()) return json(res, 404, { error: 'No trobat' });
+    // Browsers must revalidate every file, so an update never mixes old and new scripts
+    const etag = `"${info.size.toString(36)}-${Math.floor(info.mtimeMs).toString(36)}"`;
+    const capçaleres = { 'Cache-Control': 'no-cache', ETag: etag };
+    if (res.req.headers['if-none-match'] === etag) { res.writeHead(304, capçaleres); return res.end(); }
+    fs.readFile(fitxer, (err2, buf) => {
+      if (err2) return json(res, 404, { error: 'No trobat' });
+      res.writeHead(200, { ...capçaleres, 'Content-Type': TYPES[path.extname(fitxer)] || 'application/octet-stream' });
+      res.end(buf);
+    });
   });
 }
 
