@@ -18,7 +18,7 @@ const NOM_CAT = { SVA: 'SVA', SVB: 'SVB', HEMS: 'Helicòpter' };
 const PANTALLES = [['escolta', 'Escolta'], ['preguntes', 'Preguntes'], ['instruccio', 'Instrucció'], ['nivell', 'Nivell'], ['recursos', 'Recursos']];
 const LOCALS = ['escolta', 'preguntes', 'instruccio'];   // answered on the phone and sent together
 const locals = () => LOCALS.filter(f => vista.fases[f]);
-const nouEsborrany = () => ({ pas: 'escolta', escolta: new Set(), preguntes: new Set(), instruccio: null, nivell: null, recursos: null, activa: new Set(), envia: null });
+const nouEsborrany = () => ({ pas: 'escolta', escolta: new Set(), preguntes: new Set(), instruccio: null, nivell: null, recursos: null, activa: new Set(), enviant: false });
 let esborrany = nouEsborrany();
 
 async function envia(dades) {
@@ -180,11 +180,16 @@ function capaRecurs() {
   const sel = esborrany.activa;
   $('capa-recurs').hidden = false;
   $('capa-recurs').innerHTML = `<div class="capa-contingut"><h2>Quines unitats actives ara?</h2>
-    <p class="suau">Incident a ${esc(vista.municipi)}. Es registra el moment en què actives: com abans detectis la gravetat, millor.</p>
-    ${llistaUnitats(sel)}
-    <div class="navega"><button class="boto secundari" id="tanca-capa">Tancar</button>
-      <button class="boto gran-boto" id="activa" ${sel.size ? '' : 'disabled'}>${sel.size ? `Activar: ${resum(sel)}` : 'Activar'}</button></div></div>`;
-  $('capa-recurs').querySelectorAll('[data-u]').forEach(b => b.onclick = () => { sel.has(b.dataset.u) ? sel.delete(b.dataset.u) : sel.add(b.dataset.u); capaRecurs(); });
+    <p class="suau">Incident a ${esc(vista.municipi)}. Toca les unitats i prem «Activar» a baix: queda fet i es registra el moment.</p>
+    ${llistaUnitats(sel)}</div>
+    <div class="barra-accio"><button class="boto secundari" id="tanca-capa">Tancar</button>
+      <button class="boto gran-boto" id="activa" ${sel.size ? '' : 'disabled'}>${sel.size ? `🚑 Activar: ${resum(sel)}` : 'Toca les unitats'}</button></div>`;
+  $('capa-recurs').querySelectorAll('[data-u]').forEach(b => b.onclick = () => {
+    sel.has(b.dataset.u) ? sel.delete(b.dataset.u) : sel.add(b.dataset.u);
+    const y = $('capa-recurs').scrollTop;
+    capaRecurs();
+    $('capa-recurs').scrollTop = y;
+  });
   $('tanca-capa').onclick = () => { $('capa-recurs').hidden = true; };
   $('activa').onclick = async () => { $('capa-recurs').hidden = true; await envia({ activa: [...sel] }); };
 }
@@ -201,42 +206,39 @@ const llistaUnitats = sel => `<div class="opcions">${vista.unitats.map(u => `<bu
   <span class="cat-unitat cat-${u.cat}">${NOM_CAT[u.cat]}</span> <b>${esc(u.indicatiu)}</b> <span class="suau">${esc(u.tipus)}</span>
   <span class="nvots">${u.ocupada ? 'ocupada' : `${u.eta} min`}</span><br><span class="suau">${esc(u.base)} · ${u.km} km</span></button>`).join('')}</div>`;
 
-function triaUnitats(capçal, titol, text, etiquetaBoto, enrere) {
+// Unit list with the action always in sight: a fixed bar at the bottom; one tap and it is done
+function triaUnitats(capçal, titol, text, etiquetaBoto, senseRes) {
   const sel = esborrany.recursos;
-  contingut.innerHTML = `${capçal}<h2>${titol}</h2><p class="suau">${text}</p>
-    ${llistaUnitats(sel)}
-    <div class="navega">${enrere ? '<button class="boto secundari" id="enrere">← Enrere</button>' : ''}
-      <button class="boto gran-boto" id="seguent">${etiquetaBoto(sel)}</button></div>`;
+  contingut.innerHTML = `${capçal}<h2>${titol}</h2><p class="suau">${text}</p>${llistaUnitats(sel)}`;
   contingut.querySelectorAll('[data-u]').forEach(b => b.onclick = () => {
     sel.has(b.dataset.u) ? sel.delete(b.dataset.u) : sel.add(b.dataset.u);
-    redibuixa(() => triaUnitats(capçal, titol, text, etiquetaBoto, enrere));
+    redibuixa(() => triaUnitats(capçal, titol, text, etiquetaBoto, senseRes));
   });
-  if (enrere) $('enrere').onclick = enrere;
-  $('seguent').onclick = () => envia({ recursos: [...sel] });
+  $('barra-recurs').hidden = false;
+  $('barra-recurs').innerHTML = `<button class="${sel.size ? 'activa-unitats' : 'cap-recurs'}">${etiquetaBoto(sel)}</button>`;
+  $('barra-recurs').querySelector('button').onclick = () => {
+    if (!sel.size && senseRes && !confirm(senseRes)) return;
+    envia({ recursos: [...sel] });
+  };
 }
 
 // Step 5 (recording): units to send, starting from the ones activated while assessing
 function pasRecursos(capçal) {
-  esborrany.recursos ??= new Set(vista.resposta.activacio?.recursos || []);
   const r = vista.resposta;
-  triaUnitats(`${capçal}${passos('Recursos')}`, r.activacio ? 'Confirma les unitats' : 'Quines unitats actives?',
-    `Incident a ${esc(vista.municipi)}.${r.nivell ? ` Nivell triat: <span class="nivell n${r.nivell}">N${r.nivell}</span>.` : ''} Pots triar-ne tantes com calgui.`,
-    sel => (sel.size ? `Activar: ${resum(sel)}` : 'Cap recurs: consell telefònic'));
+  // Units already activated with the bar: that is the answer, nothing else to confirm
+  if (r.activacio && !esborrany.enviant) { esborrany.enviant = true; envia({ recursos: r.activacio.recursos }); return; }
+  esborrany.recursos ??= new Set();
+  triaUnitats(`${capçal}${passos('Recursos')}`, 'Quines unitats actives?',
+    `Incident a ${esc(vista.municipi)}.${r.nivell ? ` Nivell triat: <span class="nivell n${r.nivell}">N${r.nivell}</span>.` : ''} Toca les que vulguis i prem el botó de baix.`,
+    sel => (sel.size ? `🚑 Activar: ${resum(sel)}` : '📞 Cap recurs: consell telefònic'), 'Confirmes que no hi envies cap recurs?');
 }
 
 // Card-only case: send units or not, and which and how many of each kind
+// Card-only case: straight to the units; with none ticked the button says no units are sent
 function pasCarta(capçal) {
-  if (esborrany.envia === null) {
-    contingut.innerHTML = `${capçal}<h2>Hi envies recurs?</h2>
-      <div class="opcions"><button class="opcio gran-opcio" id="si">🚑 Sí, activo unitats</button>
-      <button class="opcio gran-opcio" id="no">📞 No: consell telefònic o no cal recurs</button></div>`;
-    $('si').onclick = () => { esborrany.envia = true; esborrany.recursos = new Set(); render(); };
-    $('no').onclick = () => { if (confirm('Confirmes que no hi envies cap recurs?')) envia({ recursos: [] }); };
-    return;
-  }
-  triaUnitats(capçal, 'Quines unitats hi envies?', `Incident a ${esc(vista.municipi)}. Tria quantes en calguin de cada tipus segons el que expliqui la carta.`,
-    sel => (sel.size ? `Enviar: ${resum(sel)}` : 'Tria almenys una unitat'), () => { esborrany.envia = null; render(); });
-  if (!esborrany.recursos.size) $('seguent').disabled = true;
+  esborrany.recursos ??= new Set();
+  triaUnitats(capçal, 'Quines unitats hi envies?', `Incident a ${esc(vista.municipi)}. Toca quantes en calguin de cada tipus i prem el botó de baix.`,
+    sel => (sel.size ? `🚑 Activar: ${resum(sel)}` : '📞 No hi envio cap recurs'), 'Confirmes que no hi envies cap recurs?');
 }
 
 function resultats(v) {
