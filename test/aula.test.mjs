@@ -168,3 +168,13 @@ test('escenari en equip: duplicitats, prioritat i recursos escassos, decidits pe
   a.ordre({ tipus: 'nova', config: { tipus: 'escenari', lloc, equips: 2, incidents: [{ carta: 'X', lloc: prop }] } });
   assert.equal(a.vistaAlumne('c3').equip, 'Blau');
 });
+
+test('aprenentatge: l\'interrogatori comença pel primer contacte (consciència i respiració)', () => {
+  const a = new Aula({ lloc, llavor: 1 }, dades);
+  const [primer] = a.config.xabcde;
+  assert.equal(primer.lletra, '1r');
+  assert.ok(primer.items.some(it => it.seccio === 'anamnesi' && /conscient/i.test(it.text)));
+  assert.ok(primer.items.some(it => it.seccio === 'anamnesi' && /respira/i.test(it.text)));
+  const ids = a.config.xabcde.flatMap(l => l.items.map(it => it.id));
+  assert.equal(new Set(ids).size, ids.length, 'cada element té un identificador únic');
+});

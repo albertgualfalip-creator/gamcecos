@@ -178,6 +178,7 @@ async function api(req, res, ruta, params) {
     try { const s = await llegeixCos(req); cos = s ? JSON.parse(s) : {}; } catch { return json(res, 400, { error: 'JSON invàlid' }); }
   }
   if (ruta.startsWith('/api/aula/casos')) return autoritzat ? casosAula(req, res, ruta, cos) : json(res, 401, { error: 'Cal contrasenya' });
+  if (ruta === '/api/aula/interrogatori') return autoritzat ? interrogatori(req, res, cos) : json(res, 401, { error: 'Cal contrasenya' });
   // Units around the place of a case, for the tutor to choose which appear, which are busy and which are right
   if (ruta === '/api/aula/unitats' && req.method === 'POST') return autoritzat ? json(res, 200, { unitats: unitatsProperes(dades, cos.lloc) }) : json(res, 401, { error: 'Cal contrasenya' });
   if (ruta.startsWith('/api/aula/')) return apiAula(req, res, ruta, params, cos, autoritzat);
@@ -256,11 +257,33 @@ async function api(req, res, ruta, params) {
 
 // ---------- Prepared training cases: aula-casos/<id>.json and the recording aula-casos/<id>.<ext> ----------
 
+// The base questioning (blocks and their items) new cases start from; editable by the tutor
+const FITXER_INTERROGATORI = 'interrogatori.json';
+const SECCIONS_INTERROGATORI = ['anamnesi', 'signes', 'maniobres', 'noavaluable'];
+
+function interrogatori(req, res, cos) {
+  const fitxer = path.join(DIR_AULA, FITXER_INTERROGATORI);
+  if (req.method === 'GET') {
+    try { return json(res, 200, JSON.parse(fs.readFileSync(fitxer, 'utf8'))); } catch { return json(res, 200, { blocs: null }); }
+  }
+  const textos = l => (Array.isArray(l) ? l.map(x => String(x).trim().slice(0, 120)).filter(Boolean).slice(0, 15) : []);
+  const blocs = (Array.isArray(cos.blocs) ? cos.blocs : []).slice(0, 12).map(b => ({
+    lletra: String(b?.lletra || '?').trim().slice(0, 4), nom: String(b?.nom || '').trim().slice(0, 60),
+    ...Object.fromEntries(SECCIONS_INTERROGATORI.map(sec => [sec, textos(b?.[sec])])),
+  })).filter(b => SECCIONS_INTERROGATORI.some(sec => b[sec].length));
+  if (!blocs.length) return json(res, 400, { error: 'L\'interrogatori ha de tenir almenys un bloc amb contingut' });
+  try {
+    fs.mkdirSync(DIR_AULA, { recursive: true });
+    fs.writeFileSync(fitxer, JSON.stringify({ blocs }, null, 1));
+  } catch (e) { return errorDisc(res, e); }
+  return json(res, 200, { blocs });
+}
+
 const idCasAula = id => (/^[a-z0-9-]{3,60}$/.test(String(id || '')) ? String(id) : null);
 
 function llegeixCasosAula() {
   if (!fs.existsSync(DIR_AULA)) return [];
-  return fs.readdirSync(DIR_AULA).filter(f => f.endsWith('.json')).map(f => {
+  return fs.readdirSync(DIR_AULA).filter(f => f.endsWith('.json') && f !== FITXER_INTERROGATORI).map(f => {
     try { return JSON.parse(fs.readFileSync(path.join(DIR_AULA, f), 'utf8')); } catch { return null; }
   }).filter(Boolean).sort((a, b) => (a.ordre ?? 999) - (b.ordre ?? 999) || String(a.titol).localeCompare(String(b.titol), 'ca'));
 }

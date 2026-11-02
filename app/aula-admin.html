@@ -17,9 +17,20 @@
     <button class="boto gran-boto" id="nou">+ Cas nou</button>
     <h3>Ordre de la classe</h3>
     <div id="llista" class="llista-casos"></div>
+    <button class="boto secundari interrogatori-boto" id="obre-interrogatori">⚙ Interrogatori base</button>
+    <p class="suau">Les preguntes, signes i maniobres de partida de tots els casos: ordre, textos i blocs.</p>
   </aside>
 
   <section>
+    <div id="editor-interrogatori" class="panell" hidden>
+      <div class="barra-desar"><h2>⚙ Interrogatori base</h2>
+        <div class="accions"><button class="boto" type="button" id="desa-interrogatori">Desar</button>
+          <button class="boto secundari" type="button" id="restaura-interrogatori">Tornar al de per defecte</button>
+          <button class="boto secundari" type="button" id="tanca-interrogatori">Tancar</button></div></div>
+      <p class="suau">És l'ordre i el contingut amb què surten les preguntes als alumnes. Els casos nous parteixen d'aquí; els que ja teniu el poden aplicar des del seu pas 3 («Aplicar l'interrogatori base»). Ordeneu amb ▲▼, canvieu els textos o afegiu-ne.</p>
+      <div id="blocs-interrogatori"></div>
+    </div>
+
     <div id="benvinguda" class="panell"><h2>Trieu un cas de la llista o creeu-ne un de nou.</h2>
       <p class="suau">Hi ha tres tipus de cas: amb gravació, només amb la carta del 112, o un escenari amb diversos incidents per treballar en equip.</p></div>
 
@@ -80,7 +91,7 @@
       </div>
 
       <div class="panell pas-cas nomes-sol" id="pas-xabcde">
-        <h3><span class="num-pas">3</span> Respostes correctes del XABCDE</h3>
+        <h3><span class="num-pas">3</span> Respostes correctes del XABCDE <button class="boto-petit" type="button" id="aplica-interrogatori">↺ Aplicar l'interrogatori base</button></h3>
         <p class="suau">Toqueu el que és correcte en aquest cas (es posa en verd). Amb «✎ Textos» podeu canviar o afegir opcions.</p>
         <div id="xabcde" class="xabcde-editor"></div>
       </div>

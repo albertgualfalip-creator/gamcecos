@@ -1,7 +1,8 @@
 // Consultor training, cases of the class: create and edit them in advance (recording, 112 card or team scenario),
 // in the order they will be played, so that in class the tutor only has to put them on.
 import { $, esc, avis } from './client.mjs';
-import { carregaMunicipis, lloc, pintaXabcde, llegeixXabcde, seccionsVisibles } from './aula-editor.mjs';
+import { carregaMunicipis, lloc, pintaXabcde, llegeixXabcde, seccionsVisibles, carregaInterrogatori, aplicaInterrogatori } from './aula-editor.mjs';
+import { obreInterrogatori, desaInterrogatori, restauraInterrogatori } from './aula-interrogatori.mjs';
 
 const FASES = ['escolta', 'preguntes', 'instruccio', 'nivell', 'recursos', 'activacio'];
 const PER_DEFECTE = { veu: FASES, carta: ['recursos'], escenari: [] };
@@ -70,6 +71,7 @@ $('nou').onclick = () => {
   if (canvis && !confirm('Hi ha canvis sense desar. Continuar?')) return;
   actual = null;
   canvis = false;
+  $('editor-interrogatori').hidden = true;
   $('benvinguda').hidden = true;
   f.hidden = true;
   $('tria-tipus').hidden = false;
@@ -86,6 +88,7 @@ document.querySelectorAll('[data-tipus]').forEach(b => b.onclick = () => {
 function obre(c) {
   actual = c;
   canvis = false;
+  $('editor-interrogatori').hidden = true;
   $('benvinguda').hidden = true;
   $('tria-tipus').hidden = true;
   f.hidden = false;
@@ -331,6 +334,28 @@ $('esborra').onclick = async () => {
   await carrega();
 };
 
+// ---------- base questioning, outside the cases ----------
+
+$('obre-interrogatori').onclick = async () => {
+  if (canvis && !confirm('Hi ha canvis sense desar al cas. Continuar?')) return;
+  canvis = false;
+  actual = null;
+  f.hidden = true;
+  $('tria-tipus').hidden = true;
+  $('benvinguda').hidden = true;
+  $('editor-interrogatori').hidden = false;
+  llista();
+  await obreInterrogatori('blocs-interrogatori');
+};
+$('desa-interrogatori').onclick = async () => {
+  if (await desaInterrogatori()) { await carregaInterrogatori(); avis('Interrogatori base desat: els casos nous el faran servir'); }
+};
+$('restaura-interrogatori').onclick = () => { if (confirm('Tornar a l\'interrogatori de per defecte? (No es desa fins que premeu «Desar».)')) restauraInterrogatori('blocs-interrogatori'); };
+$('tanca-interrogatori').onclick = () => { $('editor-interrogatori').hidden = true; $('benvinguda').hidden = false; };
+$('aplica-interrogatori').onclick = () => {
+  if (confirm('Substituir les llistes d\'aquest cas per l\'interrogatori base? Es mantenen com a correctes els elements amb el mateix text.')) aplicaInterrogatori();
+};
+
 window.addEventListener('beforeunload', e => { if (canvis) e.preventDefault(); });
-Promise.all([carregaMunicipis('municipis'), carrega()])
+Promise.all([carregaMunicipis('municipis'), carregaInterrogatori(), carrega()])
   .catch(() => { $('error').textContent = 'Cal entrar amb la contrasenya (torneu a la pàgina inicial).'; });

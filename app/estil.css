@@ -548,3 +548,17 @@ table.sense-correcta th:nth-child(5), table.sense-correcta td:nth-child(5) { dis
 .capa-recurs .barra-accio { position: fixed; left: 0; right: 0; bottom: 0; display: flex; gap: .5rem; padding: .6rem 16px calc(.6rem + env(safe-area-inset-bottom)); background: var(--panell); box-shadow: 0 -2px 10px rgba(0, 0, 0, .2); }
 .capa-recurs .barra-accio .gran-boto { flex: 1; margin: 0; background: var(--perillosa); }
 .capa-recurs .barra-accio .gran-boto:disabled { background: #6b7385; opacity: .7; }
+/* Base questioning editor */
+.interrogatori-boto { width: 100%; margin-top: 1rem; }
+.bloc-interrogatori { border: 1px solid var(--vora); border-radius: 8px; padding: .6rem; margin: .6rem 0; background: var(--panell); }
+.bloc-cap { display: flex; gap: .4rem; align-items: center; margin-bottom: .3rem; }
+.lletra-input { width: 3.5em; font-weight: 800; text-align: center; }
+.nom-input { flex: 1; font-weight: 700; }
+.bloc-interrogatori input { font: inherit; padding: .35rem .45rem; border-radius: 6px; border: 1px solid var(--vora); background: var(--camp); color: var(--text); }
+.item-interrogatori { display: flex; gap: .3rem; align-items: center; margin: .2rem 0; }
+.item-interrogatori input { flex: 1; }
+.mou-item { display: inline-flex; gap: 2px; }
+.mou-item button { border: 1px solid var(--vora); background: var(--camp); border-radius: 4px; font-size: .7rem; padding: .1rem .3rem; }
+.mou-item button:disabled { opacity: .3; }
+.bloc-interrogatori .seccio-aula { margin: .5rem 0; }
+#editor-interrogatori .barra-desar { background: var(--panell); padding: .5rem 0; border-bottom: 1px solid var(--vora); }

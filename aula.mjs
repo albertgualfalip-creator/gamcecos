@@ -87,7 +87,7 @@ export class Aula {
     // Each letter: items in the sections (what to ask, what is heard, what to instruct, not assessable); the tutor
     // marks the right ones. Accepts {items: [...]} or the default {anamnesi, signes, maniobres, noavaluable}
     const xabcde = !ambXabcde ? [] : (Array.isArray(c.xabcde) && c.xabcde.length ? c.xabcde : XABCDE).map((l, i) => {
-      const lletra = String(l.lletra || XABCDE[i]?.lletra || '?').slice(0, 2);
+      const lletra = String(l.lletra || XABCDE[i]?.lletra || '?').slice(0, 4);
       const fonts = Array.isArray(l.items) ? l.items : SECCIONS.flatMap(sec => (l[sec.id] || []).map(text => ({ seccio: sec.id, text })));
       const comptes = {};
       const items = fonts.filter(it => SECCIONS.some(sec => sec.id === it.seccio) && String(it.text || '').trim()).slice(0, 30).map(it => {

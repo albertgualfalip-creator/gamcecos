@@ -248,6 +248,11 @@ export const SECCIONS = [
 ];
 const NO_AVALUABLE = ['No avaluable: la gravació no en dona informació'];
 export const XABCDE = [
+  // By phone, before the XABCDE: what happened, does the patient respond, do they breathe normally (ERC 2021)
+  { lletra: '1r', nom: 'Primer contacte: consciència i respiració',
+    anamnesi: ['Què ha passat?', 'Està conscient? Respon si li parles o el sacseges?', 'Respira amb normalitat?'],
+    signes: ['Conscient, respon', 'No respon', 'Respira amb normalitat', 'No respira o respira malament (gasping)'],
+    maniobres: ['No respon i no respira bé: iniciar RCP', 'No respon però respira bé: posició lateral de seguretat'], noavaluable: NO_AVALUABLE },
   { lletra: 'X', nom: 'Hemorràgia exsanguinant',
     anamnesi: ["Hi ha sang? D'on surt i quanta n'hi ha?", 'Raja a dolls o no para de sortir?', 'Hi ha algun objecte clavat?', 'Pren anticoagulants?'],
     signes: ['Sagnat abundant que no para', 'Sagnat lleu o controlat', 'Cap sagnat referit'],
@@ -265,7 +270,7 @@ export const XABCDE = [
     signes: ['Pell pàl·lida o suada', 'Dolor toràcic opressiu', 'Pèrdua de consciència (síncope)', 'Palpitacions', 'Sense signes de vida'],
     maniobres: ['RCP: compressions fortes al centre del pit, 100-120 per minut', 'Anar a buscar el DEA més proper i seguir-ne les instruccions', 'Estirar-lo amb les cames elevades', 'Repòs absolut: que no camini'], noavaluable: NO_AVALUABLE },
   { lletra: 'D', nom: 'Neurològic',
-    anamnesi: ["Està despert? Respon si li parles o el sacseges?", 'Sap on és i quin dia és?', 'Pot somriure, aixecar els dos braços i parlar bé?', "A quina hora van començar els símptomes?", 'És diabètic? Li podeu mirar el sucre?', 'Ha convulsionat?'],
+    anamnesi: ['Sap on és i quin dia és?', 'Pot somriure, aixecar els dos braços i parlar bé?', "A quina hora van començar els símptomes?", 'És diabètic? Li podeu mirar el sucre?', 'Ha convulsionat?'],
     signes: ['Parla estranya o no troba les paraules', 'Confús o desorientat', 'No respon', 'Convulsió en curs', 'Ronc profund'],
     maniobres: ['Posició lateral de seguretat', 'Convulsió: apartar objectes, no subjectar-lo ni posar res a la boca', 'Hipoglucèmia i conscient: donar sucre per boca', 'Res per boca si està poc conscient', "Anotar l'hora d'inici dels símptomes"], noavaluable: NO_AVALUABLE },
   { lletra: 'E', nom: 'Exposició i entorn',
