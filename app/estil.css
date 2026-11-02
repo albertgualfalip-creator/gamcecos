@@ -348,3 +348,11 @@ label.opcio.unitat { display: flex; align-items: center; gap: .3rem; }
 .seccio-aula.seccio-noavaluable h3 { display: none; }
 .projector .titol-cas { font-size: 1.05rem; margin-top: .5rem; }
 .projector .carta-text { font-size: 1.25rem; line-height: 1.35; }
+/* Phone: fixed bar to activate units while assessing */
+body.aula { padding-bottom: 5.5rem; }
+.barra-recurs { position: fixed; left: 0; right: 0; bottom: 0; padding: .6rem 16px calc(.6rem + env(safe-area-inset-bottom)); background: var(--panell); box-shadow: 0 -2px 10px rgba(0, 0, 0, .15); z-index: 50; }
+.barra-recurs button { width: 100%; max-width: 560px; display: block; margin: 0 auto; border: 0; border-radius: 10px; padding: .95rem; font-size: 1.1rem; font-weight: 800; background: var(--perillosa); color: #fff; }
+.barra-recurs button.activat { background: var(--optima); font-size: .95rem; }
+.barra-recurs button span { text-decoration: underline; margin-left: .3rem; }
+.capa-recurs { position: fixed; inset: 0; background: rgba(10, 15, 25, .55); z-index: 60; overflow-y: auto; padding: 1rem 12px; }
+.capa-recurs .capa-contingut { max-width: 560px; margin: 0 auto; background: var(--fons); border-radius: 12px; padding: 1rem; }

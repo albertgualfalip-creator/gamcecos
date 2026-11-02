@@ -25,6 +25,14 @@ function barres(files) {
     <span class="barra"><span style="width:${(100 * f.n) / total}%" class="${f.classe || ''}"></span></span><b>${f.n}</b></div>`).join('')}</div>`;
 }
 
+function tempsActivacio(d) {
+  const trams = [['0–15 s', 0, 15], ['15–30 s', 15, 30], ['30–60 s', 30, 60], ['1–2 min', 60, 120], ['> 2 min', 120, Infinity]];
+  const files = trams.map(([text, de, fins]) => ({ text, n: d.activacio.filter(a => a.t >= de && a.t < fins).length }))
+    .concat({ text: 'Sense activar durant la valoració', n: d.senseActivacio });
+  const temps = d.activacio.map(a => a.t).sort((a, b) => a - b);
+  return `${barres(files)}${temps.length ? `<p class="suau">Mediana: segon ${temps[Math.floor(temps.length / 2)]} de la gravació</p>` : ''}`;
+}
+
 function render(v) {
   const resultats = v.estat === 'resultats';
   $('estat').innerHTML = { preparada: '<span class="etiqueta v-acceptable">ESCOLTEU LA TRUCADA</span>', oberta: '<span class="etiqueta v-optima">RESPONEU AL MÒBIL</span>',
@@ -46,11 +54,12 @@ function render(v) {
   pintaMapa(v);
   const p = v.progres, base = Math.max(1, p.connectats);
   const progres = `<div class="panell"><h3>Participació</h3><p class="xifra">${p.connectats} <span class="suau">connectats</span></p>
-    ${barres([['XABCDE', p.xabcde], ['Nivell de triatge', p.nivell], ['Recursos (acabat)', p.recursos]].map(([text, n]) => ({ text: `${text} · ${Math.round((100 * n) / base)} %`, n })))}</div>`;
+    ${barres([['🚑 Recurs activat', p.activats], ['XABCDE', p.xabcde], ['Nivell de triatge', p.nivell], ['Recursos (acabat)', p.recursos]].map(([text, n]) => ({ text: `${text} · ${Math.round((100 * n) / base)} %`, n })))}</div>`;
   const d = v.distribucio;
   $('lateral').innerHTML = !resultats ? progres : `
     <div class="panell"><h3>Nivell de triatge</h3>${barres([1, 2, 3, 4, 5].map(n => ({ html: `<span class="nivell n${n}">N${n}</span>`, n: d.nivell[n] || 0, correcte: v.config.nivell === n, classe: `n${n}` })))}</div>
     <div class="panell"><h3>Tipus de resposta</h3>${barres(Object.entries(d.combo).sort((a, b) => b[1] - a[1]).map(([text, n]) => ({ text, n, correcte: text === v.correctesCombo })))}</div>
+    <div class="panell"><h3>🚑 Quan han activat el recurs</h3>${tempsActivacio(d)}</div>
     <div class="panell"><h3>Classificació</h3><ol class="ranquing">${v.classificacio.slice(0, 8).map(c => `<li><b>${esc(c.nom)}</b> · ${c.punts}/${c.maxim}</li>`).join('')}</ol></div>`;
   // XABCDE results: only what someone ticked or what was right, the right ones first
   $('resultats-xabcde').innerHTML = !resultats ? '' : v.config.xabcde.map(l => {

@@ -66,7 +66,7 @@ export class Aula {
   }
 
   ordre({ tipus, config, correctes }) {
-    if (tipus === 'obre' && this.estat === 'preparada') this.estat = 'oberta';
+    if (tipus === 'obre' && this.estat === 'preparada') { this.estat = 'oberta'; this.obertaT = Date.now(); }
     else if (tipus === 'resultats' && this.estat === 'oberta') this.estat = 'resultats';
     else if (tipus === 'nova') this.configura(config);
     else if (tipus === 'correctes' && Array.isArray(correctes)) {
@@ -75,13 +75,22 @@ export class Aula {
     return null;
   }
 
-  // A student's answer arrives in steps: XABCDE, then the level, then the units
-  respon(client, { nom, xabcde, nivell, recursos }) {
+  // A student's answer arrives in steps: XABCDE, then the level, then the units. At any moment before the end they can
+  // activate units ("activa"): the second of the first activation shows when they detected the severity.
+  respon(client, { nom, xabcde, nivell, recursos, activa }) {
     if (this.estat !== 'oberta') return 'Les respostes no estan obertes';
     if (!client) return 'Falta el client';
     const r = this.respostes.get(client) || { nom: 'Anònim', xabcde: null, nivell: null, recursos: null };
     if (r.recursos) return 'Ja has enviat la resposta';
     if (nom) r.nom = String(nom).slice(0, 24);
+    if (Array.isArray(activa)) {
+      const lliures = new Set(this.unitats.filter(u => !u.ocupada).map(u => u.indicatiu));
+      const ids = [...new Set(activa)].filter(id => lliures.has(id)).slice(0, 4);
+      const ara = Math.round((Date.now() - (this.obertaT || Date.now())) / 1000);
+      // The first activation is the one that counts; later ones only change the units
+      r.activacio = r.activacio?.t != null && ids.length ? { ...r.activacio, recursos: ids }
+        : ids.length ? { recursos: ids, t: ara, abansValoracio: !r.xabcde } : null;
+    }
     if (Array.isArray(xabcde)) {
       const ids = new Set(this.config.xabcde.flatMap(l => l.items.map(it => it.id)));
       r.xabcde = [...new Set(xabcde)].filter(id => ids.has(id));
@@ -102,10 +111,13 @@ export class Aula {
   }
 
   // Points: in XABCDE one per right item ticked minus one per item ticked that was not indicated (never below
-  // zero), 3 for the exact level (1 if one level off), and up to 3 for the units
+  // zero), 3 for the exact level (1 if one level off), up to 3 for the units and 1 for activating them before
+  // finishing the assessment when the case needs units (early detection of severity)
   puntua(r) {
     const { xabcde, nivell } = this.config;
-    const detall = { xabcde: 0, nivell: 0, recursos: 0 };
+    const detall = { xabcde: 0, nivell: 0, recursos: 0, deteccio: 0 };
+    const calRecurs = this.correctes.length > 0;
+    if (calRecurs && r.activacio?.abansValoracio) detall.deteccio = 1;
     const marcats = new Set(r.xabcde || []);
     const items = xabcde.flatMap(l => l.items);
     detall.xabcde = Math.max(0, items.filter(it => marcats.has(it.id)).reduce((s, it) => s + (it.correcte ? 1 : -1), 0));
@@ -115,8 +127,8 @@ export class Aula {
       if (comboDe(tipus(r.recursos)) === comboDe(tipus(this.correctes))) detall.recursos += 2;
       if (r.recursos.length === this.correctes.length && r.recursos.every(id => this.correctes.includes(id))) detall.recursos += 1;
     }
-    const maxim = items.filter(it => it.correcte).length + (nivell ? 3 : 0) + 3;
-    return { ...detall, punts: detall.xabcde + detall.nivell + detall.recursos, maxim };
+    const maxim = items.filter(it => it.correcte).length + (nivell ? 3 : 0) + 3 + (calRecurs ? 1 : 0);
+    return { ...detall, punts: detall.xabcde + detall.nivell + detall.recursos + detall.deteccio, maxim };
   }
 
   combo(ids) { return comboDe(ids.map(id => this.unitats.find(u => u.indicatiu === id)).filter(Boolean)); }
@@ -131,7 +143,7 @@ export class Aula {
         items: l.items.map(({ id, seccio, text, correcte }) => ({ id, seccio, text, ...(resultats ? { correcte } : {}) })) })),
       unitats: this.unitats.map(({ indicatiu, tipus, base, km, eta, ocupada }) => ({ indicatiu, tipus, base, km, eta, ocupada })),
       municipi: this.config.lloc.municipi,
-      resposta: r ? { xabcde: r.xabcde, nivell: r.nivell, recursos: r.recursos } : null,
+      resposta: r ? { xabcde: r.xabcde, nivell: r.nivell, recursos: r.recursos, activacio: r.activacio || null } : null,
       ...(resultats ? { correcte: { nivell: this.config.nivell, recursos: this.correctes, combo: RECURSOS[this.combo(this.correctes)] },
         puntuacio: r ? this.puntua(r) : null } : {}),
     };
@@ -145,15 +157,19 @@ export class Aula {
     return {
       estat: this.estat, ronda: this.ronda, numero: this.numero, config: this.config, unitats: this.unitats, correctes: this.correctes,
       correctesCombo: RECURSOS[this.combo(this.correctes)],
-      progres: { connectats: rs.length, xabcde: rs.filter(r => r.xabcde).length, nivell: rs.filter(r => r.nivell).length, recursos: fets.length },
+      progres: { connectats: rs.length, activats: rs.filter(r => r.activacio).length, xabcde: rs.filter(r => r.xabcde).length,
+        nivell: rs.filter(r => r.nivell).length, recursos: fets.length },
       distribucio: {
         xabcde: compta(rs.flatMap(r => r.xabcde || []), id => id),
         nivell: compta(rs, r => r.nivell),
         unitats: compta(fets.flatMap(r => (r.recursos.length ? r.recursos : ['cap'])), x => x),
         combo: compta(fets, r => RECURSOS[this.combo(r.recursos)]),
+        // Seconds from opening the answers (and starting the recording) to the first activation
+        activacio: rs.filter(r => r.activacio).map(r => ({ nom: r.nom, t: r.activacio.t, abansValoracio: r.activacio.abansValoracio })).sort((a, b) => a.t - b.t),
+        senseActivacio: rs.filter(r => !r.activacio).length,
       },
       classificacio: this.estat === 'resultats'
-        ? rs.map(r => ({ nom: r.nom, ...this.puntua(r) })).sort((a, b) => b.punts - a.punts).slice(0, 15) : [],
+        ? rs.map(r => ({ nom: r.nom, activacio: r.activacio?.t ?? null, ...this.puntua(r) })).sort((a, b) => b.punts - a.punts).slice(0, 15) : [],
     };
   }
 }

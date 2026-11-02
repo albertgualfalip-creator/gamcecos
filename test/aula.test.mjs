@@ -28,6 +28,9 @@ test('aprenentatge: els alumnes responen per passos i la puntuació compara amb 
   const items = a.config.xabcde.flatMap(l => l.items);
   const bones = items.filter(it => it.correcte).map(it => it.id);
   assert.equal(bones.length, 3);
+  // Anna activates the units while still assessing: early detection of severity
+  assert.equal(a.respon('c1', { nom: 'Anna', activa: a.correctes }), null);
+  assert.equal(a.respostes.get('c1').activacio.abansValoracio, true);
   assert.equal(a.respon('c1', { nom: 'Anna', xabcde: bones }), null);
   assert.equal(a.respon('c1', { nivell: 1 }), null);
   assert.equal(a.respon('c1', { recursos: a.correctes }), null);
@@ -42,9 +45,11 @@ test('aprenentatge: els alumnes responen per passos i la puntuació compara amb 
   assert.ok(!('correcte' in abans) && abans.xabcde.every(l => l.items.every(it => !('correcte' in it))));
   a.ordre({ tipus: 'resultats' });
   const [primer, segon] = a.vistaTutor().classificacio;
-  assert.deepEqual([primer.nom, primer.punts, primer.maxim], ['Anna', 9, 9]);
-  assert.deepEqual([segon.nom, segon.xabcde, segon.nivell, segon.recursos], ['Pau', 0, 0, 0]);
-  assert.equal(a.vistaAlumne('c1').puntuacio.punts, 9);
+  assert.deepEqual([primer.nom, primer.punts, primer.maxim, primer.deteccio], ['Anna', 10, 10, 1]);
+  assert.deepEqual([segon.nom, segon.xabcde, segon.nivell, segon.recursos, segon.deteccio], ['Pau', 0, 0, 0, 0]);
+  assert.equal(a.vistaAlumne('c1').puntuacio.punts, 10);
+  assert.deepEqual(a.vistaTutor().distribucio.activacio.map(x => x.nom), ['Anna']);
+  assert.equal(a.vistaTutor().distribucio.senseActivacio, 1);
   assert.equal(a.vistaTutor().distribucio.xabcde[bones[1]], 2);
   assert.equal(a.vistaTutor().distribucio.nivell[1], 1);
 });

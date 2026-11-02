@@ -18,7 +18,7 @@ const SECCIONS = [
   { id: 'maniobres', nom: 'Maniobres salvadores', pregunta: 'Quines instruccions donaries?' },
   { id: 'noavaluable', nom: 'No avaluable', pregunta: 'La gravació no en dona informació' },
 ];   // as in motor.mjs
-const nouEsborrany = () => ({ xabcde: new Set(), lletra: 0, nivell: null, recursos: new Set() });
+const nouEsborrany = () => ({ xabcde: new Set(), lletra: 0, nivell: null, recursos: null, activa: new Set() });
 let esborrany = nouEsborrany();
 
 async function envia(dades) {
@@ -48,6 +48,7 @@ function rep(v, força = false) {
 }
 
 function render() {
+  barraRecurs();
   const v = vista, r = v.resposta;
   const capçal = `<p class="marcador">${esc(nom)} · <b>${esc(v.titol)}</b></p>${v.carta ? `<p class="carta-text carta-mobil">${esc(v.carta)}</p>` : ''}`;
   if (v.estat === 'preparada') { contingut.innerHTML = `${capçal}<p class="xifra">Escolta la gravació.</p><p class="suau">Les respostes s'obriran d'aquí a un moment.</p>`; return; }
@@ -97,14 +98,43 @@ function pasNivell(capçal) {
   $('seguent').onclick = () => envia({ nivell: esborrany.nivell });
 }
 
-// Step 3: units to activate (none means telephone advice)
+// Fixed bar while assessing: activate units as soon as the severity is clear, without finishing the assessment
+function barraRecurs() {
+  const v = vista, r = v?.resposta;
+  const visible = v?.estat === 'oberta' && !r?.nivell;
+  $('barra-recurs').hidden = !visible;
+  if (!visible) { $('capa-recurs').hidden = true; return; }
+  const a = r?.activacio;
+  $('barra-recurs').innerHTML = a
+    ? `<button class="activat">🚑 Recurs activat al segon ${a.t} · ${esc(a.recursos.join(', '))} <span>Modificar</span></button>`
+    : '<button>🚑 Activar recurs ara</button>';
+  $('barra-recurs').querySelector('button').onclick = () => { esborrany.activa = new Set(a?.recursos || []); capaRecurs(); };
+}
+
+function capaRecurs() {
+  const sel = esborrany.activa;
+  $('capa-recurs').hidden = false;
+  $('capa-recurs').innerHTML = `<div class="capa-contingut"><h2>Quines unitats actives ara?</h2>
+    <p class="suau">Incident a ${esc(vista.municipi)}. Es registra el moment en què actives: com abans detectis la gravetat, millor.</p>
+    ${llistaUnitats(sel)}
+    <div class="navega"><button class="boto secundari" id="tanca-capa">Tancar</button>
+      <button class="boto gran-boto" id="activa" ${sel.size ? '' : 'disabled'}>Activar ${sel.size || ''} unitat${sel.size === 1 ? '' : 's'}</button></div></div>`;
+  $('capa-recurs').querySelectorAll('[data-u]').forEach(b => b.onclick = () => { sel.has(b.dataset.u) ? sel.delete(b.dataset.u) : sel.add(b.dataset.u); capaRecurs(); });
+  $('tanca-capa').onclick = () => { $('capa-recurs').hidden = true; };
+  $('activa').onclick = async () => { $('capa-recurs').hidden = true; await envia({ activa: [...sel] }); };
+}
+
+const llistaUnitats = sel => `<div class="opcions">${vista.unitats.map(u => `<button class="opcio unitat-mobil ${sel.has(u.indicatiu) ? 'triada' : ''}" data-u="${esc(u.indicatiu)}" ${u.ocupada ? 'disabled' : ''}>
+  <span class="punt" style="background:${COLOR[u.tipus] || '#888'}"></span><b>${esc(u.indicatiu)}</b> ${esc(u.tipus)}
+  <span class="nvots">${u.ocupada ? 'ocupada' : `${u.eta} min`}</span><br><span class="suau">${esc(u.base)} · ${u.km} km</span></button>`).join('')}</div>`;
+
+// Step 3: units to activate (none means telephone advice); starts from the ones activated while assessing
 function pasRecursos(capçal) {
+  esborrany.recursos ??= new Set(vista.resposta.activacio?.recursos || []);
   const sel = esborrany.recursos;
   contingut.innerHTML = `${capçal}<div class="passos">1 XABCDE · 2 Nivell · <b>3 Recursos</b></div>
-    <h2>Quines unitats actives?</h2><p class="suau">Incident a ${esc(vista.municipi)}. Nivell triat: <span class="nivell n${vista.resposta.nivell}">N${vista.resposta.nivell}</span>. Pots triar-ne més d'una.</p>
-    <div class="opcions">${vista.unitats.map(u => `<button class="opcio unitat-mobil ${sel.has(u.indicatiu) ? 'triada' : ''}" data-u="${esc(u.indicatiu)}" ${u.ocupada ? 'disabled' : ''}>
-      <span class="punt" style="background:${COLOR[u.tipus] || '#888'}"></span><b>${esc(u.indicatiu)}</b> ${esc(u.tipus)}
-      <span class="nvots">${u.ocupada ? 'ocupada' : `${u.eta} min`}</span><br><span class="suau">${esc(u.base)} · ${u.km} km</span></button>`).join('')}</div>
+    <h2>${vista.resposta.activacio ? 'Confirma les unitats' : 'Quines unitats actives?'}</h2><p class="suau">Incident a ${esc(vista.municipi)}. Nivell triat: <span class="nivell n${vista.resposta.nivell}">N${vista.resposta.nivell}</span>. Pots triar-ne més d'una${vista.resposta.activacio ? ', afegir-ne o treure\'n' : ''}.</p>
+    ${llistaUnitats(sel)}
     <button class="boto gran-boto" id="seguent">${sel.size ? `Activar ${sel.size} unitat${sel.size > 1 ? 's' : ''}` : 'Cap recurs: consell telefònic'}</button>`;
   contingut.querySelectorAll('[data-u]').forEach(b => b.onclick = () => {
     sel.has(b.dataset.u) ? sel.delete(b.dataset.u) : sel.add(b.dataset.u);
@@ -134,7 +164,8 @@ function resultats(v) {
     <h3>XABCDE <span class="suau">(${p.xabcde} punts)</span></h3>${lletres || '<p class="suau">No has marcat res i no hi havia res a marcar.</p>'}
     <h3>Nivell</h3><p>El teu: ${r.nivell ? `<span class="nivell n${r.nivell}">N${r.nivell}</span>` : '—'}
       ${v.correcte.nivell ? ` · correcte: <span class="nivell n${v.correcte.nivell}">N${v.correcte.nivell}</span> ${ok(r.nivell === v.correcte.nivell)}` : ''}</p>
-    <h3>Recursos</h3><p>Els teus: ${esc(unitats(r.recursos))}<br>Proposta: <b>${esc(v.correcte.combo)}</b> · ${esc(unitats(v.correcte.recursos))} ${ok(p.recursos === 3)}</p>`;
+    <h3>Recursos</h3><p>${r.activacio ? `🚑 Has activat al segon <b>${r.activacio.t}</b>, ${r.activacio.abansValoracio ? 'abans d\'acabar la valoració' : 'després del XABCDE'}${p.deteccio ? ' <span class="encert">+1 detecció precoç</span>' : ''}` : 'No has activat cap recurs durant la valoració.'}</p>
+    <p>Els teus: ${esc(unitats(r.recursos))}<br>Proposta: <b>${esc(v.correcte.combo)}</b> · ${esc(unitats(v.correcte.recursos))} ${ok(p.recursos === 3)}</p>`;
 }
 
 function entra() {

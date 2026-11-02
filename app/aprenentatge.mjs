@@ -61,7 +61,12 @@ async function posa(cas) {
   actualitza();
 }
 $('en-directe').onchange = () => render();
-$('obre').onclick = () => ordre({ tipus: 'obre' });
+// The recording and the answers start together, so each activation second matches the recording second
+$('obre').onclick = () => {
+  const audio = $('audio');
+  if (audio) { audio.currentTime = 0; audio.play().catch(() => avis('Premeu el botó de reproducció de la gravació')); }
+  ordre({ tipus: 'obre' });
+};
 $('mostra').onclick = () => ordre({ tipus: 'resultats' });
 
 async function actualitza() {
@@ -82,7 +87,7 @@ function render() {
   $('obre').disabled = v.estat !== 'preparada';
   $('mostra').disabled = v.estat !== 'oberta';
   const p = v.progres;
-  $('progres').innerHTML = [['Connectats', p.connectats], ['XABCDE', p.xabcde], ['Nivell', p.nivell], ['Recursos (acabat)', p.recursos]]
+  $('progres').innerHTML = [['Connectats', p.connectats], ['🚑 Activat', p.activats], ['XABCDE', p.xabcde], ['Nivell', p.nivell], ['Recursos (acabat)', p.recursos]]
     .map(([t, n]) => `<div><span class="xifra">${n}</span><span class="suau">${t}</span></div>`).join('');
   $('lloc').textContent = `· incident a ${v.config.lloc.municipi}`;
   renderUnitats(v);
@@ -112,6 +117,16 @@ function barres(files) {
     <span class="barra"><span style="width:${(100 * f.n) / total}%" class="${f.classe || ''}"></span></span><b>${f.n}</b></div>`).join('')}</div>`;
 }
 
+// When the class detected the severity: seconds from the start of the recording to the first activation
+function tempsActivacio(d) {
+  const trams = [['0–15 s', 0, 15], ['15–30 s', 15, 30], ['30–60 s', 30, 60], ['1–2 min', 60, 120], ['> 2 min', 120, Infinity]];
+  const files = trams.map(([text, de, fins]) => ({ text, n: d.activacio.filter(a => a.t >= de && a.t < fins).length }));
+  files.push({ text: 'Sense activar durant la valoració', n: d.senseActivacio });
+  const temps = d.activacio.map(a => a.t);
+  const mitjana = temps.length ? temps.slice().sort((a, b) => a - b)[Math.floor(temps.length / 2)] : null;
+  return `${barres(files)}${mitjana != null ? `<p class="suau">Mediana: segon ${mitjana} de la gravació. Primer: ${esc(d.activacio[0].nom)} (${d.activacio[0].t} s).</p>` : ''}`;
+}
+
 function resultats(v) {
   const d = v.distribucio, mostra = v.estat === 'resultats';
   const lletres = v.config.xabcde.map(l => `<div class="panell"><h3><span class="lletra-gran">${esc(l.lletra)}</span> ${esc(l.nom)}</h3>
@@ -126,12 +141,13 @@ function resultats(v) {
     return { text: u ? `${id} ${u.tipus} · ${u.eta} min` : 'Cap recurs', n, correcte: mostra && v.correctes.includes(id) };
   }));
   const rànquing = v.classificacio.length ? `<div class="panell"><h3>Classificació</h3><ol class="ranquing">${v.classificacio
-    .map(c => `<li><b>${esc(c.nom)}</b> · ${c.punts}/${c.maxim} <span class="suau">(XABCDE ${c.xabcde}, nivell ${c.nivell}, recursos ${c.recursos})</span></li>`).join('')}</ol></div>` : '';
+    .map(c => `<li><b>${esc(c.nom)}</b> · ${c.punts}/${c.maxim} <span class="suau">(XABCDE ${c.xabcde}, nivell ${c.nivell}, recursos ${c.recursos}, detecció ${c.deteccio}${c.activacio != null ? ` · 🚑 ${c.activacio} s` : ''})</span></li>`).join('')}</ol></div>` : '';
   return `<div class="graella-xabcde">${lletres}</div>
     <div class="graella-xabcde">
       <div class="panell"><h3>Nivell de triatge</h3>${nivell}</div>
       <div class="panell"><h3>Tipus de resposta</h3>${combos || '<p class="suau">Encara cap.</p>'}${mostra ? `<p class="suau">Proposta: ${esc(v.correctesCombo)} (${esc(v.correctes.join(', ') || 'cap recurs')})</p>` : ''}</div>
       <div class="panell"><h3>Unitats activades</h3>${unitats || '<p class="suau">Encara cap.</p>'}</div>
+      <div class="panell"><h3>🚑 Quan han activat el recurs</h3>${tempsActivacio(d)}</div>
     </div>${rànquing}`;
 }
 
