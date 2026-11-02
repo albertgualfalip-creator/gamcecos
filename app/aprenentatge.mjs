@@ -95,6 +95,7 @@ async function posa(cas) {
       $('url-alumnes').innerHTML = `${esc(location.host)}/aula<br>codi <b class="codi">${codi}</b>`;
       if (window.QRCode) new QRCode($('qr'), { text: `${location.origin}/aula?codi=${codi}`, width: 120, height: 120 });
       $('obre-projector').href = `/projector?codi=${codi}`;
+      $('explica-joc').href = `/presentacio?codi=${codi}`;
       $('obre-projector').hidden = false;
       bucle();
     } else await post(`/api/aula/ordre?codi=${codi}`, { tipus: 'nova', config });

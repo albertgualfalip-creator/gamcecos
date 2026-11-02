@@ -1,6 +1,7 @@
 // Student phone in the consultor training: join with the session code and a nickname. Recording cases: what was
 // heard, a few key questions, the first instruction, the triage level and the units (which can be activated at any
 // moment). Card-only cases: send units or not, and which and how many of each kind.
+import { vistaDemo, respostaDemo } from './aula-demo.mjs';
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const contingut = $('contingut');
@@ -12,7 +13,9 @@ const client = guardat('gamcecos-client') || guardat('gamcecos-client', crypto.r
 let codi = (new URLSearchParams(location.search).get('codi') || '').toUpperCase();
 // Preview from the case form (?prova=1): the tutor sees the case as a student, without giving a name
 const prova = new URLSearchParams(location.search).has('prova');
-let nom = prova ? 'Tutor (prova)' : guardat('gamcecos-nom') || '';
+// Example for explaining the game (?demo=<screen>): made-up case, answers handled here, no server
+const demo = new URLSearchParams(location.search).get('demo');
+let nom = demo ? 'Anna' : prova ? 'Tutor (prova)' : guardat('gamcecos-nom') || '';
 let vista = null, clauVista = '', ronda = null;
 const CAP_MANIOBRA = 'cap';   // as in aula.mjs on the server
 const NOM_CAT = { SVA: 'SVA', SVB: 'SVB', HEMS: 'Helicòpter' };
@@ -24,6 +27,7 @@ const nouEsborrany = () => ({ pas: 'escolta', escolta: new Set(), preguntes: new
 let esborrany = nouEsborrany();
 
 async function envia(dades) {
+  if (demo) { if (!dades.accio && !dades.equip) rep(respostaDemo(vista, dades), true); return; }
   const r = await fetch(`/api/aula/resposta?codi=${codi}`, { method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ client, nom, ...dades }) });
   const d = await r.json().catch(() => ({}));
@@ -53,6 +57,7 @@ setInterval(() => {
 
 // Tells the tutor which screen this student is on
 function informaPas(pas) {
+  if (demo) return;
   if (vista?.estat !== 'oberta' || pas === pasInformat) return;
   pasInformat = pas;
   fetch(`/api/aula/resposta?codi=${codi}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ client, nom, pas }) }).catch(() => {});
@@ -371,4 +376,16 @@ function entra() {
   };
 }
 
-if (codi && nom) pregunta(); else entra();
+if (demo) {
+  // In the presentation the arrow keys move the slides even after tapping the example phone
+  document.addEventListener('keydown', e => {
+    if (['ArrowRight', 'ArrowLeft', 'PageDown', 'PageUp'].includes(e.key)) { e.preventDefault(); parent.postMessage({ tecla: e.key }, location.origin); }
+  });
+  if (demo === 'entrada') { codi = 'DEMO'; nom = ''; entra(); $('entra').onsubmit = e => e.preventDefault(); }
+  else {
+    rep(vistaDemo(demo));
+    // Screens inside the assessment and the activation window
+    if (['preguntes', 'instruccio'].includes(demo)) { esborrany.pas = demo; render(); }
+    if (demo === 'activa') { esborrany.activa = new Set(['C205']); capaRecurs(); }
+  }
+} else if (codi && nom) pregunta(); else entra();

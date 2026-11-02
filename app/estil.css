@@ -581,3 +581,26 @@ table.sense-correcta th:nth-child(5), table.sense-correcta td:nth-child(5) { dis
 .prova-cos { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; }
 #mobil-prova { width: 390px; max-width: 100%; height: min(780px, 75vh); border: 10px solid #1f2633; border-radius: 28px; background: #fff; }
 .prova-accions { display: grid; gap: .5rem; flex: 1; min-width: 220px; }
+
+/* Guided presentation of the game, for the projector */
+body.presentacio { background: #0b1220; color: #e8edf6; min-height: 100vh; margin: 0; }
+.presentacio-graella { display: grid; grid-template-columns: 1.3fr 1fr; gap: 2rem; align-items: center; min-height: 100vh; padding: 2rem 3rem; box-sizing: border-box; }
+.presentacio-marca { color: #4fa3ff; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; font-size: .95rem; }
+.presentacio-numero { color: #8796ae; margin-top: .4rem; font-variant-numeric: tabular-nums; }
+.presentacio h1 { font-size: 2.6rem; margin: .4rem 0 1rem; line-height: 1.15; }
+.presentacio-explica ul { padding-left: 1.2rem; margin: 0; }
+.presentacio-explica li { font-size: 1.45rem; line-height: 1.4; margin: .6rem 0; }
+.presentacio-nav { display: flex; align-items: center; gap: 1rem; margin: 2rem 0 .6rem; }
+.presentacio-nav .boto { font-size: 1.1rem; padding: .7rem 1.3rem; }
+.presentacio .boto.secundari { color: #4fa3ff; border-color: #4fa3ff; }
+.presentacio-punts { display: flex; gap: .35rem; flex: 1; flex-wrap: wrap; }
+.presentacio-punts button { width: .8rem; height: .8rem; border-radius: 50%; border: 0; background: #2a3a58; padding: 0; }
+.presentacio-punts button.actiu { background: #4fa3ff; }
+.presentacio-mobil { display: grid; place-items: center; }
+.presentacio-mobil iframe { width: 390px; height: min(800px, 88vh); border: 12px solid #1f2633; border-radius: 34px; background: #fff; box-shadow: 0 20px 60px rgba(0, 0, 0, .5); }
+.presentacio-qr { display: flex; gap: 1.2rem; align-items: center; font-size: 1.3rem; margin-top: 1rem; }
+.presentacio-qr img, .presentacio-qr canvas { background: #fff; padding: 8px; border-radius: 8px; }
+@media (max-width: 1000px) { .presentacio-graella { grid-template-columns: 1fr; padding: 1rem; } }
+/* Phone: the join form, large and easy to type in */
+.aula-mobil #entra label { display: grid; gap: .3rem; font-weight: 600; margin-top: .6rem; }
+.aula-mobil #entra input { font: inherit; font-size: 1.15rem; padding: .75rem; border-radius: 8px; border: 1px solid var(--vora); background: var(--panell); color: var(--text); }

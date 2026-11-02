@@ -22,7 +22,7 @@ const TIPUS_AUDIO = { 'audio/mpeg': '.mp3', 'audio/mp3': '.mp3', 'audio/wav': '.
   'audio/webm': '.webm', 'audio/mp4': '.m4a', 'audio/x-m4a': '.m4a', 'audio/aac': '.aac', 'audio/flac': '.flac' };
 const PUBLIC_DIRS = ['app', 'data'];
 const OBERT_SENSE_CLAU = new Set(['/app/index.html', '/app/vota.html', '/app/vota.mjs', '/app/client.mjs', '/app/estil.css', '/api/events', '/api/estat', '/api/vot', '/api/punts',
-  '/app/aula.html', '/app/aula.mjs', '/api/aula/estat', '/api/aula/resposta']);
+  '/app/aula.html', '/app/aula.mjs', '/app/aula-demo.mjs', '/api/aula/estat', '/api/aula/resposta']);
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8',
   '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png' };
 const CADUCITAT_SALA_MS = 12 * 3600 * 1000;
@@ -424,7 +424,8 @@ function estatic(res, ruta) {
 
 const DRECERES = { '/': '/app/index.html', '/vota': '/app/vota.html', '/tutor': '/app/tutor.html', '/uct': '/app/uct.html',
   '/sala': '/app/uct.html', '/consultor': '/app/consultor.html', '/cap': '/app/cap.html', '/editor': '/app/editor.html',
-  '/aprenentatge': '/app/aprenentatge.html', '/aula': '/app/aula.html', '/projector': '/app/projector.html', '/aula-admin': '/app/aula-admin.html' };
+  '/aprenentatge': '/app/aprenentatge.html', '/aula': '/app/aula.html', '/projector': '/app/projector.html', '/aula-admin': '/app/aula-admin.html',
+  '/presentacio': '/app/presentacio.html' };
 
 async function arrenca() {
   ({ Guardia } = await import('./joc.mjs'));

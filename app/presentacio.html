@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GamCECOS · Com funciona</title>
+<link rel="stylesheet" href="estil.css">
+<script src="vendor/qrcodejs/qrcode.min.js"></script>
+</head>
+<body class="presentacio">
+<main class="presentacio-graella">
+  <section class="presentacio-text">
+    <div class="presentacio-marca">GamCECOS · Com funciona</div>
+    <div id="numero" class="presentacio-numero"></div>
+    <h1 id="titol"></h1>
+    <div id="explica" class="presentacio-explica"></div>
+    <div id="qr-final" class="presentacio-qr" hidden><div id="qr"></div><div><div>Entreu a</div><b id="url"></b><div class="codi codi-gran" id="codi"></div></div></div>
+    <nav class="presentacio-nav">
+      <button class="boto secundari" id="enrere">← Enrere</button>
+      <div id="punts" class="presentacio-punts"></div>
+      <button class="boto" id="seguent">Següent →</button>
+    </nav>
+    <p class="suau">Fletxes del teclat per avançar o tornar. Al mòbil de la dreta es pot tocar per ensenyar-ho.</p>
+  </section>
+  <section class="presentacio-mobil"><iframe id="mobil" title="Mòbil de l'alumne"></iframe></section>
+</main>
+<script type="module" src="presentacio.mjs"></script>
+</body>
+</html>
