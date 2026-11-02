@@ -562,3 +562,8 @@ table.sense-correcta th:nth-child(5), table.sense-correcta td:nth-child(5) { dis
 .mou-item button:disabled { opacity: .3; }
 .bloc-interrogatori .seccio-aula { margin: .5rem 0; }
 #editor-interrogatori .barra-desar { background: var(--panell); padding: .5rem 0; border-bottom: 1px solid var(--vora); }
+.lletra-editor.ocult { opacity: .55; border-style: dashed; }
+.boto-petit.inclou { border-radius: 999px; }
+.boto-petit.inclou.actiu { background: var(--optima); border-color: var(--optima); color: #fff; }
+.bloc-cap .opcional { white-space: nowrap; font-size: .85rem; }
+.xips-fila .xip-boto { text-align: left; }

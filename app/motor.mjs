@@ -253,6 +253,15 @@ export const XABCDE = [
     anamnesi: ['Què ha passat?', 'Està conscient? Respon si li parles o el sacseges?', 'Respira amb normalitat?'],
     signes: ['Conscient, respon', 'No respon', 'Respira amb normalitat', 'No respira o respira malament (gasping)'],
     maniobres: ['No respon i no respira bé: iniciar RCP', 'No respon però respira bé: posició lateral de seguretat'], noavaluable: NO_AVALUABLE },
+  // Paediatric assessment triangle (TEP): appearance, work of breathing and circulation to skin, only by looking and
+  // listening (here through the caller). Optional: only in paediatric cases. One side altered = unstable
+  { lletra: 'TEP', nom: 'Triangle d\'avaluació pediàtrica', opcional: true,
+    anamnesi: ['Com el veus? Està actiu i juga, o està adormit, fluix o caigut?', 'Et mira i reconeix els pares? Es consola si l\'agafen?',
+      'Fa soroll en respirar (xiulets, ronc, grunyit)?', 'Se li enfonsen les costelles o el coll en respirar? Mou molt la panxa?',
+      'Quin color té? Pàl·lid, blavós o amb taques a la pell?'],
+    signes: ['Aspecte normal: actiu, mirada, plor fort', 'Aspecte alterat: adormit, fluix, no es consola', 'Treball respiratori augmentat: tiratge, sorolls, respiració ràpida',
+      'Pell alterada: pàl·lid, blavós o marbrejat', 'Triangle normal: estable'],
+    maniobres: ['Deixar-lo en la posició més còmoda, a coll dels pares', 'Si no respon i no respira bé: RCP pediàtrica'], noavaluable: NO_AVALUABLE },
   { lletra: 'X', nom: 'Hemorràgia exsanguinant',
     anamnesi: ["Hi ha sang? D'on surt i quanta n'hi ha?", 'Raja a dolls o no para de sortir?', 'Hi ha algun objecte clavat?', 'Pren anticoagulants?'],
     signes: ['Sagnat abundant que no para', 'Sagnat lleu o controlat', 'Cap sagnat referit'],

@@ -86,7 +86,7 @@ export class Aula {
     const ambXabcde = FASES_XABCDE.some(f => fases[f]);
     // Each letter: items in the sections (what to ask, what is heard, what to instruct, not assessable); the tutor
     // marks the right ones. Accepts {items: [...]} or the default {anamnesi, signes, maniobres, noavaluable}
-    const xabcde = !ambXabcde ? [] : (Array.isArray(c.xabcde) && c.xabcde.length ? c.xabcde : XABCDE).map((l, i) => {
+    const xabcde = !ambXabcde ? [] : (Array.isArray(c.xabcde) && c.xabcde.length ? c.xabcde : XABCDE.filter(l => !l.opcional)).filter(l => !l.ocult).map((l, i) => {
       const lletra = String(l.lletra || XABCDE[i]?.lletra || '?').slice(0, 4);
       const fonts = Array.isArray(l.items) ? l.items : SECCIONS.flatMap(sec => (l[sec.id] || []).map(text => ({ seccio: sec.id, text })));
       const comptes = {};
@@ -94,7 +94,7 @@ export class Aula {
         comptes[it.seccio] = (comptes[it.seccio] || 0) + 1;
         return { id: `${lletra}-${it.seccio[0]}${comptes[it.seccio]}`, seccio: it.seccio, text: String(it.text).trim().slice(0, 120), correcte: it.correcte === true };
       });
-      return { lletra, nom: String(l.nom || XABCDE[i]?.nom || '').slice(0, 40), items };
+      return { lletra, nom: String(l.nom || XABCDE[i]?.nom || '').slice(0, 60), items };
     }).filter(l => l.items.length);
     const nivell = [1, 2, 3, 4, 5].includes(Number(c.nivell)) ? Number(c.nivell) : null;
     const lloc = llocValid(c.lloc);

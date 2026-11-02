@@ -6,7 +6,7 @@ import { XABCDE, SECCIONS } from './motor.mjs';
 
 let blocs = [];
 
-const copia = l => l.map(b => ({ lletra: b.lletra, nom: b.nom, ...Object.fromEntries(SECCIONS.map(s => [s.id, [...(b[s.id] || [])]])) }));
+const copia = l => l.map(b => ({ lletra: b.lletra, nom: b.nom, opcional: !!b.opcional, ...Object.fromEntries(SECCIONS.map(s => [s.id, [...(b[s.id] || [])]])) }));
 
 export async function obreInterrogatori(contenidor) {
   const r = await fetch('/api/aula/interrogatori', { cache: 'no-store' }).then(x => x.json()).catch(() => ({}));
@@ -25,6 +25,7 @@ function dibuixa(contenidor) {
       <div class="bloc-cap">${fletxes('mou-bloc', i, blocs.length)}
         <input class="lletra-input" data-camp="lletra" value="${esc(b.lletra)}" maxlength="4" title="Lletra o etiqueta curta">
         <input class="nom-input" data-camp="nom" value="${esc(b.nom)}" maxlength="60" placeholder="Nom del bloc">
+        <label class="casella opcional" title="Els blocs opcionals surten als casos només si els hi activeu (p. ex. el triangle pediàtric)"><input type="checkbox" data-opcional ${b.opcional ? 'checked' : ''}> Opcional</label>
         <button type="button" class="boto-petit" data-treu-bloc="${i}">✕ Treure el bloc</button></div>
       ${SECCIONS.map(s => `<div class="seccio-aula seccio-${s.id}"><b>${esc(s.nom)}</b> <span class="suau">${esc(s.pregunta)}</span>
         ${(b[s.id] || []).map((text, j) => `<div class="item-interrogatori">${fletxes(`mou-item-${s.id}`, j, b[s.id].length)}
@@ -35,6 +36,7 @@ function dibuixa(contenidor) {
   arrel.querySelectorAll('.bloc-interrogatori').forEach(el => {
     const b = blocs[Number(el.dataset.b)];
     el.querySelectorAll('[data-camp]').forEach(c => { c.oninput = () => { b[c.dataset.camp] = c.value; }; });
+    el.querySelector('[data-opcional]').onchange = e => { b.opcional = e.target.checked; };
     el.querySelectorAll('[data-item]').forEach(c => { c.oninput = () => { const [s, j] = c.dataset.item.split('.'); b[s][Number(j)] = c.value; }; });
     el.querySelectorAll('[data-treu-item]').forEach(c => c.onclick = () => { const [s, j] = c.dataset.treuItem.split('.'); b[s].splice(Number(j), 1); dibuixa(contenidor); });
     el.querySelectorAll('[data-afegeix-item]').forEach(c => c.onclick = () => {

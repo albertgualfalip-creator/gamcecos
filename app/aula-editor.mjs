@@ -28,7 +28,8 @@ export async function carregaInterrogatori() {
   return base;
 }
 
-const deBase = () => base.map(l => ({ lletra: l.lletra, nom: l.nom,
+// Optional blocks of the base (e.g. the paediatric triangle) start left out of the case
+const deBase = () => base.map(l => ({ lletra: l.lletra, nom: l.nom, ocult: !!l.opcional,
   items: SECCIONS.flatMap(s => (l[s.id] || []).map(text => ({ seccio: s.id, text, correcte: false }))) }));
 
 // Loads the lists of a case (or the base questioning for a new one) into the editor, in their order
@@ -37,7 +38,7 @@ export function pintaXabcde(contenidor, xabcde, canvi = () => {}) {
   enCanvi = canvi;
   editant = new Set();
   model = xabcde?.length
-    ? xabcde.map(l => ({ lletra: l.lletra, nom: l.nom, items: l.items.map(it => ({ seccio: it.seccio, text: it.text, correcte: !!it.correcte })) }))
+    ? xabcde.map(l => ({ lletra: l.lletra, nom: l.nom, ocult: !!l.ocult, items: l.items.map(it => ({ seccio: it.seccio, text: it.text, correcte: !!it.correcte })) }))
     : deBase();
   dibuixa();
 }
@@ -67,8 +68,10 @@ function dibuixa() {
           <textarea data-seccio="${s.id}" rows="${Math.max(2, l.items.filter(it => it.seccio === s.id).length + 1)}">${esc(l.items.filter(it => it.seccio === s.id).map(it => it.text).join('\n'))}</textarea></label>`).join('')}</div>`;
     }
     const n = l.items.filter(it => it.correcte && visibles.includes(it.seccio)).length;
+    const inclou = `<button type="button" class="boto-petit inclou ${l.ocult ? '' : 'actiu'}" data-inclou="${i}" title="Si el traieu, els alumnes no el veuen en aquest cas">${l.ocult ? '○ No inclòs' : '● Inclòs'}</button>`;
+    if (l.ocult) return `<div class="lletra-editor ocult" data-l="${i}"><div class="lletra-cap"><span class="lletra-gran">${esc(l.lletra)}</span> <b>${esc(l.nom)}</b>${inclou}</div></div>`;
     return `<div class="lletra-editor" data-l="${i}"><div class="lletra-cap"><span class="lletra-gran">${esc(l.lletra)}</span> <b>${esc(l.nom)}</b>
-        <span class="suau">${n ? `${n} correct${n === 1 ? 'e' : 'es'}` : ''}</span><button type="button" class="boto-petit" data-edita="${i}">✎ Textos</button></div>
+        <span class="suau">${n ? `${n} correct${n === 1 ? 'e' : 'es'}` : ''}</span>${inclou}<button type="button" class="boto-petit" data-edita="${i}">✎ Textos</button></div>
       ${seccions.map(s => {
         const items = l.items.map((it, j) => ({ ...it, j })).filter(it => it.seccio === s.id);
         return items.length ? `<div class="seccio-aula seccio-${s.id}"><span class="suau">${esc(s.nom)}</span><div class="xips-fila">${items.map(it =>
@@ -82,6 +85,7 @@ function dibuixa() {
     enCanvi();
     dibuixa();
   });
+  arrel.querySelectorAll('[data-inclou]').forEach(b => b.onclick = () => { const l = model[Number(b.dataset.inclou)]; l.ocult = !l.ocult; enCanvi(); dibuixa(); });
   arrel.querySelectorAll('[data-edita]').forEach(b => b.onclick = () => { editant.add(Number(b.dataset.edita)); dibuixa(); });
   arrel.querySelectorAll('[data-fet]').forEach(b => b.onclick = () => { desaTextos(Number(b.dataset.fet)); editant.delete(Number(b.dataset.fet)); dibuixa(); });
   arrel.querySelectorAll('.editant textarea, .editant .nom-lletra').forEach(el => { el.oninput = enCanvi; });
@@ -99,5 +103,5 @@ function desaTextos(i) {
 
 export function llegeixXabcde() {
   for (const i of editant) desaTextos(i);
-  return model.map(l => ({ lletra: l.lletra, nom: l.nom, items: l.items }));
+  return model.map(l => ({ lletra: l.lletra, nom: l.nom, ...(l.ocult ? { ocult: true } : {}), items: l.items }));
 }

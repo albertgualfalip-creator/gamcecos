@@ -178,3 +178,13 @@ test('aprenentatge: l\'interrogatori comença pel primer contacte (consciència 
   const ids = a.config.xabcde.flatMap(l => l.items.map(it => it.id));
   assert.equal(new Set(ids).size, ids.length, 'cada element té un identificador únic');
 });
+
+test('aprenentatge: el triangle pediàtric és opcional i un bloc no inclòs no arriba als alumnes', () => {
+  const tep = XABCDE.find(l => l.lletra === 'TEP');
+  assert.ok(tep?.opcional && tep.anamnesi.length && tep.signes.some(x => /Triangle normal/.test(x)));
+  assert.ok(!new Aula({ lloc, llavor: 1 }, dades).config.xabcde.some(l => l.lletra === 'TEP'), 'per defecte, sense triangle');
+  const amb = XABCDE.map(l => ({ lletra: l.lletra, nom: l.nom, ...(l.lletra === 'X' ? { ocult: true } : {}),
+    items: SECCIONS.flatMap(sec => l[sec.id].map(text => ({ seccio: sec.id, text }))) }));
+  const lletres = new Aula({ lloc, xabcde: amb, llavor: 1 }, dades).config.xabcde.map(l => l.lletra);
+  assert.deepEqual(lletres, ['1r', 'TEP', 'A', 'B', 'C', 'D', 'E']);
+});

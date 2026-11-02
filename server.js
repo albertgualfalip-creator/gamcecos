@@ -268,7 +268,7 @@ function interrogatori(req, res, cos) {
   }
   const textos = l => (Array.isArray(l) ? l.map(x => String(x).trim().slice(0, 120)).filter(Boolean).slice(0, 15) : []);
   const blocs = (Array.isArray(cos.blocs) ? cos.blocs : []).slice(0, 12).map(b => ({
-    lletra: String(b?.lletra || '?').trim().slice(0, 4), nom: String(b?.nom || '').trim().slice(0, 60),
+    lletra: String(b?.lletra || '?').trim().slice(0, 4), nom: String(b?.nom || '').trim().slice(0, 60), opcional: b?.opcional === true,
     ...Object.fromEntries(SECCIONS_INTERROGATORI.map(sec => [sec, textos(b?.[sec])])),
   })).filter(b => SECCIONS_INTERROGATORI.some(sec => b[sec].length));
   if (!blocs.length) return json(res, 400, { error: 'L\'interrogatori ha de tenir almenys un bloc amb contingut' });
