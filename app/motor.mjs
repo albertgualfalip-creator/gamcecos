@@ -236,3 +236,13 @@ export function desenllac(resultats, nivell, criteri) {
   const sobrerecurs = criteri === 'sobrerecurs' && resultats.some(r => r.tipus === 'recursos' && ['suboptima', 'perillosa'].includes(r.valoracio));
   return greu || tard || sobrerecurs ? 'dolent' : 'bo';
 }
+
+// Primary assessment for the consultor training: one finding per letter, editable per recording
+export const XABCDE = [
+  { lletra: 'X', nom: 'Hemorràgia exsanguinant', opcions: ['Sense hemorràgia externa', 'Hemorràgia massiva', 'No es pot valorar'] },
+  { lletra: 'A', nom: 'Via aèria', opcions: ['Permeable (parla)', 'Sorolls o compromesa', 'Obstruïda', 'No es pot valorar'] },
+  { lletra: 'B', nom: 'Respiració', opcions: ['Respira normal', 'Dificultat respiratòria', 'No respira o gasping', 'No es pot valorar'] },
+  { lletra: 'C', nom: 'Circulació', opcions: ['Coloració normal', 'Pàl·lid, suat o fred', 'Sense signes de circulació', 'No es pot valorar'] },
+  { lletra: 'D', nom: 'Neurològic', opcions: ['Conscient i orientat', 'Confús o somnolent', 'No respon', 'No es pot valorar'] },
+  { lletra: 'E', nom: 'Exposició i entorn', opcions: ['Sense lesions ni riscos', 'Traumatisme o lesions', 'Entorn de risc', 'No es pot valorar'] },
+];

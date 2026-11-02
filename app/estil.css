@@ -262,3 +262,41 @@ select.val-perillosa { background: color-mix(in srgb, var(--perillosa) 30%, var(
 .accio-editor { display: flex; flex-wrap: wrap; gap: .3rem .6rem; margin-top: .3rem; font-size: .8rem; color: var(--suau); }
 .accio-editor label { display: flex; flex-direction: column; }
 .accio-editor select { font-size: .8rem; padding: .2rem; }
+
+/* ---------- Consultor training: phones and projector ---------- */
+.xifra { font-size: 1.5rem; font-weight: 800; }
+.aula-mobil h2 { font-size: 1.05rem; margin: 1rem 0 .4rem; }
+.passos { color: var(--suau); font-size: .9rem; margin: .4rem 0; }
+.passos b { color: var(--accent); }
+.lletra-gran { display: inline-block; min-width: 1.6em; text-align: center; background: var(--accent); color: #fff; border-radius: 6px; font-weight: 800; margin-right: .3rem; }
+.gran-boto { width: 100%; font-size: 1.1rem; padding: .9rem; margin-top: 1rem; }
+.gran-boto:disabled { opacity: .45; }
+.nivells-mobil .opcio { font-size: 1.4rem; padding: 1rem 0; }
+.nivells-mobil .opcio:not(.triada) { opacity: .55; }
+.nivells-mobil .opcio.triada { outline: 3px solid var(--text); opacity: 1; }
+.unitat-mobil { line-height: 1.3; }
+.opcio:disabled { opacity: .45; }
+.encert { color: var(--optima); font-weight: 800; }
+.error-resp { color: var(--perillosa); font-weight: 800; }
+.resultat-aula td { padding: .35rem .3rem; }
+.aprenentatge { max-width: 1400px; margin: 0 auto; padding: 0 16px 2rem; display: grid; gap: 1rem; }
+.xabcde-editor { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: .6rem; }
+.xabcde-editor .bloc { border: 1px solid var(--vora); border-radius: 8px; padding: .5rem; }
+.aula-capçal { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center; }
+.aula-capçal .qr { font-size: 1.3rem; }
+.aula-capçal .qr img, .aula-capçal .qr canvas { width: 180px; height: 180px; }
+.aula-control { flex: 1; min-width: 280px; display: grid; gap: .8rem; }
+.progres-aula { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+.progres-aula div { display: flex; flex-direction: column; align-items: center; }
+.graella-xabcde { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+.barres { display: grid; gap: .35rem; }
+.barra-fila { display: grid; grid-template-columns: minmax(0, 1.4fr) 2fr 2.2em; gap: .5rem; align-items: center; font-size: .95rem; }
+.barra-fila.correcte .barra-text { color: var(--optima); font-weight: 800; }
+.barra { background: var(--camp); border-radius: 4px; height: 16px; overflow: hidden; }
+.barra > span { display: block; height: 100%; background: var(--barra); border-radius: 4px; transition: width .4s; }
+.barra-fila.correcte .barra > span { background: var(--optima); }
+.barra > span.n1 { background: #c62828; } .barra > span.n2 { background: #ef6c00; } .barra > span.n3 { background: #f9a825; }
+.barra > span.n4 { background: #2e7d32; } .barra > span.n5 { background: #1565c0; }
+.ranquing li { padding: .25rem 0; font-size: 1.05rem; }
+label.opcio.unitat { display: flex; align-items: center; gap: .3rem; }
+.unitats-aula { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }

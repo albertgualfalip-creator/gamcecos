@@ -17,7 +17,8 @@ const CLAU = process.env.GAMCECOS_CLAU || '';
 const ROOT = __dirname;
 const DIR_CASOS_LOCALS = path.join(ROOT, 'casos-locals');   // cases edited from the editor; not tracked by git
 const PUBLIC_DIRS = ['app', 'data'];
-const OBERT_SENSE_CLAU = new Set(['/app/index.html', '/app/vota.html', '/app/vota.mjs', '/app/estil.css', '/api/events', '/api/vot', '/api/punts']);
+const OBERT_SENSE_CLAU = new Set(['/app/index.html', '/app/vota.html', '/app/vota.mjs', '/app/client.mjs', '/app/estil.css', '/api/events', '/api/estat', '/api/vot', '/api/punts',
+  '/app/aula.html', '/app/aula.mjs', '/api/aula/estat', '/api/aula/resposta']);
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8',
   '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png' };
 const CADUCITAT_SALA_MS = 12 * 3600 * 1000;
@@ -25,7 +26,7 @@ const SEGONS_RESULTAT_VOT = 6;
 const PUNTS = { optima: 3, acceptable: 2, suboptima: 1, perillosa: 0 };
 const ROLS = ['public', 'uct', 'consultor', 'cap', 'tutor'];
 
-let Guardia, dades;
+let Guardia, Aula, dades;
 const llegeix = f => JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8'));
 
 function carregaCasos() {
@@ -41,11 +42,18 @@ function carregaCasos() {
 
 // Room code -> {joc, pas, pasTancat, vots, noms, punts, clients: Map(response -> rol), activa}
 const sales = new Map();
+// Consultor training sessions (aula.mjs): code -> {aula, activa}
+const aules = new Map();
 
-function novaSala(config) {
+function nouCodi(ocupats) {
   let codi;
   do codi = Array.from({ length: 4 }, () => 'ABCDEFGHJKLMNPQRSTUVWXYZ'[crypto.randomInt(24)]).join('');
-  while (sales.has(codi));
+  while (ocupats.has(codi));
+  return codi;
+}
+
+function novaSala(config) {
+  const codi = nouCodi(sales);
   sales.set(codi, { joc: new Guardia(config, dades), pas: null, pasTancat: 0, vots: new Map(), noms: new Map(), punts: new Map(), clients: new Map(), activa: Date.now() });
   return codi;
 }
@@ -96,6 +104,7 @@ function actualitzaVot(sala) {
 }
 
 setInterval(() => {
+  for (const [codi, a] of aules) if (Date.now() - a.activa > CADUCITAT_SALA_MS) aules.delete(codi);
   for (const [codi, sala] of sales) {
     if (Date.now() - sala.activa > CADUCITAT_SALA_MS && !sala.clients.size) { sales.delete(codi); continue; }
     sala.joc.tic(1);
@@ -161,6 +170,7 @@ async function api(req, res, ruta, params) {
   if (req.method === 'POST') {
     try { const s = await llegeixCos(req); cos = s ? JSON.parse(s) : {}; } catch { return json(res, 400, { error: 'JSON invàlid' }); }
   }
+  if (ruta.startsWith('/api/aula/')) return apiAula(req, res, ruta, params, cos, autoritzat);
   if (['/api/sala', '/api/casos', '/api/casos/esborra'].includes(ruta) && !autoritzat) return json(res, 401, { error: 'Cal contrasenya' });
   if (ruta === '/api/sala' && req.method === 'POST') return json(res, 200, { sala: novaSala(cos.config || {}) });
   if (ruta === '/api/casos' && req.method === 'GET') return json(res, 200, { casos: dades.casos });
@@ -234,6 +244,32 @@ async function api(req, res, ruta, params) {
   json(res, 404, { error: 'No trobat' });
 }
 
+// Consultor training: the tutor creates and drives the session; students answer from their phones without password
+function apiAula(req, res, ruta, params, cos, autoritzat) {
+  const delTutor = ['/api/aula/nova', '/api/aula/ordre', '/api/aula/tutor'].includes(ruta);
+  if (delTutor && !autoritzat) return json(res, 401, { error: 'Cal contrasenya' });
+  if (ruta === '/api/aula/nova' && req.method === 'POST') {
+    const codi = nouCodi(aules);
+    aules.set(codi, { aula: new Aula(cos.config || {}, dades), activa: Date.now() });
+    return json(res, 200, { codi });
+  }
+  const entrada = aules.get(String(params.get('codi') || '').toUpperCase());
+  if (!entrada) return json(res, 404, { error: 'No existeix cap sessió amb aquest codi' });
+  entrada.activa = Date.now();
+  const { aula } = entrada;
+  if (ruta === '/api/aula/tutor') return json(res, 200, aula.vistaTutor());
+  if (ruta === '/api/aula/estat') return json(res, 200, aula.vistaAlumne(String(params.get('client') || '').slice(0, 64)));
+  if (ruta === '/api/aula/ordre' && req.method === 'POST') {
+    const error = aula.ordre(cos);
+    return json(res, error ? 409 : 200, error ? { error } : { ok: true });
+  }
+  if (ruta === '/api/aula/resposta' && req.method === 'POST') {
+    const error = aula.respon(String(cos.client || '').slice(0, 64), cos);
+    return json(res, error ? 409 : 200, error ? { error } : aula.vistaAlumne(String(cos.client || '').slice(0, 64)));
+  }
+  json(res, 404, { error: 'No trobat' });
+}
+
 function estatic(res, ruta) {
   const fitxer = path.normalize(path.join(ROOT, decodeURIComponent(ruta)));
   const dir = path.relative(ROOT, fitxer).split(path.sep)[0];
@@ -253,10 +289,12 @@ function estatic(res, ruta) {
 }
 
 const DRECERES = { '/': '/app/index.html', '/vota': '/app/vota.html', '/tutor': '/app/tutor.html', '/uct': '/app/uct.html',
-  '/sala': '/app/uct.html', '/consultor': '/app/consultor.html', '/cap': '/app/cap.html', '/editor': '/app/editor.html' };
+  '/sala': '/app/uct.html', '/consultor': '/app/consultor.html', '/cap': '/app/cap.html', '/editor': '/app/editor.html',
+  '/aprenentatge': '/app/aprenentatge.html', '/aula': '/app/aula.html' };
 
 async function arrenca() {
   ({ Guardia } = await import('./joc.mjs'));
+  ({ Aula } = await import('./aula.mjs'));
   dades = { unitats: llegeix('data/unitats.json'), centres: llegeix('data/centres.json'), dea: llegeix('data/dea.json'),
     aure: llegeix('data/resposta_aure.json'), capacitats: llegeix('data/capacitats_hospitals.json'), casos: carregaCasos() };
   http.createServer(async (req, res) => {
