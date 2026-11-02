@@ -567,3 +567,10 @@ table.sense-correcta th:nth-child(5), table.sense-correcta td:nth-child(5) { dis
 .boto-petit.inclou.actiu { background: var(--optima); border-color: var(--optima); color: #fff; }
 .bloc-cap .opcional { white-space: nowrap; font-size: .85rem; }
 .xips-fila .xip-boto { text-align: left; }
+/* Recording: drop zone and player in the case form */
+.gravacio { display: grid; gap: .5rem; }
+.audio-actual { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; }
+.audio-actual audio { flex: 1; min-width: 260px; }
+.nova-gravacio { color: var(--acceptable); font-weight: 700; }
+.zona-audio { display: grid !important; place-items: center; border: 2px dashed var(--vora); border-radius: 10px; padding: 1.1rem; text-align: center; color: var(--suau); cursor: pointer; background: var(--camp); }
+.zona-audio:hover, .zona-audio.sobre { border-color: var(--accent); color: var(--accent); background: var(--tria); }

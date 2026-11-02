@@ -19,6 +19,7 @@ const PER_EXTENSIO = { mp3: 'audio/mpeg', wav: 'audio/wav', m4a: 'audio/mp4', mp
 const tipusAudio = f => (f.type && f.type !== 'application/octet-stream' ? f.type : PER_EXTENSIO[f.name.split('.').pop().toLowerCase()] || 'audio/mpeg');
 
 let casos = [], actual = null, canvis = false, fases = {};
+let audioNou = null, urlAudioNou = null;   // recording chosen or dropped, uploaded when the case is saved
 // Units chosen by the tutor: candidates around the place and, per unit, whether it appears (and how) and if it is right
 let candidates = [], estatUnitat = new Map(), correctes = new Set(), llocCandidates = '';
 // Team scenario: its incidents (carta, municipi, level, priority, duplicate of, right units)
@@ -104,8 +105,7 @@ function obre(c) {
   f.preguntes.value = c.preguntes || 3;
   f.equips.value = c.equips || 4;
   f.audio.value = '';
-  $('audio-nou').textContent = '';
-  $('audio-actual').innerHTML = c.audio ? `<audio controls preload="none" src="/api/aula/audio?id=${encodeURIComponent(c.id)}&v=${Date.now()}"></audio>` : 'Encara no n\'hi ha cap.';
+  posaAudioNou(null);
   fases = { ...(c.fases || Object.fromEntries(FASES.map(x => [x, PER_DEFECTE[tipus()].includes(x)]))) };
   f['mode-recursos'].value = ['auto', 'nombre'].includes(c.recursos?.mode) ? c.recursos.mode : tipus() === 'carta' ? 'nombre' : 'auto';
   for (const k of ['SVA', 'SVB', 'HEMS']) f[k].value = c.recursos?.[k] || 0;
@@ -154,7 +154,37 @@ f.querySelectorAll('[data-fase]').forEach(b => b.onclick = () => { fases[b.datas
 f.addEventListener('change', e => { if (['mode-unitats', 'mode-recursos'].includes(e.target.name)) mostraCamps(); });
 f.addEventListener('input', modificat);
 f.municipi.addEventListener('change', () => { if (!$('editor-unitats').hidden) carregaCandidates(); });
-f.audio.onchange = () => { const a = f.audio.files[0]; $('audio-nou').textContent = a ? `Nova: ${a.name} (es pujarà en desar)` : ''; };
+// ---------- recording: drop the file or choose it, and listen to it before and after saving ----------
+
+function posaAudioNou(fitxer) {
+  if (urlAudioNou) URL.revokeObjectURL(urlAudioNou);
+  audioNou = fitxer;
+  urlAudioNou = fitxer ? URL.createObjectURL(fitxer) : null;
+  const desada = actual?.audio ? `/api/aula/audio?id=${encodeURIComponent(actual.id)}&v=${Date.now()}` : null;
+  $('audio-actual').innerHTML = fitxer
+    ? `<audio controls preload="metadata" src="${urlAudioNou}"></audio><span class="nova-gravacio">Nova: ${esc(fitxer.name)} · es pujarà en desar</span>
+       <button type="button" class="boto-petit" id="descarta-audio">✕ Descartar</button>`
+    : desada ? `<audio controls preload="metadata" src="${desada}"></audio><span class="suau">Gravació desada</span>` : '<span class="suau">Encara no n\'hi ha cap.</span>';
+  $('text-zona').textContent = fitxer || desada ? '🎙 Arrossegueu-hi un altre fitxer per substituir-la, o feu clic' : '🎙 Arrossegueu aquí el fitxer de la gravació, o feu clic per triar-lo';
+  $('descarta-audio')?.addEventListener('click', () => { f.audio.value = ''; posaAudioNou(null); });
+}
+
+function triaAudio(fitxer) {
+  if (!fitxer) return;
+  if (!/^audio\//.test(fitxer.type) && !PER_EXTENSIO[fitxer.name.split('.').pop().toLowerCase()]) { avis('Això no sembla un fitxer d\'àudio (mp3, wav, m4a, ogg...)'); return; }
+  if (fitxer.size > 40 * 1024 * 1024) { avis('L\'àudio és massa gran (màxim 40 MB)'); return; }
+  posaAudioNou(fitxer);
+  modificat();
+}
+
+f.audio.onchange = () => triaAudio(f.audio.files[0]);
+const zona = $('zona-audio');
+zona.addEventListener('dragover', e => { e.preventDefault(); zona.classList.add('sobre'); });
+zona.addEventListener('dragleave', () => zona.classList.remove('sobre'));
+zona.addEventListener('drop', e => { e.preventDefault(); zona.classList.remove('sobre'); triaAudio(e.dataTransfer.files[0]); });
+// A file dropped anywhere else must not make the browser leave the page
+window.addEventListener('dragover', e => e.preventDefault());
+window.addEventListener('drop', e => e.preventDefault());
 
 // ---------- units chosen by the tutor ----------
 
@@ -308,7 +338,7 @@ f.onsubmit = async e => {
     let r = await fetch('/api/aula/casos', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ cas: c }) });
     let d = await r.json();
     if (!r.ok) throw new Error(d.error);
-    const fitxer = f.audio.files[0];
+    const fitxer = audioNou;
     if (fitxer && c.tipus === 'veu') {
       $('estat-desat').textContent = `Pujant la gravació (${Math.round(fitxer.size / 1024)} kB)...`;
       r = await fetch(`/api/aula/audio?id=${encodeURIComponent(d.cas.id)}`, { method: 'POST', headers: { 'Content-Type': tipusAudio(fitxer) }, body: fitxer });
@@ -316,6 +346,7 @@ f.onsubmit = async e => {
       if (!r.ok) throw new Error(d.error);
     }
     canvis = false;
+    audioNou = null;
     await carrega(d.cas.id);
     $('estat-desat').textContent = 'Desat ✓';
   } catch (err) { $('estat-desat').textContent = `No s'ha desat: ${err.message}`; }

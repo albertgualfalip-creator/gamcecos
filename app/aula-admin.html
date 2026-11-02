@@ -68,9 +68,10 @@
         <label class="nomes-sol">Carta del 112 <span class="suau">(la veuen al projector i al mòbil)</span>
           <textarea name="carta" rows="2" placeholder="Ex.: ALERTANT, VEÍ AL LLOC, INDICA QUE LA SEVA VEÏNA S'HA DESMAIAT, ESTÀ INCONSCIENT."></textarea></label>
         <div class="nomes-veu gravacio">
-          <b>Gravació</b> <span id="audio-actual" class="suau">Encara no n'hi ha cap.</span>
-          <label class="boto secundari puja">📁 Pujar o substituir <input type="file" name="audio" accept="audio/*" hidden></label>
-          <span class="suau" id="audio-nou"></span>
+          <b>Gravació</b>
+          <div id="audio-actual" class="audio-actual"></div>
+          <label class="zona-audio" id="zona-audio"><input type="file" name="audio" accept="audio/*" hidden>
+            <span id="text-zona">🎙 Arrossegueu aquí el fitxer de la gravació, o feu clic per triar-lo</span></label>
         </div>
         <label class="nomes-escenari">Nombre d'equips <input name="equips" type="number" min="2" max="6" value="4" class="petit"></label>
         <details><summary>Notes per al tutor</summary><textarea name="notes" rows="2" placeholder="Què passa realment, què cal comentar als resultats. No ho veuen els alumnes."></textarea></details>
