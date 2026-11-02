@@ -292,7 +292,7 @@ function casosAula(req, res, ruta, cos) {
       correctes: Array.isArray(x?.correctes) ? x.correctes.filter(id => typeof id === 'string').slice(0, 10) : [],
     })) : undefined;
     const cas = { id, tipus: ['carta', 'escenari'].includes(c.tipus) ? c.tipus : 'veu', incidents, equips: Number(c.equips) || 4, titol: String(c.titol).trim().slice(0, 80), carta: String(c.carta || '').trim().slice(0, 1000),
-      nivell: c.nivell ?? null, preguntes: Number(c.preguntes) || 3, recursos, fases, unitats, correctes, lloc: c.lloc || null, xabcde: c.xabcde || [],
+      nivell: c.nivell ?? null, preguntes: Number(c.preguntes) || 3, temps: Math.max(0, Math.min(1800, Number(c.temps) || 0)), recursos, fases, unitats, correctes, lloc: c.lloc || null, xabcde: c.xabcde || [],
       notes: String(c.notes || '').slice(0, 2000), ordre: Number.isFinite(c.ordre) ? c.ordre : anterior?.ordre ?? 999, audio: anterior?.audio || null };
     try {
       fs.mkdirSync(DIR_AULA, { recursive: true });

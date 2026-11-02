@@ -38,9 +38,29 @@ async function pregunta() {
   setTimeout(pregunta, 1500);
 }
 
+// Countdown: only the clock changes every second, so it does not redraw the screen
+let fiTemps = null, pasInformat = null;
+setInterval(() => {
+  const el = $('compte');
+  if (fiTemps == null || vista?.estat !== 'oberta') { el.hidden = true; return; }
+  const queden = Math.max(0, Math.round((fiTemps - Date.now()) / 1000));
+  el.hidden = false;
+  el.textContent = queden ? `⏱ ${Math.floor(queden / 60)}:${String(queden % 60).padStart(2, '0')}` : '⏱ Temps!';
+  el.classList.toggle('poc', queden <= 20);
+}, 500);
+
+// Tells the tutor which screen this student is on
+function informaPas(pas) {
+  if (vista?.estat !== 'oberta' || pas === pasInformat) return;
+  pasInformat = pas;
+  fetch(`/api/aula/resposta?codi=${codi}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ client, nom, pas }) }).catch(() => {});
+}
+
 function rep(v, força = false) {
-  if (v.ronda !== ronda) { ronda = v.ronda; esborrany = nouEsborrany(); }
-  const clau = JSON.stringify(v);
+  if (v.ronda !== ronda) { ronda = v.ronda; esborrany = nouEsborrany(); pasInformat = null; }
+  fiTemps = v.queden != null ? Date.now() + v.queden * 1000 : null;
+  const { segons, queden, ...resta } = v;
+  const clau = JSON.stringify(resta);
   if (clau === clauVista && !força) return;
   clauVista = clau;
   vista = v;
@@ -57,19 +77,21 @@ function render() {
     return;
   }
   if (v.estat === 'resultats') { contingut.innerHTML = capçal + resultats(v); return; }
-  if (r?.fet) { contingut.innerHTML = `${capçal}<p class="xifra">Resposta enviada ✓</p><p class="suau">Espera que el tutor mostri els resultats.</p>`; return; }
+  if (r?.fet) { informaPas('fet'); contingut.innerHTML = `${capçal}<p class="xifra">Resposta enviada ✓</p><p class="suau">Espera que el tutor mostri els resultats.</p>`; return; }
   if (locals().length && !r?.xabcde) {
     if (!locals().includes(esborrany.pas)) esborrany.pas = locals()[0];
+    informaPas(esborrany.pas);
     return { escolta: pasEscolta, preguntes: pasPreguntes, instruccio: pasInstruccio }[esborrany.pas](capçal);
   }
-  if (v.fases.nivell && !r?.nivell) return pasNivell(capçal);
+  if (v.fases.nivell && !r?.nivell) { informaPas('nivell'); return pasNivell(capçal); }
+  informaPas('recursos');
   return v.tipus === 'carta' ? pasCarta(capçal) : pasRecursos(capçal);
 }
 
 // Moves between the assessment screens; after the last one the assessment is sent
 function seguent() {
   const ls = locals(), i = ls.indexOf(esborrany.pas);
-  if (i < ls.length - 1) { esborrany.pas = ls[i + 1]; render(); scrollTo(0, 0); return; }
+  if (i < ls.length - 1) { esborrany.pas = ls[i + 1]; informaPas(esborrany.pas); render(); scrollTo(0, 0); return; }
   envia({ xabcde: [...esborrany.escolta, ...esborrany.preguntes, ...(esborrany.instruccio ? [esborrany.instruccio] : [])] });
 }
 function enrere() {

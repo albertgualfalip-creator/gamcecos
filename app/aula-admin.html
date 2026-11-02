@@ -3,95 +3,116 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GamCECOS · Casos d'aprenentatge</title>
+<title>GamCECOS · Casos de la classe</title>
 <link rel="stylesheet" href="estil.css">
 </head>
-<body>
+<body class="admin-aula">
 <header class="capcalera">
-  <span class="marca">GamCECOS · Casos d'aprenentatge</span>
-  <span class="suau">Prepareu els casos amb antelació; a classe només cal triar-los.</span>
-  <div class="info"><a href="/aprenentatge" class="boto">Anar a la classe</a> <a href="/" class="boto secundari">Inici</a></div>
+  <span class="marca">GamCECOS · Casos de la classe</span>
+  <span class="suau">Prepareu-los abans; a classe només cal anar-los posant.</span>
+  <div class="info"><a href="/aprenentatge" class="boto">▶ Anar a la classe</a> <a href="/" class="boto secundari">Inici</a></div>
 </header>
 <main class="aula-admin">
   <aside class="panell">
-    <button class="boto" id="nou">+ Cas nou</button>
-    <p class="suau">L'ordre de la llista és l'ordre de la classe.</p>
-    <div id="llista" class="cua"></div>
+    <button class="boto gran-boto" id="nou">+ Cas nou</button>
+    <h3>Ordre de la classe</h3>
+    <div id="llista" class="llista-casos"></div>
   </aside>
-  <form id="formulari" class="panell formulari ample" hidden>
-    <div class="barra-cas">
-      <h2 id="titol-form">Cas nou</h2>
-      <div class="accions">
-        <button class="boto" id="desa">Desar</button>
-        <button class="boto secundari" type="button" id="duplica">Duplicar</button>
-        <button class="boto perill" type="button" id="esborra">Esborrar</button>
+
+  <section>
+    <div id="benvinguda" class="panell"><h2>Trieu un cas de la llista o creeu-ne un de nou.</h2>
+      <p class="suau">Hi ha tres tipus de cas: amb gravació, només amb la carta del 112, o un escenari amb diversos incidents per treballar en equip.</p></div>
+
+    <div id="tria-tipus" class="panell" hidden>
+      <h2>Quin tipus de cas voleu crear?</h2>
+      <div class="tipus-cas">
+        <button type="button" data-tipus="veu"><span>🔊</span><b>Gravació</b>Escolten una trucada i valoren què senten, el nivell i les unitats.</button>
+        <button type="button" data-tipus="carta"><span>📄</span><b>Carta del 112</b>Sense veu, amb soroll de sala. Decideixen si hi envien recurs i quants de cada tipus.</button>
+        <button type="button" data-tipus="escenari"><span>👥</span><b>Escenari en equip</b>Diversos incidents alhora, poques unitats i trucades duplicades. Decideixen per equips.</button>
       </div>
-      <p class="suau" id="estat-desat"></p>
     </div>
 
-    <h3>1. El cas</h3>
-    <div class="fila">
-      <label>Tipus de cas <select name="tipus"><option value="veu">Amb gravació (veu)</option><option value="carta">Només carta del 112 (sense veu, amb soroll de sala)</option><option value="escenari">Escenari en equip: diversos incidents, recursos escassos i duplicitats</option></select></label>
-      <label>Títol (el veuen els alumnes) <input name="titol" maxlength="80" required></label>
-      <label>Ordre a la classe <input name="ordre" type="number" min="1" max="999"></label>
-    </div>
-    <div class="fila">
-      <label>Municipi de l'incident <input name="municipi" list="municipis" autocomplete="off" required></label>
-      <label class="no-escenari">Nivell correcte <select name="nivell"><option value="">No puntuar</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label>
-    </div>
-    <datalist id="municipis"></datalist>
-    <label class="no-escenari">Carta del 112 (la veuen els alumnes al projector i al mòbil) <textarea name="carta" rows="3" placeholder="Ex.: ALERTANT, VEÍ AL LLOC, INDICA QUE LA SEVA VEÏNA S'HA DESMAIAT, ESTÀ INCONSCIENT."></textarea></label>
-    <fieldset class="nomes-veu"><legend>Gravació</legend>
-      <div id="audio-actual" class="suau">Encara no hi ha cap gravació.</div>
-      <label>Pujar o substituir la gravació (mp3, wav, m4a, ogg... fins a 40 MB) <input type="file" name="audio" accept="audio/*"></label>
-      <p class="suau">Es desa al servidor, protegida per la contrasenya, i no es comparteix enlloc més.</p>
-    </fieldset>
-    <label>Notes per al tutor (què passa al cas, què cal comentar als resultats; no ho veuen els alumnes) <textarea name="notes" rows="2"></textarea></label>
-
-    <section id="seccio-escenari" hidden>
-      <h3>Incidents de l'escenari</h3>
-      <p class="suau">Diversos incidents alhora que es disputen les unitats de la llista de sota. Marqueu quins són el mateix servei (duplicats: una altra trucada pel mateix incident), la prioritat (1 = el primer) i les unitats correctes de cadascun. El municipi de dalt és on es troben les unitats.</p>
-      <label>Nombre d'equips <input name="equips" type="number" min="2" max="6" value="4" class="petit"></label>
-      <div id="incidents-escenari"></div>
-      <button class="boto-petit" type="button" id="afegeix-incident">+ Afegir incident</button>
-    </section>
-
-    <section class="no-escenari">
-    <h3>2. Pantalles que faran els alumnes</h3>
-    <p class="suau">Trieu només el que vulgueu treballar en aquest cas. Com menys pantalles, més ràpid.</p>
-    <div class="fases-editor">
-      <label class="fase"><input type="checkbox" name="f-escolta"><b>👂 Escolta</b><span>Què han sentit a cada lletra del XABCDE, o «No avaluable»</span></label>
-      <label class="fase"><input type="checkbox" name="f-preguntes"><b>❓ Preguntes</b><span>Trien unes poques preguntes clau: <input name="preguntes" type="number" min="1" max="6" value="3" class="petit"> per alumne</span></label>
-      <label class="fase"><input type="checkbox" name="f-instruccio"><b>🖐 Primera instrucció</b><span>Una sola maniobra salvadora, o «cap»</span></label>
-      <label class="fase"><input type="checkbox" name="f-nivell"><b>Nivell de triatge</b><span>N1 a N5</span></label>
-      <label class="fase"><input type="checkbox" name="f-recursos"><b>🚑 Recursos</b><span>Quines unitats i quantes de cada tipus</span></label>
-      <label class="fase"><input type="checkbox" name="f-activacio"><b>🚑 Activar en qualsevol moment</b><span>Barra fixa: es registra quan detecten la gravetat</span></label>
-    </div>
-
-    </section>
-
-    <h3>3. Unitats que veuen</h3>
-    <label class="no-escenari"><select name="mode-unitats"><option value="auto">Automàtic: les més properes, algunes ocupades a l'atzar</option><option value="tria">Les trio jo: quines surten, lliures o ocupades, i quines són correctes</option></select></label>
-    <div id="editor-unitats" hidden>
-      <p class="suau">Unitats reals al voltant del municipi. Trieu si surten i si estan lliures o ocupades, i marqueu les correctes (cap marcada = cap recurs). Així podeu fer, per exemple, que l'helicòpter sigui la bona resposta.</p>
-      <div id="taula-unitats" class="taula-unitats"></div>
-    </div>
-    <fieldset id="resposta-auto" class="no-escenari"><legend>Resposta correcta de recursos</legend>
-      <label><select name="mode-recursos"><option value="auto">Segons el nivell (AURE): les més properes</option><option value="nombre">Nombre de cada tipus (accidents, múltiples víctimes...)</option></select></label>
-      <div class="fila" id="nombre-recursos">
-        <label>SVA <input name="SVA" type="number" min="0" max="8" value="0"></label>
-        <label>SVB <input name="SVB" type="number" min="0" max="8" value="0"></label>
-        <label>Helicòpter <input name="HEMS" type="number" min="0" max="2" value="0"></label>
+    <form id="formulari" hidden>
+      <div class="barra-desar panell">
+        <span id="etiqueta-tipus" class="etiqueta-tipus"></span>
+        <h2 id="titol-form">Cas nou</h2>
+        <span class="suau" id="estat-desat"></span>
+        <div class="accions">
+          <button class="boto" id="desa">Desar</button>
+          <button class="boto secundari" type="button" id="duplica">Duplicar</button>
+          <button class="boto perill" type="button" id="esborra">Esborrar</button>
+        </div>
       </div>
-      <p class="suau">Es proposen les unitats lliures més properes de cada tipus. A classe les podeu canviar abans de mostrar els resultats. Tot a 0 = cap recurs.</p>
-    </fieldset>
+      <input type="hidden" name="tipus">
 
-    <section id="seccio-xabcde">
-      <h3>4. XABCDE <button class="boto-petit" type="button" id="restaura-xabcde">Restaurar la llista per defecte</button></h3>
-      <p class="suau">Escriviu el que vulgueu a cada llista (un element per línia, o deixeu-la buida perquè no surti) i marqueu a sota els correctes per a aquest cas. Escolta: signes i símptomes i «No avaluable». Preguntes: anamnesi. Instrucció: maniobres; si no en marqueu cap, la correcta és «Cap, només vigilar».</p>
-      <div id="xabcde" class="xabcde-editor"></div>
-    </section>
-  </form>
+      <div class="panell pas-cas">
+        <h3><span class="num-pas">1</span> <span id="titol-pas1">Què passa</span></h3>
+        <div class="fila">
+          <label>Títol (el veuen els alumnes) <input name="titol" maxlength="80" required placeholder="Ex.: Veïna inconscient a l'escala"></label>
+          <label><span id="etiqueta-municipi">Municipi de l'incident</span> <input name="municipi" list="municipis" autocomplete="off" required placeholder="Escriviu i trieu de la llista"></label>
+          <label>Temps per respondre <select name="temps"><option value="">Sense límit</option><option value="60">1 min</option><option value="90">1 min 30 s</option><option value="120">2 min</option><option value="180">3 min</option><option value="240">4 min</option><option value="300">5 min</option><option value="420">7 min</option><option value="600">10 min</option></select></label>
+          <label class="nomes-sol">Nivell correcte <select name="nivell"><option value="">No puntuar</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label>
+        </div>
+        <datalist id="municipis"></datalist>
+        <label class="nomes-sol">Carta del 112 <span class="suau">(la veuen al projector i al mòbil)</span>
+          <textarea name="carta" rows="2" placeholder="Ex.: ALERTANT, VEÍ AL LLOC, INDICA QUE LA SEVA VEÏNA S'HA DESMAIAT, ESTÀ INCONSCIENT."></textarea></label>
+        <div class="nomes-veu gravacio">
+          <b>Gravació</b> <span id="audio-actual" class="suau">Encara no n'hi ha cap.</span>
+          <label class="boto secundari puja">📁 Pujar o substituir <input type="file" name="audio" accept="audio/*" hidden></label>
+          <span class="suau" id="audio-nou"></span>
+        </div>
+        <label class="nomes-escenari">Nombre d'equips <input name="equips" type="number" min="2" max="6" value="4" class="petit"></label>
+        <details><summary>Notes per al tutor</summary><textarea name="notes" rows="2" placeholder="Què passa realment, què cal comentar als resultats. No ho veuen els alumnes."></textarea></details>
+      </div>
+
+      <div class="panell pas-cas nomes-sol">
+        <h3><span class="num-pas">2</span> Què faran els alumnes</h3>
+        <div class="fases-xips">
+          <button type="button" data-fase="escolta">👂 Escolta</button>
+          <button type="button" data-fase="preguntes">❓ Preguntes</button>
+          <button type="button" data-fase="instruccio">🖐 Instrucció</button>
+          <button type="button" data-fase="nivell">Nivell</button>
+          <button type="button" data-fase="recursos">🚑 Recursos</button>
+          <button type="button" data-fase="activacio">🚑 Activar en qualsevol moment</button>
+        </div>
+        <p class="suau" id="explica-fases"></p>
+        <label id="camp-preguntes">Preguntes per alumne <input name="preguntes" type="number" min="1" max="6" value="3" class="petit"></label>
+      </div>
+
+      <div class="panell pas-cas nomes-sol" id="pas-xabcde">
+        <h3><span class="num-pas">3</span> Respostes correctes del XABCDE</h3>
+        <p class="suau">Toqueu el que és correcte en aquest cas (es posa en verd). Amb «✎ Textos» podeu canviar o afegir opcions.</p>
+        <div id="xabcde" class="xabcde-editor"></div>
+      </div>
+
+      <div class="panell pas-cas">
+        <h3><span class="num-pas" id="num-unitats">4</span> Unitats</h3>
+        <div class="nomes-sol opcions-unitats">
+          <label class="casella"><input type="radio" name="mode-unitats" value="auto"> Automàtiques: les més properes (algunes ocupades a l'atzar)</label>
+          <label class="casella"><input type="radio" name="mode-unitats" value="tria"> Les trio jo: quines surten, lliures o ocupades, i quines són correctes</label>
+        </div>
+        <div id="resposta-auto" class="nomes-sol">
+          <label>Resposta correcta <select name="mode-recursos"><option value="auto">Segons el nivell (AURE): les més properes</option><option value="nombre">Un nombre de cada tipus</option></select></label>
+          <div class="fila" id="nombre-recursos">
+            <label>SVA <input name="SVA" type="number" min="0" max="8" value="0" class="petit"></label>
+            <label>SVB <input name="SVB" type="number" min="0" max="8" value="0" class="petit"></label>
+            <label>Helicòpter <input name="HEMS" type="number" min="0" max="2" value="0" class="petit"></label>
+          </div>
+        </div>
+        <div id="editor-unitats" hidden>
+          <p class="suau" id="explica-unitats"></p>
+          <div id="taula-unitats" class="taula-unitats"></div>
+        </div>
+      </div>
+
+      <div class="panell pas-cas nomes-escenari">
+        <h3><span class="num-pas">3</span> Incidents</h3>
+        <p class="suau">Marqueu quins són el mateix servei (una altra trucada pel mateix incident), la prioritat (1 = el primer) i les unitats correctes de cadascun.</p>
+        <div id="incidents-escenari"></div>
+        <button class="boto secundari" type="button" id="afegeix-incident">+ Afegir incident</button>
+      </div>
+    </form>
+  </section>
   <p id="error" class="suau"></p>
 </main>
 <script type="module" src="aula-admin.mjs"></script>

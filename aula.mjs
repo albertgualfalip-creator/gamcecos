@@ -68,6 +68,7 @@ export class Aula {
     this.obertaT = null;
     this.ronda++;
     this.numero = 261800000 + Math.floor(aleatori(llavor + 1)() * 99999);   // incident number shown on the projector
+    this.temps = Math.max(0, Math.min(1800, Math.round(Number(c.temps) || 0)));   // seconds to answer, 0 = no limit
     if (c.tipus === 'escenari') {
       const lloc = llocValid(c.lloc);
       const equips = Math.max(2, Math.min(EQUIPS.length, Math.round(Number(c.equips) || 4)));
@@ -145,6 +146,12 @@ export class Aula {
 
   segons() { return Math.round((Date.now() - (this.obertaT || Date.now())) / 1000); }
 
+  // Time since the answers opened and, with a limit, the time left (it does not close the answers by itself)
+  rellotge() {
+    const segons = this.obertaT && this.estat === 'oberta' ? this.segons() : null;
+    return { segons, temps: this.temps, queden: this.temps && segons != null ? Math.max(0, this.temps - segons) : null };
+  }
+
   lliures(ids) {
     const lliures = new Set(this.unitats.filter(u => !u.ocupada).map(u => u.indicatiu));
     return [...new Set(ids)].filter(id => lliures.has(id)).slice(0, MAX_UNITATS);
@@ -158,11 +165,18 @@ export class Aula {
 
   // A student's answer arrives in steps: the assessment screens (all as "xabcde" item ids), the level and the units,
   // each one only if the case has it
-  respon(client, { nom, xabcde, nivell, recursos, activa, equip, accio }) {
+  respon(client, { nom, xabcde, nivell, recursos, activa, equip, accio, pas }) {
     if (!client) return 'Falta el client';
     if (nom) this.noms.set(client, String(nom).slice(0, 24));
     if (this.esc) return this.responEscenari(client, { equip, accio });
     if (this.estat !== 'oberta') return 'Les respostes no estan obertes';
+    // The screen a student is on, so the tutor can see where the class is
+    if (typeof pas === 'string' && !xabcde && nivell == null && !recursos && !activa) {
+      const r = this.respostes.get(client) || { nom: this.noms.get(client) || 'Anònim', xabcde: null, nivell: null, recursos: null };
+      r.pas = pas.slice(0, 20);
+      this.respostes.set(client, r);
+      return null;
+    }
     const { fases } = this.config;
     const ambXabcde = FASES_XABCDE.some(f => fases[f]);
     const r = this.respostes.get(client) || { nom: 'Anònim', xabcde: null, nivell: null, recursos: null };
@@ -282,7 +296,7 @@ export class Aula {
     if (this.esc) {
       const resultats = this.estat === 'resultats', meu = this.equipDe.get(client);
       const equip = this.config.equips.includes(meu) ? meu : null;
-      return { estat: this.estat, ronda: this.ronda, tipus: 'escenari', titol: this.config.titol, fases: {},
+      return { estat: this.estat, ronda: this.ronda, tipus: 'escenari', titol: this.config.titol, fases: {}, ...this.rellotge(),
         equips: this.config.equips.map(e => ({ nom: e, membres: this.membres(e).length })), equip, ...this.esc.publics(),
         decisio: equip ? { ...this.vistaEquip(equip, resultats), meuAcord: this.esc.equip(equip).acords.has(client) } : null,
         ...(resultats ? { solucio: this.esc.solucio() } : {}) };
@@ -291,7 +305,7 @@ export class Aula {
     const resultats = this.estat === 'resultats';
     const { tipus, fases, titol, carta, preguntes } = this.config;
     return {
-      estat: this.estat, ronda: this.ronda, tipus, fases, titol, carta, preguntes,
+      estat: this.estat, ronda: this.ronda, tipus, fases, titol, carta, preguntes, ...this.rellotge(),
       xabcde: this.config.xabcde.map(l => ({ lletra: l.lletra, nom: l.nom,
         items: l.items.map(({ id, seccio, text, correcte }) => ({ id, seccio, text, ...(resultats ? { correcte } : {}) })) })),
       unitats: this.unitats.map(({ indicatiu, tipus: t, cat, base, km, eta, ocupada }) => ({ indicatiu, tipus: t, cat, base, km, eta, ocupada })),
@@ -307,7 +321,7 @@ export class Aula {
       const resultats = this.estat === 'resultats';
       const equips = this.config.equips.map(e => this.vistaEquip(e, resultats));
       return {
-        estat: this.estat, ronda: this.ronda, numero: this.numero, config: this.config, historia: this.historia.slice(0, 8), segons: this.obertaT ? this.segons() : null,
+        estat: this.estat, ronda: this.ronda, numero: this.numero, config: this.config, historia: this.historia.slice(0, 8), ...this.rellotge(),
         correctes: [], correcte: { text: '' }, ...this.esc.publics(), unitats: this.esc.unitats, solucio: this.esc.solucio(), equips,
         progres: { connectats: this.equipDe.size, acabats: equips.filter(e => e.confirmat != null).length, equips: equips.length },
         classificacio: resultats ? equips.map(e => ({ nom: `Equip ${e.nom}`, membres: e.membres.length, temps: e.confirmat, ...e.puntuacio }))
@@ -319,9 +333,10 @@ export class Aula {
     const fets = rs.filter(r => r.recursos);
     return {
       estat: this.estat, ronda: this.ronda, numero: this.numero, config: this.config, unitats: this.unitats, correctes: this.correctes,
-      correcte: this.correcte(), historia: this.historia.slice(0, 8), segons: this.obertaT ? this.segons() : null,
+      correcte: this.correcte(), historia: this.historia.slice(0, 8), ...this.rellotge(),
       progres: { connectats: rs.length, activats: rs.filter(r => r.activacio).length, xabcde: rs.filter(r => r.xabcde).length,
-        nivell: rs.filter(r => r.nivell).length, recursos: fets.length, acabats: rs.filter(r => r.fet).length },
+        nivell: rs.filter(r => r.nivell).length, recursos: fets.length, acabats: rs.filter(r => r.fet).length,
+        perPas: rs.filter(r => !r.fet).reduce((m, r) => { const p = r.pas || 'inici'; m[p] = (m[p] || 0) + 1; return m; }, {}) },
       distribucio: {
         xabcde: compta(rs.flatMap(r => r.xabcde || []), id => id),
         nivell: compta(rs, r => r.nivell),

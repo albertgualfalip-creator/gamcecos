@@ -3,45 +3,43 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GamCECOS · Aprenentatge consultors</title>
+<title>GamCECOS · Classe</title>
 <link rel="stylesheet" href="estil.css">
 <script src="vendor/qrcodejs/qrcode.min.js"></script>
 </head>
-<body>
+<body class="classe-aula">
 <header class="capcalera">
   <span class="marca">GamCECOS · Classe</span>
-  <span id="cap-codi" hidden>Codi: <b id="codi" class="codi"></b></span>
-  <span id="estat-ronda" class="suau"></span>
-  <div class="info"><a href="/aula-admin" class="boto secundari">Preparar casos</a> <a href="/" class="boto secundari">Inici</a></div>
+  <span id="cap-codi" hidden>Codi dels alumnes: <b id="codi" class="codi"></b></span>
+  <div class="info"><a id="obre-projector" class="boto secundari" target="_blank" hidden>📽 Obrir el projector ↗</a>
+    <a href="/aula-admin" class="boto secundari">Preparar casos</a> <a href="/" class="boto secundari">Inici</a></div>
 </header>
+
+<section class="barra-classe panell">
+  <ol class="passos-classe" id="passos-classe">
+    <li data-pas="cas">Posar el cas</li><li data-pas="preparada">Obrir respostes</li><li data-pas="oberta">Responen</li><li data-pas="resultats">Resultats</li>
+  </ol>
+  <div class="accio-principal">
+    <button class="boto gran-boto" id="principal" disabled>Carregant...</button>
+    <span class="suau" id="explica-principal"></span>
+  </div>
+  <div class="rellotge-classe" id="rellotge-classe" hidden></div>
+</section>
+
 <main class="aprenentatge classe">
   <aside class="panell">
     <h3>Casos de la classe</h3>
-    <div id="casos" class="cua"><p class="suau">Carregant...</p></div>
-    <button class="boto gran-boto" id="seguent" disabled>Començar amb el primer cas</button>
+    <div id="casos" class="llista-casos"></div>
+    <div class="qr-classe" id="qr-classe" hidden><div id="qr"></div><span id="url-alumnes"></span></div>
   </aside>
   <section class="columna-classe">
-    <div class="panell" id="cas-actual"><p class="suau">Trieu un cas de la llista o premeu «Començar amb el primer cas».</p></div>
-    <div id="directe" hidden>
-      <div class="aula-capçal panell">
-        <div class="qr"><div id="qr"></div><span id="url-alumnes"></span></div>
-        <div class="aula-control">
-          <div class="accions">
-            <button class="boto" id="obre">▶ Reproduir i obrir respostes</button>
-            <button class="boto" id="mostra">Mostrar resultats</button>
-            <a class="boto secundari" id="obre-projector" target="_blank">Obrir la pantalla del projector ↗</a>
-          </div>
-          <div id="progres" class="progres-aula"></div>
-          <label class="casella"><input type="checkbox" id="en-directe"> Veure les respostes en directe aquí (no al projector)</label>
-        </div>
-      </div>
-      <div class="panell" id="panell-unitats">
-        <h3>Unitats que veuen els alumnes <span class="suau" id="lloc"></span></h3>
-        <p class="suau">Marcades: la resposta correcta (per defecte, les més properes segons el nivell AURE). Les podeu canviar abans de mostrar els resultats.</p>
-        <div id="unitats" class="unitats-llista unitats-aula"></div>
-      </div>
-      <div id="resultats" class="resultats-aula"></div>
-    </div>
+    <div class="panell" id="cas-actual"><h2>Benvinguts</h2><p>Obriu el projector i premeu «Començar la classe». Els alumnes entren amb el QR quan surti.</p></div>
+    <div class="panell" id="que-fan" hidden></div>
+    <details class="panell" id="panell-unitats" hidden><summary>Ajustar les unitats correctes <span class="suau" id="lloc"></span></summary>
+      <p class="suau">Marcades: la resposta correcta. Les podeu canviar abans de mostrar els resultats.</p>
+      <div id="unitats" class="unitats-llista unitats-aula"></div></details>
+    <label class="casella" id="caixa-directe" hidden><input type="checkbox" id="en-directe"> Veure aquí les respostes mentre responen (no al projector)</label>
+    <div id="resultats" class="resultats-aula"></div>
   </section>
 </main>
 <script type="module" src="aprenentatge.mjs"></script>

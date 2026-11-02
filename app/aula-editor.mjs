@@ -1,9 +1,13 @@
-// Consultor training: form for a case (title, place, right level and the XABCDE items with the right ones ticked),
-// used by the case administration page.
+// Consultor training: pieces of the case form. The XABCDE answers are chips to tap (green = right for this case);
+// the texts of each letter can be edited when needed.
 import { $, esc } from './client.mjs';
 import { XABCDE, SECCIONS } from './motor.mjs';
 
 let municipis = new Map();
+let model = [];                 // [{lletra, nom, items: [{seccio, text, correcte}]}]
+let editant = new Set();        // letters whose texts are being edited
+let visibles = SECCIONS.map(s => s.id);
+let contenidorActual = null, enCanvi = () => {};
 
 // Municipalities with a primary care centre, for the incident place and its real nearby units
 export async function carregaMunicipis(llista) {
@@ -16,37 +20,67 @@ export async function carregaMunicipis(llista) {
 
 export const lloc = nom => municipis.get(String(nom || '').trim()) || null;
 
-// One block per letter with the three lists (one item per line) and, under each list, the right ones ticked
-export function pintaXabcde(contenidor, xabcde) {
-  const perLletra = l => {
+// Loads the lists of a case (or the default ones) into the editor
+export function pintaXabcde(contenidor, xabcde, canvi = () => {}) {
+  contenidorActual = contenidor;
+  enCanvi = canvi;
+  editant = new Set();
+  model = XABCDE.map(l => {
     const desat = xabcde?.find(x => x.lletra === l.lletra);
-    return SECCIONS.map(sec => {
-      const items = desat ? desat.items.filter(it => it.seccio === sec.id) : l[sec.id].map(text => ({ text, correcte: false }));
-      return { sec, linies: items.map(it => it.text), correctes: new Set(items.filter(it => it.correcte).map(it => it.text)) };
-    });
-  };
-  $(contenidor).innerHTML = XABCDE.map((l, i) => {
-    const nom = xabcde?.find(x => x.lletra === l.lletra)?.nom || l.nom;
-    return `<div class="bloc" data-lletra="${i}">
-      <label><span class="lletra-gran">${esc(l.lletra)}</span> <input class="nom-lletra" value="${esc(nom)}"></label>
-      ${perLletra(l).map(({ sec, linies, correctes }) => `<div class="seccio-editor seccio-${sec.id}" data-seccio="${sec.id}"><b>${esc(sec.nom)}</b>
-        <textarea rows="${linies.length + 1}">${esc(linies.join('\n'))}</textarea>
-        <div class="correctes-llista">${linies.map(t => `<label class="casella"><input type="checkbox" value="${esc(t)}" ${correctes.has(t) ? 'checked' : ''}>${esc(t)}</label>`).join('')}</div></div>`).join('')}</div>`;
+    return { lletra: l.lletra, nom: desat?.nom || l.nom,
+      items: desat ? desat.items.map(it => ({ seccio: it.seccio, text: it.text, correcte: !!it.correcte }))
+        : SECCIONS.flatMap(s => l[s.id].map(text => ({ seccio: s.id, text, correcte: false }))) };
+  });
+  dibuixa();
+}
+
+// Only the sections of the screens the case has are shown (the others are kept as they are)
+export function seccionsVisibles(ids) {
+  visibles = ids;
+  if (contenidorActual) dibuixa();
+}
+
+function dibuixa() {
+  const seccions = SECCIONS.filter(s => visibles.includes(s.id));
+  $(contenidorActual).innerHTML = model.map((l, i) => {
+    if (editant.has(i)) {
+      return `<div class="lletra-editor editant" data-l="${i}"><div class="lletra-cap"><span class="lletra-gran">${esc(l.lletra)}</span>
+        <input class="nom-lletra" value="${esc(l.nom)}"><button type="button" class="boto-petit" data-fet="${i}">✓ Fet</button></div>
+        ${SECCIONS.map(s => `<label class="seccio-editor seccio-${s.id}">${esc(s.nom)} <span class="suau">(una per línia)</span>
+          <textarea data-seccio="${s.id}" rows="${Math.max(2, l.items.filter(it => it.seccio === s.id).length + 1)}">${esc(l.items.filter(it => it.seccio === s.id).map(it => it.text).join('\n'))}</textarea></label>`).join('')}</div>`;
+    }
+    const n = l.items.filter(it => it.correcte && visibles.includes(it.seccio)).length;
+    return `<div class="lletra-editor" data-l="${i}"><div class="lletra-cap"><span class="lletra-gran">${esc(l.lletra)}</span> <b>${esc(l.nom)}</b>
+        <span class="suau">${n ? `${n} correct${n === 1 ? 'e' : 'es'}` : ''}</span><button type="button" class="boto-petit" data-edita="${i}">✎ Textos</button></div>
+      ${seccions.map(s => {
+        const items = l.items.map((it, j) => ({ ...it, j })).filter(it => it.seccio === s.id);
+        return items.length ? `<div class="seccio-aula seccio-${s.id}"><span class="suau">${esc(s.nom)}</span><div class="xips-fila">${items.map(it =>
+          `<button type="button" class="xip-boto ${it.correcte ? 'correcte' : ''}" data-xip="${i}.${it.j}">${it.correcte ? '✓ ' : ''}${esc(it.seccio === 'noavaluable' ? 'No avaluable' : it.text)}</button>`).join('')}</div></div>` : '';
+      }).join('')}</div>`;
   }).join('');
-  $(contenidor).querySelectorAll('.seccio-editor').forEach(sec => { sec.querySelector('textarea').oninput = () => ompleCorrectes(sec); });
+  const arrel = $(contenidorActual);
+  arrel.querySelectorAll('[data-xip]').forEach(b => b.onclick = () => {
+    const [i, j] = b.dataset.xip.split('.').map(Number);
+    model[i].items[j].correcte = !model[i].items[j].correcte;
+    enCanvi();
+    dibuixa();
+  });
+  arrel.querySelectorAll('[data-edita]').forEach(b => b.onclick = () => { editant.add(Number(b.dataset.edita)); dibuixa(); });
+  arrel.querySelectorAll('[data-fet]').forEach(b => b.onclick = () => { desaTextos(Number(b.dataset.fet)); editant.delete(Number(b.dataset.fet)); dibuixa(); });
+  arrel.querySelectorAll('.editant textarea, .editant .nom-lletra').forEach(el => { el.oninput = enCanvi; });
 }
 
-// Under each list, one checkbox per line: ticked = right for this recording (kept by text while editing)
-function ompleCorrectes(sec) {
-  const abans = new Set([...sec.querySelectorAll('input:checked')].map(c => c.value));
-  const linies = sec.querySelector('textarea').value.split('\n').map(x => x.trim()).filter(Boolean);
-  sec.querySelector('.correctes-llista').innerHTML = linies.map(t => `<label class="casella"><input type="checkbox" value="${esc(t)}" ${abans.has(t) ? 'checked' : ''}>${esc(t)}</label>`).join('');
+// Texts edited by hand: new lines become items; the right ones are kept by their text
+function desaTextos(i) {
+  const bloc = $(contenidorActual).querySelector(`.lletra-editor[data-l="${i}"]`);
+  if (!bloc) return;
+  const bons = new Set(model[i].items.filter(it => it.correcte).map(it => `${it.seccio}|${it.text}`));
+  model[i].nom = bloc.querySelector('.nom-lletra').value.trim() || model[i].nom;
+  model[i].items = [...bloc.querySelectorAll('textarea')].flatMap(t => t.value.split('\n').map(x => x.trim()).filter(Boolean)
+    .map(text => ({ seccio: t.dataset.seccio, text, correcte: bons.has(`${t.dataset.seccio}|${text}`) })));
 }
 
-export function llegeixXabcde(contenidor) {
-  return [...$(contenidor).querySelectorAll('.bloc')].map((b, i) => ({
-    lletra: XABCDE[i].lletra, nom: b.querySelector('.nom-lletra').value.trim(),
-    items: [...b.querySelectorAll('.seccio-editor')].flatMap(sec => [...sec.querySelectorAll('input[type=checkbox]')]
-      .map(c => ({ seccio: sec.dataset.seccio, text: c.value, correcte: c.checked }))),
-  }));
+export function llegeixXabcde() {
+  for (const i of editant) desaTextos(i);
+  return model.map(l => ({ lletra: l.lletra, nom: l.nom, items: l.items }));
 }

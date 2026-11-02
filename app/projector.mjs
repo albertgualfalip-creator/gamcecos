@@ -12,6 +12,9 @@ const ESTAT = { preparada: ['PENDENT', 'pendent'], oberta: ['EN VALORACIÓ', 'va
 let mapa, capa, rondaMapa = null, clauMapa = '', qrFet = false, ronda = null, horaAlerta = '', vista = null, ambientVolgut = false;
 const hora = (d = new Date()) => d.toLocaleTimeString('ca', { hour12: false });
 const mmss = s => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+// With a limit, the time left (in red at the end); without, the time running
+const temps = v => (v.segons == null ? '—' : v.queden == null ? mmss(v.segons)
+  : `<span class="${v.queden <= 20 ? 'cecos-poc' : ''}">${v.queden ? mmss(v.queden) : 'TEMPS!'}</span>`);
 
 setInterval(() => { $('rellotge').textContent = hora(); }, 1000);
 
@@ -57,7 +60,7 @@ function render(v) {
   $('fitxa').innerHTML = [
     camp('Núm. incident', `<b class="cecos-num">${v.numero}</b>`), camp('Hora alerta', horaAlerta),
     camp('Entrada', c.tipus === 'carta' ? 'Dades 112 (sense veu)' : 'Trucada sanitària (VPS)'),
-    camp('Temps', v.segons != null && !resultats ? mmss(v.segons) : '—'),
+    camp(v.queden != null ? 'Queden' : 'Temps', temps(v)),
     camp('Municipi', esc(c.lloc.municipi)), camp('Zona', esc(c.lloc.zona || '')), camp('Entorn', esc({ urba: 'Urbà', suburba: 'Suburbà', rural: 'Rural' }[c.lloc.entorn] || '')),
     camp('Prioritat', resultats && c.nivell && c.fases.nivell ? `<span class="nivell n${c.nivell}">N${c.nivell}</span>` : '—'),
     camp('Tipus', esc(c.titol), 'ample'),
@@ -100,7 +103,7 @@ function renderEscenari(v) {
       <td>${resultats ? (sol(x.id).duplicatDe ? 'DUP' : sol(x.id).ordre) : '—'}</td></tr>`).join('')}`;
   const camp = (etiqueta, valor, ample = '') => `<div class="cecos-camp ${ample}"><label>${etiqueta}</label><div>${valor}</div></div>`;
   $('fitxa').innerHTML = [camp('Escenari', esc(c.titol), 'ample'), camp('Incidents', v.incidents.length), camp('Unitats', v.unitats.filter(u => !u.ocupada).length + ' lliures'),
-    camp('Equips', c.equips.length), camp('Temps', v.segons != null && !resultats ? mmss(v.segons) : '—')].join('');
+    camp('Equips', c.equips.length), camp(v.queden != null ? 'Queden' : 'Temps', temps(v))].join('');
   $('titol-112').innerHTML = `Informació 112 · ${v.incidents.length} alertes`;
   $('info112').innerHTML = v.incidents.map(x => `<div class="cecos-linia"><span class="suau">${horaAlerta} · ${x.numero} · ${esc(x.municipi)}</span><br>${esc(x.carta)}</div>`).join('');
   $('recursos').innerHTML = `<tr><th>Indicatiu</th><th>Tipus</th><th>Base</th><th>Estat</th><th>ETA</th></tr>

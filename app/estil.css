@@ -469,3 +469,75 @@ body.cecos {
 .correctes-escenari.apagada { opacity: .6; }
 table.sense-correcta th:nth-child(5), table.sense-correcta td:nth-child(5) { display: none; }
 .cecos-resultats .panell:has(.taula-equips) { grid-column: 1 / -1; }
+.compte { float: right; background: var(--accent); color: #fff; border-radius: 999px; padding: .1rem .6rem; font-size: 1rem; font-variant-numeric: tabular-nums; }
+.compte.poc { background: var(--perillosa); animation: parpelleig 1s steps(2) infinite; }
+
+/* ---------- Tidy screens: home, cases of the class and the class page ---------- */
+.portada h2 { margin: 1.6rem 0 .2rem; }
+.rol-targeta.destacada { outline: 2px solid var(--accent); background: var(--tria); }
+/* Cases of the class */
+.admin-aula .aula-admin { grid-template-columns: minmax(250px, 320px) 1fr; }
+.llista-casos { display: grid; gap: .35rem; margin-top: .4rem; }
+.cas-fila { display: flex; gap: .3rem; align-items: stretch; }
+.cas-fila.seleccionat .cas-obre { border-color: var(--accent); background: var(--tria); }
+.mou-cas { display: flex; flex-direction: column; gap: 2px; }
+.mou-cas button { border: 1px solid var(--vora); background: var(--camp); border-radius: 4px; font-size: .7rem; padding: 0 .3rem; flex: 1; }
+.mou-cas button:disabled { opacity: .3; }
+.cas-obre, .cas-classe { flex: 1; display: flex; gap: .6rem; align-items: center; text-align: left; border: 1px solid var(--vora); background: var(--camp); border-radius: 8px; padding: .45rem .6rem; color: var(--text); width: 100%; }
+.num-cas { min-width: 1.8em; height: 1.8em; display: grid; place-items: center; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 800; flex: none; }
+.avis-cas { color: var(--perillosa); font-weight: 700; font-size: .85rem; }
+.tipus-cas { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .8rem; margin-top: .6rem; }
+.tipus-cas button { text-align: left; border: 2px solid var(--vora); background: var(--camp); border-radius: 12px; padding: 1rem; display: grid; gap: .3rem; color: var(--text); font-size: .95rem; }
+.tipus-cas button:hover { border-color: var(--accent); }
+.tipus-cas span { font-size: 2rem; } .tipus-cas b { font-size: 1.15rem; }
+.barra-desar { position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: wrap; gap: .4rem 1rem; align-items: center; margin-bottom: .8rem; }
+.barra-desar h2 { margin: 0; flex: 1; }
+.etiqueta-tipus { background: var(--tria); color: var(--accent); border-radius: 999px; padding: .15rem .6rem; font-weight: 700; font-size: .85rem; }
+.pas-cas { margin-bottom: .8rem; display: grid; gap: .5rem; }
+.pas-cas h3 { margin: 0; display: flex; align-items: center; gap: .5rem; }
+.num-pas { width: 1.7em; height: 1.7em; border-radius: 50%; background: var(--accent); color: #fff; display: inline-grid; place-items: center; font-size: .9rem; }
+.pas-cas label { display: grid; gap: .2rem; }
+.pas-cas input, .pas-cas select, .pas-cas textarea { font: inherit; padding: .45rem; border-radius: 6px; border: 1px solid var(--vora); background: var(--camp); color: var(--text); }
+.pas-cas .casella { display: flex; gap: .4rem; align-items: center; }
+.gravacio { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+.gravacio audio { max-width: 100%; }
+.puja { cursor: pointer; }
+.fases-xips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.fases-xips button { border: 1px solid var(--vora); background: var(--camp); color: var(--suau); border-radius: 999px; padding: .45rem .9rem; }
+.fases-xips button.actiu { background: var(--accent); border-color: var(--accent); color: #fff; }
+.lletra-editor { border: 1px solid var(--vora); border-radius: 8px; padding: .5rem .6rem; margin: .4rem 0; }
+.lletra-cap { display: flex; align-items: center; gap: .5rem; margin-bottom: .2rem; }
+.lletra-cap .boto-petit { margin-left: auto; }
+.xip-boto.correcte { background: var(--optima); border-color: var(--optima); color: #fff; }
+.xabcde-editor { display: block; }
+.incident-editor { border: 1px solid var(--vora); border-left: 4px solid var(--incident); border-radius: 8px; padding: .5rem .6rem; margin: .5rem 0; display: grid; gap: .4rem; }
+.inc-editor-cap { display: flex; justify-content: space-between; align-items: center; }
+.correctes-escenari .xip-boto { padding: .3rem .6rem; }
+/* Class page */
+.barra-classe { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin: 12px 16px 0; }
+.passos-classe { display: flex; gap: .3rem; list-style: none; padding: 0; margin: 0; counter-reset: pas; }
+.passos-classe li { counter-increment: pas; padding: .35rem .7rem; border-radius: 999px; background: var(--camp); color: var(--suau); font-size: .9rem; }
+.passos-classe li::before { content: counter(pas) " "; font-weight: 800; }
+.passos-classe li.fet { color: var(--optima); } .passos-classe li.fet::before { content: "✓ "; }
+.passos-classe li.actual { background: var(--accent); color: #fff; font-weight: 700; }
+.accio-principal { display: flex; align-items: center; gap: .8rem; flex: 1; min-width: 280px; }
+.accio-principal .gran-boto { width: auto; margin: 0; padding: .8rem 1.4rem; }
+.rellotge-classe { font: 800 1.6rem ui-monospace, Consolas, monospace; background: var(--tria); color: var(--accent); border-radius: 10px; padding: .3rem .8rem; }
+.rellotge-classe.poc { background: var(--perillosa); color: #fff; }
+.cas-classe { margin-bottom: .35rem; }
+.cas-classe.seleccionat { border-color: var(--accent); background: var(--tria); }
+.cas-classe.fet .num-cas { background: var(--optima); }
+.qr-classe { margin-top: 1rem; display: grid; gap: .4rem; justify-items: center; text-align: center; }
+.cas-actual-cap { display: flex; flex-wrap: wrap; gap: .3rem 1rem; align-items: center; }
+.cas-actual-cap h2 { margin: 0; }
+#cas-actual audio { width: 100%; margin: .6rem 0; }
+.pas-alumnes-llista { display: grid; gap: .3rem; }
+.pas-alumnes { display: grid; grid-template-columns: 9em 1fr 3em; gap: .5rem; align-items: center; background: var(--camp); border-radius: 6px; padding: .35rem .6rem; }
+.pas-alumnes.acabat { background: color-mix(in srgb, var(--optima) 15%, transparent); }
+.n-alumnes { font-size: 1.4rem; font-weight: 800; text-align: right; }
+.cecos-poc { color: #ff5252; font-weight: 800; }
+.pas-cas input[type=radio], .pas-cas input[type=checkbox] { width: auto; padding: 0; }
+.opcions-unitats { display: grid; gap: .3rem; }
+.opcions-unitats label.casella { display: flex; justify-content: flex-start; gap: .5rem; }
+.admin-aula aside h3 { margin: 1rem 0 .2rem; }
+.pas-cas input[type=radio], .pas-cas input[type=checkbox] { flex: none !important; width: 1.1em !important; height: 1.1em; margin: 0; }
