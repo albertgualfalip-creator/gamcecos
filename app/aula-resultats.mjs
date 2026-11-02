@@ -41,31 +41,29 @@ export function panellsResultats(v, mostra) {
     return { text: u ? `${id} ${u.tipus} · ${u.eta} min` : 'Cap recurs', n, correcte: mostra && v.correctes.includes(id) };
   }));
   const proposta = mostra ? `<p class="suau">Proposta: <b>${esc(v.correcte.text)}</b> (${esc(v.correctes.join(', ') || 'cap recurs')})</p>` : '';
-  if (v.config.tipus === 'carta') {
-    const calRecurs = v.correctes.length > 0;
-    return [
-      panell('Hi envien recurs?', barres([{ text: 'Sí', n: d.envien.si, correcte: mostra && calRecurs }, { text: 'No', n: d.envien.no, correcte: mostra && !calRecurs }])),
-      panell('Quants de cada tipus', Object.keys(d.composicio).length ? composicio + proposta : ''),
-      panell('Unitats més triades', Object.keys(d.unitats).length ? unitats : ''),
-      panell('⏱ Temps per decidir', d.temps.length ? trams(d.temps.map(x => x.t)) : ''),
-    ].join('');
-  }
+  const f = v.config.fases, calRecurs = v.correctes.length > 0;
   const capCorrecte = !v.config.xabcde.some(l => l.items.some(it => it.seccio === 'maniobres' && it.correcte));
   const instruccions = itemsTriats(v, ['maniobres'], mostra);
   if (d.xabcde[CAP_MANIOBRA] || (mostra && capCorrecte)) instruccions.unshift({ text: 'Cap: només vigilar', n: d.xabcde[CAP_MANIOBRA] || 0, correcte: mostra && capCorrecte });
   return [
-    panell('👂 Què han escoltat', barres(itemsTriats(v, ['signes', 'noavaluable'], mostra))),
-    panell(`❓ Preguntes (${v.config.preguntes} per alumne)`, barres(itemsTriats(v, ['anamnesi'], mostra))),
-    panell('🖐 Primera instrucció', barres(instruccions)),
-    panell('Nivell de triatge', barres([1, 2, 3, 4, 5].map(n => ({ html: `<span class="nivell n${n}">N${n}</span>`, n: d.nivell[n] || 0, correcte: mostra && v.config.nivell === n, classe: `n${n}` })))),
-    panell('🚑 Recursos', Object.keys(d.composicio).length ? composicio + proposta : ''),
-    panell('🚑 Quan han activat el recurs', tempsActivacio(d)),
-  ].join('');
+    f.escolta && panell('👂 Què han escoltat', barres(itemsTriats(v, ['signes', 'noavaluable'], mostra))),
+    f.preguntes && panell(`❓ Preguntes (${v.config.preguntes} per alumne)`, barres(itemsTriats(v, ['anamnesi'], mostra))),
+    f.instruccio && panell('🖐 Primera instrucció', barres(instruccions)),
+    f.nivell && panell('Nivell de triatge', barres([1, 2, 3, 4, 5].map(n => ({ html: `<span class="nivell n${n}">N${n}</span>`, n: d.nivell[n] || 0, correcte: mostra && v.config.nivell === n, classe: `n${n}` })))),
+    f.recursos && v.config.tipus === 'carta' && panell('Hi envien recurs?', barres([{ text: 'Sí', n: d.envien.si, correcte: mostra && calRecurs }, { text: 'No', n: d.envien.no, correcte: mostra && !calRecurs }])),
+    f.recursos && panell('🚑 Quants de cada tipus', Object.keys(d.composicio).length ? composicio + proposta : ''),
+    f.recursos && panell('Unitats més triades', Object.keys(d.unitats).length ? unitats : ''),
+    f.activacio && panell('🚑 Quan han activat el recurs', tempsActivacio(d)),
+    !f.activacio && panell('⏱ Temps per respondre', d.temps.length ? trams(d.temps.map(x => x.t)) : ''),
+  ].filter(Boolean).join('');
 }
 
 export function classificacio(v, detall) {
   if (!v.classificacio.length) return '';
-  const carta = v.config.tipus === 'carta';
+  const f = v.config.fases;
+  const parts = c => [f.escolta && `escolta ${c.escolta}`, f.preguntes && `preguntes ${c.preguntes}`, f.instruccio && `instrucció ${c.instruccio}`,
+    f.nivell && `nivell ${c.nivell}`, (f.recursos || f.activacio) && `recursos ${c.recursos}`, f.activacio && `detecció ${c.deteccio}`,
+    c.activacio != null && `🚑 ${c.activacio} s`, c.temps != null && `⏱ ${c.temps} s`].filter(Boolean).join(', ');
   return `<div class="panell"><h3>Classificació</h3><ol class="ranquing">${v.classificacio.map(c => `<li><b>${esc(c.nom)}</b> · ${c.punts}/${c.maxim}
-    ${detall ? `<span class="suau">(${carta ? `recursos ${c.recursos} · ${c.temps} s` : `escolta ${c.escolta}, preguntes ${c.preguntes}, instrucció ${c.instruccio}, nivell ${c.nivell}, recursos ${c.recursos}, detecció ${c.deteccio}${c.activacio != null ? ` · 🚑 ${c.activacio} s` : ''}`})</span>` : ''}</li>`).join('')}</ol></div>`;
+    ${detall ? `<span class="suau">(${parts(c)})</span>` : ''}</li>`).join('')}</ol></div>`;
 }

@@ -9,22 +9,31 @@
 <script src="vendor/leaflet/leaflet.js"></script>
 <script src="vendor/qrcodejs/qrcode.min.js"></script>
 </head>
-<body class="operatiu projector">
-<header class="capcalera">
-  <span class="marca">GamCECOS · Aprenentatge consultors</span>
-  <span class="rellotge" id="rellotge">--:--:--</span>
-  <span id="estat"></span>
-  <div class="info"><span>Codi <b id="codi" class="codi"></b></span></div>
+<body class="cecos">
+<header class="cecos-barra">
+  <span class="cecos-logo">SEM <b>CECOS</b></span>
+  <nav class="cecos-pestanyes"><span class="activa">Incidents</span><span>Recursos</span><span>Mapa</span><span>Comunicacions</span></nav>
+  <span class="cecos-operador">Operador: <b>AULA</b> · Sessió <b id="codi"></b></span>
+  <button id="ambient" class="cecos-boto" title="So de fons de sala per als casos sense veu">🔇 So de sala</button>
+  <span class="cecos-rellotge" id="rellotge">--:--:--</span>
 </header>
-<main class="projector-graella">
-  <section class="columna">
-    <div class="panell" id="trucada"></div>
-    <div class="panell entra-mobil"><div id="qr"></div><div><div class="suau">Entra amb el mòbil</div><div id="url" class="url-gran"></div><div class="codi codi-gran" id="codi-gran"></div></div></div>
+<main class="cecos-graella">
+  <section class="cecos-columna">
+    <div class="cecos-panell"><div class="cecos-titol">Safata d'incidents</div><table class="cecos-taula" id="safata"></table></div>
+    <div class="cecos-panell cecos-entra"><div id="qr"></div><div><div class="suau">Entra amb el mòbil</div><div id="url" class="url-gran"></div><div class="codi codi-gran" id="codi-gran"></div></div></div>
   </section>
-  <section class="columna"><div class="panell mapa-panell"><div id="mapa"></div></div></section>
-  <section class="columna" id="lateral"></section>
+  <section class="cecos-columna cecos-centre">
+    <div class="cecos-panell"><div class="cecos-titol">Fitxa d'incident <span id="estat-incident"></span></div><div id="fitxa" class="cecos-fitxa"></div></div>
+    <div class="cecos-panell"><div class="cecos-titol" id="titol-112">Informació 112</div><div id="info112" class="cecos-112"></div></div>
+    <div class="cecos-panell cecos-mapa" id="panell-mapa"><div id="mapa"></div></div>
+    <div id="resultats" class="cecos-resultats" hidden></div>
+  </section>
+  <section class="cecos-columna">
+    <div class="cecos-panell cecos-recursos"><div class="cecos-titol">Recursos</div><table class="cecos-taula" id="recursos"></table></div>
+    <div class="cecos-panell" id="lateral"></div>
+  </section>
 </main>
-<section id="resultats-xabcde" class="projector-resultats"></section>
+<footer class="cecos-estat" id="peu"></footer>
 <script type="module" src="projector.mjs"></script>
 </body>
 </html>

@@ -370,3 +370,73 @@ body.aula { padding-bottom: 5.5rem; }
 .cat-unitat { display: inline-block; min-width: 3.2em; text-align: center; border-radius: 4px; padding: .05rem .35rem; font-size: .8rem; font-weight: 800; color: #fff; }
 .cat-SVA { background: #c62828; } .cat-SVB { background: #1e88e5; } .cat-HEMS { background: #2e7d32; }
 .resultat-llista { margin: .3rem 0; padding-left: 1.1rem; } .resultat-llista li { margin: .2rem 0; }
+/* Case administration: screens and units chosen per case */
+.fases-editor { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: .5rem; }
+.fase { display: grid; grid-template-columns: auto 1fr; gap: .1rem .5rem; align-items: start; border: 1px solid var(--vora); border-radius: 8px; padding: .5rem .6rem; background: var(--camp); }
+.fase input[type=checkbox] { grid-row: span 2; margin-top: .2rem; }
+.fase span { font-size: .85rem; color: var(--suau); }
+input.petit { width: 3.5em; padding: .1rem .3rem; }
+.taula-unitats table { width: 100%; } .taula-unitats td, .taula-unitats th { padding: .25rem .4rem; text-align: left; }
+.taula-unitats tr.apagada td { opacity: .45; }
+
+/* ---------- Projector of the training, styled like the coordination centre software ---------- */
+body.cecos {
+  --fons: #0a0f1a; --panell: #111a2b; --text: #dfe6f3; --suau: #8796ae; --vora: #1f2c44; --camp: #0d1524; --tria: #1b2c4f;
+  --accent: #4fa3ff; --barra: #4fa3ff; --incident: #ff5c5c;
+  background: var(--fons); color: var(--text); height: 100vh; display: grid; grid-template-rows: auto 1fr auto; overflow: hidden; font-size: 15px;
+}
+.cecos-barra { display: flex; align-items: center; gap: 1.2rem; padding: .35rem 16px; background: linear-gradient(#18243b, #121b2d); border-bottom: 1px solid #2a3a58; }
+.cecos-logo { font-weight: 800; letter-spacing: .08em; color: #fff; background: #c62828; padding: .15rem .5rem; border-radius: 3px; }
+.cecos-logo b { font-weight: 800; }
+.cecos-pestanyes { display: flex; gap: .2rem; }
+.cecos-pestanyes span { padding: .3rem .8rem; color: var(--suau); border-radius: 3px 3px 0 0; font-size: .9rem; }
+.cecos-pestanyes span.activa { background: var(--panell); color: #fff; border: 1px solid #2a3a58; border-bottom: 0; }
+.cecos-operador { margin-left: auto; color: var(--suau); font-size: .9rem; }
+.cecos-rellotge { font: 700 1.3rem ui-monospace, Consolas, monospace; color: #fff; }
+.cecos-boto { background: var(--camp); color: var(--suau); border: 1px solid #2a3a58; border-radius: 4px; padding: .3rem .7rem; }
+.cecos-boto.actiu { color: #fff; border-color: var(--accent); }
+.cecos-graella { display: grid; grid-template-columns: minmax(260px, 1fr) 2.2fr minmax(360px, 1.3fr); gap: 8px; padding: 8px; min-height: 0; }
+.cecos-columna { display: flex; flex-direction: column; gap: 8px; min-height: 0; min-width: 0; }
+.cecos-panell { background: var(--panell); border: 1px solid var(--vora); border-radius: 4px; padding: .5rem .7rem; }
+.cecos-titol { font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; color: var(--suau); border-bottom: 1px solid var(--vora); padding-bottom: .3rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: center; }
+.cecos-taula { width: 100%; border-collapse: collapse; font-size: .88rem; }
+.cecos-taula th { text-align: left; font-weight: 600; color: var(--suau); font-size: .72rem; text-transform: uppercase; padding: .2rem .3rem; border-bottom: 1px solid var(--vora); }
+.cecos-taula td { padding: .28rem .3rem; border-bottom: 1px solid #16223a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 14em; }
+.cecos-taula tr.actual td { background: #3a1620; color: #fff; font-weight: 700; }
+.cecos-taula tr.passat td { color: var(--suau); }
+.cecos-taula tr.ocupada td { color: #5f6d85; }
+.cecos-taula tr.bona td { background: #12351f; color: #fff; }
+.parpelleig-suau td { animation: parpelleig-suau 1.6s ease-in-out infinite; }
+@keyframes parpelleig-suau { 50% { background: #5a1e2a; } }
+.cecos-recursos { flex: 1; overflow: auto; min-height: 0; }
+.cecos-estat-u { font-size: .72rem; font-weight: 800; padding: .05rem .35rem; border-radius: 3px; }
+.cecos-estat-u.lliure { background: #1d5e35; color: #c8f7d6; } .cecos-estat-u.ocupat { background: #2b3446; color: #8a96ab; } .cecos-estat-u.proposta { background: #00c853; color: #04230f; }
+.cecos-estat-inc { font-size: .72rem; font-weight: 800; padding: .1rem .45rem; border-radius: 3px; letter-spacing: 0; }
+.cecos-estat-inc.pendent { background: #5d4a00; color: #ffe08a; } .cecos-estat-inc.valoracio { background: #8a1c1c; color: #fff; } .cecos-estat-inc.tancat { background: #2b3446; color: #c2cbdb; }
+.cecos-fitxa { display: grid; grid-template-columns: repeat(4, 1fr); gap: .35rem .6rem; }
+.cecos-camp label { display: block; font-size: .68rem; text-transform: uppercase; color: var(--suau); letter-spacing: .05em; }
+.cecos-camp div { background: var(--camp); border: 1px solid var(--vora); border-radius: 3px; padding: .25rem .45rem; min-height: 1.6em; }
+.cecos-camp.ample { grid-column: 1 / -1; }
+.cecos-num { color: var(--incident); font-family: ui-monospace, Consolas, monospace; font-size: 1.1rem; }
+.cecos-112 { font-family: ui-monospace, Consolas, monospace; }
+.cecos-linia { background: var(--camp); border-left: 3px solid var(--incident); padding: .45rem .6rem; text-transform: uppercase; font-size: 1.15rem; line-height: 1.35; margin-bottom: .4rem; }
+.cecos-linia .suau { font-size: .78rem; }
+.cecos-linia.proposta { border-left-color: #00c853; }
+.cecos .ona { height: 46px; margin-top: .4rem; }
+.cecos-centre { overflow: hidden; }
+.cecos-mapa { flex: 1; padding: 0; overflow: hidden; display: flex; min-height: 200px; }
+.cecos-mapa #mapa { flex: 1; }
+.cecos-resultats { flex: 1; overflow: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 8px; align-content: start; }
+.cecos-resultats .panell, .cecos #lateral .panell { background: var(--panell); border: 1px solid var(--vora); border-radius: 4px; padding: .5rem .7rem; }
+.cecos-resultats h3, .cecos #lateral h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--suau); margin: 0 0 .4rem; }
+.cecos .barra-fila { font-size: 1rem; grid-template-columns: minmax(0, 2.2fr) 1fr 2em; }
+.cecos-entra { display: flex; gap: .8rem; align-items: center; }
+.cecos-entra #qr img, .cecos-entra #qr canvas { width: 130px; height: 130px; background: #fff; padding: 5px; border-radius: 6px; }
+.cecos .codi-gran { font-size: 2.2rem; }
+.cecos-estat { display: flex; gap: 2rem; padding: .3rem 16px; background: #0d1626; border-top: 1px solid #2a3a58; font: .82rem ui-monospace, Consolas, monospace; color: var(--suau); }
+.cecos-estat span:first-child { color: #00c853; }
+@media (max-width: 1100px) { body.cecos { height: auto; overflow: auto; } .cecos-graella { grid-template-columns: 1fr; } }
+.cecos-recursos .cecos-taula { table-layout: fixed; }
+.cecos-recursos .cecos-taula th:nth-child(1) { width: 27%; } .cecos-recursos .cecos-taula th:nth-child(2) { width: 22%; }
+.cecos-recursos .cecos-taula th:nth-child(4) { width: 25%; } .cecos-recursos .cecos-taula th:nth-child(5) { width: 9%; }
+.cecos-recursos .cecos-taula td { max-width: none; }

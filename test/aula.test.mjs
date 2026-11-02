@@ -99,3 +99,29 @@ test('aprenentatge només carta: el nombre de recursos de cada tipus decideix la
   assert.equal(t.distribucio.composicio['2 SVA + 3 SVB'], 1);
   assert.equal(t.correcte.text, '2 SVA + 3 SVB');
 });
+
+test('aprenentatge flexible: el tutor tria les pantalles i només puntuen les que hi ha', () => {
+  const a = new Aula({ tipus: 'carta', fases: { nivell: true, recursos: true }, nivell: 2, lloc, llavor: 1 }, dades);
+  a.ordre({ tipus: 'obre' });
+  assert.equal(a.respon('c1', { nivell: 2 }), null, 'sense pantalles de XABCDE no cal valorar abans del nivell');
+  assert.equal(a.respon('c1', { recursos: a.correctes }), null);
+  const p = a.puntua(a.respostes.get('c1'));
+  assert.deepEqual([p.punts, p.maxim], [6, 6]);
+  // Only what was heard, and the activation bar as the units answer
+  const b = new Aula({ fases: { escolta: true, preguntes: false, instruccio: false, nivell: false, recursos: false, activacio: true }, nivell: 1, lloc, xabcde, llavor: 1 }, dades);
+  b.ordre({ tipus: 'obre' });
+  b.respon('c1', { activa: b.correctes });
+  b.respon('c1', { xabcde: b.config.xabcde.flatMap(l => l.items).filter(it => it.correcte).map(it => it.id) });
+  assert.equal(b.respostes.get('c1').fet, true);
+  const q = b.puntua(b.respostes.get('c1'));
+  assert.deepEqual([q.escolta, q.preguntes, q.recursos, q.deteccio, q.punts, q.maxim], [1, 0, 3, 1, 5, 5]);
+});
+
+test('aprenentatge flexible: el tutor tria quines unitats surten, quines estan ocupades i quines són correctes', () => {
+  const unitats = [{ indicatiu: 'HELI-SABADELL', estat: 'lliure' }, { indicatiu: 'C205', estat: 'ocupada' }, { indicatiu: 'C450', estat: 'lliure' }];
+  const a = new Aula({ tipus: 'carta', lloc, unitats, recursos: { mode: 'manual' }, correctes: ['HELI-SABADELL', 'C205'], llavor: 1 }, dades);
+  assert.deepEqual(a.unitats.map(u => u.indicatiu).sort(), ['C205', 'C450', 'HELI-SABADELL']);
+  assert.equal(a.unitats.find(u => u.indicatiu === 'C205').ocupada, true);
+  assert.deepEqual(a.correctes, ['HELI-SABADELL'], 'una unitat ocupada no pot ser la resposta');
+  assert.equal(a.correcte().text, '1 Helicòpter');
+});

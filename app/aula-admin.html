@@ -28,25 +28,17 @@
       </div>
       <p class="suau" id="estat-desat"></p>
     </div>
+
+    <h3>1. El cas</h3>
     <div class="fila">
-      <label>Tipus de cas <select name="tipus"><option value="veu">Gravació amb veu (XABCDE, nivell i recursos)</option><option value="carta">Només carta del 112, sense veu (enviar recurs o no, i quins)</option></select></label>
+      <label>Tipus de cas <select name="tipus"><option value="veu">Amb gravació (veu)</option><option value="carta">Només carta del 112 (sense veu, amb soroll de sala)</option></select></label>
       <label>Títol (el veuen els alumnes) <input name="titol" maxlength="80" required></label>
       <label>Ordre a la classe <input name="ordre" type="number" min="1" max="999"></label>
     </div>
     <div class="fila">
       <label>Municipi de l'incident <input name="municipi" list="municipis" autocomplete="off" required></label>
-      <label class="nomes-veu">Nivell correcte <select name="nivell"><option value="">No puntuar</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label>
-      <label class="nomes-veu">Preguntes que poden fer <input name="preguntes" type="number" min="1" max="6" value="3"></label>
+      <label>Nivell correcte <select name="nivell"><option value="">No puntuar</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label>
     </div>
-    <fieldset><legend>Resposta correcta de recursos</legend>
-      <label><select name="mode-recursos"><option value="auto">Automàtica segons el nivell (AURE): les més properes</option><option value="nombre">Nombre de cada tipus (accidents, múltiples víctimes...)</option></select></label>
-      <div class="fila" id="nombre-recursos">
-        <label>SVA <input name="SVA" type="number" min="0" max="8" value="0"></label>
-        <label>SVB <input name="SVB" type="number" min="0" max="8" value="0"></label>
-        <label>Helicòpter <input name="HEMS" type="number" min="0" max="2" value="0"></label>
-      </div>
-      <p class="suau">Es proposen les unitats lliures més properes de cada tipus. A classe les podeu canviar abans de mostrar els resultats. Tot a 0 = cap recurs.</p>
-    </fieldset>
     <datalist id="municipis"></datalist>
     <label>Carta del 112 (la veuen els alumnes al projector i al mòbil) <textarea name="carta" rows="3" placeholder="Ex.: ALERTANT, VEÍ AL LLOC, INDICA QUE LA SEVA VEÏNA S'HA DESMAIAT, ESTÀ INCONSCIENT."></textarea></label>
     <fieldset class="nomes-veu"><legend>Gravació</legend>
@@ -54,10 +46,38 @@
       <label>Pujar o substituir la gravació (mp3, wav, m4a, ogg... fins a 40 MB) <input type="file" name="audio" accept="audio/*"></label>
       <p class="suau">Es desa al servidor, protegida per la contrasenya, i no es comparteix enlloc més.</p>
     </fieldset>
-    <label>Notes per al tutor (què passa al cas, què cal comentar als resultats; no ho veuen els alumnes) <textarea name="notes" rows="3"></textarea></label>
-    <section class="nomes-veu">
-      <h3>XABCDE</h3>
-      <p class="suau">Per a cada lletra: què es pot escoltar (signes i símptomes, o «No avaluable» si la gravació no en dona informació), quines preguntes caldria fer (l'alumne en tria poques) i quines instruccions donar (l'alumne en tria una sola: la primera). Un element per línia; sota de cada llista, marqueu els correctes per a aquesta gravació. Si no cal cap instrucció, no en marqueu cap: la resposta correcta serà «Cap, només vigilar».</p>
+    <label>Notes per al tutor (què passa al cas, què cal comentar als resultats; no ho veuen els alumnes) <textarea name="notes" rows="2"></textarea></label>
+
+    <h3>2. Pantalles que faran els alumnes</h3>
+    <p class="suau">Trieu només el que vulgueu treballar en aquest cas. Com menys pantalles, més ràpid.</p>
+    <div class="fases-editor">
+      <label class="fase"><input type="checkbox" name="f-escolta"><b>👂 Escolta</b><span>Què han sentit a cada lletra del XABCDE, o «No avaluable»</span></label>
+      <label class="fase"><input type="checkbox" name="f-preguntes"><b>❓ Preguntes</b><span>Trien unes poques preguntes clau: <input name="preguntes" type="number" min="1" max="6" value="3" class="petit"> per alumne</span></label>
+      <label class="fase"><input type="checkbox" name="f-instruccio"><b>🖐 Primera instrucció</b><span>Una sola maniobra salvadora, o «cap»</span></label>
+      <label class="fase"><input type="checkbox" name="f-nivell"><b>Nivell de triatge</b><span>N1 a N5</span></label>
+      <label class="fase"><input type="checkbox" name="f-recursos"><b>🚑 Recursos</b><span>Quines unitats i quantes de cada tipus</span></label>
+      <label class="fase"><input type="checkbox" name="f-activacio"><b>🚑 Activar en qualsevol moment</b><span>Barra fixa: es registra quan detecten la gravetat</span></label>
+    </div>
+
+    <h3>3. Unitats que veuen</h3>
+    <label><select name="mode-unitats"><option value="auto">Automàtic: les més properes, algunes ocupades a l'atzar</option><option value="tria">Les trio jo: quines surten, lliures o ocupades, i quines són correctes</option></select></label>
+    <div id="editor-unitats" hidden>
+      <p class="suau">Unitats reals al voltant del municipi. Trieu si surten i si estan lliures o ocupades, i marqueu les correctes (cap marcada = cap recurs). Així podeu fer, per exemple, que l'helicòpter sigui la bona resposta.</p>
+      <div id="taula-unitats" class="taula-unitats"></div>
+    </div>
+    <fieldset id="resposta-auto"><legend>Resposta correcta de recursos</legend>
+      <label><select name="mode-recursos"><option value="auto">Segons el nivell (AURE): les més properes</option><option value="nombre">Nombre de cada tipus (accidents, múltiples víctimes...)</option></select></label>
+      <div class="fila" id="nombre-recursos">
+        <label>SVA <input name="SVA" type="number" min="0" max="8" value="0"></label>
+        <label>SVB <input name="SVB" type="number" min="0" max="8" value="0"></label>
+        <label>Helicòpter <input name="HEMS" type="number" min="0" max="2" value="0"></label>
+      </div>
+      <p class="suau">Es proposen les unitats lliures més properes de cada tipus. A classe les podeu canviar abans de mostrar els resultats. Tot a 0 = cap recurs.</p>
+    </fieldset>
+
+    <section id="seccio-xabcde">
+      <h3>4. XABCDE <button class="boto-petit" type="button" id="restaura-xabcde">Restaurar la llista per defecte</button></h3>
+      <p class="suau">Escriviu el que vulgueu a cada llista (un element per línia, o deixeu-la buida perquè no surti) i marqueu a sota els correctes per a aquest cas. Escolta: signes i símptomes i «No avaluable». Preguntes: anamnesi. Instrucció: maniobres; si no en marqueu cap, la correcta és «Cap, només vigilar».</p>
       <div id="xabcde" class="xabcde-editor"></div>
     </section>
   </form>

@@ -38,8 +38,8 @@ const ordre = o => post(`/api/aula/ordre?codi=${codi}`, o).then(actualitza).catc
 async function posa(cas) {
   if (!cas) return;
   if (vista?.estat === 'oberta' && !confirm('Les respostes del cas actual encara són obertes. Passar al següent igualment?')) return;
-  const { tipus, titol, carta, nivell, preguntes, recursos, lloc, xabcde } = cas;
-  const config = { tipus, titol, carta, nivell, preguntes, recursos, lloc, xabcde };
+  const { tipus, titol, carta, nivell, preguntes, recursos, fases, unitats, correctes, lloc, xabcde } = cas;
+  const config = { tipus, titol, carta, nivell, preguntes, recursos, fases, unitats, correctes, lloc, xabcde };
   try {
     if (!codi) {
       ({ codi } = await post('/api/aula/nova', { config }));
@@ -90,8 +90,9 @@ function render() {
   $('obre').disabled = v.estat !== 'preparada';
   $('mostra').disabled = v.estat !== 'oberta';
   const p = v.progres;
-  $('progres').innerHTML = (v.config.tipus === 'carta' ? [['Connectats', p.connectats], ['Han respost', p.recursos]]
-    : [['Connectats', p.connectats], ['🚑 Activat', p.activats], ['Valoració', p.xabcde], ['Nivell', p.nivell], ['Recursos (acabat)', p.recursos]])
+  const f = v.config.fases;
+  $('progres').innerHTML = [['Connectats', p.connectats], f.activacio && ['🚑 Activat', p.activats], ['escolta', 'preguntes', 'instruccio'].some(x => f[x]) && ['Valoració', p.xabcde],
+    f.nivell && ['Nivell', p.nivell], ['Han acabat', p.acabats]].filter(Boolean)
     .map(([t, n]) => `<div><span class="xifra">${n}</span><span class="suau">${t}</span></div>`).join('');
   $('lloc').textContent = `· incident a ${v.config.lloc.municipi}`;
   renderUnitats(v);

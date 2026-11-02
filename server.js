@@ -30,7 +30,7 @@ const SEGONS_RESULTAT_VOT = 6;
 const PUNTS = { optima: 3, acceptable: 2, suboptima: 1, perillosa: 0 };
 const ROLS = ['public', 'uct', 'consultor', 'cap', 'tutor'];
 
-let Guardia, Aula, dades;
+let Guardia, Aula, unitatsProperes, dades;
 const llegeix = f => JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8'));
 
 function carregaCasos() {
@@ -178,6 +178,8 @@ async function api(req, res, ruta, params) {
     try { const s = await llegeixCos(req); cos = s ? JSON.parse(s) : {}; } catch { return json(res, 400, { error: 'JSON invàlid' }); }
   }
   if (ruta.startsWith('/api/aula/casos')) return autoritzat ? casosAula(req, res, ruta, cos) : json(res, 401, { error: 'Cal contrasenya' });
+  // Units around the place of a case, for the tutor to choose which appear, which are busy and which are right
+  if (ruta === '/api/aula/unitats' && req.method === 'POST') return autoritzat ? json(res, 200, { unitats: unitatsProperes(dades, cos.lloc) }) : json(res, 401, { error: 'Cal contrasenya' });
   if (ruta.startsWith('/api/aula/')) return apiAula(req, res, ruta, params, cos, autoritzat);
   if (['/api/sala', '/api/casos', '/api/casos/esborra'].includes(ruta) && !autoritzat) return json(res, 401, { error: 'Cal contrasenya' });
   if (ruta === '/api/sala' && req.method === 'POST') return json(res, 200, { sala: novaSala(cos.config || {}) });
@@ -277,9 +279,14 @@ function casosAula(req, res, ruta, cos) {
     const base = String(c.titol).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'cas';
     const id = idCasAula(c.id) || `${base}-${crypto.randomBytes(2).toString('hex')}`;
     const anterior = llegeixCasosAula().find(x => x.id === id);
-    const recursos = c.recursos?.mode === 'nombre' ? { mode: 'nombre', SVA: Number(c.recursos.SVA) || 0, SVB: Number(c.recursos.SVB) || 0, HEMS: Number(c.recursos.HEMS) || 0 } : { mode: 'auto' };
+    const mode = ['nombre', 'manual'].includes(c.recursos?.mode) ? c.recursos.mode : 'auto';
+    const recursos = mode === 'nombre' ? { mode, SVA: Number(c.recursos.SVA) || 0, SVB: Number(c.recursos.SVB) || 0, HEMS: Number(c.recursos.HEMS) || 0 } : { mode };
+    const fases = c.fases && typeof c.fases === 'object' ? Object.fromEntries(Object.entries(c.fases).filter(([, v]) => typeof v === 'boolean')) : undefined;
+    const unitats = Array.isArray(c.unitats) ? c.unitats.filter(u => u && /^[\w-]{1,30}$/.test(u.indicatiu) && ['lliure', 'ocupada'].includes(u.estat))
+      .map(u => ({ indicatiu: u.indicatiu, estat: u.estat })).slice(0, 40) : undefined;
+    const correctes = Array.isArray(c.correctes) ? c.correctes.filter(id => typeof id === 'string').slice(0, 20) : undefined;
     const cas = { id, tipus: c.tipus === 'carta' ? 'carta' : 'veu', titol: String(c.titol).trim().slice(0, 80), carta: String(c.carta || '').trim().slice(0, 1000),
-      nivell: c.nivell ?? null, preguntes: Number(c.preguntes) || 3, recursos, lloc: c.lloc || null, xabcde: c.xabcde || [],
+      nivell: c.nivell ?? null, preguntes: Number(c.preguntes) || 3, recursos, fases, unitats, correctes, lloc: c.lloc || null, xabcde: c.xabcde || [],
       notes: String(c.notes || '').slice(0, 2000), ordre: Number.isFinite(c.ordre) ? c.ordre : anterior?.ordre ?? 999, audio: anterior?.audio || null };
     try {
       fs.mkdirSync(DIR_AULA, { recursive: true });
@@ -392,7 +399,7 @@ const DRECERES = { '/': '/app/index.html', '/vota': '/app/vota.html', '/tutor': 
 
 async function arrenca() {
   ({ Guardia } = await import('./joc.mjs'));
-  ({ Aula } = await import('./aula.mjs'));
+  ({ Aula, unitatsProperes } = await import('./aula.mjs'));
   dades = { unitats: llegeix('data/unitats.json'), centres: llegeix('data/centres.json'), dea: llegeix('data/dea.json'),
     aure: llegeix('data/resposta_aure.json'), capacitats: llegeix('data/capacitats_hospitals.json'), casos: carregaCasos() };
   http.createServer(async (req, res) => {

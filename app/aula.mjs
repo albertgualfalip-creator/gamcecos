@@ -14,7 +14,10 @@ let nom = guardat('gamcecos-nom') || '';
 let vista = null, clauVista = '', ronda = null;
 const CAP_MANIOBRA = 'cap';   // as in aula.mjs on the server
 const NOM_CAT = { SVA: 'SVA', SVB: 'SVB', HEMS: 'Helicòpter' };
-const PASSOS_VEU = ['Escolta', 'Preguntes', 'Instrucció', 'Nivell', 'Recursos'];
+// The screens of a case, in order; each case only has the ones the tutor chose
+const PANTALLES = [['escolta', 'Escolta'], ['preguntes', 'Preguntes'], ['instruccio', 'Instrucció'], ['nivell', 'Nivell'], ['recursos', 'Recursos']];
+const LOCALS = ['escolta', 'preguntes', 'instruccio'];   // answered on the phone and sent together
+const locals = () => LOCALS.filter(f => vista.fases[f]);
 const nouEsborrany = () => ({ pas: 'escolta', escolta: new Set(), preguntes: new Set(), instruccio: null, nivell: null, recursos: null, activa: new Set(), envia: null });
 let esborrany = nouEsborrany();
 
@@ -53,14 +56,34 @@ function render() {
     return;
   }
   if (v.estat === 'resultats') { contingut.innerHTML = capçal + resultats(v); return; }
-  if (r?.recursos) { contingut.innerHTML = `${capçal}<p class="xifra">Resposta enviada ✓</p><p class="suau">Espera que el tutor mostri els resultats.</p>`; return; }
-  if (v.tipus === 'carta') return pasCarta(capçal);
-  if (!r?.xabcde) return { escolta: pasEscolta, preguntes: pasPreguntes, instruccio: pasInstruccio }[esborrany.pas](capçal);
-  if (!r.nivell) return pasNivell(capçal);
-  return pasRecursos(capçal);
+  if (r?.fet) { contingut.innerHTML = `${capçal}<p class="xifra">Resposta enviada ✓</p><p class="suau">Espera que el tutor mostri els resultats.</p>`; return; }
+  if (locals().length && !r?.xabcde) {
+    if (!locals().includes(esborrany.pas)) esborrany.pas = locals()[0];
+    return { escolta: pasEscolta, preguntes: pasPreguntes, instruccio: pasInstruccio }[esborrany.pas](capçal);
+  }
+  if (v.fases.nivell && !r?.nivell) return pasNivell(capçal);
+  return v.tipus === 'carta' ? pasCarta(capçal) : pasRecursos(capçal);
 }
 
-const passos = actual => `<div class="passos">${PASSOS_VEU.map((p, i) => (p === actual ? `<b>${i + 1} ${p}</b>` : `${i + 1} ${p}`)).join(' · ')}</div>`;
+// Moves between the assessment screens; after the last one the assessment is sent
+function seguent() {
+  const ls = locals(), i = ls.indexOf(esborrany.pas);
+  if (i < ls.length - 1) { esborrany.pas = ls[i + 1]; render(); scrollTo(0, 0); return; }
+  envia({ xabcde: [...esborrany.escolta, ...esborrany.preguntes, ...(esborrany.instruccio ? [esborrany.instruccio] : [])] });
+}
+function enrere() {
+  const ls = locals(), i = ls.indexOf(esborrany.pas);
+  if (i > 0) { esborrany.pas = ls[i - 1]; render(); scrollTo(0, 0); }
+}
+// Label of the "next" button: the name of the next screen, or sending the assessment
+function etiquetaSeguent() {
+  const ls = locals(), i = ls.indexOf(esborrany.pas);
+  if (i < ls.length - 1) return `Següent: ${PANTALLES.find(([f]) => f === ls[i + 1])[1].toLowerCase()} →`;
+  return 'Enviar la valoració';
+}
+const botoEnrere = () => (locals().indexOf(esborrany.pas) > 0 ? '<button class="boto secundari" id="enrere">← Enrere</button>' : '');
+
+const passos = actual => `<div class="passos">${PANTALLES.filter(([f]) => vista.fases[f]).map(([, p], i) => (p === actual ? `<b>${i + 1} ${p}</b>` : `${i + 1} ${p}`)).join(' · ')}</div>`;
 const items = seccions => vista.xabcde.map(l => ({ ...l, items: l.items.filter(it => seccions.includes(it.seccio)) })).filter(l => l.items.length);
 // Redraws a step keeping the scroll, so ticking does not jump the page
 const redibuixa = pas => { const y = scrollY; pas(); scrollTo(0, y); };
@@ -72,9 +95,10 @@ function pasEscolta(capçal) {
     <p class="suau">Marca el que hagis sentit a cada lletra, o «No avaluable». Marcar coses que no hi són resta punts.</p>
     ${items(['signes', 'noavaluable']).map(l => `<div class="lletra-escolta"><h3><span class="lletra-gran">${esc(l.lletra)}</span> ${esc(l.nom)}</h3>
       <div class="xips-fila">${l.items.map(it => `<button class="xip-boto ${it.seccio === 'noavaluable' ? 'xip-noaval' : ''} ${sel.has(it.id) ? 'actiu' : ''}" data-item="${esc(it.id)}">${esc(it.seccio === 'noavaluable' ? 'No avaluable' : it.text)}</button>`).join('')}</div></div>`).join('')}
-    <button class="boto gran-boto" id="seguent">Següent: preguntes →</button>`;
+    <div class="navega">${botoEnrere()}<button class="boto gran-boto" id="seguent">${etiquetaSeguent()}</button></div>`;
   contingut.querySelectorAll('[data-item]').forEach(b => b.onclick = () => { sel.has(b.dataset.item) ? sel.delete(b.dataset.item) : sel.add(b.dataset.item); redibuixa(() => pasEscolta(capçal)); });
-  $('seguent').onclick = () => { esborrany.pas = 'preguntes'; render(); scrollTo(0, 0); };
+  $('enrere')?.addEventListener('click', enrere);
+  $('seguent').onclick = seguent;
 }
 
 // Step 2: only a few questions fit in the call: choose the key ones
@@ -84,10 +108,10 @@ function pasPreguntes(capçal) {
     <p class="pressupost ${queden ? '' : 'esgotat'}">Pots fer <b>${max}</b> preguntes · ${queden ? `et ${queden === 1 ? 'queda' : 'queden'} <b>${queden}</b>` : 'no te\'n queden'}</p>
     ${items(['anamnesi']).map(l => `<div class="lletra-escolta"><h3><span class="lletra-gran">${esc(l.lletra)}</span> ${esc(l.nom)}</h3>
       <div class="xips">${l.items.map(it => `<button class="xip-boto ${sel.has(it.id) ? 'actiu' : ''}" data-item="${esc(it.id)}" ${!sel.has(it.id) && !queden ? 'disabled' : ''}>${esc(it.text)}</button>`).join('')}</div></div>`).join('')}
-    <div class="navega"><button class="boto secundari" id="enrere">← Enrere</button><button class="boto gran-boto" id="seguent">Següent: instrucció →</button></div>`;
+    <div class="navega">${botoEnrere()}<button class="boto gran-boto" id="seguent">${etiquetaSeguent()}</button></div>`;
   contingut.querySelectorAll('[data-item]').forEach(b => b.onclick = () => { sel.has(b.dataset.item) ? sel.delete(b.dataset.item) : sel.add(b.dataset.item); redibuixa(() => pasPreguntes(capçal)); });
-  $('enrere').onclick = () => { esborrany.pas = 'escolta'; render(); scrollTo(0, 0); };
-  $('seguent').onclick = () => { esborrany.pas = 'instruccio'; render(); scrollTo(0, 0); };
+  $('enrere')?.addEventListener('click', enrere);
+  $('seguent').onclick = seguent;
 }
 
 // Step 3: the first instruction to the caller (one only), or none needed
@@ -98,10 +122,10 @@ function pasInstruccio(capçal) {
     <div class="xips"><button class="xip-boto ${triada === CAP_MANIOBRA ? 'actiu' : ''}" data-item="${CAP_MANIOBRA}">Cap: només vigilar i esperar l'ambulància</button></div>
     ${items(['maniobres']).map(l => `<div class="lletra-escolta"><h3><span class="lletra-gran">${esc(l.lletra)}</span> ${esc(l.nom)}</h3>
       <div class="xips">${l.items.map(it => `<button class="xip-boto ${triada === it.id ? 'actiu' : ''}" data-item="${esc(it.id)}">${esc(it.text)}</button>`).join('')}</div></div>`).join('')}
-    <div class="navega"><button class="boto secundari" id="enrere">← Enrere</button><button class="boto gran-boto" id="seguent" ${triada ? '' : 'disabled'}>Enviar la valoració</button></div>`;
+    <div class="navega">${botoEnrere()}<button class="boto gran-boto" id="seguent" ${triada ? '' : 'disabled'}>${etiquetaSeguent()}</button></div>`;
   contingut.querySelectorAll('[data-item]').forEach(b => b.onclick = () => { esborrany.instruccio = b.dataset.item; redibuixa(() => pasInstruccio(capçal)); });
-  $('enrere').onclick = () => { esborrany.pas = 'preguntes'; render(); scrollTo(0, 0); };
-  $('seguent').onclick = () => envia({ xabcde: [...esborrany.escolta, ...esborrany.preguntes, esborrany.instruccio] });
+  $('enrere')?.addEventListener('click', enrere);
+  $('seguent').onclick = seguent;
 }
 
 // Step 4: triage level
@@ -117,7 +141,9 @@ function pasNivell(capçal) {
 // Fixed bar while assessing a recording: activate units as soon as the severity is clear
 function barraRecurs() {
   const v = vista, r = v?.resposta;
-  const visible = v?.estat === 'oberta' && v.tipus !== 'carta' && !r?.nivell;
+  // Until the units screen (or the end): from then on the units are chosen there
+  const aRecursos = v?.fases?.recursos && (!LOCALS.some(f => v.fases[f]) || r?.xabcde) && (!v.fases.nivell || r?.nivell);
+  const visible = v?.estat === 'oberta' && v.fases?.activacio && !r?.fet && !aRecursos;
   $('barra-recurs').hidden = !visible;
   if (!visible) { $('capa-recurs').hidden = true; return; }
   const a = r?.activacio;
@@ -171,7 +197,7 @@ function pasRecursos(capçal) {
   esborrany.recursos ??= new Set(vista.resposta.activacio?.recursos || []);
   const r = vista.resposta;
   triaUnitats(`${capçal}${passos('Recursos')}`, r.activacio ? 'Confirma les unitats' : 'Quines unitats actives?',
-    `Incident a ${esc(vista.municipi)}. Nivell triat: <span class="nivell n${r.nivell}">N${r.nivell}</span>. Pots triar-ne tantes com calgui.`,
+    `Incident a ${esc(vista.municipi)}.${r.nivell ? ` Nivell triat: <span class="nivell n${r.nivell}">N${r.nivell}</span>.` : ''} Pots triar-ne tantes com calgui.`,
     sel => (sel.size ? `Activar: ${resum(sel)}` : 'Cap recurs: consell telefònic'));
 }
 
@@ -196,11 +222,13 @@ function resultats(v) {
   const ok = b => (b ? '<span class="encert">✓</span>' : '<span class="error-resp">✗</span>');
   const marcats = new Set(r.xabcde || []);
   const unitats = ids => (ids?.length ? ids.join(', ') : 'cap recurs');
-  const recursos = `<h3>Recursos</h3>
-    ${v.tipus !== 'carta' ? `<p>${r.activacio ? `🚑 Has activat al segon <b>${r.activacio.t}</b>, ${r.activacio.abansValoracio ? 'abans d\'acabar la valoració' : 'després de la valoració'}${p.deteccio ? ' <span class="encert">+1 detecció precoç</span>' : ''}` : 'No has activat cap recurs durant la valoració.'}</p>` : ''}
-    <p>Els teus: <b>${esc(r.recursos?.length ? resum(new Set(r.recursos)) : 'cap recurs')}</b> <span class="suau">(${esc(unitats(r.recursos))})</span><br>
+  const f = v.fases;
+  const meves = (f.recursos ? r.recursos : r.activacio?.recursos) || [];
+  const recursos = !f.recursos && !f.activacio ? '' : `<h3>Recursos</h3>
+    ${f.activacio ? `<p>${r.activacio ? `🚑 Has activat al segon <b>${r.activacio.t}</b>, ${r.activacio.abansValoracio ? 'abans d\'acabar la valoració' : 'després de la valoració'}${p.deteccio ? ' <span class="encert">+1 detecció precoç</span>' : ''}` : 'No has activat cap recurs durant la valoració.'}</p>` : ''}
+    <p>Els teus: <b>${esc(meves.length ? resum(new Set(meves)) : 'cap recurs')}</b> <span class="suau">(${esc(unitats(meves))})</span><br>
     Proposta: <b>${esc(v.correcte.text)}</b> <span class="suau">(${esc(unitats(v.correcte.recursos))})</span> ${ok(p.recursos >= 2)}</p>`;
-  if (v.tipus === 'carta') return `<p class="xifra">${p.punts} / ${p.maxim} punts</p>${recursos}`;
+  if (!LOCALS.some(x => f[x]) && !f.nivell) return `<p class="xifra">${p.punts} / ${p.maxim} punts</p>${recursos}`;
   // Right items chosen, items chosen that did not apply, and right items missed
   const llista = seccions => {
     const totes = v.xabcde.flatMap(l => l.items.filter(it => seccions.includes(it.seccio)).map(it => ({ ...it, lletra: l.lletra })));
@@ -216,12 +244,12 @@ function resultats(v) {
   const capInstruccio = marcats.has(CAP_MANIOBRA);
   const capCorrecte = !v.xabcde.some(l => l.items.some(it => it.seccio === 'maniobres' && it.correcte));
   return `<p class="xifra">${p.punts} / ${p.maxim} punts</p>
-    <h3>Escolta <span class="suau">(${p.escolta} punts)</span></h3>${llista(['signes', 'noavaluable'])}
-    <h3>Preguntes <span class="suau">(${p.preguntes} punts)</span></h3>${llista(['anamnesi'])}
-    <h3>Primera instrucció <span class="suau">(${p.instruccio} punts)</span></h3>${capInstruccio || capCorrecte
-      ? `<p>${capInstruccio ? 'Has triat: cap instrucció' : ''} ${capCorrecte ? `· correcte: cap instrucció ${ok(capInstruccio)}` : ''}</p>` : ''}${llista(['maniobres'])}
-    <h3>Nivell</h3><p>El teu: ${r.nivell ? `<span class="nivell n${r.nivell}">N${r.nivell}</span>` : '—'}
-      ${v.correcte.nivell ? ` · correcte: <span class="nivell n${v.correcte.nivell}">N${v.correcte.nivell}</span> ${ok(r.nivell === v.correcte.nivell)}` : ''}</p>
+    ${f.escolta ? `<h3>Escolta <span class="suau">(${p.escolta} punts)</span></h3>${llista(['signes', 'noavaluable'])}` : ''}
+    ${f.preguntes ? `<h3>Preguntes <span class="suau">(${p.preguntes} punts)</span></h3>${llista(['anamnesi'])}` : ''}
+    ${f.instruccio ? `<h3>Primera instrucció <span class="suau">(${p.instruccio} punts)</span></h3>${capInstruccio || capCorrecte
+      ? `<p>${capInstruccio ? 'Has triat: cap instrucció' : ''} ${capCorrecte ? `· correcte: cap instrucció ${ok(capInstruccio)}` : ''}</p>` : ''}${llista(['maniobres'])}` : ''}
+    ${f.nivell ? `<h3>Nivell</h3><p>El teu: ${r.nivell ? `<span class="nivell n${r.nivell}">N${r.nivell}</span>` : '—'}
+      ${v.correcte.nivell ? ` · correcte: <span class="nivell n${v.correcte.nivell}">N${v.correcte.nivell}</span> ${ok(r.nivell === v.correcte.nivell)}` : ''}</p>` : ''}
     ${recursos}`;
 }
 
