@@ -49,6 +49,7 @@
         <h2 id="titol-form">Cas nou</h2>
         <span class="suau" id="estat-desat"></span>
         <div class="accions">
+          <button class="boto secundari" type="button" id="previsualitza">👁 Veure com l'alumne</button>
           <button class="boto" id="desa">Desar</button>
           <button class="boto secundari" type="button" id="duplica">Duplicar</button>
           <button class="boto perill" type="button" id="esborra">Esborrar</button>
@@ -127,6 +128,21 @@
   </section>
   <p id="error" class="suau"></p>
 </main>
+<div id="capa-prova" class="capa-prova" hidden>
+  <div class="prova-contingut">
+    <div class="prova-cap"><b>👁 Com ho veu l'alumne</b> <span class="suau">Prova amb el cas tal com és ara al formulari (encara que no l'hàgiu desat)</span></div>
+    <div class="prova-cos">
+      <iframe id="mobil-prova" title="Mòbil de l'alumne"></iframe>
+      <div class="prova-accions">
+        <button class="boto" type="button" id="prova-resultats">Mostrar els resultats</button>
+        <button class="boto secundari" type="button" id="prova-reinicia">↺ Tornar a començar</button>
+        <a class="boto secundari" id="prova-projector" target="_blank">📽 Veure'l al projector ↗</a>
+        <button class="boto secundari" type="button" id="prova-tanca">Tancar</button>
+        <p class="suau">Responeu com un alumne per veure les pantalles, i després «Mostrar els resultats» per veure com surt la correcció. Si canvieu el cas, tanqueu i torneu a obrir la prova.</p>
+      </div>
+    </div>
+  </div>
+</div>
 <script type="module" src="aula-admin.mjs"></script>
 </body>
 </html>

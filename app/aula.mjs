@@ -10,7 +10,9 @@ function guardat(clau, valor) {
 }
 const client = guardat('gamcecos-client') || guardat('gamcecos-client', crypto.randomUUID());
 let codi = (new URLSearchParams(location.search).get('codi') || '').toUpperCase();
-let nom = guardat('gamcecos-nom') || '';
+// Preview from the case form (?prova=1): the tutor sees the case as a student, without giving a name
+const prova = new URLSearchParams(location.search).has('prova');
+let nom = prova ? 'Tutor (prova)' : guardat('gamcecos-nom') || '';
 let vista = null, clauVista = '', ronda = null;
 const CAP_MANIOBRA = 'cap';   // as in aula.mjs on the server
 const NOM_CAT = { SVA: 'SVA', SVB: 'SVB', HEMS: 'Helicòpter' };

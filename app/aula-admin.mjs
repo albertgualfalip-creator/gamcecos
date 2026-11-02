@@ -387,6 +387,27 @@ $('aplica-interrogatori').onclick = () => {
   if (confirm('Substituir les llistes d\'aquest cas per l\'interrogatori base? Es mantenen com a correctes els elements amb el mateix text.')) aplicaInterrogatori();
 };
 
+// ---------- preview: the case as a student sees it, from the form as it is now ----------
+
+let codiProva = null;
+async function obreProva() {
+  const c = cas();
+  if (!c.lloc) { avis('Trieu primer el municipi'); return; }
+  const config = { ...c, temps: c.temps };
+  try {
+    const r = await fetch('/api/aula/nova', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ config }) });
+    ({ codi: codiProva } = await r.json());
+    await fetch(`/api/aula/ordre?codi=${codiProva}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ tipus: 'obre' }) });
+  } catch { avis('No s\'ha pogut obrir la prova'); return; }
+  $('mobil-prova').src = `/aula?codi=${codiProva}&prova=1`;
+  $('prova-projector').href = `/projector?codi=${codiProva}`;
+  $('capa-prova').hidden = false;
+}
+$('previsualitza').onclick = obreProva;
+$('prova-reinicia').onclick = obreProva;
+$('prova-resultats').onclick = () => fetch(`/api/aula/ordre?codi=${codiProva}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ tipus: 'resultats' }) });
+$('prova-tanca').onclick = () => { $('capa-prova').hidden = true; $('mobil-prova').src = 'about:blank'; };
+
 window.addEventListener('beforeunload', e => { if (canvis) e.preventDefault(); });
 Promise.all([carregaMunicipis('municipis'), carregaInterrogatori(), carrega()])
   .catch(() => { $('error').textContent = 'Cal entrar amb la contrasenya (torneu a la pàgina inicial).'; });
