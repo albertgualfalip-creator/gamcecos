@@ -20,7 +20,7 @@ async function carrega(id) {
 function llista() {
   $('llista').innerHTML = casos.map((c, i) => `<button class="incident-fila ${c.id === actual?.id ? 'seleccionat' : ''}" data-id="${esc(c.id)}">
     <span><b>${i + 1}.</b> ${esc(c.titol)}</span><span>${c.nivell ? `<span class="nivell n${c.nivell}">N${c.nivell}</span>` : ''}</span>
-    <span class="adreca">${esc(c.lloc?.municipi || 'sense municipi')} · ${c.audio ? '🔊 amb gravació' : '<b>sense gravació</b>'}</span></button>`).join('')
+    <span class="adreca">${esc(c.lloc?.municipi || 'sense municipi')} · ${c.tipus === 'carta' ? '📄 només carta' : c.audio ? '🔊 amb gravació' : '<b>sense gravació</b>'}</span></button>`).join('')
     || '<p class="suau">Encara no hi ha cap cas. Creeu-ne un amb «+ Cas nou».</p>';
   $('llista').querySelectorAll('[data-id]').forEach(b => b.onclick = () => {
     if (canvis && !confirm('Hi ha canvis sense desar. Voleu canviar de cas igualment?')) return;
@@ -39,6 +39,11 @@ function obre(c) {
   f.nivell.value = c.nivell || '';
   f.ordre.value = c.ordre && c.ordre < 999 ? c.ordre : '';
   f.notes.value = c.notes || '';
+  f.tipus.value = c.tipus || 'veu';
+  f.preguntes.value = c.preguntes || 3;
+  f['mode-recursos'].value = c.recursos?.mode || (c.tipus === 'carta' ? 'nombre' : 'auto');
+  for (const k of ['SVA', 'SVB', 'HEMS']) f[k].value = c.recursos?.[k] || 0;
+  mostraCamps();
   f.carta.value = c.carta || '';
   f.audio.value = '';
   $('audio-actual').innerHTML = c.audio
@@ -50,6 +55,15 @@ function obre(c) {
   llista();
 }
 
+// A card-only case has no recording, assessment or level; its resources are set as numbers of each kind
+function mostraCamps() {
+  const f = $('formulari'), carta = f.tipus.value === 'carta';
+  if (carta && f['mode-recursos'].value === 'auto' && !f.nivell.value) f['mode-recursos'].value = 'nombre';
+  f.querySelectorAll('.nomes-veu').forEach(el => { el.hidden = carta; });
+  $('nombre-recursos').hidden = f['mode-recursos'].value !== 'nombre';
+}
+$('formulari').onchange = mostraCamps;
+
 $('formulari').oninput = () => { canvis = true; $('estat-desat').textContent = 'Canvis sense desar'; };
 $('nou').onclick = () => { if (!canvis || confirm('Hi ha canvis sense desar. Continuar?')) obre({ ordre: casos.length + 1 }); };
 $('duplica').onclick = () => obre({ ...actual, id: null, titol: `${actual.titol} (còpia)`, audio: null, ordre: casos.length + 1 });
@@ -59,7 +73,10 @@ $('formulari').onsubmit = async e => {
   const f = $('formulari');
   const llocTriat = lloc(f.municipi.value);
   if (!llocTriat) { avis('Trieu un municipi de la llista'); return; }
-  const cas = { id: actual.id, titol: f.titol.value, carta: f.carta.value, lloc: llocTriat, nivell: f.nivell.value ? Number(f.nivell.value) : null,
+  const mode = f['mode-recursos'].value;
+  const cas = { id: actual.id, tipus: f.tipus.value, preguntes: Number(f.preguntes.value) || 3,
+    recursos: mode === 'nombre' ? { mode, SVA: Number(f.SVA.value), SVB: Number(f.SVB.value), HEMS: Number(f.HEMS.value) } : { mode },
+    titol: f.titol.value, carta: f.carta.value, lloc: llocTriat, nivell: f.nivell.value ? Number(f.nivell.value) : null,
     ordre: f.ordre.value ? Number(f.ordre.value) : undefined, notes: f.notes.value, xabcde: llegeixXabcde('xabcde') };
   $('estat-desat').textContent = 'Desant...';
   try {

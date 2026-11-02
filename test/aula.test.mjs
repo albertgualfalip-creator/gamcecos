@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { Aula } from '../aula.mjs';
+import { Aula, CAP_MANIOBRA } from '../aula.mjs';
 import { CATEGORIA, XABCDE, SECCIONS } from '../app/motor.mjs';
 
 const d = f => JSON.parse(readFileSync(new URL(`../${f}`, import.meta.url)));
@@ -20,24 +20,26 @@ test('aprenentatge: la resposta correcta per defecte són les unitats més prope
   assert.deepEqual(new Aula({ nivell: 4, lloc, llavor: 1 }, dades).correctes, []);
 });
 
-test('aprenentatge: els alumnes responen per passos i la puntuació compara amb la resposta', () => {
-  const a = new Aula({ titol: 'Prova', nivell: 1, lloc, xabcde, llavor: 1 }, dades);
-  assert.match(a.respon('c1', { nom: 'Anna', xabcde: {} }), /no estan obertes/);
+test('aprenentatge amb veu: escolta, preguntes amb pressupost, una instrucció, nivell i recursos', () => {
+  const a = new Aula({ titol: 'Prova', nivell: 1, lloc, xabcde, preguntes: 3, llavor: 1 }, dades);
+  assert.match(a.respon('c1', { nom: 'Anna', xabcde: [] }), /no estan obertes/);
   a.ordre({ tipus: 'obre' });
-  assert.match(a.respon('c1', { nivell: 1 }), /Primer marca/);
+  assert.match(a.respon('c1', { nivell: 1 }), /Primer acaba/);
   const items = a.config.xabcde.flatMap(l => l.items);
-  const bones = items.filter(it => it.correcte).map(it => it.id);
-  assert.equal(bones.length, 3);
+  const id = text => items.find(it => it.text === text).id;
+  const de = seccio => items.filter(it => it.seccio === seccio && !it.correcte).map(it => it.id);
   // Anna activates the units while still assessing: early detection of severity
   assert.equal(a.respon('c1', { nom: 'Anna', activa: a.correctes }), null);
   assert.equal(a.respostes.get('c1').activacio.abansValoracio, true);
-  assert.equal(a.respon('c1', { nom: 'Anna', xabcde: bones }), null);
+  assert.equal(a.respon('c1', { xabcde: CORRECTES.map(id) }), null);
   assert.equal(a.respon('c1', { nivell: 1 }), null);
   assert.equal(a.respon('c1', { recursos: a.correctes }), null);
   assert.match(a.respon('c1', { recursos: [] }), /Ja has enviat/);
-  // Pau finds the gasping but also ticks two instructions that did not apply: 1 - 2 → 0
-  const sobrants = items.filter(it => !it.correcte).slice(0, 2).map(it => it.id);
-  a.respon('c2', { nom: 'Pau', xabcde: [bones[1], ...sobrants] });
+  // Pau: the gasping plus two wrong signs (1 - 2 → 0), five questions (only 3 kept), two instructions (only 1 kept)
+  a.respon('c2', { nom: 'Pau', xabcde: [id(CORRECTES[1]), ...de('signes').slice(0, 2), ...de('anamnesi').slice(0, 5), ...de('maniobres').slice(0, 2)] });
+  const pau = a.respostes.get('c2').xabcde;
+  assert.equal(pau.filter(x => items.find(it => it.id === x)?.seccio === 'anamnesi').length, 3);
+  assert.equal(pau.filter(x => items.find(it => it.id === x)?.seccio === 'maniobres').length, 1);
   a.respon('c2', { nivell: 3 });
   a.respon('c2', { recursos: [] });
   // Before the results the phones never see the right answers
@@ -45,13 +47,20 @@ test('aprenentatge: els alumnes responen per passos i la puntuació compara amb 
   assert.ok(!('correcte' in abans) && abans.xabcde.every(l => l.items.every(it => !('correcte' in it))));
   a.ordre({ tipus: 'resultats' });
   const [primer, segon] = a.vistaTutor().classificacio;
-  assert.deepEqual([primer.nom, primer.punts, primer.maxim, primer.deteccio], ['Anna', 10, 10, 1]);
-  assert.deepEqual([segon.nom, segon.xabcde, segon.nivell, segon.recursos, segon.deteccio], ['Pau', 0, 0, 0, 0]);
-  assert.equal(a.vistaAlumne('c1').puntuacio.punts, 10);
+  // max: 1 heard + 1 question + 2 instruction + 3 level + 3 units + 1 early detection
+  assert.deepEqual([primer.nom, primer.punts, primer.maxim, primer.deteccio, primer.instruccio], ['Anna', 11, 11, 1, 2]);
+  assert.deepEqual([segon.nom, segon.punts], ['Pau', 0]);
+  assert.equal(a.vistaAlumne('c1').puntuacio.punts, 11);
   assert.deepEqual(a.vistaTutor().distribucio.activacio.map(x => x.nom), ['Anna']);
-  assert.equal(a.vistaTutor().distribucio.senseActivacio, 1);
-  assert.equal(a.vistaTutor().distribucio.xabcde[bones[1]], 2);
-  assert.equal(a.vistaTutor().distribucio.nivell[1], 1);
+  assert.equal(a.vistaTutor().distribucio.xabcde[id(CORRECTES[1])], 2);
+});
+
+test('aprenentatge: «cap instrucció» és correcte quan el cas no en demana cap', () => {
+  const sense = XABCDE.map(l => ({ lletra: l.lletra, nom: l.nom, items: SECCIONS.flatMap(sec => l[sec.id].map(text => ({ seccio: sec.id, text }))) }));
+  const a = new Aula({ nivell: 3, lloc, xabcde: sense, llavor: 1 }, dades);
+  a.ordre({ tipus: 'obre' });
+  a.respon('c1', { xabcde: [CAP_MANIOBRA] });
+  assert.equal(a.puntua(a.respostes.get('c1')).instruccio, 2);
 });
 
 test('aprenentatge: per defecte cada lletra té anamnesi, signes, maniobres i «no avaluable», sense cap correcte', () => {
@@ -72,13 +81,21 @@ test('aprenentatge: una gravació nova esborra les respostes i torna a preparar'
   assert.equal(a.vistaAlumne('c1').resposta, null);
 });
 
-test('aprenentatge: la carta del 112 arriba als mòbils i «no avaluable» puntua com un element més', () => {
-  const xabcdeX = [{ lletra: 'X', nom: 'Hemorràgia', items: [{ seccio: 'noavaluable', text: 'No avaluable', correcte: true }, { seccio: 'maniobres', text: 'Torniquet', correcte: false }] }];
-  const a = new Aula({ carta: 'ALERTANT INDICA QUE EL SEU PARE NO RESPIRA', nivell: 1, lloc, xabcde: xabcdeX, llavor: 1 }, dades);
-  assert.equal(a.vistaAlumne('c1').carta, 'ALERTANT INDICA QUE EL SEU PARE NO RESPIRA');
+test('aprenentatge només carta: el nombre de recursos de cada tipus decideix la puntuació', () => {
+  const a = new Aula({ tipus: 'carta', carta: 'ACCIDENT ENTRE UN AUTOCAR I UN TURISME, DIVERSOS FERITS', lloc, recursos: { mode: 'nombre', SVA: 2, SVB: 3, HEMS: 0 }, llavor: 3 }, dades);
+  assert.equal(a.vistaAlumne('c1').carta, 'ACCIDENT ENTRE UN AUTOCAR I UN TURISME, DIVERSOS FERITS');
+  assert.deepEqual(a.correcte().composicio, { SVA: 2, SVB: 3, HEMS: 0 });
+  assert.ok(a.unitats.filter(u => u.cat === 'SVB').length >= 6, 'surten prou unitats per triar-ne moltes');
   a.ordre({ tipus: 'obre' });
-  a.respon('c1', { xabcde: ['X-n1'] });
-  a.respon('c1', { nivell: 1 });
-  a.respon('c1', { recursos: a.correctes });
-  assert.equal(a.puntua(a.respostes.get('c1')).xabcde, 1);
+  // No level or assessment needed: only the units
+  assert.equal(a.respon('bo', { nom: 'Bo', recursos: a.correctes }), null);
+  const unaDeCada = [a.correctes.find(id => a.unitats.find(u => u.indicatiu === id).cat === 'SVA'), a.correctes.find(id => a.unitats.find(u => u.indicatiu === id).cat === 'SVB')];
+  a.respon('poc', { nom: 'Poc', recursos: unaDeCada });
+  a.respon('res', { nom: 'Res', recursos: [] });
+  const punts = nom => a.puntua([...a.respostes.values()].find(r => r.nom === nom)).punts;
+  assert.deepEqual([punts('Bo'), punts('Poc'), punts('Res')], [3, 1, 0]);
+  const t = a.vistaTutor();
+  assert.deepEqual(t.distribucio.envien, { si: 2, no: 1 });
+  assert.equal(t.distribucio.composicio['2 SVA + 3 SVB'], 1);
+  assert.equal(t.correcte.text, '2 SVA + 3 SVB');
 });

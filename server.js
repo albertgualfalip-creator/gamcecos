@@ -277,7 +277,9 @@ function casosAula(req, res, ruta, cos) {
     const base = String(c.titol).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'cas';
     const id = idCasAula(c.id) || `${base}-${crypto.randomBytes(2).toString('hex')}`;
     const anterior = llegeixCasosAula().find(x => x.id === id);
-    const cas = { id, titol: String(c.titol).trim().slice(0, 80), carta: String(c.carta || '').trim().slice(0, 1000), nivell: c.nivell ?? null, lloc: c.lloc || null, xabcde: c.xabcde || [],
+    const recursos = c.recursos?.mode === 'nombre' ? { mode: 'nombre', SVA: Number(c.recursos.SVA) || 0, SVB: Number(c.recursos.SVB) || 0, HEMS: Number(c.recursos.HEMS) || 0 } : { mode: 'auto' };
+    const cas = { id, tipus: c.tipus === 'carta' ? 'carta' : 'veu', titol: String(c.titol).trim().slice(0, 80), carta: String(c.carta || '').trim().slice(0, 1000),
+      nivell: c.nivell ?? null, preguntes: Number(c.preguntes) || 3, recursos, lloc: c.lloc || null, xabcde: c.xabcde || [],
       notes: String(c.notes || '').slice(0, 2000), ordre: Number.isFinite(c.ordre) ? c.ordre : anterior?.ordre ?? 999, audio: anterior?.audio || null };
     try {
       fs.mkdirSync(DIR_AULA, { recursive: true });

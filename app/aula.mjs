@@ -1,8 +1,8 @@
-// Student phone in the consultor training: join with the session code and a nickname, then, while answers are
-// open, mark the XABCDE findings, set the triage level and choose which units to activate.
+// Student phone in the consultor training: join with the session code and a nickname. Recording cases: what was
+// heard, a few key questions, the first instruction, the triage level and the units (which can be activated at any
+// moment). Card-only cases: send units or not, and which and how many of each kind.
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const COLOR = { SVAm: '#e53935', SVAi: '#fb8c00', VIR: '#ab47bc', SVB: '#42a5f5', 'SVB-P': '#90caf9', HELI: '#66bb6a' };   // as in territori.mjs
 const contingut = $('contingut');
 
 function guardat(clau, valor) {
@@ -12,13 +12,10 @@ const client = guardat('gamcecos-client') || guardat('gamcecos-client', crypto.r
 let codi = (new URLSearchParams(location.search).get('codi') || '').toUpperCase();
 let nom = guardat('gamcecos-nom') || '';
 let vista = null, clauVista = '', ronda = null;
-const SECCIONS = [
-  { id: 'anamnesi', nom: 'Anamnesi', pregunta: 'Què preguntaries?' },
-  { id: 'signes', nom: 'Signes i símptomes', pregunta: 'Què has escoltat a la gravació?' },
-  { id: 'maniobres', nom: 'Maniobres salvadores', pregunta: 'Quines instruccions donaries?' },
-  { id: 'noavaluable', nom: 'No avaluable', pregunta: 'La gravació no en dona informació' },
-];   // as in motor.mjs
-const nouEsborrany = () => ({ xabcde: new Set(), lletra: 0, nivell: null, recursos: null, activa: new Set() });
+const CAP_MANIOBRA = 'cap';   // as in aula.mjs on the server
+const NOM_CAT = { SVA: 'SVA', SVB: 'SVB', HEMS: 'Helicòpter' };
+const PASSOS_VEU = ['Escolta', 'Preguntes', 'Instrucció', 'Nivell', 'Recursos'];
+const nouEsborrany = () => ({ pas: 'escolta', escolta: new Set(), preguntes: new Set(), instruccio: null, nivell: null, recursos: null, activa: new Set(), envia: null });
 let esborrany = nouEsborrany();
 
 async function envia(dades) {
@@ -51,46 +48,65 @@ function render() {
   barraRecurs();
   const v = vista, r = v.resposta;
   const capçal = `<p class="marcador">${esc(nom)} · <b>${esc(v.titol)}</b></p>${v.carta ? `<p class="carta-text carta-mobil">${esc(v.carta)}</p>` : ''}`;
-  if (v.estat === 'preparada') { contingut.innerHTML = `${capçal}<p class="xifra">Escolta la gravació.</p><p class="suau">Les respostes s'obriran d'aquí a un moment.</p>`; return; }
+  if (v.estat === 'preparada') {
+    contingut.innerHTML = `${capçal}<p class="xifra">${v.tipus === 'carta' ? 'Llegeix la carta del 112.' : 'Escolta la gravació.'}</p><p class="suau">Les respostes s'obriran d'aquí a un moment.</p>`;
+    return;
+  }
   if (v.estat === 'resultats') { contingut.innerHTML = capçal + resultats(v); return; }
-  if (!r?.xabcde) return pasXabcde(capçal);
+  if (r?.recursos) { contingut.innerHTML = `${capçal}<p class="xifra">Resposta enviada ✓</p><p class="suau">Espera que el tutor mostri els resultats.</p>`; return; }
+  if (v.tipus === 'carta') return pasCarta(capçal);
+  if (!r?.xabcde) return { escolta: pasEscolta, preguntes: pasPreguntes, instruccio: pasInstruccio }[esborrany.pas](capçal);
   if (!r.nivell) return pasNivell(capçal);
-  if (!r.recursos) return pasRecursos(capçal);
-  contingut.innerHTML = `${capçal}<p class="xifra">Resposta enviada ✓</p><p class="suau">Espera que el tutor mostri els resultats.</p>`;
+  return pasRecursos(capçal);
 }
 
-// Step 1: one letter per screen; in each, tick what you would ask, what you heard and what you would instruct
-function pasXabcde(capçal) {
-  const lletres = vista.xabcde, i = esborrany.lletra, l = lletres[i], marcats = esborrany.xabcde;
-  const darrera = i === lletres.length - 1;
-  const seccions = SECCIONS.map(sec => {
-    const items = l.items.filter(it => it.seccio === sec.id);
-    return items.length ? `<div class="seccio-aula seccio-${sec.id}"><h3>${esc(sec.nom)} <span class="suau">· ${esc(sec.pregunta)}</span></h3>
-      <div class="xips">${items.map(it => `<button class="xip-boto ${marcats.has(it.id) ? 'actiu' : ''}" data-item="${esc(it.id)}">${esc(it.text)}</button>`).join('')}</div></div>` : '';
-  }).join('');
-  contingut.innerHTML = `${capçal}<div class="passos"><b>1 XABCDE</b> · 2 Nivell · 3 Recursos</div>
-    <div class="lletres-progres">${lletres.map((x, j) => `<button class="${j === i ? 'actual' : ''} ${x.items.some(it => marcats.has(it.id)) ? 'feta' : ''}" data-lletra="${j}">${esc(x.lletra)}</button>`).join('')}</div>
-    <h2><span class="lletra-gran">${esc(l.lletra)}</span> ${esc(l.nom)}</h2>
-    <p class="suau">Marca tot el que creguis (pots no marcar res). Marcar coses que no toquen resta punts.</p>
-    ${seccions}
-    <div class="navega">${i > 0 ? '<button class="boto secundari" id="enrere">← Enrere</button>' : ''}
-      <button class="boto gran-boto" id="seguent">${darrera ? 'Següent: nivell de triatge' : `Següent: ${esc(lletres[i + 1].lletra)} →`}</button></div>`;
-  const torna = () => { pasXabcde(capçal); };
-  contingut.querySelectorAll('[data-item]').forEach(b => b.onclick = () => {
-    marcats.has(b.dataset.item) ? marcats.delete(b.dataset.item) : marcats.add(b.dataset.item);
-    const y = scrollY; torna(); scrollTo(0, y);
-  });
-  contingut.querySelectorAll('[data-lletra]').forEach(b => b.onclick = () => { esborrany.lletra = Number(b.dataset.lletra); torna(); scrollTo(0, 0); });
-  $('enrere')?.addEventListener('click', () => { esborrany.lletra--; torna(); scrollTo(0, 0); });
-  $('seguent').onclick = () => {
-    if (!darrera) { esborrany.lletra++; torna(); scrollTo(0, 0); return; }
-    envia({ xabcde: [...marcats] });
-  };
+const passos = actual => `<div class="passos">${PASSOS_VEU.map((p, i) => (p === actual ? `<b>${i + 1} ${p}</b>` : `${i + 1} ${p}`)).join(' · ')}</div>`;
+const items = seccions => vista.xabcde.map(l => ({ ...l, items: l.items.filter(it => seccions.includes(it.seccio)) })).filter(l => l.items.length);
+// Redraws a step keeping the scroll, so ticking does not jump the page
+const redibuixa = pas => { const y = scrollY; pas(); scrollTo(0, y); };
+
+// Step 1: what was heard, letter by letter on one screen; "No avaluable" when the recording gives no information
+function pasEscolta(capçal) {
+  const sel = esborrany.escolta;
+  contingut.innerHTML = `${capçal}${passos('Escolta')}<h2>Què has escoltat?</h2>
+    <p class="suau">Marca el que hagis sentit a cada lletra, o «No avaluable». Marcar coses que no hi són resta punts.</p>
+    ${items(['signes', 'noavaluable']).map(l => `<div class="lletra-escolta"><h3><span class="lletra-gran">${esc(l.lletra)}</span> ${esc(l.nom)}</h3>
+      <div class="xips-fila">${l.items.map(it => `<button class="xip-boto ${it.seccio === 'noavaluable' ? 'xip-noaval' : ''} ${sel.has(it.id) ? 'actiu' : ''}" data-item="${esc(it.id)}">${esc(it.seccio === 'noavaluable' ? 'No avaluable' : it.text)}</button>`).join('')}</div></div>`).join('')}
+    <button class="boto gran-boto" id="seguent">Següent: preguntes →</button>`;
+  contingut.querySelectorAll('[data-item]').forEach(b => b.onclick = () => { sel.has(b.dataset.item) ? sel.delete(b.dataset.item) : sel.add(b.dataset.item); redibuixa(() => pasEscolta(capçal)); });
+  $('seguent').onclick = () => { esborrany.pas = 'preguntes'; render(); scrollTo(0, 0); };
 }
 
-// Step 2: triage level
+// Step 2: only a few questions fit in the call: choose the key ones
+function pasPreguntes(capçal) {
+  const sel = esborrany.preguntes, max = vista.preguntes, queden = max - sel.size;
+  contingut.innerHTML = `${capçal}${passos('Preguntes')}<h2>Quines preguntes faries?</h2>
+    <p class="pressupost ${queden ? '' : 'esgotat'}">Pots fer <b>${max}</b> preguntes · ${queden ? `et ${queden === 1 ? 'queda' : 'queden'} <b>${queden}</b>` : 'no te\'n queden'}</p>
+    ${items(['anamnesi']).map(l => `<div class="lletra-escolta"><h3><span class="lletra-gran">${esc(l.lletra)}</span> ${esc(l.nom)}</h3>
+      <div class="xips">${l.items.map(it => `<button class="xip-boto ${sel.has(it.id) ? 'actiu' : ''}" data-item="${esc(it.id)}" ${!sel.has(it.id) && !queden ? 'disabled' : ''}>${esc(it.text)}</button>`).join('')}</div></div>`).join('')}
+    <div class="navega"><button class="boto secundari" id="enrere">← Enrere</button><button class="boto gran-boto" id="seguent">Següent: instrucció →</button></div>`;
+  contingut.querySelectorAll('[data-item]').forEach(b => b.onclick = () => { sel.has(b.dataset.item) ? sel.delete(b.dataset.item) : sel.add(b.dataset.item); redibuixa(() => pasPreguntes(capçal)); });
+  $('enrere').onclick = () => { esborrany.pas = 'escolta'; render(); scrollTo(0, 0); };
+  $('seguent').onclick = () => { esborrany.pas = 'instruccio'; render(); scrollTo(0, 0); };
+}
+
+// Step 3: the first instruction to the caller (one only), or none needed
+function pasInstruccio(capçal) {
+  const triada = esborrany.instruccio;
+  contingut.innerHTML = `${capçal}${passos('Instrucció')}<h2>Quina és la primera instrucció que dones?</h2>
+    <p class="suau">Només una: la més urgent.</p>
+    <div class="xips"><button class="xip-boto ${triada === CAP_MANIOBRA ? 'actiu' : ''}" data-item="${CAP_MANIOBRA}">Cap: només vigilar i esperar l'ambulància</button></div>
+    ${items(['maniobres']).map(l => `<div class="lletra-escolta"><h3><span class="lletra-gran">${esc(l.lletra)}</span> ${esc(l.nom)}</h3>
+      <div class="xips">${l.items.map(it => `<button class="xip-boto ${triada === it.id ? 'actiu' : ''}" data-item="${esc(it.id)}">${esc(it.text)}</button>`).join('')}</div></div>`).join('')}
+    <div class="navega"><button class="boto secundari" id="enrere">← Enrere</button><button class="boto gran-boto" id="seguent" ${triada ? '' : 'disabled'}>Enviar la valoració</button></div>`;
+  contingut.querySelectorAll('[data-item]').forEach(b => b.onclick = () => { esborrany.instruccio = b.dataset.item; redibuixa(() => pasInstruccio(capçal)); });
+  $('enrere').onclick = () => { esborrany.pas = 'preguntes'; render(); scrollTo(0, 0); };
+  $('seguent').onclick = () => envia({ xabcde: [...esborrany.escolta, ...esborrany.preguntes, esborrany.instruccio] });
+}
+
+// Step 4: triage level
 function pasNivell(capçal) {
-  contingut.innerHTML = `${capçal}<div class="passos">1 XABCDE · <b>2 Nivell</b> · 3 Recursos</div>
+  contingut.innerHTML = `${capçal}${passos('Nivell')}
     <h2>Quin nivell de triatge hi poses?</h2>
     <div class="nivells nivells-mobil">${[1, 2, 3, 4, 5].map(n => `<button class="opcio n${n} ${esborrany.nivell === n ? 'triada' : ''}" data-n="${n}">N${n}</button>`).join('')}</div>
     <button class="boto gran-boto" id="seguent" ${esborrany.nivell ? '' : 'disabled'}>Confirmar N${esborrany.nivell || ''}</button>`;
@@ -98,10 +114,10 @@ function pasNivell(capçal) {
   $('seguent').onclick = () => envia({ nivell: esborrany.nivell });
 }
 
-// Fixed bar while assessing: activate units as soon as the severity is clear, without finishing the assessment
+// Fixed bar while assessing a recording: activate units as soon as the severity is clear
 function barraRecurs() {
   const v = vista, r = v?.resposta;
-  const visible = v?.estat === 'oberta' && !r?.nivell;
+  const visible = v?.estat === 'oberta' && v.tipus !== 'carta' && !r?.nivell;
   $('barra-recurs').hidden = !visible;
   if (!visible) { $('capa-recurs').hidden = true; return; }
   const a = r?.activacio;
@@ -118,54 +134,95 @@ function capaRecurs() {
     <p class="suau">Incident a ${esc(vista.municipi)}. Es registra el moment en què actives: com abans detectis la gravetat, millor.</p>
     ${llistaUnitats(sel)}
     <div class="navega"><button class="boto secundari" id="tanca-capa">Tancar</button>
-      <button class="boto gran-boto" id="activa" ${sel.size ? '' : 'disabled'}>Activar ${sel.size || ''} unitat${sel.size === 1 ? '' : 's'}</button></div></div>`;
+      <button class="boto gran-boto" id="activa" ${sel.size ? '' : 'disabled'}>${sel.size ? `Activar: ${resum(sel)}` : 'Activar'}</button></div></div>`;
   $('capa-recurs').querySelectorAll('[data-u]').forEach(b => b.onclick = () => { sel.has(b.dataset.u) ? sel.delete(b.dataset.u) : sel.add(b.dataset.u); capaRecurs(); });
   $('tanca-capa').onclick = () => { $('capa-recurs').hidden = true; };
   $('activa').onclick = async () => { $('capa-recurs').hidden = true; await envia({ activa: [...sel] }); };
 }
 
+// "2 SVA · 3 SVB" for the units selected
+function resum(sel) {
+  const n = {};
+  for (const id of sel) { const u = vista.unitats.find(x => x.indicatiu === id); if (u) n[u.cat] = (n[u.cat] || 0) + 1; }
+  return Object.keys(NOM_CAT).filter(c => n[c]).map(c => `${n[c]} ${NOM_CAT[c]}`).join(' · ');
+}
+
+// Units with their kind well in sight: in an accident the point is how many of each kind
 const llistaUnitats = sel => `<div class="opcions">${vista.unitats.map(u => `<button class="opcio unitat-mobil ${sel.has(u.indicatiu) ? 'triada' : ''}" data-u="${esc(u.indicatiu)}" ${u.ocupada ? 'disabled' : ''}>
-  <span class="punt" style="background:${COLOR[u.tipus] || '#888'}"></span><b>${esc(u.indicatiu)}</b> ${esc(u.tipus)}
+  <span class="cat-unitat cat-${u.cat}">${NOM_CAT[u.cat]}</span> <b>${esc(u.indicatiu)}</b> <span class="suau">${esc(u.tipus)}</span>
   <span class="nvots">${u.ocupada ? 'ocupada' : `${u.eta} min`}</span><br><span class="suau">${esc(u.base)} · ${u.km} km</span></button>`).join('')}</div>`;
 
-// Step 3: units to activate (none means telephone advice); starts from the ones activated while assessing
-function pasRecursos(capçal) {
-  esborrany.recursos ??= new Set(vista.resposta.activacio?.recursos || []);
+function triaUnitats(capçal, titol, text, etiquetaBoto, enrere) {
   const sel = esborrany.recursos;
-  contingut.innerHTML = `${capçal}<div class="passos">1 XABCDE · 2 Nivell · <b>3 Recursos</b></div>
-    <h2>${vista.resposta.activacio ? 'Confirma les unitats' : 'Quines unitats actives?'}</h2><p class="suau">Incident a ${esc(vista.municipi)}. Nivell triat: <span class="nivell n${vista.resposta.nivell}">N${vista.resposta.nivell}</span>. Pots triar-ne més d'una${vista.resposta.activacio ? ', afegir-ne o treure\'n' : ''}.</p>
+  contingut.innerHTML = `${capçal}<h2>${titol}</h2><p class="suau">${text}</p>
     ${llistaUnitats(sel)}
-    <button class="boto gran-boto" id="seguent">${sel.size ? `Activar ${sel.size} unitat${sel.size > 1 ? 's' : ''}` : 'Cap recurs: consell telefònic'}</button>`;
+    <div class="navega">${enrere ? '<button class="boto secundari" id="enrere">← Enrere</button>' : ''}
+      <button class="boto gran-boto" id="seguent">${etiquetaBoto(sel)}</button></div>`;
   contingut.querySelectorAll('[data-u]').forEach(b => b.onclick = () => {
     sel.has(b.dataset.u) ? sel.delete(b.dataset.u) : sel.add(b.dataset.u);
-    const y = scrollY;
-    pasRecursos(capçal);
-    scrollTo(0, y);
+    redibuixa(() => triaUnitats(capçal, titol, text, etiquetaBoto, enrere));
   });
+  if (enrere) $('enrere').onclick = enrere;
   $('seguent').onclick = () => envia({ recursos: [...sel] });
+}
+
+// Step 5 (recording): units to send, starting from the ones activated while assessing
+function pasRecursos(capçal) {
+  esborrany.recursos ??= new Set(vista.resposta.activacio?.recursos || []);
+  const r = vista.resposta;
+  triaUnitats(`${capçal}${passos('Recursos')}`, r.activacio ? 'Confirma les unitats' : 'Quines unitats actives?',
+    `Incident a ${esc(vista.municipi)}. Nivell triat: <span class="nivell n${r.nivell}">N${r.nivell}</span>. Pots triar-ne tantes com calgui.`,
+    sel => (sel.size ? `Activar: ${resum(sel)}` : 'Cap recurs: consell telefònic'));
+}
+
+// Card-only case: send units or not, and which and how many of each kind
+function pasCarta(capçal) {
+  if (esborrany.envia === null) {
+    contingut.innerHTML = `${capçal}<h2>Hi envies recurs?</h2>
+      <div class="opcions"><button class="opcio gran-opcio" id="si">🚑 Sí, activo unitats</button>
+      <button class="opcio gran-opcio" id="no">📞 No: consell telefònic o no cal recurs</button></div>`;
+    $('si').onclick = () => { esborrany.envia = true; esborrany.recursos = new Set(); render(); };
+    $('no').onclick = () => { if (confirm('Confirmes que no hi envies cap recurs?')) envia({ recursos: [] }); };
+    return;
+  }
+  triaUnitats(capçal, 'Quines unitats hi envies?', `Incident a ${esc(vista.municipi)}. Tria quantes en calguin de cada tipus segons el que expliqui la carta.`,
+    sel => (sel.size ? `Enviar: ${resum(sel)}` : 'Tria almenys una unitat'), () => { esborrany.envia = null; render(); });
+  if (!esborrany.recursos.size) $('seguent').disabled = true;
 }
 
 function resultats(v) {
   const r = v.resposta, p = v.puntuacio;
-  if (!r) return '<p>No has respost aquesta gravació.</p><p class="suau">Espera la següent.</p>';
+  if (!r) return '<p>No has respost aquest cas.</p><p class="suau">Espera el següent.</p>';
   const ok = b => (b ? '<span class="encert">✓</span>' : '<span class="error-resp">✗</span>');
   const marcats = new Set(r.xabcde || []);
-  // Per letter: right items ticked, items ticked that did not apply, and right items missed
-  const lletres = v.xabcde.map(l => {
-    const files = l.items.filter(it => it.correcte || marcats.has(it.id)).map(it => {
-      const marca = marcats.has(it.id);
-      const estat = it.correcte && marca ? '<span class="encert">✓</span>' : marca ? '<span class="error-resp">✗ no tocava</span>' : '<span class="falta">○ faltava</span>';
-      return `<li>${estat} <span class="suau">${esc(SECCIONS.find(sec => sec.id === it.seccio)?.nom || '')}:</span> ${esc(it.text)}</li>`;
-    }).join('');
-    return files ? `<div class="resultat-lletra"><b><span class="lletra-gran">${esc(l.lletra)}</span> ${esc(l.nom)}</b><ul>${files}</ul></div>` : '';
-  }).join('');
   const unitats = ids => (ids?.length ? ids.join(', ') : 'cap recurs');
+  const recursos = `<h3>Recursos</h3>
+    ${v.tipus !== 'carta' ? `<p>${r.activacio ? `🚑 Has activat al segon <b>${r.activacio.t}</b>, ${r.activacio.abansValoracio ? 'abans d\'acabar la valoració' : 'després de la valoració'}${p.deteccio ? ' <span class="encert">+1 detecció precoç</span>' : ''}` : 'No has activat cap recurs durant la valoració.'}</p>` : ''}
+    <p>Els teus: <b>${esc(r.recursos?.length ? resum(new Set(r.recursos)) : 'cap recurs')}</b> <span class="suau">(${esc(unitats(r.recursos))})</span><br>
+    Proposta: <b>${esc(v.correcte.text)}</b> <span class="suau">(${esc(unitats(v.correcte.recursos))})</span> ${ok(p.recursos >= 2)}</p>`;
+  if (v.tipus === 'carta') return `<p class="xifra">${p.punts} / ${p.maxim} punts</p>${recursos}`;
+  // Right items chosen, items chosen that did not apply, and right items missed
+  const llista = seccions => {
+    const totes = v.xabcde.flatMap(l => l.items.filter(it => seccions.includes(it.seccio)).map(it => ({ ...it, lletra: l.lletra })));
+    const files = totes.filter(it => it.correcte || marcats.has(it.id)).map(it => {
+      const marca = marcats.has(it.id);
+      // Extra questions only use up the budget; extra signs and instructions are wrong
+      const sobra = it.seccio === 'anamnesi' ? '<span class="falta">· no era clau</span>' : '<span class="error-resp">✗ no tocava</span>';
+      const estat = it.correcte && marca ? '<span class="encert">✓</span>' : marca ? sobra : '<span class="falta">○ faltava</span>';
+      return `<li>${estat} <b>${esc(it.lletra)}</b> ${esc(it.seccio === 'noavaluable' ? 'No avaluable' : it.text)}</li>`;
+    });
+    return files.length ? `<ul class="resultat-llista">${files.join('')}</ul>` : '<p class="suau">Res a marcar.</p>';
+  };
+  const capInstruccio = marcats.has(CAP_MANIOBRA);
+  const capCorrecte = !v.xabcde.some(l => l.items.some(it => it.seccio === 'maniobres' && it.correcte));
   return `<p class="xifra">${p.punts} / ${p.maxim} punts</p>
-    <h3>XABCDE <span class="suau">(${p.xabcde} punts)</span></h3>${lletres || '<p class="suau">No has marcat res i no hi havia res a marcar.</p>'}
+    <h3>Escolta <span class="suau">(${p.escolta} punts)</span></h3>${llista(['signes', 'noavaluable'])}
+    <h3>Preguntes <span class="suau">(${p.preguntes} punts)</span></h3>${llista(['anamnesi'])}
+    <h3>Primera instrucció <span class="suau">(${p.instruccio} punts)</span></h3>${capInstruccio || capCorrecte
+      ? `<p>${capInstruccio ? 'Has triat: cap instrucció' : ''} ${capCorrecte ? `· correcte: cap instrucció ${ok(capInstruccio)}` : ''}</p>` : ''}${llista(['maniobres'])}
     <h3>Nivell</h3><p>El teu: ${r.nivell ? `<span class="nivell n${r.nivell}">N${r.nivell}</span>` : '—'}
       ${v.correcte.nivell ? ` · correcte: <span class="nivell n${v.correcte.nivell}">N${v.correcte.nivell}</span> ${ok(r.nivell === v.correcte.nivell)}` : ''}</p>
-    <h3>Recursos</h3><p>${r.activacio ? `🚑 Has activat al segon <b>${r.activacio.t}</b>, ${r.activacio.abansValoracio ? 'abans d\'acabar la valoració' : 'després del XABCDE'}${p.deteccio ? ' <span class="encert">+1 detecció precoç</span>' : ''}` : 'No has activat cap recurs durant la valoració.'}</p>
-    <p>Els teus: ${esc(unitats(r.recursos))}<br>Proposta: <b>${esc(v.correcte.combo)}</b> · ${esc(unitats(v.correcte.recursos))} ${ok(p.recursos === 3)}</p>`;
+    ${recursos}`;
 }
 
 function entra() {

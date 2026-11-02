@@ -356,3 +356,17 @@ body.aula { padding-bottom: 5.5rem; }
 .barra-recurs button span { text-decoration: underline; margin-left: .3rem; }
 .capa-recurs { position: fixed; inset: 0; background: rgba(10, 15, 25, .55); z-index: 60; overflow-y: auto; padding: 1rem 12px; }
 .capa-recurs .capa-contingut { max-width: 560px; margin: 0 auto; background: var(--fons); border-radius: 12px; padding: 1rem; }
+/* Phone: short assessment steps and the kind of each unit in sight */
+.lletra-escolta { margin: .8rem 0; }
+.lletra-escolta h3 { margin: 0 0 .4rem; font-size: .95rem; }
+.xips-fila { display: flex; flex-wrap: wrap; gap: .4rem; }
+.xips-fila .xip-boto { border-radius: 999px; padding: .55rem .9rem; font-size: .98rem; }
+.xip-boto.xip-noaval { border-style: dashed; color: var(--suau); }
+.xip-boto.xip-noaval.actiu { color: #fff; background: #6b7385; border-color: #6b7385; }
+.xip-boto:disabled { opacity: .4; }
+.pressupost { background: var(--tria); border-radius: 8px; padding: .5rem .7rem; font-size: 1rem; }
+.pressupost.esgotat { background: color-mix(in srgb, var(--acceptable) 25%, transparent); }
+.gran-opcio { font-size: 1.15rem; padding: 1.1rem; font-weight: 700; }
+.cat-unitat { display: inline-block; min-width: 3.2em; text-align: center; border-radius: 4px; padding: .05rem .35rem; font-size: .8rem; font-weight: 800; color: #fff; }
+.cat-SVA { background: #c62828; } .cat-SVB { background: #1e88e5; } .cat-HEMS { background: #2e7d32; }
+.resultat-llista { margin: .3rem 0; padding-left: 1.1rem; } .resultat-llista li { margin: .2rem 0; }

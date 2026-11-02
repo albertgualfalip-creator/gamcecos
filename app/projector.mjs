@@ -1,7 +1,7 @@
 // Consultor training, projector screen: what the class sees, in the style of the shift game. The incoming call,
 // the real units on the map, the code to join from the phones, live progress and, at the end, the results.
 import { $, esc } from './client.mjs';
-import { SECCIONS } from './motor.mjs';
+import { barres, panellsResultats, classificacio } from './aula-resultats.mjs';
 import { COLOR, nouMapa } from './territori.mjs';
 
 const codi = (new URLSearchParams(location.search).get('codi') || '').toUpperCase();
@@ -18,24 +18,9 @@ async function bucle() {
   setTimeout(bucle, 1000);
 }
 
-function barres(files) {
-  const total = Math.max(1, ...files.map(f => f.n));
-  return `<div class="barres">${files.map(f => `<div class="barra-fila ${f.correcte ? 'correcte' : ''}">
-    <span class="barra-text">${f.html ?? esc(f.text)}${f.correcte ? ' ✓' : ''}</span>
-    <span class="barra"><span style="width:${(100 * f.n) / total}%" class="${f.classe || ''}"></span></span><b>${f.n}</b></div>`).join('')}</div>`;
-}
-
-function tempsActivacio(d) {
-  const trams = [['0–15 s', 0, 15], ['15–30 s', 15, 30], ['30–60 s', 30, 60], ['1–2 min', 60, 120], ['> 2 min', 120, Infinity]];
-  const files = trams.map(([text, de, fins]) => ({ text, n: d.activacio.filter(a => a.t >= de && a.t < fins).length }))
-    .concat({ text: 'Sense activar durant la valoració', n: d.senseActivacio });
-  const temps = d.activacio.map(a => a.t).sort((a, b) => a - b);
-  return `${barres(files)}${temps.length ? `<p class="suau">Mediana: segon ${temps[Math.floor(temps.length / 2)]} de la gravació</p>` : ''}`;
-}
-
 function render(v) {
   const resultats = v.estat === 'resultats';
-  $('estat').innerHTML = { preparada: '<span class="etiqueta v-acceptable">ESCOLTEU LA TRUCADA</span>', oberta: '<span class="etiqueta v-optima">RESPONEU AL MÒBIL</span>',
+  $('estat').innerHTML = { preparada: `<span class="etiqueta v-acceptable">${v.config.tipus === 'carta' ? 'LLEGIU LA CARTA DEL 112' : 'ESCOLTEU LA TRUCADA'}</span>`, oberta: '<span class="etiqueta v-optima">RESPONEU AL MÒBIL</span>',
     resultats: '<span class="etiqueta v-suboptima">RESULTATS</span>' }[v.estat];
   $('codi').textContent = codi;
   if (!qrFet) {
@@ -49,27 +34,15 @@ function render(v) {
       <b class="num-gran">${v.numero}</b></div>
     <div class="suau titol-cas">${esc(v.config.titol)} · ${esc(v.config.lloc.municipi)}</div>
     ${v.config.carta ? `<div class="carta-text">${esc(v.config.carta)}</div>` : ''}
-    ${resultats ? '' : '<div class="ona">' + Array.from({ length: 24 }, (_, i) => `<span style="animation-delay:${(i % 6) * 0.12}s"></span>`).join('') + '</div>'}
-    ${resultats && v.config.nivell ? `<p class="nivell-final">Nivell correcte <span class="nivell n${v.config.nivell}">N${v.config.nivell}</span> · ${esc(v.correctesCombo)}</p>` : ''}`;
+    ${resultats || v.config.tipus === 'carta' ? '' : '<div class="ona">' + Array.from({ length: 24 }, (_, i) => `<span style="animation-delay:${(i % 6) * 0.12}s"></span>`).join('') + '</div>'}
+    ${resultats ? `<p class="nivell-final">${v.config.nivell && v.config.tipus !== 'carta' ? `Nivell correcte <span class="nivell n${v.config.nivell}">N${v.config.nivell}</span> · ` : ''}${esc(v.correcte.text)}</p>` : ''}`;
   pintaMapa(v);
   const p = v.progres, base = Math.max(1, p.connectats);
-  const progres = `<div class="panell"><h3>Participació</h3><p class="xifra">${p.connectats} <span class="suau">connectats</span></p>
-    ${barres([['🚑 Recurs activat', p.activats], ['XABCDE', p.xabcde], ['Nivell de triatge', p.nivell], ['Recursos (acabat)', p.recursos]].map(([text, n]) => ({ text: `${text} · ${Math.round((100 * n) / base)} %`, n })))}</div>`;
-  const d = v.distribucio;
-  $('lateral').innerHTML = !resultats ? progres : `
-    <div class="panell"><h3>Nivell de triatge</h3>${barres([1, 2, 3, 4, 5].map(n => ({ html: `<span class="nivell n${n}">N${n}</span>`, n: d.nivell[n] || 0, correcte: v.config.nivell === n, classe: `n${n}` })))}</div>
-    <div class="panell"><h3>Tipus de resposta</h3>${barres(Object.entries(d.combo).sort((a, b) => b[1] - a[1]).map(([text, n]) => ({ text, n, correcte: text === v.correctesCombo })))}</div>
-    <div class="panell"><h3>🚑 Quan han activat el recurs</h3>${tempsActivacio(d)}</div>
-    <div class="panell"><h3>Classificació</h3><ol class="ranquing">${v.classificacio.slice(0, 8).map(c => `<li><b>${esc(c.nom)}</b> · ${c.punts}/${c.maxim}</li>`).join('')}</ol></div>`;
-  // XABCDE results: only what someone ticked or what was right, the right ones first
-  $('resultats-xabcde').innerHTML = !resultats ? '' : v.config.xabcde.map(l => {
-    const seccions = SECCIONS.map(sec => {
-      const items = l.items.filter(it => it.seccio === sec.id && (it.correcte || d.xabcde[it.id]))
-        .sort((a, b) => b.correcte - a.correcte || (d.xabcde[b.id] || 0) - (d.xabcde[a.id] || 0));
-      return items.length ? `<div class="seccio-resultat seccio-${sec.id}"><b>${esc(sec.nom)}</b>${barres(items.map(it => ({ text: it.text, n: d.xabcde[it.id] || 0, correcte: it.correcte })))}</div>` : '';
-    }).join('');
-    return seccions ? `<div class="panell"><h3><span class="lletra-gran">${esc(l.lletra)}</span> ${esc(l.nom)}</h3>${seccions}</div>` : '';
-  }).join('');
+  const etapes = v.config.tipus === 'carta' ? [['Han respost', p.recursos]]
+    : [['🚑 Recurs activat', p.activats], ['Valoració', p.xabcde], ['Nivell de triatge', p.nivell], ['Recursos (acabat)', p.recursos]];
+  $('lateral').innerHTML = `<div class="panell"><h3>Participació</h3><p class="xifra">${p.connectats} <span class="suau">connectats</span></p>
+    ${barres(etapes.map(([text, n]) => ({ text: `${text} · ${Math.round((100 * n) / base)} %`, n })))}</div>${resultats ? classificacio(v, false) : ''}`;
+  $('resultats-xabcde').innerHTML = resultats ? panellsResultats(v, true) : '';
 }
 
 // Incident and the units the students can choose; on the results the right ones stand out
