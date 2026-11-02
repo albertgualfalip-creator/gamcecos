@@ -63,7 +63,8 @@
           <label>Títol (el veuen els alumnes) <input name="titol" maxlength="80" required placeholder="Ex.: Veïna inconscient a l'escala"></label>
           <label><span id="etiqueta-municipi">Municipi de l'incident</span> <input name="municipi" list="municipis" autocomplete="off" required placeholder="Escriviu i trieu de la llista"></label>
           <label>Temps per respondre <select name="temps"><option value="">Sense límit</option><option value="60">1 min</option><option value="90">1 min 30 s</option><option value="120">2 min</option><option value="180">3 min</option><option value="240">4 min</option><option value="300">5 min</option><option value="420">7 min</option><option value="600">10 min</option></select></label>
-          <label class="nomes-sol">Nivell correcte <select name="nivell"><option value="">No puntuar</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label>
+          <div class="nomes-sol camp-nivells"><span class="etiqueta-camp">Nivell correcte <span class="suau">(un o més)</span></span>
+            <div class="nivells-xips"><button type="button" class="nivell n1" data-nivell="1">N1</button><button type="button" class="nivell n2" data-nivell="2">N2</button><button type="button" class="nivell n3" data-nivell="3">N3</button><button type="button" class="nivell n4" data-nivell="4">N4</button><button type="button" class="nivell n5" data-nivell="5">N5</button></div></div>
         </div>
         <datalist id="municipis"></datalist>
         <label class="nomes-sol">Carta del 112 <span class="suau">(la veuen al projector i al mòbil)</span>
@@ -75,6 +76,8 @@
             <span id="text-zona">🎙 Arrossegueu aquí el fitxer de la gravació, o feu clic per triar-lo</span></label>
         </div>
         <label class="nomes-escenari">Nombre d'equips <input name="equips" type="number" min="2" max="6" value="4" class="petit"></label>
+        <label class="nomes-sol">Per què <span class="suau">(explicació que veuen als resultats: per què aquest nivell, aquestes instruccions o aquestes unitats)</span>
+          <textarea name="explicacio" rows="2" placeholder="Ex.: Hi ha dos ferits greus: calen almenys 2 SVA. El torniquet és acceptable si la pressió no atura l'hemorràgia."></textarea></label>
         <details><summary>Notes per al tutor</summary><textarea name="notes" rows="2" placeholder="Què passa realment, què cal comentar als resultats. No ho veuen els alumnes."></textarea></details>
       </div>
 
@@ -89,12 +92,15 @@
           <button type="button" data-fase="activacio">🚑 Activar en qualsevol moment</button>
         </div>
         <p class="suau" id="explica-fases"></p>
-        <label id="camp-preguntes">Preguntes per alumne <input name="preguntes" type="number" min="1" max="6" value="3" class="petit"></label>
+        <div class="fila">
+          <label id="camp-preguntes">Preguntes per alumne <input name="preguntes" type="number" min="1" max="6" value="3" class="petit"></label>
+          <label id="camp-instruccions">Instruccions per alumne <span class="suau">(més d'una si hi ha diverses víctimes)</span> <input name="instruccions" type="number" min="1" max="3" value="1" class="petit"></label>
+        </div>
       </div>
 
       <div class="panell pas-cas nomes-sol" id="pas-xabcde">
         <h3><span class="num-pas">3</span> Respostes correctes del XABCDE <button class="boto-petit" type="button" id="aplica-interrogatori">↺ Aplicar l'interrogatori base</button></h3>
-        <p class="suau">Toqueu el que és correcte en aquest cas (es posa en verd). Amb «✎ Textos» podeu canviar o afegir opcions.</p>
+        <p class="suau">Toqueu el que és correcte en aquest cas (es posa en verd). Les instruccions es graduen tocant més vegades: <b>✓ indicada</b> (+2), <b>≈ acceptable</b> (+1), <b>⚠ perillosa</b> (−1). Amb «✎ Textos» podeu canviar o afegir opcions.</p>
         <div id="xabcde" class="xabcde-editor"></div>
       </div>
 
@@ -105,11 +111,13 @@
           <label class="casella"><input type="radio" name="mode-unitats" value="tria"> Les trio jo: quines surten, lliures o ocupades, i quines són correctes</label>
         </div>
         <div id="resposta-auto" class="nomes-sol">
-          <label>Resposta correcta <select name="mode-recursos"><option value="auto">Segons el nivell (AURE): les més properes</option><option value="nombre">Un nombre de cada tipus</option></select></label>
-          <div class="fila" id="nombre-recursos">
-            <label>SVA <input name="SVA" type="number" min="0" max="8" value="0" class="petit"></label>
-            <label>SVB <input name="SVB" type="number" min="0" max="8" value="0" class="petit"></label>
-            <label>Helicòpter <input name="HEMS" type="number" min="0" max="2" value="0" class="petit"></label>
+          <label>Resposta correcta <select name="mode-recursos"><option value="auto">Segons el nivell (AURE): les més properes</option><option value="interval">Quantes de cada tipus: mínim i màxim acceptables</option></select></label>
+          <div id="nombre-recursos">
+            <p class="suau">Quan no hi ha una sola resposta (diversos ferits): per sota del mínim és infradotat, per sobre del màxim sobredotat. Mínim = màxim si només n'hi ha una de bona.</p>
+            <table class="mini taula-interval"><tr><th></th><th>Mínim</th><th>Màxim</th></tr>
+              <tr><td><span class="cat-unitat cat-SVA">SVA</span></td><td><input name="SVA-min" type="number" min="0" max="8" value="0" class="petit"></td><td><input name="SVA-max" type="number" min="0" max="8" value="0" class="petit"></td></tr>
+              <tr><td><span class="cat-unitat cat-SVB">SVB</span></td><td><input name="SVB-min" type="number" min="0" max="8" value="0" class="petit"></td><td><input name="SVB-max" type="number" min="0" max="8" value="0" class="petit"></td></tr>
+              <tr><td><span class="cat-unitat cat-HEMS">Helicòpter</span></td><td><input name="HEMS-min" type="number" min="0" max="2" value="0" class="petit"></td><td><input name="HEMS-max" type="number" min="0" max="2" value="0" class="petit"></td></tr></table>
           </div>
         </div>
         <div id="editor-unitats" hidden>

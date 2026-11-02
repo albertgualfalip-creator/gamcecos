@@ -23,7 +23,7 @@ const NOM_CAT = { SVA: 'SVA', SVB: 'SVB', HEMS: 'Helicòpter' };
 const PANTALLES = [['escolta', 'Escolta'], ['preguntes', 'Preguntes'], ['instruccio', 'Instrucció'], ['nivell', 'Nivell'], ['recursos', 'Recursos']];
 const LOCALS = ['escolta', 'preguntes', 'instruccio'];   // answered on the phone and sent together
 const locals = () => LOCALS.filter(f => vista.fases[f]);
-const nouEsborrany = () => ({ pas: 'escolta', escolta: new Set(), preguntes: new Set(), instruccio: null, nivell: null, recursos: null, activa: new Set(), enviant: false });
+const nouEsborrany = () => ({ pas: 'escolta', escolta: new Set(), preguntes: new Set(), instruccions: new Set(), nivell: null, recursos: null, activa: new Set(), enviant: false });
 let esborrany = nouEsborrany();
 
 async function envia(dades) {
@@ -99,7 +99,7 @@ function render() {
 function seguent() {
   const ls = locals(), i = ls.indexOf(esborrany.pas);
   if (i < ls.length - 1) { esborrany.pas = ls[i + 1]; informaPas(esborrany.pas); render(); scrollTo(0, 0); return; }
-  envia({ xabcde: [...esborrany.escolta, ...esborrany.preguntes, ...(esborrany.instruccio ? [esborrany.instruccio] : [])] });
+  envia({ xabcde: [...esborrany.escolta, ...esborrany.preguntes, ...esborrany.instruccions] });
 }
 function enrere() {
   const ls = locals(), i = ls.indexOf(esborrany.pas);
@@ -146,14 +146,21 @@ function pasPreguntes(capçal) {
 
 // Step 3: the first instruction to the caller (one only), or none needed
 function pasInstruccio(capçal) {
-  const triada = esborrany.instruccio;
-  contingut.innerHTML = `${capçal}${passos('Instrucció')}<h2>Quina és la primera instrucció que dones?</h2>
-    <p class="suau">Només una: la més urgent.</p>
-    <div class="xips"><button class="xip-boto ${triada === CAP_MANIOBRA ? 'actiu' : ''}" data-item="${CAP_MANIOBRA}">Cap: només vigilar i esperar l'ambulància</button></div>
+  // One instruction (the most urgent) or, with several victims, up to the number the case allows; "none" goes alone
+  const sel = esborrany.instruccions, max = vista.instruccions || 1;
+  contingut.innerHTML = `${capçal}${passos('Instrucció')}<h2>${max === 1 ? 'Quina és la primera instrucció que dones?' : `Quines instruccions dones? (fins a ${max})`}</h2>
+    <p class="suau">${max === 1 ? 'Només una: la més urgent.' : `Si hi ha diverses víctimes, en pots donar fins a ${max}. Les que no toquen poden restar.`}</p>
+    <div class="xips"><button class="xip-boto ${sel.has(CAP_MANIOBRA) ? 'actiu' : ''}" data-item="${CAP_MANIOBRA}">Cap: només vigilar i esperar l'ambulància</button></div>
     ${items(['maniobres']).map(l => `<div class="lletra-escolta"><h3><span class="lletra-gran">${esc(l.lletra)}</span> ${esc(l.nom)}</h3>
-      <div class="xips">${l.items.map(it => `<button class="xip-boto ${triada === it.id ? 'actiu' : ''}" data-item="${esc(it.id)}">${esc(it.text)}</button>`).join('')}</div></div>`).join('')}
-    <div class="navega">${botoEnrere()}<button class="boto gran-boto" id="seguent" ${triada ? '' : 'disabled'}>${etiquetaSeguent()}</button></div>`;
-  contingut.querySelectorAll('[data-item]').forEach(b => b.onclick = () => { esborrany.instruccio = b.dataset.item; redibuixa(() => pasInstruccio(capçal)); });
+      <div class="xips">${l.items.map(it => `<button class="xip-boto ${sel.has(it.id) ? 'actiu' : ''}" data-item="${esc(it.id)}" ${!sel.has(it.id) && max > 1 && sel.size >= max && !sel.has(CAP_MANIOBRA) ? 'disabled' : ''}>${esc(it.text)}</button>`).join('')}</div></div>`).join('')}
+    <div class="navega">${botoEnrere()}<button class="boto gran-boto" id="seguent" ${sel.size ? '' : 'disabled'}>${etiquetaSeguent()}</button></div>`;
+  contingut.querySelectorAll('[data-item]').forEach(b => b.onclick = () => {
+    const id = b.dataset.item;
+    if (sel.has(id)) sel.delete(id);
+    else if (id === CAP_MANIOBRA || max === 1 || sel.has(CAP_MANIOBRA)) { sel.clear(); sel.add(id); }
+    else if (sel.size < max) sel.add(id);
+    redibuixa(() => pasInstruccio(capçal));
+  });
   $('enrere')?.addEventListener('click', enrere);
   $('seguent').onclick = seguent;
 }
@@ -259,13 +266,20 @@ function resultats(v) {
   const recursos = !f.recursos && !f.activacio ? '' : `<h3>Recursos</h3>
     ${f.activacio ? `<p>${r.activacio ? `🚑 Has activat al segon <b>${r.activacio.t}</b>, ${r.activacio.abansValoracio ? 'abans d\'acabar la valoració' : 'després de la valoració'}${p.deteccio ? ' <span class="encert">+1 detecció precoç</span>' : ''}` : 'No has activat cap recurs durant la valoració.'}</p>` : ''}
     <p>Els teus: <b>${esc(meves.length ? resum(new Set(meves)) : 'cap recurs')}</b> <span class="suau">(${esc(unitats(meves))})</span><br>
-    Proposta: <b>${esc(v.correcte.text)}</b> <span class="suau">(${esc(unitats(v.correcte.recursos))})</span> ${ok(p.recursos >= 2)}</p>`;
+    Correcte: <b>${esc(v.correcte.text)}</b> ${ok(p.recursos >= 2)}<br><span class="suau">Les més properes: ${esc(unitats(v.correcte.recursos))}</span></p>
+    ${p.avisos?.length ? `<ul class="resultat-llista avisos">${p.avisos.map(a => `<li>${esc(a)}</li>`).join('')}</ul>` : ''}
+    ${v.correcte.explicacio ? `<div class="explicacio"><b>Per què</b><p>${esc(v.correcte.explicacio)}</p></div>` : ''}`;
   if (!LOCALS.some(x => f[x]) && !f.nivell) return `<p class="xifra">${p.punts} / ${p.maxim} punts</p>${recursos}`;
   // Right items chosen, items chosen that did not apply, and right items missed
   const llista = seccions => {
     const totes = v.xabcde.flatMap(l => l.items.filter(it => seccions.includes(it.seccio)).map(it => ({ ...it, lletra: l.lletra })));
     const files = totes.filter(it => it.correcte || marcats.has(it.id)).map(it => {
       const marca = marcats.has(it.id);
+      // Graded instructions: indicated, acceptable, dangerous or not applicable
+      if (it.seccio === 'maniobres' && marca && it.valor !== 'indicada') {
+        const etiqueta = { acceptable: '<span class="acceptable-resp">≈ acceptable (+1)</span>', perillosa: '<span class="error-resp">⚠ perillosa (−1)</span>' }[it.valor] || '<span class="falta">· no aplicava</span>';
+        return `<li>${etiqueta} <b>${esc(it.lletra)}</b> ${esc(it.text)}</li>`;
+      }
       // Extra questions only use up the budget; extra signs and instructions are wrong
       const sobra = it.seccio === 'anamnesi' ? '<span class="falta">· no era clau</span>' : '<span class="error-resp">✗ no tocava</span>';
       const estat = it.correcte && marca ? '<span class="encert">✓</span>' : marca ? sobra : '<span class="falta">○ faltava</span>';
@@ -273,15 +287,16 @@ function resultats(v) {
     });
     return files.length ? `<ul class="resultat-llista">${files.join('')}</ul>` : '<p class="suau">Res a marcar.</p>';
   };
+  const bons = v.correcte.nivells?.length ? v.correcte.nivells : [v.correcte.nivell];   // one or several right levels
   const capInstruccio = marcats.has(CAP_MANIOBRA);
   const capCorrecte = !v.xabcde.some(l => l.items.some(it => it.seccio === 'maniobres' && it.correcte));
   return `<p class="xifra">${p.punts} / ${p.maxim} punts</p>
     ${f.escolta ? `<h3>Escolta <span class="suau">(${p.escolta} punts)</span></h3>${llista(['signes', 'noavaluable'])}` : ''}
     ${f.preguntes ? `<h3>Preguntes <span class="suau">(${p.preguntes} punts)</span></h3>${llista(['anamnesi'])}` : ''}
-    ${f.instruccio ? `<h3>Primera instrucció <span class="suau">(${p.instruccio} punts)</span></h3>${capInstruccio || capCorrecte
+    ${f.instruccio ? `<h3>${(v.instruccions || 1) > 1 ? 'Instruccions' : 'Primera instrucció'} <span class="suau">(${p.instruccio} punts)</span></h3>${capInstruccio || capCorrecte
       ? `<p>${capInstruccio ? 'Has triat: cap instrucció' : ''} ${capCorrecte ? `· correcte: cap instrucció ${ok(capInstruccio)}` : ''}</p>` : ''}${llista(['maniobres'])}` : ''}
     ${f.nivell ? `<h3>Nivell</h3><p>El teu: ${r.nivell ? `<span class="nivell n${r.nivell}">N${r.nivell}</span>` : '—'}
-      ${v.correcte.nivell ? ` · correcte: <span class="nivell n${v.correcte.nivell}">N${v.correcte.nivell}</span> ${ok(r.nivell === v.correcte.nivell)}` : ''}</p>` : ''}
+      ${v.correcte.nivell ? ` · correcte: ${bons.map(n => `<span class="nivell n${n}">N${n}</span>`).join(' o ')} ${ok(bons.includes(r.nivell))}` : ''}</p>` : ''}
     ${recursos}`;
 }
 

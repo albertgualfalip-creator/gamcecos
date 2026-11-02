@@ -84,8 +84,8 @@ function obre() {
 async function posa(cas) {
   if (!cas) return;
   if (vista?.estat === 'oberta' && !confirm('Les respostes del cas actual encara són obertes. Passar al següent igualment?')) return;
-  const { tipus, titol, carta, nivell, preguntes, recursos, fases, unitats, correctes, lloc, xabcde, incidents, equips, temps } = cas;
-  const config = { tipus, titol, carta, nivell, preguntes, recursos, fases, unitats, correctes, lloc, xabcde, incidents, equips, temps };
+  const { tipus, titol, carta, nivell, nivells, preguntes, instruccions, explicacio, recursos, fases, unitats, correctes, lloc, xabcde, incidents, equips, temps } = cas;
+  const config = { tipus, titol, carta, nivell, nivells, preguntes, instruccions, explicacio, recursos, fases, unitats, correctes, lloc, xabcde, incidents, equips, temps };
   try {
     if (!codi) {
       ({ codi } = await post('/api/aula/nova', { config }));
@@ -104,7 +104,7 @@ async function posa(cas) {
   actual = cas;
   vista = null;
   $('cas-actual').innerHTML = `<div class="cas-actual-cap"><span class="etiqueta-tipus">${TIPUS[cas.tipus || 'veu']}</span><h2>${esc(cas.titol)}</h2>
-      ${cas.nivell && cas.tipus !== 'escenari' ? `<span class="suau">Resposta: <span class="nivell n${cas.nivell}">N${cas.nivell}</span></span>` : ''}</div>
+      ${cas.nivell && cas.tipus !== 'escenari' ? `<span class="suau">Resposta: ${(cas.nivells?.length ? cas.nivells : [cas.nivell]).map(n => `<span class="nivell n${n}">N${n}</span>`).join(' ')}</span>` : ''}</div>
     ${cas.tipus === 'veu' ? (cas.audio ? `<audio id="audio" controls preload="auto" src="/api/aula/audio?id=${encodeURIComponent(cas.id)}"></audio>` : '<p class="avis-cas">⚠ Aquest cas no té gravació.</p>') : ''}
     ${cas.carta ? `<p class="carta-text">${esc(cas.carta)}</p>` : ''}
     ${cas.notes ? `<p class="notes-tutor"><b>Notes:</b> ${esc(cas.notes)}</p>` : ''}`;

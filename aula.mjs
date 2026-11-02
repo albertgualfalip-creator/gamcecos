@@ -25,6 +25,15 @@ const OCUPACIO = 0.2;
 const MAX_UNITATS = 12;
 export const CAP_MANIOBRA = 'cap';   // "no instruction needed: watch and wait" in the instruction step
 
+// How right an instruction is: indicated (2 points), acceptable (1), dangerous (-1); unmarked ones do not apply (0)
+export const VALORS = { indicada: 2, acceptable: 1, perillosa: -1 };
+
+// "2–3 SVA + 2–4 SVB + 0–1 Helicòpter" from a range per kind
+export function textInterval(iv) {
+  const parts = CATS.filter(c => iv[c][1] > 0).map(c => `${iv[c][0] === iv[c][1] ? iv[c][0] : `${iv[c][0]}–${iv[c][1]}`} ${NOM_CAT[c]}`);
+  return parts.length ? parts.join(' + ') : 'Cap recurs';
+}
+
 // "2 SVA + 3 SVB" from a count per kind
 export function textComposicio(n) {
   const parts = CATS.filter(c => n[c]).map(c => `${n[c]} ${NOM_CAT[c]}`);
@@ -92,23 +101,32 @@ export class Aula {
       const comptes = {};
       const items = fonts.filter(it => SECCIONS.some(sec => sec.id === it.seccio) && String(it.text || '').trim()).slice(0, 30).map(it => {
         comptes[it.seccio] = (comptes[it.seccio] || 0) + 1;
-        return { id: `${lletra}-${it.seccio[0]}${comptes[it.seccio]}`, seccio: it.seccio, text: String(it.text).trim().slice(0, 120), correcte: it.correcte === true };
+        // Instructions can be graded; the rest are right or not
+        const valor = it.valor in VALORS ? it.valor : it.correcte === true ? 'indicada' : null;
+        return { id: `${lletra}-${it.seccio[0]}${comptes[it.seccio]}`, seccio: it.seccio, text: String(it.text).trim().slice(0, 120), correcte: valor === 'indicada', valor };
       });
       return { lletra, nom: String(l.nom || XABCDE[i]?.nom || '').slice(0, 60), items };
     }).filter(l => l.items.length);
-    const nivell = [1, 2, 3, 4, 5].includes(Number(c.nivell)) ? Number(c.nivell) : null;
+    // Right levels: one or several (e.g. N1 or N2); the first is the one shown
+    const nivells = [...new Set((Array.isArray(c.nivells) ? c.nivells : [c.nivell]).map(Number).filter(n => [1, 2, 3, 4, 5].includes(n)))].sort();
+    const nivell = nivells.includes(Number(c.nivell)) ? Number(c.nivell) : nivells[0] ?? null;
     const lloc = llocValid(c.lloc);
     const entorn = entornDe(lloc.zona, lloc.municipi, this.dades.aure.entorn_per_zona).entorn;
     this.config = {
-      tipus, fases, titol: String(c.titol || 'Cas').slice(0, 80), carta: String(c.carta || '').trim().slice(0, 1000), xabcde, nivell,
+      tipus, fases, titol: String(c.titol || 'Cas').slice(0, 80), carta: String(c.carta || '').trim().slice(0, 1000), xabcde, nivell, nivells,
       preguntes: Math.max(1, Math.min(6, Math.round(Number(c.preguntes) || 3))), lloc: { ...lloc, entorn },
+      instruccions: Math.max(1, Math.min(3, Math.round(Number(c.instruccions) || 1))),   // how many instructions each student gives
+      explicacio: String(c.explicacio || '').trim().slice(0, 1000),                        // shown with the results
     };
     // Units: the ones the tutor chose (free or busy), or the nearest with some busy at random
     const triades = Array.isArray(c.unitats) ? c.unitats.filter(u => ['lliure', 'ocupada'].includes(u?.estat)) : [];
     const mode = c.recursos?.mode;
-    const nombre = mode === 'nombre'
-      ? Object.fromEntries(CATS.map(k => [k, Math.max(0, Math.min(8, Math.round(Number(c.recursos[k]) || 0)))]))
-      : { SVA: 0, SVB: 0, HEMS: 0, ...(RESPOSTA[nivell] || {}) };
+    // Right response as a range per kind (several injured: no single answer). A number is a range of one value
+    const num = x => Math.max(0, Math.min(8, Math.round(Number(x) || 0)));
+    const interval = mode === 'interval' ? Object.fromEntries(CATS.map(k => { const [a, b] = [num(c.recursos[k]?.[0]), num(c.recursos[k]?.[1])]; return [k, [Math.min(a, b), Math.max(a, b)]]; }))
+      : mode === 'nombre' ? Object.fromEntries(CATS.map(k => [k, [num(c.recursos[k]), num(c.recursos[k])]]))
+      : Object.fromEntries(CATS.map(k => [k, [RESPOSTA[nivell]?.[k] || 0, RESPOSTA[nivell]?.[k] || 0]]));
+    const nombre = Object.fromEntries(CATS.map(k => [k, interval[k][1]]));
     if (triades.length) {
       const estat = new Map(triades.map(u => [u.indicatiu, u.estat]));
       this.unitats = unitatsProperes(this.dades, this.config.lloc, { SVB: 99, SVA: 99, HEMS: 99 })
@@ -120,7 +138,10 @@ export class Aula {
     }
     const lliure = id => this.unitats.some(u => u.indicatiu === id && !u.ocupada);
     // Right units: the ones the tutor ticked ("manual", empty = no units), or the nearest per kind
-    this.correctes = mode === 'manual' || (!mode && Array.isArray(c.correctes)) ? (c.correctes || []).filter(lliure) : this.mesProperes(nombre);
+    this.correctes = mode === 'manual' || (!mode && Array.isArray(c.correctes)) ? (c.correctes || []).filter(lliure)
+      : this.mesProperes(Object.fromEntries(CATS.map(k => [k, interval[k][0]])));
+    // Units chosen by the tutor: exactly the kinds and numbers ticked
+    this.interval = mode === 'manual' || (!mode && Array.isArray(c.correctes)) ? Object.fromEntries(Object.entries(this.composicio(this.correctes)).map(([k, n]) => [k, [n, n]])) : interval;
   }
 
   // Default right answer: the nearest free units of each kind, as many as the response asks (or all that are free)
@@ -194,7 +215,7 @@ export class Aula {
       const de = seccio => triats.filter(id => items.get(id)?.seccio === seccio);
       // Within budget: a few questions and a single instruction (or none needed)
       r.xabcde = [...(fases.escolta ? [...de('signes'), ...de('noavaluable')] : []), ...(fases.preguntes ? de('anamnesi').slice(0, this.config.preguntes) : []),
-        ...(!fases.instruccio ? [] : triats.includes(CAP_MANIOBRA) ? [CAP_MANIOBRA] : de('maniobres').slice(0, 1))];
+        ...(!fases.instruccio ? [] : triats.includes(CAP_MANIOBRA) ? [CAP_MANIOBRA] : de('maniobres').slice(0, this.config.instruccions))];
       if (this.darrera() === 'xabcde') r.fet = true;
     }
     if (nivell != null && fases.nivell) {
@@ -239,18 +260,38 @@ export class Aula {
     return { nom, ...this.esc.decisio(eq, this.noms, this.membres(nom)), ...(resultats ? { puntuacio: this.esc.puntua(eq, this.primerEquip() === nom) } : {}) };
   }
 
+  // Units within the range of each kind: none short (infradotat) or over (sobredotat), and whether they are the nearest
+  valoraUnitats(unitats) {
+    const meva = this.composicio(unitats), avisos = [];
+    let curt = 0, sobra = 0;
+    for (const k of CATS) {
+      const [min, max] = this.interval[k];
+      if (meva[k] < min) { curt++; avisos.push(`Infradotat: ${meva[k]} ${NOM_CAT[k]} (calien ${min === max ? min : `${min}–${max}`})`); }
+      if (meva[k] > max) { sobra++; avisos.push(`Sobredotat: ${meva[k]} ${NOM_CAT[k]} (n'hi havia prou amb ${max === min ? max : `${min}–${max}`})`); }
+    }
+    // Nearest: for each kind, the units sent are the nearest free ones of that kind
+    const properes = CATS.every(k => {
+      const seves = unitats.map(id => this.unitats.find(u => u.indicatiu === id)).filter(u => u?.cat === k);
+      const millors = this.unitats.filter(u => !u.ocupada && u.cat === k).slice(0, seves.length).map(u => u.indicatiu);
+      return seves.every(u => millors.includes(u.indicatiu));
+    });
+    if (!curt && !sobra && !properes) avisos.push('Hi havia unitats del mateix tipus més properes');
+    return { punts: curt ? 0 : (sobra ? 1 : 2) + (properes && !sobra ? 1 : 0), avisos, dins: !curt && !sobra };
+  }
+
   // Points, only for the screens of the case: heard and "not assessable" items +1 right / -1 not applicable (never
-  // below zero), +1 per key question in the budget, +2 for the right first instruction, 3 for the exact level (1 if
-  // one off), up to 3 for the units (2 for the right number of each kind, 1 if only the kinds are right; +1 for
-  // exactly the proposed ones) and, when the case needs units, +1 for activating them before finishing the assessment
+  // below zero), +1 per key question in the budget, instructions graded (indicated +2, acceptable +1, dangerous -1),
+  // 3 for a right level (1 if one off), up to 3 for the units (2 within the range of every kind, 1 if only over it,
+  // 0 if short of any; +1 if they are the nearest) and, when the case needs units, +1 for activating them before
+  // finishing the assessment
   puntua(r) {
-    const { xabcde, nivell, fases, preguntes } = this.config;
+    const { xabcde, nivells, fases, preguntes, instruccions } = this.config;
     const detall = { escolta: 0, preguntes: 0, instruccio: 0, nivell: 0, recursos: 0, deteccio: 0 };
+    const avisos = [];
     const items = xabcde.flatMap(l => l.items);
     const marcats = new Set(r.xabcde || []);
     const de = seccions => items.filter(it => seccions.includes(it.seccio));
-    const maniobresBones = de(['maniobres']).filter(it => it.correcte);
-    const calRecurs = this.correctes.length > 0;
+    const calRecurs = CATS.some(k => this.interval[k][0] > 0);
     let maxim = 0;
     if (fases.escolta) {
       detall.escolta = Math.max(0, de(['signes', 'noavaluable']).filter(it => marcats.has(it.id)).reduce((s, it) => s + (it.correcte ? 1 : -1), 0));
@@ -261,21 +302,27 @@ export class Aula {
       maxim += Math.min(preguntes, de(['anamnesi']).filter(it => it.correcte).length);
     }
     if (fases.instruccio) {
-      if (r.xabcde && (maniobresBones.some(it => marcats.has(it.id)) || (!maniobresBones.length && marcats.has(CAP_MANIOBRA)))) detall.instruccio = 2;
-      maxim += 2;
+      const indicades = de(['maniobres']).filter(it => it.valor === 'indicada');
+      const triades = de(['maniobres']).filter(it => marcats.has(it.id));
+      const maximInstr = indicades.length ? 2 * Math.min(instruccions, indicades.length) : 2;
+      // Nothing to do (no instruction indicated) and the student says so: full points
+      const suma = !indicades.length && !triades.length && marcats.has(CAP_MANIOBRA) ? 2 : triades.reduce((s, it) => s + (VALORS[it.valor] || 0), 0);
+      if (r.xabcde) detall.instruccio = Math.max(0, Math.min(maximInstr, suma));
+      for (const it of triades.filter(x => x.valor === 'perillosa')) avisos.push(`Instrucció perillosa: ${it.text}`);
+      maxim += maximInstr;
     }
-    if (fases.nivell && nivell) {
-      if (r.nivell) detall.nivell = r.nivell === nivell ? 3 : Math.abs(r.nivell - nivell) === 1 ? 1 : 0;
+    if (fases.nivell && nivells.length) {
+      const dist = r.nivell ? Math.min(...nivells.map(n => Math.abs(n - r.nivell))) : null;
+      if (r.nivell) detall.nivell = dist === 0 ? 3 : dist === 1 ? 1 : 0;
       maxim += 3;
     }
     // Without a units screen, the units activated with the bar are the answer
     const unitats = fases.recursos ? r.recursos : fases.activacio ? r.activacio?.recursos || (r.fet ? [] : null) : null;
     if (fases.recursos || fases.activacio) {
       if (unitats) {
-        const meva = this.composicio(unitats), bona = this.composicio(this.correctes);
-        if (CATS.every(c => meva[c] === bona[c])) detall.recursos += 2;
-        else if (CATS.every(c => !meva[c] === !bona[c])) detall.recursos += 1;
-        if (unitats.length === this.correctes.length && unitats.every(id => this.correctes.includes(id))) detall.recursos += 1;
+        const v = this.valoraUnitats(unitats);
+        detall.recursos = v.punts;
+        avisos.push(...v.avisos);
       }
       maxim += 3;
     }
@@ -283,12 +330,13 @@ export class Aula {
       if (r.activacio?.abansValoracio) detall.deteccio = 1;
       maxim += 1;
     }
-    return { ...detall, punts: Object.values(detall).reduce((a, b) => a + b, 0), maxim };
+    return { ...detall, punts: Object.values(detall).reduce((a, b) => a + b, 0), maxim, avisos };
   }
 
   correcte() {
     const n = this.composicio(this.correctes);
-    return { nivell: this.config.nivell, recursos: this.correctes, composicio: n, text: textComposicio(n) };
+    return { nivell: this.config.nivell, nivells: this.config.nivells, recursos: this.correctes, composicio: n, interval: this.interval,
+      text: textInterval(this.interval), explicacio: this.config.explicacio };
   }
 
   // What a student's phone sees: never the right answers before the results
@@ -303,11 +351,11 @@ export class Aula {
     }
     const r = this.respostes.get(client);
     const resultats = this.estat === 'resultats';
-    const { tipus, fases, titol, carta, preguntes } = this.config;
+    const { tipus, fases, titol, carta, preguntes, instruccions } = this.config;
     return {
-      estat: this.estat, ronda: this.ronda, tipus, fases, titol, carta, preguntes, ...this.rellotge(),
+      estat: this.estat, ronda: this.ronda, tipus, fases, titol, carta, preguntes, instruccions, ...this.rellotge(),
       xabcde: this.config.xabcde.map(l => ({ lletra: l.lletra, nom: l.nom,
-        items: l.items.map(({ id, seccio, text, correcte }) => ({ id, seccio, text, ...(resultats ? { correcte } : {}) })) })),
+        items: l.items.map(({ id, seccio, text, correcte, valor }) => ({ id, seccio, text, ...(resultats ? { correcte, valor } : {}) })) })),
       unitats: this.unitats.map(({ indicatiu, tipus: t, cat, base, km, eta, ocupada }) => ({ indicatiu, tipus: t, cat, base, km, eta, ocupada })),
       municipi: this.config.lloc.municipi,
       resposta: r ? { xabcde: r.xabcde, nivell: r.nivell, recursos: r.recursos, activacio: r.activacio || null, fet: !!r.fet } : null,
@@ -342,6 +390,8 @@ export class Aula {
         nivell: compta(rs, r => r.nivell),
         unitats: compta(fets.flatMap(r => (r.recursos.length ? r.recursos : ['cap'])), x => x),
         composicio: compta(fets, r => textComposicio(this.composicio(r.recursos))),
+        // Which of the answered compositions are within the right range, for the results
+        composicioDins: Object.fromEntries(fets.map(r => [textComposicio(this.composicio(r.recursos)), this.valoraUnitats(r.recursos).dins])),
         envien: { si: fets.filter(r => r.recursos.length).length, no: fets.filter(r => !r.recursos.length).length },
         // Seconds from opening the answers (and starting the recording) to the first activation, and to the final answer
         activacio: rs.filter(r => r.activacio).map(r => ({ nom: r.nom, t: r.activacio.t, abansValoracio: r.activacio.abansValoracio })).sort((a, b) => a.t - b.t),

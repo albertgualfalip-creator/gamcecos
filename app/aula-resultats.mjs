@@ -26,21 +26,23 @@ export const tempsActivacio = d => trams(d.activacio.map(a => a.t), 'Sense activ
 function itemsTriats(v, seccions, mostra) {
   const d = v.distribucio.xabcde;
   return v.config.xabcde.flatMap(l => l.items.filter(it => seccions.includes(it.seccio)).map(it => ({ ...it, lletra: l.lletra })))
-    .filter(it => (mostra && it.correcte) || d[it.id])
+    .filter(it => (mostra && (it.correcte || it.valor)) || d[it.id])
     .sort((a, b) => (mostra ? b.correcte - a.correcte : 0) || (d[b.id] || 0) - (d[a.id] || 0))
-    .map(it => ({ html: `<b>${esc(it.lletra)}</b> ${esc(it.seccio === 'noavaluable' ? 'No avaluable' : it.text)}`, n: d[it.id] || 0, correcte: mostra && it.correcte }));
+    // Graded instructions show how right they were: acceptable or dangerous
+    .map(it => ({ html: `<b>${esc(it.lletra)}</b> ${esc(it.seccio === 'noavaluable' ? 'No avaluable' : it.text)}${mostra && it.valor === 'acceptable' ? ' <span class="acceptable-resp">≈ acceptable</span>'
+      : mostra && it.valor === 'perillosa' ? ' <span class="error-resp">⚠ perillosa</span>' : ''}`, n: d[it.id] || 0, correcte: mostra && it.correcte }));
 }
 
 // One panel per question of the case; "mostra" marks the right answers (only once the results are shown)
 export function panellsResultats(v, mostra) {
   const d = v.distribucio, buit = '<p class="suau">Encara cap resposta.</p>';
   const panell = (titol, cos) => `<div class="panell"><h3>${titol}</h3>${cos || buit}</div>`;
-  const composicio = barres(Object.entries(d.composicio).sort((a, b) => b[1] - a[1]).map(([text, n]) => ({ text, n, correcte: mostra && text === v.correcte.text })));
+  const composicio = barres(Object.entries(d.composicio).sort((a, b) => b[1] - a[1]).map(([text, n]) => ({ text, n, correcte: mostra && !!d.composicioDins?.[text] })));
   const unitats = barres(Object.entries(d.unitats).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([id, n]) => {
     const u = v.unitats.find(x => x.indicatiu === id);
     return { text: u ? `${id} ${u.tipus} · ${u.eta} min` : 'Cap recurs', n, correcte: mostra && v.correctes.includes(id) };
   }));
-  const proposta = mostra ? `<p class="suau">Proposta: <b>${esc(v.correcte.text)}</b> (${esc(v.correctes.join(', ') || 'cap recurs')})</p>` : '';
+  const proposta = mostra ? `<p class="suau">Correcte: <b>${esc(v.correcte.text)}</b> · les més properes: ${esc(v.correctes.join(', ') || 'cap recurs')}</p>` : '';
   const f = v.config.fases, calRecurs = v.correctes.length > 0;
   const capCorrecte = !v.config.xabcde.some(l => l.items.some(it => it.seccio === 'maniobres' && it.correcte));
   const instruccions = itemsTriats(v, ['maniobres'], mostra);
@@ -48,8 +50,10 @@ export function panellsResultats(v, mostra) {
   return [
     f.escolta && panell('👂 Què han escoltat', barres(itemsTriats(v, ['signes', 'noavaluable'], mostra))),
     f.preguntes && panell(`❓ Preguntes (${v.config.preguntes} per alumne)`, barres(itemsTriats(v, ['anamnesi'], mostra))),
-    f.instruccio && panell('🖐 Primera instrucció', barres(instruccions)),
-    f.nivell && panell('Nivell de triatge', barres([1, 2, 3, 4, 5].map(n => ({ html: `<span class="nivell n${n}">N${n}</span>`, n: d.nivell[n] || 0, correcte: mostra && v.config.nivell === n, classe: `n${n}` })))),
+    f.instruccio && panell((v.config.instruccions || 1) > 1 ? `🖐 Instruccions (fins a ${v.config.instruccions})` : '🖐 Primera instrucció', barres(instruccions)),
+    f.nivell && panell('Nivell de triatge', barres([1, 2, 3, 4, 5].map(n => ({ html: `<span class="nivell n${n}">N${n}</span>`, n: d.nivell[n] || 0,
+      correcte: mostra && (v.config.nivells?.length ? v.config.nivells.includes(n) : v.config.nivell === n), classe: `n${n}` })))),
+    mostra && v.config.explicacio && panell('💬 Per què', `<p>${esc(v.config.explicacio)}</p>`),
     f.recursos && v.config.tipus === 'carta' && panell('Hi envien recurs?', barres([{ text: 'Sí', n: d.envien.si, correcte: mostra && calRecurs }, { text: 'No', n: d.envien.no, correcte: mostra && !calRecurs }])),
     f.recursos && panell('🚑 Quants de cada tipus', Object.keys(d.composicio).length ? composicio + proposta : ''),
     f.recursos && panell('Unitats més triades', Object.keys(d.unitats).length ? unitats : ''),

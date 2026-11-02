@@ -62,14 +62,14 @@ function render(v) {
     camp('Entrada', c.tipus === 'carta' ? 'Dades 112 (sense veu)' : 'Trucada sanitària (VPS)'),
     camp(v.queden != null ? 'Queden' : 'Temps', temps(v)),
     camp('Municipi', esc(c.lloc.municipi)), camp('Zona', esc(c.lloc.zona || '')), camp('Entorn', esc({ urba: 'Urbà', suburba: 'Suburbà', rural: 'Rural' }[c.lloc.entorn] || '')),
-    camp('Prioritat', resultats && c.nivell && c.fases.nivell ? `<span class="nivell n${c.nivell}">N${c.nivell}</span>` : '—'),
+    camp('Prioritat', resultats && c.nivell && c.fases.nivell ? (c.nivells?.length ? c.nivells : [c.nivell]).map(n => `<span class="nivell n${n}">N${n}</span>`).join(' ') : '—'),
     camp('Tipus', esc(c.titol), 'ample'),
   ].join('');
   // 112 information as the card arrives, and the call while it is on
   $('titol-112').innerHTML = c.tipus === 'carta' ? 'Informació 112 · SITREM' : `Informació 112 · <span class="en-linia">${resultats ? 'FINALITZADA' : 'TRUCADA EN CURS'}</span>`;
   $('info112').innerHTML = `${c.carta ? `<div class="cecos-linia"><span class="suau">${horaAlerta} · T · SITREM</span><br>${esc(c.carta)}</div>` : '<p class="suau">Sense carta.</p>'}
     ${c.tipus !== 'carta' && !resultats ? '<div class="ona">' + Array.from({ length: 32 }, (_, i) => `<span style="animation-delay:${(i % 8) * 0.1}s"></span>`).join('') + '</div>' : ''}
-    ${resultats ? `<div class="cecos-linia proposta"><span class="suau">PROPOSTA</span><br>${c.nivell && c.fases.nivell ? `Nivell N${c.nivell} · ` : ''}${esc(v.correcte.text)}</div>` : ''}`;
+    ${resultats ? `<div class="cecos-linia proposta"><span class="suau">PROPOSTA</span><br>${c.nivell && c.fases.nivell ? `Nivell ${(c.nivells?.length ? c.nivells : [c.nivell]).map(n => `N${n}`).join(' o ')} · ` : ''}${esc(v.correcte.text)}</div>` : ''}`;
   // Resources table: kind, base, state and arrival time; the right ones stand out on the results
   $('recursos').innerHTML = `<tr><th>Indicatiu</th><th>Tipus</th><th>Base</th><th>Estat</th><th>ETA</th></tr>
     ${v.unitats.map(u => {

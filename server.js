@@ -302,8 +302,11 @@ function casosAula(req, res, ruta, cos) {
     const base = String(c.titol).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'cas';
     const id = idCasAula(c.id) || `${base}-${crypto.randomBytes(2).toString('hex')}`;
     const anterior = llegeixCasosAula().find(x => x.id === id);
-    const mode = ['nombre', 'manual'].includes(c.recursos?.mode) ? c.recursos.mode : 'auto';
-    const recursos = mode === 'nombre' ? { mode, SVA: Number(c.recursos.SVA) || 0, SVB: Number(c.recursos.SVB) || 0, HEMS: Number(c.recursos.HEMS) || 0 } : { mode };
+    const mode = ['nombre', 'manual', 'interval'].includes(c.recursos?.mode) ? c.recursos.mode : 'auto';
+    const rang = x => (Array.isArray(x) ? x.slice(0, 2).map(n => Math.max(0, Math.min(8, Number(n) || 0))) : [0, 0]);
+    const recursos = mode === 'nombre' ? { mode, SVA: Number(c.recursos.SVA) || 0, SVB: Number(c.recursos.SVB) || 0, HEMS: Number(c.recursos.HEMS) || 0 }
+      : mode === 'interval' ? { mode, SVA: rang(c.recursos.SVA), SVB: rang(c.recursos.SVB), HEMS: rang(c.recursos.HEMS) } : { mode };
+    const nivells = Array.isArray(c.nivells) ? c.nivells.map(Number).filter(n => n >= 1 && n <= 5).slice(0, 5) : undefined;
     const fases = c.fases && typeof c.fases === 'object' ? Object.fromEntries(Object.entries(c.fases).filter(([, v]) => typeof v === 'boolean')) : undefined;
     const unitats = Array.isArray(c.unitats) ? c.unitats.filter(u => u && /^[\w-]{1,30}$/.test(u.indicatiu) && ['lliure', 'ocupada'].includes(u.estat))
       .map(u => ({ indicatiu: u.indicatiu, estat: u.estat })).slice(0, 40) : undefined;
@@ -315,7 +318,8 @@ function casosAula(req, res, ruta, cos) {
       correctes: Array.isArray(x?.correctes) ? x.correctes.filter(id => typeof id === 'string').slice(0, 10) : [],
     })) : undefined;
     const cas = { id, tipus: ['carta', 'escenari'].includes(c.tipus) ? c.tipus : 'veu', incidents, equips: Number(c.equips) || 4, titol: String(c.titol).trim().slice(0, 80), carta: String(c.carta || '').trim().slice(0, 1000),
-      nivell: c.nivell ?? null, preguntes: Number(c.preguntes) || 3, temps: Math.max(0, Math.min(1800, Number(c.temps) || 0)), recursos, fases, unitats, correctes, lloc: c.lloc || null, xabcde: c.xabcde || [],
+      nivell: c.nivell ?? null, nivells, instruccions: Math.max(1, Math.min(3, Number(c.instruccions) || 1)), explicacio: String(c.explicacio || '').slice(0, 1000),
+      preguntes: Number(c.preguntes) || 3, temps: Math.max(0, Math.min(1800, Number(c.temps) || 0)), recursos, fases, unitats, correctes, lloc: c.lloc || null, xabcde: c.xabcde || [],
       notes: String(c.notes || '').slice(0, 2000), ordre: Number.isFinite(c.ordre) ? c.ordre : anterior?.ordre ?? 999, audio: anterior?.audio || null };
     try {
       fs.mkdirSync(DIR_AULA, { recursive: true });

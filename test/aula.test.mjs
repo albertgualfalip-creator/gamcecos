@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { Aula, CAP_MANIOBRA } from '../aula.mjs';
+import { Aula, CAP_MANIOBRA, textInterval } from '../aula.mjs';
 import { CATEGORIA, XABCDE, SECCIONS } from '../app/motor.mjs';
 
 const d = f => JSON.parse(readFileSync(new URL(`../${f}`, import.meta.url)));
@@ -93,7 +93,8 @@ test('aprenentatge només carta: el nombre de recursos de cada tipus decideix la
   a.respon('poc', { nom: 'Poc', recursos: unaDeCada });
   a.respon('res', { nom: 'Res', recursos: [] });
   const punts = nom => a.puntua([...a.respostes.values()].find(r => r.nom === nom)).punts;
-  assert.deepEqual([punts('Bo'), punts('Poc'), punts('Res')], [3, 1, 0]);
+  // Short of a kind (infradotat) gets no points for the units
+  assert.deepEqual([punts('Bo'), punts('Poc'), punts('Res')], [3, 0, 0]);
   const t = a.vistaTutor();
   assert.deepEqual(t.distribucio.envien, { si: 2, no: 1 });
   assert.equal(t.distribucio.composicio['2 SVA + 3 SVB'], 1);
@@ -187,4 +188,46 @@ test('aprenentatge: el triangle pediàtric és opcional i un bloc no inclòs no 
     items: SECCIONS.flatMap(sec => l[sec.id].map(text => ({ seccio: sec.id, text }))) }));
   const lletres = new Aula({ lloc, xabcde: amb, llavor: 1 }, dades).config.xabcde.map(l => l.lletra);
   assert.deepEqual(lletres, ['1r', 'TEP', 'A', 'B', 'C', 'D', 'E']);
+});
+
+test('recursos amb interval: dins de l\'interval, infradotat o sobredotat', () => {
+  const a = new Aula({ tipus: 'carta', lloc, recursos: { mode: 'interval', SVA: [1, 2], SVB: [2, 4], HEMS: [0, 1] }, llavor: 3 }, dades);
+  assert.equal(a.correcte().text, '1–2 SVA + 2–4 SVB + 0–1 Helicòpter');
+  assert.equal(textInterval({ SVA: [2, 2], SVB: [0, 0], HEMS: [0, 0] }), '2 SVA');
+  const de = (cat, n) => a.unitats.filter(u => !u.ocupada && u.cat === cat).slice(0, n).map(u => u.indicatiu);
+  assert.equal(a.valoraUnitats([...de('SVA', 1), ...de('SVB', 3)]).punts, 3, 'dins i les més properes');
+  assert.equal(a.valoraUnitats([...de('SVA', 2), ...de('SVB', 2), ...de('HEMS', 1)]).punts, 3);
+  assert.equal(de('SVB', 5).length, 5, 'hi ha prou SVB lliures per passar-se');
+  const massa = a.valoraUnitats([...de('SVA', 1), ...de('SVB', 5)]);
+  assert.equal(massa.punts, 1);
+  assert.ok(massa.avisos.some(x => /Sobredotat/.test(x)));
+  const poc = a.valoraUnitats(de('SVB', 3));
+  assert.equal(poc.punts, 0);
+  assert.ok(poc.avisos.some(x => /Infradotat.*SVA/.test(x)));
+});
+
+test('instruccions graduades i diverses: indicada, acceptable, perillosa', () => {
+  const items = [{ seccio: 'maniobres', text: 'Pressió directa', valor: 'indicada' }, { seccio: 'maniobres', text: 'Torniquet', valor: 'acceptable' },
+    { seccio: 'maniobres', text: 'Treure l\'objecte clavat', valor: 'perillosa' }, { seccio: 'maniobres', text: 'Posició incorporada' }];
+  const a = new Aula({ fases: { escolta: false, preguntes: false, instruccio: true, nivell: false, recursos: false, activacio: false }, instruccions: 2,
+    lloc, xabcde: [{ lletra: 'X', nom: 'Hemorràgia', items }], llavor: 1 }, dades);
+  const id = text => a.config.xabcde[0].items.find(it => it.text === text).id;
+  a.ordre({ tipus: 'obre' });
+  const punts = (c, triades) => { a.respon(c, { xabcde: triades.map(id) }); return a.puntua(a.respostes.get(c)); };
+  assert.equal(punts('c1', ['Pressió directa', 'Torniquet']).instruccio, 2, 'com a màxim, els punts de les indicades');
+  assert.equal(punts('c2', ['Torniquet']).instruccio, 1);
+  const perill = punts('c3', ['Pressió directa', 'Treure l\'objecte clavat']);
+  assert.equal(perill.instruccio, 1);
+  assert.ok(perill.avisos.some(x => /perillosa/.test(x)));
+  assert.equal(punts('c4', ['Posició incorporada']).instruccio, 0);
+  assert.equal(a.respostes.get('c1').xabcde.length, 2, 'fins a 2 instruccions');
+});
+
+test('diversos nivells correctes', () => {
+  const a = new Aula({ tipus: 'carta', fases: { nivell: true, recursos: true }, nivells: [1, 2], lloc, llavor: 1 }, dades);
+  a.ordre({ tipus: 'obre' });
+  for (const [c, n, esperat] of [['c1', 1, 3], ['c2', 2, 3], ['c3', 3, 1], ['c4', 5, 0]]) {
+    a.respon(c, { nivell: n });
+    assert.equal(a.puntua(a.respostes.get(c)).nivell, esperat, `N${n}`);
+  }
 });

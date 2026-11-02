@@ -604,3 +604,15 @@ body.presentacio { background: #0b1220; color: #e8edf6; min-height: 100vh; margi
 /* Phone: the join form, large and easy to type in */
 .aula-mobil #entra label { display: grid; gap: .3rem; font-weight: 600; margin-top: .6rem; }
 .aula-mobil #entra input { font: inherit; font-size: 1.15rem; padding: .75rem; border-radius: 8px; border: 1px solid var(--vora); background: var(--panell); color: var(--text); }
+/* Several right levels, graded instructions and ranges of units */
+.camp-nivells { display: grid; gap: .3rem; }
+.nivells-xips { display: flex; gap: .3rem; }
+.nivells-xips .nivell { border: 0; font-size: 1rem; padding: .35rem .7rem; opacity: .35; cursor: pointer; }
+.nivells-xips .nivell.triat { opacity: 1; outline: 3px solid var(--text); }
+.xip-boto.acceptable { background: var(--acceptable); border-color: var(--acceptable); color: #1d232b; }
+.xip-boto.perillosa { background: var(--perillosa); border-color: var(--perillosa); color: #fff; }
+.acceptable-resp { color: #a07f00; font-weight: 800; }
+.avisos li { color: var(--perillosa); }
+.explicacio { background: var(--tria); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: .5rem .7rem; margin: .6rem 0; }
+.explicacio p { margin: .2rem 0 0; }
+.taula-interval td, .taula-interval th { padding: .2rem .6rem; }

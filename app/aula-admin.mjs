@@ -18,7 +18,7 @@ const EXPLICA = {
 const PER_EXTENSIO = { mp3: 'audio/mpeg', wav: 'audio/wav', m4a: 'audio/mp4', mp4: 'audio/mp4', ogg: 'audio/ogg', oga: 'audio/ogg', webm: 'audio/webm', aac: 'audio/aac', flac: 'audio/flac' };
 const tipusAudio = f => (f.type && f.type !== 'application/octet-stream' ? f.type : PER_EXTENSIO[f.name.split('.').pop().toLowerCase()] || 'audio/mpeg');
 
-let casos = [], actual = null, canvis = false, fases = {};
+let casos = [], actual = null, canvis = false, fases = {}, nivells = new Set();
 let audioNou = null, urlAudioNou = null;   // recording chosen or dropped, uploaded when the case is saved
 // Units chosen by the tutor: candidates around the place and, per unit, whether it appears (and how) and if it is right
 let candidates = [], estatUnitat = new Map(), correctes = new Set(), llocCandidates = '';
@@ -98,7 +98,9 @@ function obre(c) {
   $('titol-form').textContent = c.id ? c.titol : 'Cas nou';
   f.titol.value = c.titol || '';
   f.municipi.value = c.lloc?.municipi || '';
-  f.nivell.value = c.nivell || '';
+  nivells = new Set((c.nivells?.length ? c.nivells : c.nivell ? [c.nivell] : []).map(Number));
+  f.explicacio.value = c.explicacio || '';
+  f.instruccions.value = c.instruccions || 1;
   f.carta.value = c.carta || '';
   f.notes.value = c.notes || '';
   f.temps.value = c.temps || '';
@@ -107,8 +109,14 @@ function obre(c) {
   f.audio.value = '';
   posaAudioNou(null);
   fases = { ...(c.fases || Object.fromEntries(FASES.map(x => [x, PER_DEFECTE[tipus()].includes(x)]))) };
-  f['mode-recursos'].value = ['auto', 'nombre'].includes(c.recursos?.mode) ? c.recursos.mode : tipus() === 'carta' ? 'nombre' : 'auto';
-  for (const k of ['SVA', 'SVB', 'HEMS']) f[k].value = c.recursos?.[k] || 0;
+  // Resources as a range per kind; an old exact number is a range of one value
+  const rec = c.recursos || {};
+  f['mode-recursos'].value = ['interval', 'nombre'].includes(rec.mode) || (!rec.mode && tipus() === 'carta') ? 'interval' : 'auto';
+  for (const k of ['SVA', 'SVB', 'HEMS']) {
+    const [min, max] = rec.mode === 'interval' ? rec[k] || [0, 0] : [Number(rec[k]) || 0, Number(rec[k]) || 0];
+    f[`${k}-min`].value = min;
+    f[`${k}-max`].value = max;
+  }
   estatUnitat = new Map((c.unitats || []).map(u => [u.indicatiu, u.estat]));
   correctes = new Set(c.correctes || []);
   f.querySelector(`[name=mode-unitats][value=${c.unitats?.length || tipus() === 'escenari' ? 'tria' : 'auto'}]`).checked = true;
@@ -143,13 +151,21 @@ function mostraCamps() {
   const tria = escenari || f.querySelector('[name=mode-unitats]:checked').value === 'tria';
   $('editor-unitats').hidden = !tria;
   $('resposta-auto').hidden = escenari || tria;
-  $('nombre-recursos').hidden = f['mode-recursos'].value !== 'nombre';
+  $('nombre-recursos').hidden = f['mode-recursos'].value !== 'interval';
+  $('camp-instruccions').hidden = !fases.instruccio;
+  f.querySelectorAll('[data-nivell]').forEach(b => b.classList.toggle('triat', nivells.has(Number(b.dataset.nivell))));
   $('explica-unitats').textContent = escenari ? 'Les unitats que comparteixen tots els incidents: poques, perquè hagin de prioritzar. Les correctes es marquen a cada incident.'
     : 'Trieu si cada unitat surt a la llista i si és lliure o ocupada, i marqueu les correctes (cap = no cal recurs).';
   if (tria) carregaCandidates();
   if (escenari) pintaIncidents();
 }
 
+f.querySelectorAll('[data-nivell]').forEach(b => b.onclick = () => {
+  const n = Number(b.dataset.nivell);
+  nivells.has(n) ? nivells.delete(n) : nivells.add(n);
+  modificat();
+  mostraCamps();
+});
 f.querySelectorAll('[data-fase]').forEach(b => b.onclick = () => { fases[b.dataset.fase] = !fases[b.dataset.fase]; modificat(); mostraCamps(); });
 f.addEventListener('change', e => { if (['mode-unitats', 'mode-recursos'].includes(e.target.name)) mostraCamps(); });
 f.addEventListener('input', modificat);
@@ -306,11 +322,13 @@ function cas() {
   const mode = f['mode-recursos'].value;
   return {
     id: actual.id, tipus: t, titol: f.titol.value, lloc: lloc(f.municipi.value), carta: escenari ? '' : f.carta.value, notes: f.notes.value,
-    nivell: !escenari && f.nivell.value ? Number(f.nivell.value) : null, preguntes: Number(f.preguntes.value) || 3, ordre: actual.ordre,
+    nivell: !escenari && nivells.size ? Math.min(...nivells) : null, nivells: escenari ? [] : [...nivells].sort(), preguntes: Number(f.preguntes.value) || 3, ordre: actual.ordre,
+    instruccions: Number(f.instruccions.value) || 1, explicacio: escenari ? '' : f.explicacio.value,
     temps: Number(f.temps.value) || 0, fases: escenari ? {} : { ...fases }, equips: Number(f.equips.value) || 4, xabcde: escenari ? [] : llegeixXabcde(),
     unitats: tria ? [...estatUnitat].map(([indicatiu, estat]) => ({ indicatiu, estat })) : [],
     correctes: tria && !escenari ? [...correctes].filter(id => estatUnitat.get(id) === 'lliure') : [],
-    recursos: tria ? { mode: 'manual' } : mode === 'nombre' ? { mode, SVA: Number(f.SVA.value), SVB: Number(f.SVB.value), HEMS: Number(f.HEMS.value) } : { mode },
+    recursos: tria ? { mode: 'manual' } : mode === 'interval'
+      ? Object.fromEntries([['mode', mode], ...['SVA', 'SVB', 'HEMS'].map(k => [k, [Number(f[`${k}-min`].value) || 0, Number(f[`${k}-max`].value) || 0]])]) : { mode },
     incidents: escenari ? incidents.map(({ id, carta, municipi, nivell, prioritat, duplicatDe, correctes: bones }) => ({ id, carta, lloc: lloc(municipi), nivell: Number(nivell) || null,
       prioritat: Number(prioritat) || null, duplicatDe: duplicatDe || null, correctes: duplicatDe ? [] : (bones || []).filter(u => estatUnitat.get(u) === 'lliure') })) : undefined,
   };
