@@ -237,12 +237,37 @@ export function desenllac(resultats, nivell, criteri) {
   return greu || tard || sobrerecurs ? 'dolent' : 'bo';
 }
 
-// Primary assessment for the consultor training: one finding per letter, editable per recording
+// Primary assessment for the consultor training. Each letter has what to ask (anamnesi), what can be heard on
+// the call (signes) and the life-saving instructions to give (maniobres). Based on ERC 2021 (telephone recognition
+// of cardiac arrest, dispatcher-assisted CPR, first aid: choking, bleeding, recovery position) and Codi Ictus.
+export const SECCIONS = [
+  { id: 'anamnesi', nom: 'Anamnesi', pregunta: 'Què preguntaries?' },
+  { id: 'signes', nom: 'Signes i símptomes', pregunta: 'Què has escoltat a la gravació?' },
+  { id: 'maniobres', nom: 'Maniobres salvadores', pregunta: 'Quines instruccions donaries?' },
+];
 export const XABCDE = [
-  { lletra: 'X', nom: 'Hemorràgia exsanguinant', opcions: ['Sense hemorràgia externa', 'Hemorràgia massiva', 'No es pot valorar'] },
-  { lletra: 'A', nom: 'Via aèria', opcions: ['Permeable (parla)', 'Sorolls o compromesa', 'Obstruïda', 'No es pot valorar'] },
-  { lletra: 'B', nom: 'Respiració', opcions: ['Respira normal', 'Dificultat respiratòria', 'No respira o gasping', 'No es pot valorar'] },
-  { lletra: 'C', nom: 'Circulació', opcions: ['Coloració normal', 'Pàl·lid, suat o fred', 'Sense signes de circulació', 'No es pot valorar'] },
-  { lletra: 'D', nom: 'Neurològic', opcions: ['Conscient i orientat', 'Confús o somnolent', 'No respon', 'No es pot valorar'] },
-  { lletra: 'E', nom: 'Exposició i entorn', opcions: ['Sense lesions ni riscos', 'Traumatisme o lesions', 'Entorn de risc', 'No es pot valorar'] },
+  { lletra: 'X', nom: 'Hemorràgia exsanguinant',
+    anamnesi: ["Hi ha sang? D'on surt i quanta n'hi ha?", 'Raja a dolls o no para de sortir?', 'Hi ha algun objecte clavat?', 'Pren anticoagulants?'],
+    signes: ['Sagnat abundant que no para', 'Sagnat lleu o controlat', 'Cap sagnat referit'],
+    maniobres: ['Pressió directa i ferma sobre la ferida amb un drap net', 'Torniquet (o cinturó) per sobre la ferida si no para', 'No treure els objectes clavats', 'Estirar el pacient a terra'] },
+  { lletra: 'A', nom: 'Via aèria',
+    anamnesi: ['Pot parlar? Respon quan li parles?', "S'està ennuegant amb alguna cosa?", 'Pot tossir amb força?', 'Fa sorolls quan respira?'],
+    signes: ['Parla amb normalitat', 'Estridor o xiulet en agafar aire', 'Ronc o gargoteig', 'No pot parlar ni tossir', "No s'escolta respirar"],
+    maniobres: ['Animar-lo a tossir', '5 cops a l\'esquena i 5 compressions abdominals (Heimlich)', 'Obrir la via aèria: front enrere i mentó amunt', 'Posició lateral de seguretat (inconscient que respira)', 'Treure cossos estranys visibles de la boca'] },
+  { lletra: 'B', nom: 'Respiració',
+    anamnesi: ['Respira? Mira si el pit es mou', 'Respira normal o fa badalls o esbufecs?', 'Li costa respirar? Pot dir frases senceres?', 'Té asma o MPOC? Té inhaladors?'],
+    signes: ['Dispnea: parla entretallada', 'Sibilàncies (xiulets)', 'Respiració molt ràpida', 'Gasping o respiració agònica', 'No respira'],
+    maniobres: ['Posició incorporada, assegut', 'Ajudar-lo a fer servir el seu inhalador', 'Afluixar la roba i ventilar', 'Iniciar RCP si no respira o fa gasping'] },
+  { lletra: 'C', nom: 'Circulació',
+    anamnesi: ['Com té la pell? Pàl·lida, suada, freda?', 'Té dolor al pit? Des de quan i com és?', "S'ha desmaiat o té palpitacions?", 'Té malalties del cor? Quina medicació pren?'],
+    signes: ['Pell pàl·lida o suada', 'Dolor toràcic opressiu', 'Pèrdua de consciència (síncope)', 'Palpitacions', 'Sense signes de vida'],
+    maniobres: ['RCP: compressions fortes al centre del pit, 100-120 per minut', 'Anar a buscar el DEA més proper i seguir-ne les instruccions', 'Estirar-lo amb les cames elevades', 'Repòs absolut: que no camini'] },
+  { lletra: 'D', nom: 'Neurològic',
+    anamnesi: ["Està despert? Respon si li parles o el sacseges?", 'Sap on és i quin dia és?', 'Pot somriure, aixecar els dos braços i parlar bé?', "A quina hora van començar els símptomes?", 'És diabètic? Li podeu mirar el sucre?', 'Ha convulsionat?'],
+    signes: ['Parla estranya o no troba les paraules', 'Confús o desorientat', 'No respon', 'Convulsió en curs', 'Ronc profund'],
+    maniobres: ['Posició lateral de seguretat', 'Convulsió: apartar objectes, no subjectar-lo ni posar res a la boca', 'Hipoglucèmia i conscient: donar sucre per boca', 'Res per boca si està poc conscient', "Anotar l'hora d'inici dels símptomes"] },
+  { lletra: 'E', nom: 'Exposició i entorn',
+    anamnesi: ['Hi ha cap perill a l\'escena (trànsit, foc, gas, violència)?', "Ha tingut un cop o una caiguda? Des d'on?", 'Ha estat exposat a fred o calor extrems?', 'Ha pres medicaments, drogues o tòxics?', 'Té al·lèrgies? Hi ha urticària o inflamació?'],
+    signes: ["Entorn de risc (trànsit, crits)", 'Traumatisme o deformitat', 'Cremada', 'Exposició al fred', 'Reacció al·lèrgica'],
+    maniobres: ["Autoprotecció: no apropar-se si hi ha perill", 'No moure\'l si hi ha sospita de lesió de columna', 'Refredar la cremada amb aigua 20 minuts', 'Abrigar-lo i protegir-lo del fred', "Fer servir l'autoinjector d'adrenalina si en té", "Guardar l'envàs del tòxic"] },
 ];

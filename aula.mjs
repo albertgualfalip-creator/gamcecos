@@ -1,7 +1,7 @@
 // Consultor training ("Aprenentatge consultors"): the tutor plays a recording and every student, on their
 // phone, marks the XABCDE findings, sets the triage level and chooses which units to activate. Separate from
 // the shift game: it only shares the real units, the travel times and the scoring scale.
-import { CATEGORIA, distanciaKm, tempsArribada, entornDe, aleatori, comboDe, RECURSOS, XABCDE } from './app/motor.mjs';
+import { CATEGORIA, distanciaKm, tempsArribada, entornDe, aleatori, comboDe, RECURSOS, XABCDE, SECCIONS } from './app/motor.mjs';
 
 // AURE response per level: which kinds of unit the nearest available ones should be
 const RESPOSTA = { 1: ['SVA', 'SVB'], 2: ['SVA', 'SVB'], 3: ['SVB'], 4: [], 5: [] };
@@ -12,22 +12,31 @@ export class Aula {
     this.dades = dades;
     this.estat = 'preparada';   // preparada → oberta (answering) → resultats
     this.ronda = 0;
-    this.respostes = new Map(); // client -> {nom, xabcde: {X: index}, nivell, recursos: [indicatiu] | [], fet}
+    this.respostes = new Map(); // client -> {nom, xabcde: [item ids marked], nivell, recursos: [indicatiu] | []}
     this.configura(config);
   }
 
   // A new round (or the first one): case data, location and the units the students will see
   configura(c = {}) {
+    // Each letter: items to tick in three sections (what to ask, what is heard, what to instruct); the tutor
+    // marks which items are right for this recording. Accepts {items: [...]} or the default {anamnesi, signes, maniobres}
     const xabcde = (Array.isArray(c.xabcde) && c.xabcde.length ? c.xabcde : XABCDE).map((l, i) => {
-      const opcions = (l.opcions || []).map(o => String(o).trim().slice(0, 80)).filter(Boolean).slice(0, 6);
-      const correcta = Number.isInteger(l.correcta) && l.correcta >= 0 && l.correcta < opcions.length ? l.correcta : null;
-      return { lletra: String(l.lletra || XABCDE[i]?.lletra || '?').slice(0, 2), nom: String(l.nom || XABCDE[i]?.nom || '').slice(0, 40), opcions, correcta };
-    }).filter(l => l.opcions.length);
+      const lletra = String(l.lletra || XABCDE[i]?.lletra || '?').slice(0, 2);
+      const fonts = Array.isArray(l.items) ? l.items : SECCIONS.flatMap(sec => (l[sec.id] || []).map(text => ({ seccio: sec.id, text })));
+      const comptes = {};
+      const items = fonts.filter(it => SECCIONS.some(sec => sec.id === it.seccio) && String(it.text || '').trim()).slice(0, 30).map(it => {
+        comptes[it.seccio] = (comptes[it.seccio] || 0) + 1;
+        return { id: `${lletra}-${it.seccio[0]}${comptes[it.seccio]}`, seccio: it.seccio, text: String(it.text).trim().slice(0, 120), correcte: it.correcte === true };
+      });
+      return { lletra, nom: String(l.nom || XABCDE[i]?.nom || '').slice(0, 40), items };
+    }).filter(l => l.items.length);
     const nivell = [1, 2, 3, 4, 5].includes(Number(c.nivell)) ? Number(c.nivell) : null;
     const lloc = c.lloc && Number.isFinite(c.lloc.lat) && Number.isFinite(c.lloc.lon) ? c.lloc : { municipi: 'Barcelona', zona: 'Barcelona ciutat', lat: 41.3874, lon: 2.1686 };
     const entorn = entornDe(lloc.zona, lloc.municipi, this.dades.aure.entorn_per_zona).entorn;
     this.config = { titol: String(c.titol || 'Gravació').slice(0, 80), xabcde, nivell, lloc: { ...lloc, entorn } };
-    this.unitats = this.unitatsProperes(c.llavor ?? Date.now());
+    const llavor = c.llavor ?? Date.now();
+    this.numero = 261800000 + Math.floor(aleatori(llavor + 1)() * 99999);   // incident number shown on the projector
+    this.unitats = this.unitatsProperes(llavor);
     this.correctes = Array.isArray(c.correctes) ? c.correctes.filter(id => this.unitats.some(u => u.indicatiu === id && !u.ocupada)) : this.recursosAure();
     this.respostes = new Map();
     this.estat = 'preparada';
@@ -39,7 +48,7 @@ export class Aula {
     const rnd = aleatori(llavor);
     const { lloc } = this.config;
     const totes = this.dades.unitats.filter(u => CATEGORIA[u.tipus])
-      .map(u => ({ indicatiu: u.indicatiu, tipus: u.tipus, base: u.base.nom, km: distanciaKm(u.base, lloc),
+      .map(u => ({ indicatiu: u.indicatiu, tipus: u.tipus, base: u.base.nom, lat: u.base.lat, lon: u.base.lon, km: distanciaKm(u.base, lloc),
         eta: tempsArribada(u.tipus, u.base, lloc, lloc.entorn) }))
       .filter(u => u.km <= (u.tipus === 'HELI' ? 150 : 60))
       .sort((a, b) => a.eta - b.eta);
@@ -72,8 +81,9 @@ export class Aula {
     const r = this.respostes.get(client) || { nom: 'Anònim', xabcde: null, nivell: null, recursos: null };
     if (r.recursos) return 'Ja has enviat la resposta';
     if (nom) r.nom = String(nom).slice(0, 24);
-    if (xabcde && typeof xabcde === 'object') {
-      r.xabcde = Object.fromEntries(this.config.xabcde.map(l => [l.lletra, Number.isInteger(xabcde[l.lletra]) && xabcde[l.lletra] < l.opcions.length ? xabcde[l.lletra] : null]));
+    if (Array.isArray(xabcde)) {
+      const ids = new Set(this.config.xabcde.flatMap(l => l.items.map(it => it.id)));
+      r.xabcde = [...new Set(xabcde)].filter(id => ids.has(id));
     }
     if (nivell != null) {
       if (!r.xabcde) return 'Primer marca el XABCDE';
@@ -90,18 +100,21 @@ export class Aula {
     return null;
   }
 
-  // Points: one per XABCDE letter right, 3 for the exact level (1 if one level off), and up to 3 for the units
+  // Points: in XABCDE one per right item ticked minus one per item ticked that was not indicated (never below
+  // zero), 3 for the exact level (1 if one level off), and up to 3 for the units
   puntua(r) {
     const { xabcde, nivell } = this.config;
     const detall = { xabcde: 0, nivell: 0, recursos: 0 };
-    for (const l of xabcde) if (l.correcta != null && r.xabcde?.[l.lletra] === l.correcta) detall.xabcde++;
+    const marcats = new Set(r.xabcde || []);
+    const items = xabcde.flatMap(l => l.items);
+    detall.xabcde = Math.max(0, items.filter(it => marcats.has(it.id)).reduce((s, it) => s + (it.correcte ? 1 : -1), 0));
     if (nivell && r.nivell) detall.nivell = r.nivell === nivell ? 3 : Math.abs(r.nivell - nivell) === 1 ? 1 : 0;
     if (r.recursos) {
       const tipus = ids => ids.map(id => this.unitats.find(u => u.indicatiu === id)).filter(Boolean);
       if (comboDe(tipus(r.recursos)) === comboDe(tipus(this.correctes))) detall.recursos += 2;
       if (r.recursos.length === this.correctes.length && r.recursos.every(id => this.correctes.includes(id))) detall.recursos += 1;
     }
-    const maxim = xabcde.filter(l => l.correcta != null).length + (nivell ? 3 : 0) + 3;
+    const maxim = items.filter(it => it.correcte).length + (nivell ? 3 : 0) + 3;
     return { ...detall, punts: detall.xabcde + detall.nivell + detall.recursos, maxim };
   }
 
@@ -113,7 +126,8 @@ export class Aula {
     const resultats = this.estat === 'resultats';
     return {
       estat: this.estat, ronda: this.ronda, titol: this.config.titol,
-      xabcde: this.config.xabcde.map(l => ({ lletra: l.lletra, nom: l.nom, opcions: l.opcions, ...(resultats ? { correcta: l.correcta } : {}) })),
+      xabcde: this.config.xabcde.map(l => ({ lletra: l.lletra, nom: l.nom,
+        items: l.items.map(({ id, seccio, text, correcte }) => ({ id, seccio, text, ...(resultats ? { correcte } : {}) })) })),
       unitats: this.unitats.map(({ indicatiu, tipus, base, km, eta, ocupada }) => ({ indicatiu, tipus, base, km, eta, ocupada })),
       municipi: this.config.lloc.municipi,
       resposta: r ? { xabcde: r.xabcde, nivell: r.nivell, recursos: r.recursos } : null,
@@ -128,11 +142,11 @@ export class Aula {
     const compta = (llista, clau) => llista.reduce((m, x) => { const k = clau(x); if (k != null) m[k] = (m[k] || 0) + 1; return m; }, {});
     const fets = rs.filter(r => r.recursos);
     return {
-      estat: this.estat, ronda: this.ronda, config: this.config, unitats: this.unitats, correctes: this.correctes,
+      estat: this.estat, ronda: this.ronda, numero: this.numero, config: this.config, unitats: this.unitats, correctes: this.correctes,
       correctesCombo: RECURSOS[this.combo(this.correctes)],
       progres: { connectats: rs.length, xabcde: rs.filter(r => r.xabcde).length, nivell: rs.filter(r => r.nivell).length, recursos: fets.length },
       distribucio: {
-        xabcde: Object.fromEntries(this.config.xabcde.map(l => [l.lletra, compta(rs.filter(r => r.xabcde), r => r.xabcde[l.lletra])])),
+        xabcde: compta(rs.flatMap(r => r.xabcde || []), id => id),
         nivell: compta(rs, r => r.nivell),
         unitats: compta(fets.flatMap(r => (r.recursos.length ? r.recursos : ['cap'])), x => x),
         combo: compta(fets, r => RECURSOS[this.combo(r.recursos)]),

@@ -31,7 +31,7 @@
       <label>Nivell correcte <select name="nivell"><option value="">No puntuar</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select></label>
     </div>
     <datalist id="municipis"></datalist>
-    <p class="suau">XABCDE: una opció per línia. Marqueu quina és la correcta per a aquesta gravació (o «no puntuar»).</p>
+    <p class="suau">XABCDE: per a cada lletra, què caldria preguntar (anamnesi), què es pot escoltar (signes i símptomes) i quines instruccions donar (maniobres salvadores). Un element per línia; sota de cada llista, marqueu els que són correctes per a aquesta gravació. Els alumnes guanyen un punt per cada element correcte que marquen i en perden un per cada element que marquen i no tocava.</p>
     <div id="xabcde" class="xabcde-editor"></div>
     <button class="boto" id="crea">Preparar la gravació</button>
     <p class="suau" id="error"></p>
@@ -45,6 +45,7 @@
           <button class="boto" id="obre">Obrir respostes</button>
           <button class="boto" id="mostra">Mostrar resultats</button>
           <button class="boto secundari" id="nova">Nova gravació</button>
+          <a class="boto secundari" id="obre-projector" target="_blank">Obrir la pantalla del projector ↗</a>
         </div>
         <div id="progres" class="progres-aula"></div>
         <label class="casella"><input type="checkbox" id="en-directe"> Veure les respostes en directe (no ho projecteu si no voleu condicionar)</label>

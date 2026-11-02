@@ -12,7 +12,13 @@ const client = guardat('gamcecos-client') || guardat('gamcecos-client', crypto.r
 let codi = (new URLSearchParams(location.search).get('codi') || '').toUpperCase();
 let nom = guardat('gamcecos-nom') || '';
 let vista = null, clauVista = '', ronda = null;
-let esborrany = { xabcde: {}, nivell: null, recursos: new Set() };
+const SECCIONS = [
+  { id: 'anamnesi', nom: 'Anamnesi', pregunta: 'Què preguntaries?' },
+  { id: 'signes', nom: 'Signes i símptomes', pregunta: 'Què has escoltat a la gravació?' },
+  { id: 'maniobres', nom: 'Maniobres salvadores', pregunta: 'Quines instruccions donaries?' },
+];   // as in motor.mjs
+const nouEsborrany = () => ({ xabcde: new Set(), lletra: 0, nivell: null, recursos: new Set() });
+let esborrany = nouEsborrany();
 
 async function envia(dades) {
   const r = await fetch(`/api/aula/resposta?codi=${codi}`, { method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -32,7 +38,7 @@ async function pregunta() {
 }
 
 function rep(v, força = false) {
-  if (v.ronda !== ronda) { ronda = v.ronda; esborrany = { xabcde: {}, nivell: null, recursos: new Set() }; }
+  if (v.ronda !== ronda) { ronda = v.ronda; esborrany = nouEsborrany(); }
   const clau = JSON.stringify(v);
   if (clau === clauVista && !força) return;
   clauVista = clau;
@@ -51,20 +57,33 @@ function render() {
   contingut.innerHTML = `${capçal}<p class="xifra">Resposta enviada ✓</p><p class="suau">Espera que el tutor mostri els resultats.</p>`;
 }
 
-// Step 1: one finding per letter
+// Step 1: one letter per screen; in each, tick what you would ask, what you heard and what you would instruct
 function pasXabcde(capçal) {
-  const complet = vista.xabcde.every(l => esborrany.xabcde[l.lletra] != null);
+  const lletres = vista.xabcde, i = esborrany.lletra, l = lletres[i], marcats = esborrany.xabcde;
+  const darrera = i === lletres.length - 1;
+  const seccions = SECCIONS.map(sec => {
+    const items = l.items.filter(it => it.seccio === sec.id);
+    return items.length ? `<div class="seccio-aula seccio-${sec.id}"><h3>${esc(sec.nom)} <span class="suau">· ${esc(sec.pregunta)}</span></h3>
+      <div class="xips">${items.map(it => `<button class="xip-boto ${marcats.has(it.id) ? 'actiu' : ''}" data-item="${esc(it.id)}">${esc(it.text)}</button>`).join('')}</div></div>` : '';
+  }).join('');
   contingut.innerHTML = `${capçal}<div class="passos"><b>1 XABCDE</b> · 2 Nivell · 3 Recursos</div>
-    ${vista.xabcde.map(l => `<div class="lletra"><h2><span class="lletra-gran">${esc(l.lletra)}</span> ${esc(l.nom)}</h2>
-      <div class="opcions">${l.opcions.map((o, i) => `<button class="opcio ${esborrany.xabcde[l.lletra] === i ? 'triada' : ''}" data-lletra="${esc(l.lletra)}" data-i="${i}">${esc(o)}</button>`).join('')}</div></div>`).join('')}
-    <button class="boto gran-boto" id="seguent" ${complet ? '' : 'disabled'}>Següent: nivell de triatge</button>`;
-  contingut.querySelectorAll('[data-lletra]').forEach(b => b.onclick = () => {
-    esborrany.xabcde[b.dataset.lletra] = Number(b.dataset.i);
-    const y = scrollY;
-    pasXabcde(capçal);
-    scrollTo(0, y);
+    <div class="lletres-progres">${lletres.map((x, j) => `<button class="${j === i ? 'actual' : ''} ${x.items.some(it => marcats.has(it.id)) ? 'feta' : ''}" data-lletra="${j}">${esc(x.lletra)}</button>`).join('')}</div>
+    <h2><span class="lletra-gran">${esc(l.lletra)}</span> ${esc(l.nom)}</h2>
+    <p class="suau">Marca tot el que creguis (pots no marcar res). Marcar coses que no toquen resta punts.</p>
+    ${seccions}
+    <div class="navega">${i > 0 ? '<button class="boto secundari" id="enrere">← Enrere</button>' : ''}
+      <button class="boto gran-boto" id="seguent">${darrera ? 'Següent: nivell de triatge' : `Següent: ${esc(lletres[i + 1].lletra)} →`}</button></div>`;
+  const torna = () => { pasXabcde(capçal); };
+  contingut.querySelectorAll('[data-item]').forEach(b => b.onclick = () => {
+    marcats.has(b.dataset.item) ? marcats.delete(b.dataset.item) : marcats.add(b.dataset.item);
+    const y = scrollY; torna(); scrollTo(0, y);
   });
-  $('seguent').onclick = () => envia({ xabcde: esborrany.xabcde });
+  contingut.querySelectorAll('[data-lletra]').forEach(b => b.onclick = () => { esborrany.lletra = Number(b.dataset.lletra); torna(); scrollTo(0, 0); });
+  $('enrere')?.addEventListener('click', () => { esborrany.lletra--; torna(); scrollTo(0, 0); });
+  $('seguent').onclick = () => {
+    if (!darrera) { esborrany.lletra++; torna(); scrollTo(0, 0); return; }
+    envia({ xabcde: [...marcats] });
+  };
 }
 
 // Step 2: triage level
@@ -99,14 +118,19 @@ function resultats(v) {
   const r = v.resposta, p = v.puntuacio;
   if (!r) return '<p>No has respost aquesta gravació.</p><p class="suau">Espera la següent.</p>';
   const ok = b => (b ? '<span class="encert">✓</span>' : '<span class="error-resp">✗</span>');
-  const files = v.xabcde.map(l => {
-    const meva = r.xabcde?.[l.lletra];
-    return `<tr><td><b>${esc(l.lletra)}</b></td><td>${meva != null ? esc(l.opcions[meva]) : '—'}</td>
-      <td>${l.correcta == null ? '<span class="suau">no puntua</span>' : `${ok(meva === l.correcta)} ${meva === l.correcta ? '' : esc(l.opcions[l.correcta])}`}</td></tr>`;
+  const marcats = new Set(r.xabcde || []);
+  // Per letter: right items ticked, items ticked that did not apply, and right items missed
+  const lletres = v.xabcde.map(l => {
+    const files = l.items.filter(it => it.correcte || marcats.has(it.id)).map(it => {
+      const marca = marcats.has(it.id);
+      const estat = it.correcte && marca ? '<span class="encert">✓</span>' : marca ? '<span class="error-resp">✗ no tocava</span>' : '<span class="falta">○ faltava</span>';
+      return `<li>${estat} <span class="suau">${esc(SECCIONS.find(sec => sec.id === it.seccio)?.nom || '')}:</span> ${esc(it.text)}</li>`;
+    }).join('');
+    return files ? `<div class="resultat-lletra"><b><span class="lletra-gran">${esc(l.lletra)}</span> ${esc(l.nom)}</b><ul>${files}</ul></div>` : '';
   }).join('');
   const unitats = ids => (ids?.length ? ids.join(', ') : 'cap recurs');
   return `<p class="xifra">${p.punts} / ${p.maxim} punts</p>
-    <h3>XABCDE</h3><table class="mini resultat-aula">${files}</table>
+    <h3>XABCDE <span class="suau">(${p.xabcde} punts)</span></h3>${lletres || '<p class="suau">No has marcat res i no hi havia res a marcar.</p>'}
     <h3>Nivell</h3><p>El teu: ${r.nivell ? `<span class="nivell n${r.nivell}">N${r.nivell}</span>` : '—'}
       ${v.correcte.nivell ? ` · correcte: <span class="nivell n${v.correcte.nivell}">N${v.correcte.nivell}</span> ${ok(r.nivell === v.correcte.nivell)}` : ''}</p>
     <h3>Recursos</h3><p>Els teus: ${esc(unitats(r.recursos))}<br>Proposta: <b>${esc(v.correcte.combo)}</b> · ${esc(unitats(v.correcte.recursos))} ${ok(p.recursos === 3)}</p>`;

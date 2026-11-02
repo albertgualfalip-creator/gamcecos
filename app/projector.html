@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GamCECOS · Projector</title>
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="estil.css">
+<script src="vendor/leaflet/leaflet.js"></script>
+<script src="vendor/qrcodejs/qrcode.min.js"></script>
+</head>
+<body class="operatiu projector">
+<header class="capcalera">
+  <span class="marca">GamCECOS · Aprenentatge consultors</span>
+  <span class="rellotge" id="rellotge">--:--:--</span>
+  <span id="estat"></span>
+  <div class="info"><span>Codi <b id="codi" class="codi"></b></span></div>
+</header>
+<main class="projector-graella">
+  <section class="columna">
+    <div class="panell" id="trucada"></div>
+    <div class="panell entra-mobil"><div id="qr"></div><div><div class="suau">Entra amb el mòbil</div><div id="url" class="url-gran"></div><div class="codi codi-gran" id="codi-gran"></div></div></div>
+  </section>
+  <section class="columna"><div class="panell mapa-panell"><div id="mapa"></div></div></section>
+  <section class="columna" id="lateral"></section>
+</main>
+<section id="resultats-xabcde" class="projector-resultats"></section>
+<script type="module" src="projector.mjs"></script>
+</body>
+</html>

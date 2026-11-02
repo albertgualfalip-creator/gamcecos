@@ -300,3 +300,39 @@ select.val-perillosa { background: color-mix(in srgb, var(--perillosa) 30%, var(
 .ranquing li { padding: .25rem 0; font-size: 1.05rem; }
 label.opcio.unitat { display: flex; align-items: center; gap: .3rem; }
 .unitats-aula { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+/* XABCDE in three sections: what to ask, what is heard, what to instruct */
+.seccio-aula, .seccio-editor, .seccio-resultat { border-left: 4px solid var(--vora); padding: .2rem 0 .2rem .6rem; margin: .6rem 0; }
+.seccio-anamnesi { border-left-color: #2f55c9; } .seccio-signes { border-left-color: #c9a100; } .seccio-maniobres { border-left-color: #c62828; }
+.seccio-aula h3 { margin: .2rem 0 .4rem; font-size: .95rem; }
+.xips { display: flex; flex-direction: column; gap: .4rem; }
+.xips .xip-boto { text-align: left; border-radius: 8px; padding: .65rem .8rem; font-size: 1rem; }
+.lletres-progres { display: flex; gap: .3rem; margin: .5rem 0; }
+.lletres-progres button { flex: 1; border: 1px solid var(--vora); background: var(--panell); color: var(--suau); border-radius: 6px; padding: .4rem 0; font-weight: 800; }
+.lletres-progres button.feta { color: var(--accent); border-color: var(--accent); }
+.lletres-progres button.actual { background: var(--accent); color: #fff; border-color: var(--accent); }
+.navega { display: flex; gap: .5rem; align-items: stretch; margin-top: 1rem; }
+.navega .gran-boto { margin-top: 0; flex: 1; }
+.seccio-editor textarea { font-size: .85rem; }
+.correctes-llista { display: grid; gap: .1rem; font-size: .82rem; margin-top: .2rem; }
+.resultat-lletra { margin: .5rem 0; } .resultat-lletra ul { margin: .3rem 0; padding-left: 1.1rem; } .resultat-lletra li { margin: .2rem 0; }
+.falta { color: var(--suau); font-weight: 700; }
+/* Projector of the consultor training: the call, the map and the results, readable from the back of the room */
+.projector .capcalera { font-size: 1.15rem; }
+.projector-graella { display: grid; grid-template-columns: minmax(300px, 1fr) 2fr minmax(300px, 1fr); gap: 1rem; padding: 0 16px; }
+.projector-graella .columna { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
+.projector .mapa-panell { min-height: 62vh; flex: 1; }
+.num-gran { font-size: 1.6rem; margin-left: .5rem; color: var(--incident); letter-spacing: .05em; }
+.projector .carta-text { font-size: 1.15rem; margin: .6rem 0; }
+.ona { display: flex; align-items: center; gap: 4px; height: 70px; margin-top: .8rem; }
+.ona span { flex: 1; background: var(--optima); border-radius: 3px; height: 20%; animation: ona 0.9s ease-in-out infinite alternate; }
+@keyframes ona { from { height: 15%; opacity: .5; } to { height: 95%; opacity: 1; } }
+.entra-mobil { display: flex; gap: 1rem; align-items: center; }
+.entra-mobil #qr img, .entra-mobil #qr canvas { width: 160px; height: 160px; background: #fff; padding: 6px; border-radius: 8px; }
+.url-gran { font-size: 1.2rem; font-weight: 700; }
+.codi-gran { font-size: 2.6rem; font-weight: 800; }
+.nivell-final { font-size: 1.3rem; margin-top: .8rem; }
+.nivell-final .nivell { font-size: 1.3rem; }
+.projector-resultats { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1rem; padding: 1rem 16px 2rem; }
+.projector .barra-fila { font-size: 1.05rem; }
+@media (max-width: 900px) { .projector-graella { grid-template-columns: 1fr; } }
+.projector .barra-fila { grid-template-columns: minmax(0, 2.2fr) 1fr 2em; }

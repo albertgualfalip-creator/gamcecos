@@ -290,7 +290,7 @@ function estatic(res, ruta) {
 
 const DRECERES = { '/': '/app/index.html', '/vota': '/app/vota.html', '/tutor': '/app/tutor.html', '/uct': '/app/uct.html',
   '/sala': '/app/uct.html', '/consultor': '/app/consultor.html', '/cap': '/app/cap.html', '/editor': '/app/editor.html',
-  '/aprenentatge': '/app/aprenentatge.html', '/aula': '/app/aula.html' };
+  '/aprenentatge': '/app/aprenentatge.html', '/aula': '/app/aula.html', '/projector': '/app/projector.html' };
 
 async function arrenca() {
   ({ Guardia } = await import('./joc.mjs'));
