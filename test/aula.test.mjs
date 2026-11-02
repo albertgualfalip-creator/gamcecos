@@ -125,3 +125,46 @@ test('aprenentatge flexible: el tutor tria quines unitats surten, quines estan o
   assert.deepEqual(a.correctes, ['HELI-SABADELL'], 'una unitat ocupada no pot ser la resposta');
   assert.equal(a.correcte().text, '1 Helicòpter');
 });
+
+test('escenari en equip: duplicitats, prioritat i recursos escassos, decidits per majoria', () => {
+  const prop = { municipi: 'Manresa', zona: 'Catalunya Central', lat: 41.7251, lon: 1.8266 };
+  const a = new Aula({ tipus: 'escenari', titol: 'Tarda a la Bages', lloc, equips: 2, llavor: 5, incidents: [
+    { id: 'i1', carta: 'ACCIDENT DE MOTO A LA C-55, NO RESPON', lloc: prop, nivell: 1, prioritat: 1 },
+    { id: 'i2', carta: 'UN CONDUCTOR AVISA D\'UN MOTORISTA A TERRA A LA C-55', lloc: prop, nivell: 1, duplicatDe: 'i1' },
+    { id: 'i3', carta: 'GENT GRAN CAIGUDA A CASA, CONSCIENT', lloc: prop, nivell: 3, prioritat: 2 },
+  ] }, dades);
+  const heli = a.esc.unitats.find(u => u.cat === 'HEMS').indicatiu, sva = a.esc.unitats.find(u => u.cat === 'SVA' && !u.ocupada).indicatiu;
+  const svb = a.esc.unitats.find(u => u.cat === 'SVB' && !u.ocupada).indicatiu;
+  a.esc.incidents[0].correctes = [heli, sva];
+  a.esc.incidents[2].correctes = [svb];
+  // Teams last across cases; the phones never see the right answers
+  for (const [c, nom, equip] of [['c1', 'Anna', 'Vermell'], ['c2', 'Pau', 'Vermell'], ['c3', 'Marc', 'Blau']]) assert.equal(a.respon(c, { nom, equip }), null);
+  assert.match(a.respon('c1', { accio: { tipus: 'ordre', ordre: ['i1', 'i3', 'i2'] } }), /no estan obertes/);
+  assert.ok(!JSON.stringify(a.vistaAlumne('c1')).includes('duplicatDe'));
+  a.ordre({ tipus: 'obre' });
+  const fa = (c, accio) => assert.equal(a.respon(c, { accio }), null);
+  fa('c1', { tipus: 'duplicat', incident: 'i2', de: 'i1' });
+  fa('c2', { tipus: 'ordre', ordre: ['i1', 'i3', 'i2'] });
+  fa('c1', { tipus: 'assigna', unitat: heli, incident: 'i1' });
+  fa('c2', { tipus: 'assigna', unitat: sva, incident: 'i1' });
+  fa('c2', { tipus: 'assigna', unitat: svb, incident: 'i3' });
+  fa('c1', { tipus: 'acord', si: true });
+  assert.equal(a.esc.equip('Vermell').confirmat, null, 'cal la majoria de l\'equip');
+  fa('c2', { tipus: 'acord', si: true });
+  assert.notEqual(a.esc.equip('Vermell').confirmat, null);
+  assert.match(a.respon('c1', { accio: { tipus: 'assigna', unitat: svb, incident: null } }), /ja ha confirmat/);
+  // Blau misses the duplicate and sends the advanced unit to both calls of the same accident
+  fa('c3', { tipus: 'assigna', unitat: sva, incident: 'i2' });
+  fa('c3', { tipus: 'assigna', unitat: heli, incident: 'i1' });
+  fa('c3', { tipus: 'acord', si: true });
+  a.ordre({ tipus: 'resultats' });
+  const [vermell, blau] = a.vistaTutor().classificacio;
+  assert.equal(vermell.nom, 'Equip Vermell');
+  assert.equal(vermell.punts, vermell.maxim);
+  assert.ok(blau.errors.some(e => /Duplicitat de servei/.test(e)) && blau.errors.some(e => /duplicat/.test(e)));
+  assert.equal(a.vistaAlumne('c3').decisio.puntuacio.punts, blau.punts);
+  // A new case keeps the teams
+  a.ordre({ tipus: 'nova', config: { tipus: 'carta', lloc, llavor: 2 } });
+  a.ordre({ tipus: 'nova', config: { tipus: 'escenari', lloc, equips: 2, incidents: [{ carta: 'X', lloc: prop }] } });
+  assert.equal(a.vistaAlumne('c3').equip, 'Blau');
+});

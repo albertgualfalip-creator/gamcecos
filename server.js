@@ -285,7 +285,13 @@ function casosAula(req, res, ruta, cos) {
     const unitats = Array.isArray(c.unitats) ? c.unitats.filter(u => u && /^[\w-]{1,30}$/.test(u.indicatiu) && ['lliure', 'ocupada'].includes(u.estat))
       .map(u => ({ indicatiu: u.indicatiu, estat: u.estat })).slice(0, 40) : undefined;
     const correctes = Array.isArray(c.correctes) ? c.correctes.filter(id => typeof id === 'string').slice(0, 20) : undefined;
-    const cas = { id, tipus: c.tipus === 'carta' ? 'carta' : 'veu', titol: String(c.titol).trim().slice(0, 80), carta: String(c.carta || '').trim().slice(0, 1000),
+    // Team scenario: several incidents (with their place, level, priority, duplicate link and right units)
+    const incidents = Array.isArray(c.incidents) ? c.incidents.slice(0, 8).map((x, i) => ({
+      id: /^[a-z0-9]{1,12}$/.test(x?.id || '') ? x.id : `i${i + 1}`, carta: String(x?.carta || '').slice(0, 600), lloc: x?.lloc || null,
+      nivell: Number(x?.nivell) || null, prioritat: Number(x?.prioritat) || null, duplicatDe: typeof x?.duplicatDe === 'string' ? x.duplicatDe : null,
+      correctes: Array.isArray(x?.correctes) ? x.correctes.filter(id => typeof id === 'string').slice(0, 10) : [],
+    })) : undefined;
+    const cas = { id, tipus: ['carta', 'escenari'].includes(c.tipus) ? c.tipus : 'veu', incidents, equips: Number(c.equips) || 4, titol: String(c.titol).trim().slice(0, 80), carta: String(c.carta || '').trim().slice(0, 1000),
       nivell: c.nivell ?? null, preguntes: Number(c.preguntes) || 3, recursos, fases, unitats, correctes, lloc: c.lloc || null, xabcde: c.xabcde || [],
       notes: String(c.notes || '').slice(0, 2000), ordre: Number.isFinite(c.ordre) ? c.ordre : anterior?.ordre ?? 999, audio: anterior?.audio || null };
     try {

@@ -31,16 +31,16 @@
 
     <h3>1. El cas</h3>
     <div class="fila">
-      <label>Tipus de cas <select name="tipus"><option value="veu">Amb gravació (veu)</option><option value="carta">Només carta del 112 (sense veu, amb soroll de sala)</option></select></label>
+      <label>Tipus de cas <select name="tipus"><option value="veu">Amb gravació (veu)</option><option value="carta">Només carta del 112 (sense veu, amb soroll de sala)</option><option value="escenari">Escenari en equip: diversos incidents, recursos escassos i duplicitats</option></select></label>
       <label>Títol (el veuen els alumnes) <input name="titol" maxlength="80" required></label>
       <label>Ordre a la classe <input name="ordre" type="number" min="1" max="999"></label>
     </div>
     <div class="fila">
       <label>Municipi de l'incident <input name="municipi" list="municipis" autocomplete="off" required></label>
-      <label>Nivell correcte <select name="nivell"><option value="">No puntuar</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label>
+      <label class="no-escenari">Nivell correcte <select name="nivell"><option value="">No puntuar</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label>
     </div>
     <datalist id="municipis"></datalist>
-    <label>Carta del 112 (la veuen els alumnes al projector i al mòbil) <textarea name="carta" rows="3" placeholder="Ex.: ALERTANT, VEÍ AL LLOC, INDICA QUE LA SEVA VEÏNA S'HA DESMAIAT, ESTÀ INCONSCIENT."></textarea></label>
+    <label class="no-escenari">Carta del 112 (la veuen els alumnes al projector i al mòbil) <textarea name="carta" rows="3" placeholder="Ex.: ALERTANT, VEÍ AL LLOC, INDICA QUE LA SEVA VEÏNA S'HA DESMAIAT, ESTÀ INCONSCIENT."></textarea></label>
     <fieldset class="nomes-veu"><legend>Gravació</legend>
       <div id="audio-actual" class="suau">Encara no hi ha cap gravació.</div>
       <label>Pujar o substituir la gravació (mp3, wav, m4a, ogg... fins a 40 MB) <input type="file" name="audio" accept="audio/*"></label>
@@ -48,6 +48,15 @@
     </fieldset>
     <label>Notes per al tutor (què passa al cas, què cal comentar als resultats; no ho veuen els alumnes) <textarea name="notes" rows="2"></textarea></label>
 
+    <section id="seccio-escenari" hidden>
+      <h3>Incidents de l'escenari</h3>
+      <p class="suau">Diversos incidents alhora que es disputen les unitats de la llista de sota. Marqueu quins són el mateix servei (duplicats: una altra trucada pel mateix incident), la prioritat (1 = el primer) i les unitats correctes de cadascun. El municipi de dalt és on es troben les unitats.</p>
+      <label>Nombre d'equips <input name="equips" type="number" min="2" max="6" value="4" class="petit"></label>
+      <div id="incidents-escenari"></div>
+      <button class="boto-petit" type="button" id="afegeix-incident">+ Afegir incident</button>
+    </section>
+
+    <section class="no-escenari">
     <h3>2. Pantalles que faran els alumnes</h3>
     <p class="suau">Trieu només el que vulgueu treballar en aquest cas. Com menys pantalles, més ràpid.</p>
     <div class="fases-editor">
@@ -59,13 +68,15 @@
       <label class="fase"><input type="checkbox" name="f-activacio"><b>🚑 Activar en qualsevol moment</b><span>Barra fixa: es registra quan detecten la gravetat</span></label>
     </div>
 
+    </section>
+
     <h3>3. Unitats que veuen</h3>
-    <label><select name="mode-unitats"><option value="auto">Automàtic: les més properes, algunes ocupades a l'atzar</option><option value="tria">Les trio jo: quines surten, lliures o ocupades, i quines són correctes</option></select></label>
+    <label class="no-escenari"><select name="mode-unitats"><option value="auto">Automàtic: les més properes, algunes ocupades a l'atzar</option><option value="tria">Les trio jo: quines surten, lliures o ocupades, i quines són correctes</option></select></label>
     <div id="editor-unitats" hidden>
       <p class="suau">Unitats reals al voltant del municipi. Trieu si surten i si estan lliures o ocupades, i marqueu les correctes (cap marcada = cap recurs). Així podeu fer, per exemple, que l'helicòpter sigui la bona resposta.</p>
       <div id="taula-unitats" class="taula-unitats"></div>
     </div>
-    <fieldset id="resposta-auto"><legend>Resposta correcta de recursos</legend>
+    <fieldset id="resposta-auto" class="no-escenari"><legend>Resposta correcta de recursos</legend>
       <label><select name="mode-recursos"><option value="auto">Segons el nivell (AURE): les més properes</option><option value="nombre">Nombre de cada tipus (accidents, múltiples víctimes...)</option></select></label>
       <div class="fila" id="nombre-recursos">
         <label>SVA <input name="SVA" type="number" min="0" max="8" value="0"></label>

@@ -5,10 +5,12 @@ import { carregaMunicipis, lloc, pintaXabcde, llegeixXabcde } from './aula-edito
 
 let casos = [], actual = null, canvis = false;
 const FASES = ['escolta', 'preguntes', 'instruccio', 'nivell', 'recursos', 'activacio'];
-const PER_DEFECTE = { veu: FASES, carta: ['recursos'] };
+const PER_DEFECTE = { veu: FASES, carta: ['recursos'], escenari: [] };
 const NOM_CAT = { SVA: 'SVA', SVB: 'SVB', HEMS: 'Helicòpter' };
 // Units chosen by the tutor: candidates around the place and, per unit, whether it appears (and how) and if it is right
 let candidates = [], estatUnitat = new Map(), correctes = new Set(), llocCandidates = '';
+// Team scenario: its incidents (carta, municipi, level, priority, duplicate of, right units)
+let incidents = [];
 // Some systems give no type for audio files: take it from the extension
 const PER_EXTENSIO = { mp3: 'audio/mpeg', wav: 'audio/wav', m4a: 'audio/mp4', mp4: 'audio/mp4', ogg: 'audio/ogg', oga: 'audio/ogg', webm: 'audio/webm', aac: 'audio/aac', flac: 'audio/flac' };
 const tipusAudio = f => (f.type && f.type !== 'application/octet-stream' ? f.type : PER_EXTENSIO[f.name.split('.').pop().toLowerCase()] || 'audio/mpeg');
@@ -25,7 +27,7 @@ async function carrega(id) {
 function llista() {
   $('llista').innerHTML = casos.map((c, i) => `<button class="incident-fila ${c.id === actual?.id ? 'seleccionat' : ''}" data-id="${esc(c.id)}">
     <span><b>${i + 1}.</b> ${esc(c.titol)}</span><span>${c.nivell ? `<span class="nivell n${c.nivell}">N${c.nivell}</span>` : ''}</span>
-    <span class="adreca">${esc(c.lloc?.municipi || 'sense municipi')} · ${c.tipus === 'carta' ? '📄 només carta' : c.audio ? '🔊 amb gravació' : '<b>sense gravació</b>'}</span></button>`).join('')
+    <span class="adreca">${esc(c.lloc?.municipi || 'sense municipi')} · ${c.tipus === 'escenari' ? `👥 escenari en equip · ${c.incidents?.length || 0} incidents` : c.tipus === 'carta' ? '📄 només carta' : c.audio ? '🔊 amb gravació' : '<b>sense gravació</b>'}</span></button>`).join('')
     || '<p class="suau">Encara no hi ha cap cas. Creeu-ne un amb «+ Cas nou».</p>';
   $('llista').querySelectorAll('[data-id]').forEach(b => b.onclick = () => {
     if (canvis && !confirm('Hi ha canvis sense desar. Voleu canviar de cas igualment?')) return;
@@ -53,7 +55,9 @@ function obre(c) {
   // Units chosen by the tutor, kept by call sign
   estatUnitat = new Map((c.unitats || []).map(u => [u.indicatiu, u.estat]));
   correctes = new Set(c.correctes || []);
-  f['mode-unitats'].value = c.unitats?.length ? 'tria' : 'auto';
+  f['mode-unitats'].value = c.unitats?.length || c.tipus === 'escenari' ? 'tria' : 'auto';
+  f.equips.value = c.equips || 4;
+  incidents = structuredClone(c.incidents || []).map(x => ({ ...x, municipi: x.lloc?.municipi || '' }));
   candidates = [];
   llocCandidates = '';
   mostraCamps();
@@ -71,9 +75,13 @@ function obre(c) {
 // Shows only what applies: the recording for voice cases, the XABCDE lists if an assessment screen is on, and either
 // the units chosen by the tutor or the automatic right answer
 function mostraCamps() {
-  const f = $('formulari'), carta = f.tipus.value === 'carta';
+  const f = $('formulari'), escenari = f.tipus.value === 'escenari', carta = f.tipus.value === 'carta' || escenari;
+  if (escenari) f['mode-unitats'].value = 'tria';
   f.querySelectorAll('.nomes-veu').forEach(el => { el.hidden = carta; });
-  $('seccio-xabcde').hidden = !['escolta', 'preguntes', 'instruccio'].some(x => f[`f-${x}`].checked);
+  f.querySelectorAll('.no-escenari').forEach(el => { el.hidden = escenari; });
+  $('seccio-escenari').hidden = !escenari;
+  if (escenari) pintaIncidents();
+  $('seccio-xabcde').hidden = escenari || !['escolta', 'preguntes', 'instruccio'].some(x => f[`f-${x}`].checked);
   const tria = f['mode-unitats'].value === 'tria';
   $('editor-unitats').hidden = !tria;
   $('resposta-auto').hidden = tria;
@@ -105,8 +113,58 @@ async function carregaCandidates() {
   pintaUnitats();
 }
 
+// One card per incident; the right units are chosen among the free units of the list
+function pintaIncidents() {
+  const lliures = candidates.filter(u => estatUnitat.get(u.indicatiu) === 'lliure');
+  $('incidents-escenari').innerHTML = incidents.map((x, i) => `<div class="bloc incident-editor" data-i="${i}">
+    <div class="fila"><b>Incident ${i + 1}</b>
+      <label>Municipi <input data-camp="municipi" list="municipis" value="${esc(x.municipi || '')}"></label>
+      <label>Nivell <select data-camp="nivell"><option value="">—</option>${[1, 2, 3, 4, 5].map(n => `<option ${Number(x.nivell) === n ? 'selected' : ''}>${n}</option>`).join('')}</select></label>
+      <label>Prioritat <input data-camp="prioritat" type="number" min="1" max="8" class="petit" value="${x.prioritat || ''}"></label>
+      <label>Duplicat de <select data-camp="duplicatDe"><option value="">No és duplicat</option>${incidents.map((y, j) => (j === i ? '' : `<option value="${esc(y.id)}" ${x.duplicatDe === y.id ? 'selected' : ''}>Incident ${j + 1}</option>`)).join('')}</select></label>
+      <button class="boto-petit" type="button" data-treu-incident="${i}">✕</button></div>
+    <label>Carta del 112 <textarea data-camp="carta" rows="2">${esc(x.carta || '')}</textarea></label>
+    <div class="correctes-escenari ${x.duplicatDe ? 'apagada' : ''}"><span class="suau">${x.duplicatDe ? 'Duplicat: no ha de rebre cap unitat' : 'Unitats correctes:'}</span>
+      ${x.duplicatDe ? '' : lliures.map(u => `<label class="casella"><input type="checkbox" data-correcta-inc="${esc(u.indicatiu)}" ${(x.correctes || []).includes(u.indicatiu) ? 'checked' : ''}>
+        <span class="cat-unitat cat-${u.cat}">${NOM_CAT[u.cat]}</span> ${esc(u.indicatiu)}</label>`).join('') || '<span class="suau">Trieu abans les unitats lliures a la llista de sota.</span>'}</div></div>`).join('')
+    || '<p class="suau">Encara no hi ha cap incident.</p>';
+  $('incidents-escenari').querySelectorAll('.incident-editor').forEach(el => {
+    const x = incidents[Number(el.dataset.i)];
+    el.querySelectorAll('[data-camp]').forEach(c => {
+      c.oninput = c.onchange = e => {
+        e.stopPropagation();
+        x[c.dataset.camp] = c.value;
+        canvis = true;
+        if (c.dataset.camp === 'duplicatDe') pintaIncidents();
+      };
+    });
+    el.querySelectorAll('[data-correcta-inc]').forEach(c => c.onchange = e => {
+      e.stopPropagation();
+      const set = new Set(x.correctes || []);
+      c.checked ? set.add(c.dataset.correctaInc) : set.delete(c.dataset.correctaInc);
+      x.correctes = [...set];
+      canvis = true;
+    });
+  });
+  $('incidents-escenari').querySelectorAll('[data-treu-incident]').forEach(b => b.onclick = () => {
+    const [treta] = incidents.splice(Number(b.dataset.treuIncident), 1);
+    for (const x of incidents) if (x.duplicatDe === treta.id) x.duplicatDe = '';
+    canvis = true;
+    pintaIncidents();
+  });
+}
+$('afegeix-incident').onclick = () => {
+  if (incidents.length >= 8) { avis('Com a màxim 8 incidents'); return; }
+  let n = incidents.length + 1;
+  while (incidents.some(x => x.id === `i${n}`)) n++;
+  incidents.push({ id: `i${n}`, carta: '', municipi: $('formulari').municipi.value, nivell: '', prioritat: incidents.length + 1, duplicatDe: '', correctes: [] });
+  canvis = true;
+  pintaIncidents();
+};
+
 function pintaUnitats() {
-  $('taula-unitats').innerHTML = `<table class="mini"><tr><th>Unitat</th><th>Base</th><th>Arribada</th><th>Surt a la llista</th><th>Correcta</th></tr>
+  const escenari = $('formulari').tipus.value === 'escenari';
+  $('taula-unitats').innerHTML = `<table class="mini ${escenari ? 'sense-correcta' : ''}"><tr><th>Unitat</th><th>Base</th><th>Arribada</th><th>Surt a la llista</th><th>Correcta</th></tr>
     ${candidates.map(u => {
       const estat = estatUnitat.get(u.indicatiu) || 'no';
       return `<tr class="${estat === 'no' ? 'apagada' : ''}"><td><span class="cat-unitat cat-${u.cat}">${NOM_CAT[u.cat]}</span> <b>${esc(u.indicatiu)}</b> <span class="suau">${esc(u.tipus)}</span></td>
@@ -114,7 +172,8 @@ function pintaUnitats() {
         <td><select data-estat="${esc(u.indicatiu)}">${[['no', 'No surt'], ['lliure', 'Lliure'], ['ocupada', 'Ocupada']].map(([v, t]) => `<option value="${v}" ${v === estat ? 'selected' : ''}>${t}</option>`).join('')}</select></td>
         <td><input type="checkbox" data-correcta="${esc(u.indicatiu)}" ${correctes.has(u.indicatiu) ? 'checked' : ''} ${estat === 'lliure' ? '' : 'disabled'}></td></tr>`;
     }).join('')}</table>
-    <p class="suau">Resposta correcta: <b>${esc(resumCorrectes())}</b></p>`;
+    ${escenari ? '<p class="suau">Les unitats correctes es marquen a cada incident.</p>' : `<p class="suau">Resposta correcta: <b>${esc(resumCorrectes())}</b></p>`}`;
+  if (escenari) pintaIncidents();
   $('taula-unitats').querySelectorAll('[data-estat]').forEach(el => el.onchange = e => {
     e.stopPropagation();
     el.value === 'no' ? estatUnitat.delete(el.dataset.estat) : estatUnitat.set(el.dataset.estat, el.value);
@@ -150,9 +209,17 @@ $('formulari').onsubmit = async e => {
   if (!llocTriat) { avis('Trieu un municipi de la llista'); return; }
   const mode = f['mode-recursos'].value, tria = f['mode-unitats'].value === 'tria';
   const fases = Object.fromEntries(FASES.map(x => [x, f[`f-${x}`].checked]));
-  if (!FASES.some(x => x !== 'activacio' && fases[x])) { avis('Trieu almenys una pantalla per als alumnes'); return; }
+  if (f.tipus.value !== 'escenari' && !FASES.some(x => x !== 'activacio' && fases[x])) { avis('Trieu almenys una pantalla per als alumnes'); return; }
   if (tria && !estatUnitat.size) { avis('Trieu almenys una unitat que surti a la llista'); return; }
-  const cas = { id: actual.id, tipus: f.tipus.value, preguntes: Number(f.preguntes.value) || 3, fases,
+  const escenari = f.tipus.value === 'escenari';
+  if (escenari) {
+    if (incidents.length < 2) { avis('Un escenari necessita almenys 2 incidents'); return; }
+    const sense = incidents.findIndex(x => !lloc(x.municipi) || !String(x.carta || '').trim());
+    if (sense >= 0) { avis(`A l'incident ${sense + 1} li falta la carta o un municipi de la llista`); return; }
+  }
+  const cas = { id: actual.id, tipus: f.tipus.value, preguntes: Number(f.preguntes.value) || 3, fases, equips: Number(f.equips.value) || 4,
+    incidents: escenari ? incidents.map(({ id, carta, municipi, nivell, prioritat, duplicatDe, correctes: bones }) => ({ id, carta, lloc: lloc(municipi), nivell: Number(nivell) || null,
+      prioritat: Number(prioritat) || null, duplicatDe: duplicatDe || null, correctes: duplicatDe ? [] : (bones || []).filter(u => estatUnitat.get(u) === 'lliure') })) : undefined,
     unitats: tria ? [...estatUnitat].map(([indicatiu, estat]) => ({ indicatiu, estat })) : [],
     correctes: tria ? [...correctes].filter(id => estatUnitat.get(id) === 'lliure') : [],
     recursos: tria ? { mode: 'manual' } : mode === 'nombre' ? { mode, SVA: Number(f.SVA.value), SVB: Number(f.SVB.value), HEMS: Number(f.HEMS.value) } : { mode },

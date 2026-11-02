@@ -49,6 +49,7 @@ function rep(v, força = false) {
 
 function render() {
   barraRecurs();
+  if (vista.tipus === 'escenari') return renderEscenari();
   const v = vista, r = v.resposta;
   const capçal = `<p class="marcador">${esc(nom)} · <b>${esc(v.titol)}</b></p>${v.carta ? `<p class="carta-text carta-mobil">${esc(v.carta)}</p>` : ''}`;
   if (v.estat === 'preparada') {
@@ -251,6 +252,82 @@ function resultats(v) {
     ${f.nivell ? `<h3>Nivell</h3><p>El teu: ${r.nivell ? `<span class="nivell n${r.nivell}">N${r.nivell}</span>` : '—'}
       ${v.correcte.nivell ? ` · correcte: <span class="nivell n${v.correcte.nivell}">N${v.correcte.nivell}</span> ${ok(r.nivell === v.correcte.nivell)}` : ''}</p>` : ''}
     ${recursos}`;
+}
+
+// ---------- Team scenario: one shared board per team ----------
+
+let triantPer = null;   // incident whose unit picker is open
+
+function renderEscenari() {
+  const v = vista, d = v.decisio;
+  const capçal = `<p class="marcador">${esc(nom)} · <b>${esc(v.titol)}</b></p>`;
+  $('barra-recurs').hidden = true;
+  if (!v.equip) {
+    contingut.innerHTML = `${capçal}<h2>Tria el teu equip</h2><div class="opcions">${v.equips.map(e => `<button class="opcio gran-opcio equip-${esc(e.nom)}" data-equip="${esc(e.nom)}">Equip ${esc(e.nom)} <span class="nvots">${e.membres} ${e.membres === 1 ? 'membre' : 'membres'}</span></button>`).join('')}</div>`;
+    contingut.querySelectorAll('[data-equip]').forEach(b => b.onclick = () => envia({ equip: b.dataset.equip }));
+    return;
+  }
+  const capEquip = `<div class="equip-cap equip-${esc(v.equip)}">Equip ${esc(v.equip)} <span>${esc(d.membres.join(', '))}</span></div>`;
+  if (v.estat === 'preparada') { contingut.innerHTML = `${capçal}${capEquip}<p class="xifra">Prepareu-vos.</p><p class="suau">Quan s'obri l'escenari veureu diversos incidents alhora i unes poques unitats per a tots.</p>`; return; }
+  if (v.estat === 'resultats') { contingut.innerHTML = capçal + capEquip + resultatsEscenari(v); return; }
+  const inc = id => v.incidents.find(x => x.id === id);
+  const unitatsDe = id => Object.entries(d.assignacio).filter(([, i]) => i === id).map(([u]) => v.unitats.find(x => x.indicatiu === u)).filter(Boolean);
+  const lliures = v.unitats.filter(u => !u.ocupada && !d.assignacio[u.indicatiu]);
+  const tancat = d.confirmat != null;
+  contingut.innerHTML = `${capçal}${capEquip}
+    ${d.canvi ? `<p class="canvi">✎ ${esc(d.canvi)}</p>` : ''}
+    <p class="suau">Entre tots: marqueu els duplicats, ordeneu per prioritat i repartiu les unitats. Quan la majoria hi estigui d'acord, la decisió queda confirmada.</p>
+    <h2>Incidents per prioritat</h2>
+    ${d.ordre.map((id, k) => {
+      const x = inc(id), dup = d.duplicats[id];
+      return `<div class="inc-equip ${dup ? 'duplicat' : ''}">
+        <div class="inc-cap"><span class="prio">${dup ? 'DUP' : k + 1}</span><b>${x.numero}</b> <span class="suau">${esc(x.municipi)}</span>
+          ${tancat ? '' : `<span class="mou"><button data-amunt="${id}" ${k ? '' : 'disabled'}>▲</button><button data-avall="${id}" ${k < d.ordre.length - 1 ? '' : 'disabled'}>▼</button></span>`}</div>
+        <p class="carta-text carta-mobil">${esc(x.carta)}</p>
+        <label class="dup">Duplicat de <select data-dup="${id}" ${tancat ? 'disabled' : ''}><option value="">No és duplicat</option>
+          ${v.incidents.filter(y => y.id !== id).map(y => `<option value="${y.id}" ${dup === y.id ? 'selected' : ''}>${y.numero} · ${esc(y.municipi)}</option>`).join('')}</select></label>
+        <div class="assignades">${unitatsDe(id).map(u => `<span class="unitat-xip"><span class="cat-unitat cat-${u.cat}">${NOM_CAT[u.cat]}</span> ${esc(u.indicatiu)} <span class="suau">${u.etes[id]}'</span>
+          ${tancat ? '' : `<button data-treu="${esc(u.indicatiu)}">✕</button>`}</span>`).join('') || '<span class="suau">Sense unitats</span>'}</div>
+        ${tancat ? '' : `<button class="boto-petit" data-afegeix="${id}">+ Assignar unitat</button>`}</div>`;
+    }).join('')}
+    <h3>Unitats lliures</h3><p>${lliures.map(u => `<span class="cat-unitat cat-${u.cat}">${NOM_CAT[u.cat]}</span> ${esc(u.indicatiu)}`).join(' · ') || '<span class="suau">Totes assignades</span>'}</p>`;
+  const mou = (id, pas) => { const o = [...d.ordre], i = o.indexOf(id); [o[i], o[i + pas]] = [o[i + pas], o[i]]; envia({ accio: { tipus: 'ordre', ordre: o } }); };
+  contingut.querySelectorAll('[data-amunt]').forEach(b => b.onclick = () => mou(b.dataset.amunt, -1));
+  contingut.querySelectorAll('[data-avall]').forEach(b => b.onclick = () => mou(b.dataset.avall, 1));
+  contingut.querySelectorAll('[data-dup]').forEach(s => s.onchange = () => envia({ accio: { tipus: 'duplicat', incident: s.dataset.dup, de: s.value || null } }));
+  contingut.querySelectorAll('[data-treu]').forEach(b => b.onclick = () => envia({ accio: { tipus: 'assigna', unitat: b.dataset.treu, incident: null } }));
+  contingut.querySelectorAll('[data-afegeix]').forEach(b => b.onclick = () => { triantPer = b.dataset.afegeix; selectorEscenari(); });
+  // Agreement bar: the decision counts when most of the team agree
+  $('barra-recurs').hidden = false;
+  $('barra-recurs').innerHTML = tancat ? `<button class="activat">✓ Decisió d'equip confirmada (${d.confirmat} s)</button>`
+    : `<button class="${d.meuAcord ? 'activat' : 'acord'}">${d.meuAcord ? '✓ Hi estàs d\'acord' : '✋ Hi estic d\'acord'} · ${d.acords}/${d.necessaris} necessaris</button>`;
+  if (!tancat) $('barra-recurs').querySelector('button').onclick = () => envia({ accio: { tipus: 'acord', si: !d.meuAcord } });
+  if (triantPer) selectorEscenari();
+}
+
+// Unit picker for one incident: free units with their arrival time to it; units already elsewhere can be moved
+function selectorEscenari() {
+  const v = vista, d = v.decisio, x = v.incidents.find(i => i.id === triantPer);
+  if (!x || v.estat !== 'oberta' || d.confirmat != null) { $('capa-recurs').hidden = true; triantPer = null; return; }
+  const unitats = v.unitats.filter(u => !u.ocupada && d.assignacio[u.indicatiu] !== x.id).sort((a, b) => a.etes[x.id] - b.etes[x.id]);
+  $('capa-recurs').hidden = false;
+  $('capa-recurs').innerHTML = `<div class="capa-contingut"><h2>Unitat per a ${x.numero}</h2><p class="suau">${esc(x.municipi)} · temps d'arribada a aquest incident</p>
+    <div class="opcions">${unitats.map(u => { const on = d.assignacio[u.indicatiu]; return `<button class="opcio unitat-mobil" data-u="${esc(u.indicatiu)}">
+      <span class="cat-unitat cat-${u.cat}">${NOM_CAT[u.cat]}</span> <b>${esc(u.indicatiu)}</b> <span class="suau">${esc(u.tipus)}</span><span class="nvots">${u.etes[x.id]} min</span>
+      <br><span class="suau">${esc(u.base)}${on ? ` · ara a ${v.incidents.find(i => i.id === on)?.numero}` : ''}</span></button>`; }).join('') || '<p class="suau">No queden unitats.</p>'}</div>
+    <button class="boto secundari" id="tanca-capa">Tancar</button></div>`;
+  $('capa-recurs').querySelectorAll('[data-u]').forEach(b => b.onclick = () => { const id = triantPer; triantPer = null; $('capa-recurs').hidden = true; envia({ accio: { tipus: 'assigna', unitat: b.dataset.u, incident: id } }); });
+  $('tanca-capa').onclick = () => { triantPer = null; $('capa-recurs').hidden = true; };
+}
+
+function resultatsEscenari(v) {
+  const p = v.decisio.puntuacio;
+  return `<p class="xifra">${p.punts} / ${p.maxim} punts d'equip</p>
+    <p>Duplicats ${p.duplicats} · Prioritat ${p.prioritat} · Recursos ${p.recursos} · Rapidesa ${p.rapidesa}</p>
+    ${p.errors.length ? `<h3>A revisar</h3><ul class="resultat-llista">${p.errors.map(e => `<li>${esc(e)}</li>`).join('')}</ul>` : '<p class="encert">Cap error. Molt bé!</p>'}
+    <h3>Proposta</h3><ol class="resultat-llista">${v.solucio.filter(s => !s.duplicatDe).sort((a, b) => a.ordre - b.ordre)
+      .map(s => `<li><b>${s.numero}</b> ${s.nivell ? `<span class="nivell n${s.nivell}">N${s.nivell}</span>` : ''} · ${esc(s.text)} <span class="suau">(${esc(s.correctes.join(', ') || '—')})</span></li>`).join('')}</ol>
+    ${v.solucio.filter(s => s.duplicatDe).map(s => `<p>🔁 <b>${s.numero}</b> era un duplicat de ${s.duplicatDe}: no calia cap recurs.</p>`).join('')}`;
 }
 
 function entra() {

@@ -67,3 +67,23 @@ export function classificacio(v, detall) {
   return `<div class="panell"><h3>Classificació</h3><ol class="ranquing">${v.classificacio.map(c => `<li><b>${esc(c.nom)}</b> · ${c.punts}/${c.maxim}
     ${detall ? `<span class="suau">(${parts(c)})</span>` : ''}</li>`).join('')}</ol></div>`;
 }
+
+// Team scenario: the teams' scores with what each has to review, and the proposed solution
+export function panellsEscenari(v) {
+  const files = v.classificacio.map((c, i) => `<tr><td>${i + 1}</td><td><b>${esc(c.nom)}</b></td><td>${c.duplicats}</td><td>${c.prioritat}</td><td>${c.recursos}</td><td>${c.rapidesa}</td>
+    <td><b>${c.punts}</b>/${c.maxim}</td><td>${c.temps != null ? `${c.temps} s` : '—'}</td></tr>`).join('');
+  const errors = v.classificacio.filter(c => c.errors.length).map(c => `<p><b>${esc(c.nom)}</b></p><ul class="resultat-llista">${c.errors.map(e => `<li>${esc(e)}</li>`).join('')}</ul>`).join('');
+  const solucio = v.solucio.filter(s => !s.duplicatDe).sort((a, b) => a.ordre - b.ordre)
+    .map(s => `<li><b>${s.numero}</b> ${s.nivell ? `<span class="nivell n${s.nivell}">N${s.nivell}</span>` : ''} · ${esc(s.text)} <span class="suau">(${esc(s.correctes.join(', ') || '—')})</span></li>`).join('');
+  const duplicats = v.solucio.filter(s => s.duplicatDe).map(s => `<p>🔁 <b>${s.numero}</b> és el mateix servei que ${s.duplicatDe}: cap recurs.</p>`).join('');
+  return `<div class="panell"><h3>🏆 Equips</h3><table class="mini taula-equips"><tr><th></th><th>Equip</th><th>Duplicats</th><th>Prioritat</th><th>Recursos</th><th>Rapidesa</th><th>Total</th><th>Acord</th></tr>${files}</table></div>
+    <div class="panell"><h3>✓ Proposta</h3><ol class="resultat-llista">${solucio}</ol>${duplicats}</div>
+    ${errors ? `<div class="panell"><h3>A revisar</h3>${errors}</div>` : ''}`;
+}
+
+// Live state of the teams while they decide, without showing their answers
+export function estatEquips(v) {
+  return v.equips.filter(e => e.membres.length).map(e => `<div class="equip-estat equip-${esc(e.nom)}"><b>Equip ${esc(e.nom)}</b> <span class="suau">${e.membres.length} membres</span>
+    <span>${e.confirmat != null ? `✓ Acord als ${e.confirmat} s` : `Decidint · ${e.acords}/${e.necessaris} d'acord`}</span></div>`).join('')
+    || '<p class="suau">Encara no hi ha cap equip.</p>';
+}

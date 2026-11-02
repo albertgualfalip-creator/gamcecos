@@ -9,6 +9,7 @@
 //  - activacio: a bar to activate units at any moment; the second of the first activation shows when they saw the severity
 // The tutor can also choose which units the students see, which are busy and which are the right answer.
 import { CATEGORIA, distanciaKm, tempsArribada, entornDe, aleatori, XABCDE, SECCIONS } from './app/motor.mjs';
+import { Escenari, EQUIPS } from './escenari.mjs';
 
 // AURE response per level, as units of each kind (used when the case does not set the numbers)
 const RESPOSTA = { 1: { SVA: 1, SVB: 1 }, 2: { SVA: 1, SVB: 1 }, 3: { SVB: 1 }, 4: {}, 5: {} };
@@ -52,12 +53,32 @@ export class Aula {
     this.ronda = 0;
     this.historia = [];         // cases already played in this session, for the incident tray on the projector
     this.respostes = new Map();
+    // Teams last the whole session: client -> team, client -> nickname
+    this.equipDe = new Map();
+    this.noms = new Map();
     this.configura(config);
   }
 
   // A new round (or the first one): case data, location and the units the students will see
   configura(c = {}) {
     if (this.config) this.historia.unshift({ numero: this.numero, titol: this.config.titol, municipi: this.config.lloc.municipi, nivell: this.config.nivell });
+    const llavor = c.llavor ?? Date.now();
+    this.respostes = new Map();
+    this.estat = 'preparada';
+    this.obertaT = null;
+    this.ronda++;
+    this.numero = 261800000 + Math.floor(aleatori(llavor + 1)() * 99999);   // incident number shown on the projector
+    if (c.tipus === 'escenari') {
+      const lloc = llocValid(c.lloc);
+      const equips = Math.max(2, Math.min(EQUIPS.length, Math.round(Number(c.equips) || 4)));
+      this.config = { tipus: 'escenari', titol: String(c.titol || 'Escenari').slice(0, 80), carta: '', fases: {}, xabcde: [], nivell: null, preguntes: 3,
+        equips: EQUIPS.slice(0, equips), lloc: { ...lloc, entorn: entornDe(lloc.zona, lloc.municipi, this.dades.aure.entorn_per_zona).entorn } };
+      this.esc = new Escenari(c, this.dades, llavor, this.config.lloc);
+      this.unitats = [];
+      this.correctes = [];
+      return;
+    }
+    this.esc = null;
     const tipus = c.tipus === 'carta' ? 'carta' : 'veu';
     const fases = Object.fromEntries(FASES.map(f => [f, typeof c.fases?.[f] === 'boolean' ? c.fases[f] : PER_DEFECTE[tipus][f]]));
     if (!FASES.some(f => fases[f] && f !== 'activacio')) fases.recursos = true;   // at least one screen
@@ -81,8 +102,6 @@ export class Aula {
       tipus, fases, titol: String(c.titol || 'Cas').slice(0, 80), carta: String(c.carta || '').trim().slice(0, 1000), xabcde, nivell,
       preguntes: Math.max(1, Math.min(6, Math.round(Number(c.preguntes) || 3))), lloc: { ...lloc, entorn },
     };
-    const llavor = c.llavor ?? Date.now();
-    this.numero = 261800000 + Math.floor(aleatori(llavor + 1)() * 99999);   // incident number shown on the projector
     // Units: the ones the tutor chose (free or busy), or the nearest with some busy at random
     const triades = Array.isArray(c.unitats) ? c.unitats.filter(u => ['lliure', 'ocupada'].includes(u?.estat)) : [];
     const mode = c.recursos?.mode;
@@ -101,10 +120,6 @@ export class Aula {
     const lliure = id => this.unitats.some(u => u.indicatiu === id && !u.ocupada);
     // Right units: the ones the tutor ticked ("manual", empty = no units), or the nearest per kind
     this.correctes = mode === 'manual' || (!mode && Array.isArray(c.correctes)) ? (c.correctes || []).filter(lliure) : this.mesProperes(nombre);
-    this.respostes = new Map();
-    this.estat = 'preparada';
-    this.obertaT = null;
-    this.ronda++;
   }
 
   // Default right answer: the nearest free units of each kind, as many as the response asks (or all that are free)
@@ -143,9 +158,11 @@ export class Aula {
 
   // A student's answer arrives in steps: the assessment screens (all as "xabcde" item ids), the level and the units,
   // each one only if the case has it
-  respon(client, { nom, xabcde, nivell, recursos, activa }) {
-    if (this.estat !== 'oberta') return 'Les respostes no estan obertes';
+  respon(client, { nom, xabcde, nivell, recursos, activa, equip, accio }) {
     if (!client) return 'Falta el client';
+    if (nom) this.noms.set(client, String(nom).slice(0, 24));
+    if (this.esc) return this.responEscenari(client, { equip, accio });
+    if (this.estat !== 'oberta') return 'Les respostes no estan obertes';
     const { fases } = this.config;
     const ambXabcde = FASES_XABCDE.some(f => fases[f]);
     const r = this.respostes.get(client) || { nom: 'Anònim', xabcde: null, nivell: null, recursos: null };
@@ -181,6 +198,31 @@ export class Aula {
     if (r.fet) r.temps = this.segons();
     this.respostes.set(client, r);
     return null;
+  }
+
+  // Team scenario: joining a team (any time) and changes to the team's shared board (while answers are open)
+  responEscenari(client, { equip, accio }) {
+    if (equip) {
+      if (!this.config.equips.includes(equip)) return 'Equip desconegut';
+      this.equipDe.set(client, equip);
+      return null;
+    }
+    const nom = this.equipDe.get(client);
+    if (!nom || !this.config.equips.includes(nom)) return 'Tria primer el teu equip';
+    if (this.estat !== 'oberta') return 'Les respostes no estan obertes';
+    return this.esc.accio(nom, this.membres(nom), { client, nom: this.noms.get(client) || 'Algú' }, accio || {}, this.segons());
+  }
+
+  membres(nom) { return [...this.equipDe].filter(([, e]) => e === nom).map(([c]) => c); }
+
+  // The first team to agree gets the speed point
+  primerEquip() {
+    return [...this.esc.equips.values()].filter(e => e.confirmat != null).sort((a, b) => a.confirmat - b.confirmat)[0]?.nom;
+  }
+
+  vistaEquip(nom, resultats) {
+    const eq = this.esc.equip(nom);
+    return { nom, ...this.esc.decisio(eq, this.noms, this.membres(nom)), ...(resultats ? { puntuacio: this.esc.puntua(eq, this.primerEquip() === nom) } : {}) };
   }
 
   // Points, only for the screens of the case: heard and "not assessable" items +1 right / -1 not applicable (never
@@ -237,6 +279,14 @@ export class Aula {
 
   // What a student's phone sees: never the right answers before the results
   vistaAlumne(client) {
+    if (this.esc) {
+      const resultats = this.estat === 'resultats', meu = this.equipDe.get(client);
+      const equip = this.config.equips.includes(meu) ? meu : null;
+      return { estat: this.estat, ronda: this.ronda, tipus: 'escenari', titol: this.config.titol, fases: {},
+        equips: this.config.equips.map(e => ({ nom: e, membres: this.membres(e).length })), equip, ...this.esc.publics(),
+        decisio: equip ? { ...this.vistaEquip(equip, resultats), meuAcord: this.esc.equip(equip).acords.has(client) } : null,
+        ...(resultats ? { solucio: this.esc.solucio() } : {}) };
+    }
     const r = this.respostes.get(client);
     const resultats = this.estat === 'resultats';
     const { tipus, fases, titol, carta, preguntes } = this.config;
@@ -253,6 +303,17 @@ export class Aula {
 
   // Tutor and projector: progress, answer distribution and ranking
   vistaTutor() {
+    if (this.esc) {
+      const resultats = this.estat === 'resultats';
+      const equips = this.config.equips.map(e => this.vistaEquip(e, resultats));
+      return {
+        estat: this.estat, ronda: this.ronda, numero: this.numero, config: this.config, historia: this.historia.slice(0, 8), segons: this.obertaT ? this.segons() : null,
+        correctes: [], correcte: { text: '' }, ...this.esc.publics(), unitats: this.esc.unitats, solucio: this.esc.solucio(), equips,
+        progres: { connectats: this.equipDe.size, acabats: equips.filter(e => e.confirmat != null).length, equips: equips.length },
+        classificacio: resultats ? equips.map(e => ({ nom: `Equip ${e.nom}`, membres: e.membres.length, temps: e.confirmat, ...e.puntuacio }))
+          .filter(e => e.membres).sort((a, b) => b.punts - a.punts || (a.temps ?? 1e9) - (b.temps ?? 1e9)) : [],
+      };
+    }
     const rs = [...this.respostes.values()];
     const compta = (llista, clau) => llista.reduce((m, x) => { const k = clau(x); if (k != null) m[k] = (m[k] || 0) + 1; return m; }, {});
     const fets = rs.filter(r => r.recursos);

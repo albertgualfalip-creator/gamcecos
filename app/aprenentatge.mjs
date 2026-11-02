@@ -1,7 +1,7 @@
 // Consultor training, tutor's class page: picks the prepared cases one after another (with their recording from
 // the server), opens the answers, adjusts the right units and shows the results. Cases are prepared in /aula-admin.
 import { $, esc, avis } from './client.mjs';
-import { panellsResultats, classificacio } from './aula-resultats.mjs';
+import { panellsResultats, classificacio, panellsEscenari, estatEquips } from './aula-resultats.mjs';
 import { COLOR } from './territori.mjs';
 
 let codi = null, casos = [], actual = null, vista = null, clauUnitats = '';
@@ -16,7 +16,7 @@ async function carrega() {
 function llistaCasos() {
   $('casos').innerHTML = casos.map((c, i) => `<button class="incident-fila ${c.id === actual?.id ? 'seleccionat' : ''}" data-id="${esc(c.id)}">
     <span><b>${i + 1}.</b> ${esc(c.titol)}</span><span>${c.nivell ? `<span class="nivell n${c.nivell}">N${c.nivell}</span>` : ''}</span>
-    <span class="adreca">${esc(c.lloc?.municipi || '')} · ${c.tipus === 'carta' ? '📄 només carta' : c.audio ? '🔊' : 'sense gravació'}</span></button>`).join('')
+    <span class="adreca">${esc(c.lloc?.municipi || '')} · ${c.tipus === 'escenari' ? `👥 escenari en equip · ${c.incidents?.length || 0} incidents` : c.tipus === 'carta' ? '📄 només carta' : c.audio ? '🔊' : 'sense gravació'}</span></button>`).join('')
     || '<p>Encara no hi ha cap cas preparat. <a href="/aula-admin">Prepareu-los aquí</a>.</p>';
   $('casos').querySelectorAll('[data-id]').forEach(b => b.onclick = () => posa(casos.find(c => c.id === b.dataset.id)));
   const i = casos.findIndex(c => c.id === actual?.id);
@@ -38,8 +38,8 @@ const ordre = o => post(`/api/aula/ordre?codi=${codi}`, o).then(actualitza).catc
 async function posa(cas) {
   if (!cas) return;
   if (vista?.estat === 'oberta' && !confirm('Les respostes del cas actual encara són obertes. Passar al següent igualment?')) return;
-  const { tipus, titol, carta, nivell, preguntes, recursos, fases, unitats, correctes, lloc, xabcde } = cas;
-  const config = { tipus, titol, carta, nivell, preguntes, recursos, fases, unitats, correctes, lloc, xabcde };
+  const { tipus, titol, carta, nivell, preguntes, recursos, fases, unitats, correctes, lloc, xabcde, incidents, equips } = cas;
+  const config = { tipus, titol, carta, nivell, preguntes, recursos, fases, unitats, correctes, lloc, xabcde, incidents, equips };
   try {
     if (!codi) {
       ({ codi } = await post('/api/aula/nova', { config }));
@@ -54,7 +54,8 @@ async function posa(cas) {
   actual = cas;
   $('directe').hidden = false;
   $('cas-actual').innerHTML = `<h2>${esc(cas.titol)} ${cas.nivell ? `<span class="nivell n${cas.nivell}">N${cas.nivell}</span>` : ''}</h2>
-    ${cas.tipus === 'carta' ? '<p class="suau">📄 Cas només amb carta del 112: els alumnes decideixen si envien recurs i quins.</p>'
+    ${cas.tipus === 'escenari' ? `<p class="suau">👥 Escenari en equip: ${cas.incidents?.length || 0} incidents alhora. Cada equip decideix entre tots duplicats, prioritat i unitats.</p>`
+      : cas.tipus === 'carta' ? '<p class="suau">📄 Cas només amb carta del 112: els alumnes decideixen si envien recurs i quins.</p>'
       : cas.audio ? `<audio id="audio" controls preload="auto" src="/api/aula/audio?id=${encodeURIComponent(cas.id)}"></audio>` : '<p class="suau">Aquest cas no té gravació.</p>'}
     ${cas.carta ? `<p class="carta-text">${esc(cas.carta)}</p>` : ''}
     ${cas.notes ? `<p class="notes-tutor"><b>Notes:</b> ${esc(cas.notes)}</p>` : ''}`;
@@ -91,6 +92,15 @@ function render() {
   $('mostra').disabled = v.estat !== 'oberta';
   const p = v.progres;
   const f = v.config.fases;
+  // Team scenario: teams instead of single answers, and no list of right units to adjust here
+  $('panell-unitats').hidden = v.config.tipus === 'escenari';
+  if (v.config.tipus === 'escenari') {
+    $('progres').innerHTML = `<div><span class="xifra">${p.connectats}</span><span class="suau">Alumnes</span></div>
+      <div><span class="xifra">${p.acabats}</span><span class="suau">Equips amb acord</span></div>`;
+    $('resultats').innerHTML = v.estat === 'resultats' ? `<div class="graella-xabcde">${panellsEscenari(v)}</div>`
+      : `<div class="panell"><h3>Equips</h3>${estatEquips(v)}</div>`;
+    return;
+  }
   $('progres').innerHTML = [['Connectats', p.connectats], f.activacio && ['🚑 Activat', p.activats], ['escolta', 'preguntes', 'instruccio'].some(x => f[x]) && ['Valoració', p.xabcde],
     f.nivell && ['Nivell', p.nivell], ['Han acabat', p.acabats]].filter(Boolean)
     .map(([t, n]) => `<div><span class="xifra">${n}</span><span class="suau">${t}</span></div>`).join('');

@@ -440,3 +440,32 @@ body.cecos {
 .cecos-recursos .cecos-taula th:nth-child(1) { width: 27%; } .cecos-recursos .cecos-taula th:nth-child(2) { width: 22%; }
 .cecos-recursos .cecos-taula th:nth-child(4) { width: 25%; } .cecos-recursos .cecos-taula th:nth-child(5) { width: 9%; }
 .cecos-recursos .cecos-taula td { max-width: none; }
+
+/* ---------- Team scenario ---------- */
+.equip-Vermell { --equip: #e53935; } .equip-Blau { --equip: #1e88e5; } .equip-Verd { --equip: #43a047; }
+.equip-Groc { --equip: #f9a825; } .equip-Lila { --equip: #8e24aa; } .equip-Taronja { --equip: #fb8c00; }
+.opcio.gran-opcio[class*="equip-"] { border-left: 8px solid var(--equip); }
+.equip-cap { background: var(--equip); color: #fff; border-radius: 8px; padding: .5rem .8rem; font-weight: 800; margin: .4rem 0; }
+.equip-cap span { display: block; font-weight: 400; font-size: .85rem; opacity: .9; }
+.canvi { background: var(--tria); border-radius: 6px; padding: .35rem .6rem; font-size: .9rem; }
+.inc-equip { border: 1px solid var(--vora); border-left: 6px solid var(--incident); border-radius: 8px; padding: .5rem .6rem; margin: .5rem 0; background: var(--panell); }
+.inc-equip.duplicat { border-left-color: #8d9bb3; opacity: .8; }
+.inc-cap { display: flex; align-items: center; gap: .4rem; }
+.prio { background: var(--incident); color: #fff; font-weight: 800; border-radius: 4px; padding: 0 .45rem; min-width: 1.6em; text-align: center; }
+.duplicat .prio { background: #6b7385; }
+.mou { margin-left: auto; display: flex; gap: .25rem; }
+.mou button { border: 1px solid var(--vora); background: var(--camp); border-radius: 6px; width: 2.2rem; height: 2rem; font-size: 1rem; }
+.mou button:disabled { opacity: .3; }
+.dup { display: block; font-size: .85rem; color: var(--suau); margin: .3rem 0; }
+.dup select { width: 100%; padding: .35rem; border-radius: 6px; border: 1px solid var(--vora); background: var(--camp); color: var(--text); }
+.assignades { display: flex; flex-wrap: wrap; gap: .3rem; margin: .3rem 0; }
+.unitat-xip { border: 1px solid var(--vora); border-radius: 999px; padding: .15rem .3rem .15rem .2rem; background: var(--camp); font-size: .9rem; }
+.unitat-xip button { border: 0; background: none; color: var(--perillosa); font-weight: 800; }
+.barra-recurs button.acord { background: var(--accent); }
+.equip-estat { border-left: 6px solid var(--equip); background: var(--camp); border-radius: 4px; padding: .35rem .6rem; margin: .3rem 0; display: grid; gap: .1rem; }
+.taula-equips td, .taula-equips th { padding: .3rem .4rem; text-align: left; }
+.incident-editor { border-left: 4px solid var(--incident); margin: .5rem 0; }
+.correctes-escenari { display: flex; flex-wrap: wrap; gap: .3rem .8rem; align-items: center; margin-top: .3rem; }
+.correctes-escenari.apagada { opacity: .6; }
+table.sense-correcta th:nth-child(5), table.sense-correcta td:nth-child(5) { display: none; }
+.cecos-resultats .panell:has(.taula-equips) { grid-column: 1 / -1; }

@@ -2,7 +2,7 @@
 // Incident tray, incident record, 112 information, resources table, map and status bar; at the end, the results.
 // Card-only cases can have a background of the coordination room (radios, phones, voices) from a button.
 import { $, esc } from './client.mjs';
-import { barres, panellsResultats, classificacio } from './aula-resultats.mjs';
+import { barres, panellsResultats, classificacio, panellsEscenari, estatEquips } from './aula-resultats.mjs';
 import { COLOR, nouMapa } from './territori.mjs';
 import { engega, atura, sona } from './ambient.mjs';
 
@@ -47,6 +47,7 @@ function render(v) {
   }
   const [estat, classe] = ESTAT[v.estat];
   $('estat-incident').innerHTML = `<span class="cecos-estat-inc ${classe}">${estat}</span>`;
+  if (c.tipus === 'escenari') return renderEscenari(v);
   // Tray: the current incident and the ones already played in the session
   $('safata').innerHTML = `<tr><th>Núm.</th><th>Hora</th><th>Municipi</th><th>Pr.</th></tr>
     <tr class="actual ${v.estat === 'oberta' ? 'parpelleig-suau' : ''}"><td>${v.numero}</td><td>${horaAlerta.slice(0, 5)}</td><td>${esc(c.lloc.municipi)}</td>
@@ -88,6 +89,61 @@ function render(v) {
   $('resultats').innerHTML = resultats ? panellsResultats(v, true) : '';
   if (!resultats) pintaMapa(v);
   ambient();
+}
+
+// Team scenario: all the incidents at once, the shared units and how the teams are doing
+function renderEscenari(v) {
+  const resultats = v.estat === 'resultats', { config: c } = v;
+  const sol = id => v.solucio.find(s => s.id === id);
+  $('safata').innerHTML = `<tr><th>Núm.</th><th>Hora</th><th>Municipi</th><th>Pr.</th></tr>
+    ${v.incidents.map(x => `<tr class="actual ${v.estat === 'oberta' ? 'parpelleig-suau' : ''}"><td>${x.numero}</td><td>${horaAlerta.slice(0, 5)}</td><td>${esc(x.municipi)}</td>
+      <td>${resultats ? (sol(x.id).duplicatDe ? 'DUP' : sol(x.id).ordre) : '—'}</td></tr>`).join('')}`;
+  const camp = (etiqueta, valor, ample = '') => `<div class="cecos-camp ${ample}"><label>${etiqueta}</label><div>${valor}</div></div>`;
+  $('fitxa').innerHTML = [camp('Escenari', esc(c.titol), 'ample'), camp('Incidents', v.incidents.length), camp('Unitats', v.unitats.filter(u => !u.ocupada).length + ' lliures'),
+    camp('Equips', c.equips.length), camp('Temps', v.segons != null && !resultats ? mmss(v.segons) : '—')].join('');
+  $('titol-112').innerHTML = `Informació 112 · ${v.incidents.length} alertes`;
+  $('info112').innerHTML = v.incidents.map(x => `<div class="cecos-linia"><span class="suau">${horaAlerta} · ${x.numero} · ${esc(x.municipi)}</span><br>${esc(x.carta)}</div>`).join('');
+  $('recursos').innerHTML = `<tr><th>Indicatiu</th><th>Tipus</th><th>Base</th><th>Estat</th><th>ETA</th></tr>
+    ${v.unitats.map(u => {
+      const on = resultats && v.solucio.find(s => s.correctes.includes(u.indicatiu));
+      const etes = Object.values(u.etes);
+      return `<tr class="${u.ocupada ? 'ocupada' : ''} ${on ? 'bona' : ''}"><td><span class="punt" style="background:${COLOR[u.tipus] || '#888'}"></span><b>${esc(u.indicatiu)}</b></td>
+        <td><span class="cat-unitat cat-${u.cat}">${NOM_CAT[u.cat]}</span> ${esc(u.tipus)}</td><td>${esc(u.base)}</td>
+        <td>${on ? `<span class="cecos-estat-u proposta">→ ${on.numero}</span>` : u.ocupada ? '<span class="cecos-estat-u ocupat">OCUPAT</span>' : '<span class="cecos-estat-u lliure">DISPONIBLE</span>'}</td>
+        <td>${u.ocupada ? '—' : Math.min(...etes) === Math.max(...etes) ? `${etes[0]}'` : `${Math.min(...etes)}–${Math.max(...etes)}'`}</td></tr>`;
+    }).join('')}`;
+  $('lateral').innerHTML = `<div class="cecos-titol">Equips · ${v.progres.connectats} alumnes</div>${estatEquips(v)}`;
+  $('peu').innerHTML = `<span>● CONNECTAT</span><span>Sessió ${codi}</span><span>${v.incidents.length} incidents</span><span>${v.progres.connectats} operadors</span>
+    <span>${v.progres.acabats}/${v.equips.filter(e => e.membres.length).length} equips amb acord</span><span>${v.segons != null ? `Temps ${mmss(v.segons)}` : 'Esperant'}</span>`;
+  $('panell-mapa').hidden = resultats;
+  $('resultats').hidden = !resultats;
+  $('resultats').innerHTML = resultats ? panellsEscenari(v) : '';
+  if (!resultats) pintaMapaEscenari(v);
+  ambient();
+}
+
+function pintaMapaEscenari(v) {
+  const clau = JSON.stringify(['esc', v.ronda]);
+  if (clau === clauMapa) return;
+  clauMapa = clau;
+  if (!mapa) { mapa = nouMapa('mapa'); capa = L.layerGroup().addTo(mapa); }
+  setTimeout(() => mapa.invalidateSize(), 50);
+  capa.clearLayers();
+  // Incidents of the scenario (spread a little when they share a place) and the shared units
+  const vistos = {};
+  for (const x of v.incidents) {
+    const n = (vistos[`${x.lat},${x.lon}`] = (vistos[`${x.lat},${x.lon}`] ?? -1) + 1);
+    L.circleMarker([x.lat + 0.006 * n * Math.sin(n * 2.1), x.lon + 0.008 * n * Math.cos(n * 2.1)], { radius: 12, color: '#ff5252', weight: 3, fillOpacity: 0.45 })
+      .addTo(capa).bindTooltip(`${x.numero} · ${esc(x.municipi)}`, { permanent: true, direction: 'top' });
+  }
+  for (const u of v.unitats) {
+    L.circleMarker([u.lat, u.lon], { radius: 7, color: u.ocupada ? '#555' : '#fff', weight: 2, fillColor: u.ocupada ? '#777' : COLOR[u.tipus] || '#888', fillOpacity: 0.95 })
+      .addTo(capa).bindTooltip(`${esc(u.indicatiu)} ${esc(u.tipus)}`, { direction: 'right' });
+  }
+  if (rondaMapa !== v.ronda) {
+    rondaMapa = v.ronda;
+    mapa.fitBounds([...v.incidents.map(x => [x.lat, x.lon]), ...v.unitats.filter(u => u.tipus !== 'HELI').map(u => [u.lat, u.lon])], { padding: [30, 30], maxZoom: 12 });
+  }
 }
 
 // Incident and the units the students can choose
