@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GamCECOS · Casos d'aprenentatge</title>
+<link rel="stylesheet" href="estil.css">
+</head>
+<body>
+<header class="capcalera">
+  <span class="marca">GamCECOS · Casos d'aprenentatge</span>
+  <span class="suau">Prepareu els casos amb antelació; a classe només cal triar-los.</span>
+  <div class="info"><a href="/aprenentatge" class="boto">Anar a la classe</a> <a href="/" class="boto secundari">Inici</a></div>
+</header>
+<main class="aula-admin">
+  <aside class="panell">
+    <button class="boto" id="nou">+ Cas nou</button>
+    <p class="suau">L'ordre de la llista és l'ordre de la classe.</p>
+    <div id="llista" class="cua"></div>
+  </aside>
+  <form id="formulari" class="panell formulari ample" hidden>
+    <div class="barra-cas">
+      <h2 id="titol-form">Cas nou</h2>
+      <div class="accions">
+        <button class="boto" id="desa">Desar</button>
+        <button class="boto secundari" type="button" id="duplica">Duplicar</button>
+        <button class="boto perill" type="button" id="esborra">Esborrar</button>
+      </div>
+      <p class="suau" id="estat-desat"></p>
+    </div>
+    <div class="fila">
+      <label>Títol (el veuen els alumnes) <input name="titol" maxlength="80" required></label>
+      <label>Municipi de l'incident <input name="municipi" list="municipis" autocomplete="off" required></label>
+      <label>Nivell correcte <select name="nivell"><option value="">No puntuar</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label>
+      <label>Ordre a la classe <input name="ordre" type="number" min="1" max="999"></label>
+    </div>
+    <datalist id="municipis"></datalist>
+    <label>Carta del 112 (la veuen els alumnes al projector i al mòbil) <textarea name="carta" rows="3" placeholder="Ex.: ALERTANT, VEÍ AL LLOC, INDICA QUE LA SEVA VEÏNA S'HA DESMAIAT, ESTÀ INCONSCIENT."></textarea></label>
+    <fieldset><legend>Gravació</legend>
+      <div id="audio-actual" class="suau">Encara no hi ha cap gravació.</div>
+      <label>Pujar o substituir la gravació (mp3, wav, m4a, ogg... fins a 40 MB) <input type="file" name="audio" accept="audio/*"></label>
+      <p class="suau">Es desa al servidor, protegida per la contrasenya, i no es comparteix enlloc més.</p>
+    </fieldset>
+    <label>Notes per al tutor (què passa al cas, què cal comentar als resultats; no ho veuen els alumnes) <textarea name="notes" rows="3"></textarea></label>
+    <h3>XABCDE</h3>
+    <p class="suau">Per a cada lletra: què caldria preguntar, què es pot escoltar, quines instruccions donar i, si la gravació no en dona informació, «No avaluable». Un element per línia; sota de cada llista, marqueu els correctes per a aquesta gravació.</p>
+    <div id="xabcde" class="xabcde-editor"></div>
+  </form>
+  <p id="error" class="suau"></p>
+</main>
+<script type="module" src="aula-admin.mjs"></script>
+</body>
+</html>

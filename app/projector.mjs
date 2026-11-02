@@ -39,7 +39,8 @@ function render(v) {
   // The call, as the consultor sees it in the game
   $('trucada').innerHTML = `<div class="cap-trucada">${resultats ? '<span class="etiqueta v-suboptima">FINALITZADA</span>' : '<span class="en-linia">EN LÍNIA</span>'}
       <b class="num-gran">${v.numero}</b></div>
-    <div class="carta-text">${esc(v.config.titol)} · ${esc(v.config.lloc.municipi)}</div>
+    <div class="suau titol-cas">${esc(v.config.titol)} · ${esc(v.config.lloc.municipi)}</div>
+    ${v.config.carta ? `<div class="carta-text">${esc(v.config.carta)}</div>` : ''}
     ${resultats ? '' : '<div class="ona">' + Array.from({ length: 24 }, (_, i) => `<span style="animation-delay:${(i % 6) * 0.12}s"></span>`).join('') + '</div>'}
     ${resultats && v.config.nivell ? `<p class="nivell-final">Nivell correcte <span class="nivell n${v.config.nivell}">N${v.config.nivell}</span> · ${esc(v.correctesCombo)}</p>` : ''}`;
   pintaMapa(v);

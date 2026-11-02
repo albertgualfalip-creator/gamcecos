@@ -46,6 +46,8 @@ node --version
 echo "== 3/4 Servei gamcecos"
 id gamcecos >/dev/null 2>&1 || useradd --system --no-create-home --shell /usr/sbin/nologin gamcecos
 chmod -R o+rX "$DIR"
+# Folders the service writes to: cases edited in the editor and the training cases with their recordings
+install -d -o gamcecos -g gamcecos "$DIR/casos-locals" "$DIR/aula-casos"
 cat > /etc/systemd/system/gamcecos.service <<EOF
 [Unit]
 Description=GamCECOS

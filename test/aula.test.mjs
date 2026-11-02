@@ -49,9 +49,9 @@ test('aprenentatge: els alumnes responen per passos i la puntuació compara amb 
   assert.equal(a.vistaTutor().distribucio.nivell[1], 1);
 });
 
-test('aprenentatge: per defecte cada lletra té anamnesi, signes i maniobres, sense cap correcte', () => {
+test('aprenentatge: per defecte cada lletra té anamnesi, signes, maniobres i «no avaluable», sense cap correcte', () => {
   const a = new Aula({ lloc, llavor: 1 }, dades);
-  for (const l of a.config.xabcde) assert.deepEqual([...new Set(l.items.map(it => it.seccio))], ['anamnesi', 'signes', 'maniobres'], l.lletra);
+  for (const l of a.config.xabcde) assert.deepEqual([...new Set(l.items.map(it => it.seccio))], ['anamnesi', 'signes', 'maniobres', 'noavaluable'], l.lletra);
   assert.ok(a.config.xabcde.flatMap(l => l.items).every(it => !it.correcte));
   assert.ok(a.config.xabcde.find(l => l.lletra === 'A').items.some(it => /Heimlich/.test(it.text)));
 });
@@ -65,4 +65,15 @@ test('aprenentatge: una gravació nova esborra les respostes i torna a preparar'
   assert.equal(a.ronda, 2);
   assert.equal(a.respostes.size, 0);
   assert.equal(a.vistaAlumne('c1').resposta, null);
+});
+
+test('aprenentatge: la carta del 112 arriba als mòbils i «no avaluable» puntua com un element més', () => {
+  const xabcdeX = [{ lletra: 'X', nom: 'Hemorràgia', items: [{ seccio: 'noavaluable', text: 'No avaluable', correcte: true }, { seccio: 'maniobres', text: 'Torniquet', correcte: false }] }];
+  const a = new Aula({ carta: 'ALERTANT INDICA QUE EL SEU PARE NO RESPIRA', nivell: 1, lloc, xabcde: xabcdeX, llavor: 1 }, dades);
+  assert.equal(a.vistaAlumne('c1').carta, 'ALERTANT INDICA QUE EL SEU PARE NO RESPIRA');
+  a.ordre({ tipus: 'obre' });
+  a.respon('c1', { xabcde: ['X-n1'] });
+  a.respon('c1', { nivell: 1 });
+  a.respon('c1', { recursos: a.correctes });
+  assert.equal(a.puntua(a.respostes.get('c1')).xabcde, 1);
 });

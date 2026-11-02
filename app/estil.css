@@ -336,3 +336,15 @@ label.opcio.unitat { display: flex; align-items: center; gap: .3rem; }
 .projector .barra-fila { font-size: 1.05rem; }
 @media (max-width: 900px) { .projector-graella { grid-template-columns: 1fr; } }
 .projector .barra-fila { grid-template-columns: minmax(0, 2.2fr) 1fr 2em; }
+.aprenentatge.classe { grid-template-columns: minmax(260px, 340px) 1fr; align-items: start; padding-top: 1rem; }
+.columna-classe { display: grid; gap: 1rem; min-width: 0; }
+#cas-actual audio { width: 100%; margin: .5rem 0; }
+.notes-tutor { background: var(--camp); border-left: 3px solid var(--acceptable); padding: .5rem .7rem; border-radius: 0 6px 6px 0; }
+.aula-admin { display: grid; grid-template-columns: minmax(240px, 320px) 1fr; gap: 1rem; padding: 1rem 16px; align-items: start; }
+.aula-admin audio { width: 100%; }
+@media (max-width: 800px) { .aprenentatge.classe, .aula-admin { grid-template-columns: 1fr; } }
+.carta-mobil { font-size: .9rem; margin: .4rem 0; }
+.seccio-noavaluable { border-left-color: #8d9bb3; }
+.seccio-aula.seccio-noavaluable h3 { display: none; }
+.projector .titol-cas { font-size: 1.05rem; margin-top: .5rem; }
+.projector .carta-text { font-size: 1.25rem; line-height: 1.35; }

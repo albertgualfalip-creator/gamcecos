@@ -8,55 +8,40 @@
 <script src="vendor/qrcodejs/qrcode.min.js"></script>
 </head>
 <body>
-<main class="aprenentatge">
-  <header class="capcalera">
-    <span class="marca">GamCECOS · Aprenentatge consultors</span>
-    <span id="cap-codi" hidden>Codi: <b id="codi" class="codi"></b></span>
-    <span id="estat-ronda" class="suau"></span>
-    <div class="info"><a href="/" class="boto secundari">Inici</a></div>
-  </header>
-
-  <section class="panell" id="gravacio">
-    <h3>Gravació</h3>
-    <p class="suau">L'àudio es reprodueix des d'aquest ordinador: no es puja enlloc.</p>
-    <input type="file" id="fitxer-audio" accept="audio/*">
-    <audio id="audio" controls hidden></audio>
-  </section>
-
-  <form id="config" class="panell formulari ample">
-    <h3>Configuració de la gravació</h3>
-    <div class="fila">
-      <label>Títol (el veuen els alumnes) <input name="titol" value="Gravació 1" maxlength="80"></label>
-      <label>Municipi de l'incident <input name="municipi" list="municipis" value="Barcelona" autocomplete="off"></label>
-      <label>Nivell correcte <select name="nivell"><option value="">No puntuar</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select></label>
-    </div>
-    <datalist id="municipis"></datalist>
-    <p class="suau">XABCDE: per a cada lletra, què caldria preguntar (anamnesi), què es pot escoltar (signes i símptomes) i quines instruccions donar (maniobres salvadores). Un element per línia; sota de cada llista, marqueu els que són correctes per a aquesta gravació. Els alumnes guanyen un punt per cada element correcte que marquen i en perden un per cada element que marquen i no tocava.</p>
-    <div id="xabcde" class="xabcde-editor"></div>
-    <button class="boto" id="crea">Preparar la gravació</button>
-    <p class="suau" id="error"></p>
-  </form>
-
-  <section id="directe" hidden>
-    <div class="aula-capçal panell">
-      <div class="qr"><div id="qr"></div><span id="url-alumnes"></span></div>
-      <div class="aula-control">
-        <div class="accions">
-          <button class="boto" id="obre">Obrir respostes</button>
-          <button class="boto" id="mostra">Mostrar resultats</button>
-          <button class="boto secundari" id="nova">Nova gravació</button>
-          <a class="boto secundari" id="obre-projector" target="_blank">Obrir la pantalla del projector ↗</a>
+<header class="capcalera">
+  <span class="marca">GamCECOS · Classe</span>
+  <span id="cap-codi" hidden>Codi: <b id="codi" class="codi"></b></span>
+  <span id="estat-ronda" class="suau"></span>
+  <div class="info"><a href="/aula-admin" class="boto secundari">Preparar casos</a> <a href="/" class="boto secundari">Inici</a></div>
+</header>
+<main class="aprenentatge classe">
+  <aside class="panell">
+    <h3>Casos de la classe</h3>
+    <div id="casos" class="cua"><p class="suau">Carregant...</p></div>
+    <button class="boto gran-boto" id="seguent" disabled>Començar amb el primer cas</button>
+  </aside>
+  <section class="columna-classe">
+    <div class="panell" id="cas-actual"><p class="suau">Trieu un cas de la llista o premeu «Començar amb el primer cas».</p></div>
+    <div id="directe" hidden>
+      <div class="aula-capçal panell">
+        <div class="qr"><div id="qr"></div><span id="url-alumnes"></span></div>
+        <div class="aula-control">
+          <div class="accions">
+            <button class="boto" id="obre">Obrir respostes</button>
+            <button class="boto" id="mostra">Mostrar resultats</button>
+            <a class="boto secundari" id="obre-projector" target="_blank">Obrir la pantalla del projector ↗</a>
+          </div>
+          <div id="progres" class="progres-aula"></div>
+          <label class="casella"><input type="checkbox" id="en-directe"> Veure les respostes en directe aquí (no al projector)</label>
         </div>
-        <div id="progres" class="progres-aula"></div>
-        <label class="casella"><input type="checkbox" id="en-directe"> Veure les respostes en directe (no ho projecteu si no voleu condicionar)</label>
       </div>
+      <div class="panell">
+        <h3>Unitats que veuen els alumnes <span class="suau" id="lloc"></span></h3>
+        <p class="suau">Marcades: la resposta correcta (per defecte, les més properes segons el nivell AURE). Les podeu canviar abans de mostrar els resultats.</p>
+        <div id="unitats" class="unitats-llista unitats-aula"></div>
+      </div>
+      <div id="resultats" class="resultats-aula"></div>
     </div>
-    <div class="panell" id="panell-correctes">
-      <h3>Unitats que veuen els alumnes <span class="suau" id="lloc"></span></h3>
-      <p class="suau">Marcades: la resposta correcta (per defecte, les més properes segons el nivell AURE). Les podeu canviar abans de mostrar els resultats.</p>
-      <div id="unitats" class="unitats-llista unitats-aula"></div>
-    </div>
-    <div id="resultats" class="resultats-aula"></div>
   </section>
 </main>
 <script type="module" src="aprenentatge.mjs"></script>

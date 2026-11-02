@@ -33,7 +33,8 @@ export class Aula {
     const nivell = [1, 2, 3, 4, 5].includes(Number(c.nivell)) ? Number(c.nivell) : null;
     const lloc = c.lloc && Number.isFinite(c.lloc.lat) && Number.isFinite(c.lloc.lon) ? c.lloc : { municipi: 'Barcelona', zona: 'Barcelona ciutat', lat: 41.3874, lon: 2.1686 };
     const entorn = entornDe(lloc.zona, lloc.municipi, this.dades.aure.entorn_per_zona).entorn;
-    this.config = { titol: String(c.titol || 'Gravació').slice(0, 80), xabcde, nivell, lloc: { ...lloc, entorn } };
+    // carta: the 112 data card the students read on the projector and the phone
+    this.config = { titol: String(c.titol || 'Gravació').slice(0, 80), carta: String(c.carta || '').trim().slice(0, 1000), xabcde, nivell, lloc: { ...lloc, entorn } };
     const llavor = c.llavor ?? Date.now();
     this.numero = 261800000 + Math.floor(aleatori(llavor + 1)() * 99999);   // incident number shown on the projector
     this.unitats = this.unitatsProperes(llavor);
@@ -125,7 +126,7 @@ export class Aula {
     const r = this.respostes.get(client);
     const resultats = this.estat === 'resultats';
     return {
-      estat: this.estat, ronda: this.ronda, titol: this.config.titol,
+      estat: this.estat, ronda: this.ronda, titol: this.config.titol, carta: this.config.carta,
       xabcde: this.config.xabcde.map(l => ({ lletra: l.lletra, nom: l.nom,
         items: l.items.map(({ id, seccio, text, correcte }) => ({ id, seccio, text, ...(resultats ? { correcte } : {}) })) })),
       unitats: this.unitats.map(({ indicatiu, tipus, base, km, eta, ocupada }) => ({ indicatiu, tipus, base, km, eta, ocupada })),

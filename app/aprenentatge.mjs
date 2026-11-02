@@ -1,42 +1,30 @@
-// Consultor training, tutor and projector screen: prepares each recording (XABCDE answers, right level,
-// incident place), shows the code for the phones, opens the answers and projects the results.
+// Consultor training, tutor's class page: picks the prepared cases one after another (with their recording from
+// the server), opens the answers, adjusts the right units and shows the results. Cases are prepared in /aula-admin.
 import { $, esc, avis } from './client.mjs';
-import { XABCDE, SECCIONS } from './motor.mjs';
+import { SECCIONS } from './motor.mjs';
 import { COLOR } from './territori.mjs';
 
-let codi = null, municipis = new Map(), vista = null, clauUnitats = '';
+let codi = null, casos = [], actual = null, vista = null, clauUnitats = '';
 
 async function carrega() {
-  $('xabcde').innerHTML = XABCDE.map((l, i) => `<div class="bloc" data-lletra="${i}">
-    <label><span class="lletra-gran">${esc(l.lletra)}</span> <input class="nom-lletra" value="${esc(l.nom)}"></label>
-    ${SECCIONS.map(sec => `<div class="seccio-editor seccio-${sec.id}" data-seccio="${sec.id}"><b>${esc(sec.nom)}</b>
-      <textarea rows="${l[sec.id].length + 1}">${esc(l[sec.id].join('\n'))}</textarea><div class="correctes-llista"></div></div>`).join('')}</div>`).join('');
-  $('xabcde').querySelectorAll('.seccio-editor').forEach(sec => { omplCorrectes(sec); sec.querySelector('textarea').oninput = () => omplCorrectes(sec); });
-  const centres = await fetch('/data/centres.json').then(r => (r.ok ? r.json() : Promise.reject(r.status)));
-  for (const c of centres.filter(x => x.tipus === 'CAP' && x.municipi)) {
-    if (!municipis.has(c.municipi)) municipis.set(c.municipi, { municipi: c.municipi, zona: c.subzona || c.regio, lat: c.lat, lon: c.lon });
-  }
-  $('municipis').innerHTML = [...municipis.keys()].sort((a, b) => a.localeCompare(b, 'ca')).map(m => `<option value="${esc(m)}">`).join('');
+  const r = await fetch('/api/aula/casos', { cache: 'no-store' });
+  if (!r.ok) throw new Error(r.status);
+  ({ casos } = await r.json());
+  llistaCasos();
 }
 
-// Under each list, one checkbox per line: ticked = right for this recording (kept by text while editing)
-function omplCorrectes(sec) {
-  const abans = new Set([...sec.querySelectorAll('input:checked')].map(c => c.value));
-  const linies = sec.querySelector('textarea').value.split('\n').map(x => x.trim()).filter(Boolean);
-  sec.querySelector('.correctes-llista').innerHTML = linies.map(t => `<label class="casella"><input type="checkbox" value="${esc(t)}" ${abans.has(t) ? 'checked' : ''}>${esc(t)}</label>`).join('');
+function llistaCasos() {
+  $('casos').innerHTML = casos.map((c, i) => `<button class="incident-fila ${c.id === actual?.id ? 'seleccionat' : ''}" data-id="${esc(c.id)}">
+    <span><b>${i + 1}.</b> ${esc(c.titol)}</span><span>${c.nivell ? `<span class="nivell n${c.nivell}">N${c.nivell}</span>` : ''}</span>
+    <span class="adreca">${esc(c.lloc?.municipi || '')} · ${c.audio ? '🔊' : 'sense gravació'}</span></button>`).join('')
+    || '<p>Encara no hi ha cap cas preparat. <a href="/aula-admin">Prepareu-los aquí</a>.</p>';
+  $('casos').querySelectorAll('[data-id]').forEach(b => b.onclick = () => posa(casos.find(c => c.id === b.dataset.id)));
+  const i = casos.findIndex(c => c.id === actual?.id);
+  const seguent = casos[i + 1];
+  $('seguent').disabled = !seguent;
+  $('seguent').textContent = !actual ? 'Començar amb el primer cas' : seguent ? `Cas següent: ${seguent.titol} ▸` : 'No hi ha més casos';
 }
-
-function llegeixConfig() {
-  const f = $('config');
-  const lloc = municipis.get(f.municipi.value.trim());
-  if (!lloc) throw new Error('Trieu un municipi de la llista');
-  const xabcde = [...$('xabcde').querySelectorAll('.bloc')].map((b, i) => ({
-    lletra: XABCDE[i].lletra, nom: b.querySelector('.nom-lletra').value.trim(),
-    items: [...b.querySelectorAll('.seccio-editor')].flatMap(sec => [...sec.querySelectorAll('input[type=checkbox]')]
-      .map(c => ({ seccio: sec.dataset.seccio, text: c.value, correcte: c.checked }))),
-  }));
-  return { titol: f.titol.value.trim(), nivell: f.nivell.value ? Number(f.nivell.value) : null, lloc, xabcde };
-}
+$('seguent').onclick = () => posa(casos[casos.findIndex(c => c.id === actual?.id) + 1]);
 
 async function post(ruta, cos) {
   const r = await fetch(ruta, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cos) });
@@ -46,42 +34,35 @@ async function post(ruta, cos) {
 }
 const ordre = o => post(`/api/aula/ordre?codi=${codi}`, o).then(actualitza).catch(e => avis(e.message));
 
-$('config').onsubmit = async e => {
-  e.preventDefault();
+// Puts a prepared case on: a new round for every phone, with its recording ready to play
+async function posa(cas) {
+  if (!cas) return;
+  if (vista?.estat === 'oberta' && !confirm('Les respostes del cas actual encara són obertes. Passar al següent igualment?')) return;
+  const config = { titol: cas.titol, carta: cas.carta, nivell: cas.nivell, lloc: cas.lloc, xabcde: cas.xabcde };
   try {
-    const config = llegeixConfig();
     if (!codi) {
       ({ codi } = await post('/api/aula/nova', { config }));
       $('codi').textContent = codi;
       $('cap-codi').hidden = false;
-      const url = `${location.origin}/aula?codi=${codi}`;
       $('url-alumnes').innerHTML = `${esc(location.host)}/aula<br>codi <b class="codi">${codi}</b>`;
-      if (window.QRCode) new QRCode($('qr'), { text: url, width: 180, height: 180 });
+      if (window.QRCode) new QRCode($('qr'), { text: `${location.origin}/aula?codi=${codi}`, width: 120, height: 120 });
       $('obre-projector').href = `/projector?codi=${codi}`;
       bucle();
     } else await post(`/api/aula/ordre?codi=${codi}`, { tipus: 'nova', config });
-    $('config').hidden = true;
-    $('directe').hidden = false;
-    clauUnitats = '';
-    actualitza();
-  } catch (err) { $('error').textContent = err.message; }
-};
+  } catch (e) { avis(e.message); return; }
+  actual = cas;
+  $('directe').hidden = false;
+  $('cas-actual').innerHTML = `<h2>${esc(cas.titol)} ${cas.nivell ? `<span class="nivell n${cas.nivell}">N${cas.nivell}</span>` : ''}</h2>
+    ${cas.audio ? `<audio id="audio" controls preload="auto" src="/api/aula/audio?id=${encodeURIComponent(cas.id)}"></audio>` : '<p class="suau">Aquest cas no té gravació.</p>'}
+    ${cas.carta ? `<p class="carta-text">${esc(cas.carta)}</p>` : ''}
+    ${cas.notes ? `<p class="notes-tutor"><b>Notes:</b> ${esc(cas.notes)}</p>` : ''}`;
+  clauUnitats = '';
+  llistaCasos();
+  actualitza();
+}
+$('en-directe').onchange = () => render();
 $('obre').onclick = () => ordre({ tipus: 'obre' });
 $('mostra').onclick = () => ordre({ tipus: 'resultats' });
-$('nova').onclick = () => {
-  const f = $('config');
-  f.titol.value = f.titol.value.replace(/(\d+)\s*$/, (_, n) => String(Number(n) + 1));
-  f.hidden = false;
-  $('directe').hidden = true;
-  f.scrollIntoView({ behavior: 'smooth' });
-};
-$('en-directe').onchange = () => render();
-$('fitxer-audio').onchange = e => {
-  const fitxer = e.target.files[0];
-  if (!fitxer) return;
-  $('audio').src = URL.createObjectURL(fitxer);
-  $('audio').hidden = false;
-};
 
 async function actualitza() {
   if (!codi) return;
@@ -135,7 +116,7 @@ function resultats(v) {
   const d = v.distribucio, mostra = v.estat === 'resultats';
   const lletres = v.config.xabcde.map(l => `<div class="panell"><h3><span class="lletra-gran">${esc(l.lletra)}</span> ${esc(l.nom)}</h3>
     ${SECCIONS.map(sec => {
-      const items = l.items.filter(it => it.seccio === sec.id);
+      const items = l.items.filter(it => it.seccio === sec.id && ((mostra && it.correcte) || d.xabcde[it.id]));
       return items.length ? `<div class="seccio-resultat seccio-${sec.id}"><b>${esc(sec.nom)}</b>${barres(items.map(it => ({ text: it.text, n: d.xabcde[it.id] || 0, correcte: mostra && it.correcte })))}</div>` : '';
     }).join('')}</div>`).join('');
   const nivell = barres([1, 2, 3, 4, 5].map(n => ({ html: `<span class="nivell n${n}">N${n}</span>`, n: d.nivell[n] || 0, correcte: mostra && v.config.nivell === n, classe: `n${n}` })));
@@ -154,4 +135,4 @@ function resultats(v) {
     </div>${rànquing}`;
 }
 
-carrega().catch(() => { $('error').textContent = 'Cal entrar amb la contrasenya (torneu a la pàgina inicial).'; });
+carrega().catch(() => { $('casos').innerHTML = '<p>Cal entrar amb la contrasenya (torneu a la pàgina inicial).</p>'; });

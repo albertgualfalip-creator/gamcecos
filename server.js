@@ -16,6 +16,10 @@ const HOST = process.env.HOST || undefined;
 const CLAU = process.env.GAMCECOS_CLAU || '';
 const ROOT = __dirname;
 const DIR_CASOS_LOCALS = path.join(ROOT, 'casos-locals');   // cases edited from the editor; not tracked by git
+const DIR_AULA = path.join(ROOT, 'aula-casos');               // prepared training cases and their recordings; not tracked by git
+const MAX_AUDIO = 40 * 1024 * 1024;
+const TIPUS_AUDIO = { 'audio/mpeg': '.mp3', 'audio/mp3': '.mp3', 'audio/wav': '.wav', 'audio/x-wav': '.wav', 'audio/wave': '.wav', 'audio/ogg': '.ogg',
+  'audio/webm': '.webm', 'audio/mp4': '.m4a', 'audio/x-m4a': '.m4a', 'audio/aac': '.aac', 'audio/flac': '.flac' };
 const PUBLIC_DIRS = ['app', 'data'];
 const OBERT_SENSE_CLAU = new Set(['/app/index.html', '/app/vota.html', '/app/vota.mjs', '/app/client.mjs', '/app/estil.css', '/api/events', '/api/estat', '/api/vot', '/api/punts',
   '/app/aula.html', '/app/aula.mjs', '/api/aula/estat', '/api/aula/resposta']);
@@ -166,10 +170,14 @@ async function api(req, res, ruta, params) {
     const ips = Object.values(os.networkInterfaces()).flat().filter(i => i.family === 'IPv4' && !i.internal).map(i => i.address);
     return json(res, 200, { urls: ips.map(ip => `http://${ip}:${PORT}`) });
   }
+  // Recordings travel as raw bytes, not JSON
+  if (ruta === '/api/aula/audio' && req.method === 'POST') return autoritzat ? pujaAudio(req, res, params) : json(res, 401, { error: 'Cal contrasenya' });
+  if (ruta === '/api/aula/audio') return autoritzat ? serveixAudio(req, res, params) : json(res, 401, { error: 'Cal contrasenya' });
   let cos = {};
   if (req.method === 'POST') {
     try { const s = await llegeixCos(req); cos = s ? JSON.parse(s) : {}; } catch { return json(res, 400, { error: 'JSON invàlid' }); }
   }
+  if (ruta.startsWith('/api/aula/casos')) return autoritzat ? casosAula(req, res, ruta, cos) : json(res, 401, { error: 'Cal contrasenya' });
   if (ruta.startsWith('/api/aula/')) return apiAula(req, res, ruta, params, cos, autoritzat);
   if (['/api/sala', '/api/casos', '/api/casos/esborra'].includes(ruta) && !autoritzat) return json(res, 401, { error: 'Cal contrasenya' });
   if (ruta === '/api/sala' && req.method === 'POST') return json(res, 200, { sala: novaSala(cos.config || {}) });
@@ -244,6 +252,94 @@ async function api(req, res, ruta, params) {
   json(res, 404, { error: 'No trobat' });
 }
 
+// ---------- Prepared training cases: aula-casos/<id>.json and the recording aula-casos/<id>.<ext> ----------
+
+const idCasAula = id => (/^[a-z0-9-]{3,60}$/.test(String(id || '')) ? String(id) : null);
+
+function llegeixCasosAula() {
+  if (!fs.existsSync(DIR_AULA)) return [];
+  return fs.readdirSync(DIR_AULA).filter(f => f.endsWith('.json')).map(f => {
+    try { return JSON.parse(fs.readFileSync(path.join(DIR_AULA, f), 'utf8')); } catch { return null; }
+  }).filter(Boolean).sort((a, b) => (a.ordre ?? 999) - (b.ordre ?? 999) || String(a.titol).localeCompare(String(b.titol), 'ca'));
+}
+
+// The service may run as a user without write access to the folder: say how to fix it instead of failing silently
+function errorDisc(res, e) {
+  const permis = e.code === 'EACCES' || e.code === 'EPERM';
+  return json(res, 500, { error: permis ? `El servidor no pot escriure a ${DIR_AULA}. Al VPS: sudo install -d -o gamcecos -g gamcecos ${DIR_AULA}` : e.message });
+}
+
+function casosAula(req, res, ruta, cos) {
+  if (ruta === '/api/aula/casos' && req.method === 'GET') return json(res, 200, { casos: llegeixCasosAula() });
+  if (ruta === '/api/aula/casos' && req.method === 'POST') {
+    const c = cos.cas || {};
+    if (!String(c.titol || '').trim()) return json(res, 400, { error: 'Falta el títol' });
+    const base = String(c.titol).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'cas';
+    const id = idCasAula(c.id) || `${base}-${crypto.randomBytes(2).toString('hex')}`;
+    const anterior = llegeixCasosAula().find(x => x.id === id);
+    const cas = { id, titol: String(c.titol).trim().slice(0, 80), carta: String(c.carta || '').trim().slice(0, 1000), nivell: c.nivell ?? null, lloc: c.lloc || null, xabcde: c.xabcde || [],
+      notes: String(c.notes || '').slice(0, 2000), ordre: Number.isFinite(c.ordre) ? c.ordre : anterior?.ordre ?? 999, audio: anterior?.audio || null };
+    try {
+      fs.mkdirSync(DIR_AULA, { recursive: true });
+      fs.writeFileSync(path.join(DIR_AULA, `${id}.json`), JSON.stringify(cas, null, 1));
+    } catch (e) { return errorDisc(res, e); }
+    return json(res, 200, { cas });
+  }
+  if (ruta === '/api/aula/casos/esborra' && req.method === 'POST') {
+    const id = idCasAula(cos.id);
+    const cas = id && llegeixCasosAula().find(x => x.id === id);
+    if (!cas) return json(res, 404, { error: 'Cas desconegut' });
+    try {
+      fs.unlinkSync(path.join(DIR_AULA, `${id}.json`));
+      if (cas.audio) fs.rmSync(path.join(DIR_AULA, cas.audio), { force: true });
+    } catch (e) { return errorDisc(res, e); }
+    return json(res, 200, { ok: true });
+  }
+  json(res, 404, { error: 'No trobat' });
+}
+
+function pujaAudio(req, res, params) {
+  const id = idCasAula(params.get('id'));
+  const cas = id && llegeixCasosAula().find(x => x.id === id);
+  const ext = TIPUS_AUDIO[String(req.headers['content-type'] || '').split(';')[0].trim()];
+  if (!cas) return json(res, 404, { error: 'Deseu el cas abans de pujar l\'àudio' });
+  if (!ext) return json(res, 415, { error: 'Format d\'àudio no admès (mp3, wav, ogg, m4a, webm, aac, flac)' });
+  const parts = [];
+  let mida = 0;
+  req.on('data', c => { mida += c.length; if (mida > MAX_AUDIO) { json(res, 413, { error: 'L\'àudio és massa gran (màxim 40 MB)' }); req.destroy(); } else parts.push(c); });
+  req.on('end', () => {
+    if (mida > MAX_AUDIO) return;
+    try {
+      if (cas.audio) fs.rmSync(path.join(DIR_AULA, cas.audio), { force: true });
+      cas.audio = `${id}${ext}`;
+      fs.writeFileSync(path.join(DIR_AULA, cas.audio), Buffer.concat(parts));
+      fs.writeFileSync(path.join(DIR_AULA, `${id}.json`), JSON.stringify(cas, null, 1));
+    } catch (e) { return errorDisc(res, e); }
+    json(res, 200, { cas });
+  });
+}
+
+// Streams a recording, with byte ranges so the player can jump back and forth
+function serveixAudio(req, res, params) {
+  const id = idCasAula(params.get('id'));
+  const cas = id && llegeixCasosAula().find(x => x.id === id);
+  if (!cas?.audio) return json(res, 404, { error: 'Aquest cas no té àudio' });
+  const fitxer = path.join(DIR_AULA, cas.audio);
+  let mida;
+  try { mida = fs.statSync(fitxer).size; } catch { return json(res, 404, { error: 'Falta el fitxer d\'àudio' }); }
+  const tipus = Object.entries(TIPUS_AUDIO).find(([, e]) => e === path.extname(fitxer))?.[0] || 'application/octet-stream';
+  const rang = /^bytes=(\d*)-(\d*)$/.exec(req.headers.range || '');
+  if (rang && (rang[1] || rang[2])) {
+    const inici = rang[1] ? Number(rang[1]) : Math.max(0, mida - Number(rang[2]));
+    const fi = rang[1] && rang[2] ? Math.min(Number(rang[2]), mida - 1) : mida - 1;
+    if (inici >= mida || inici > fi) { res.writeHead(416, { 'Content-Range': `bytes */${mida}` }); return res.end(); }
+    res.writeHead(206, { 'Content-Type': tipus, 'Content-Length': fi - inici + 1, 'Content-Range': `bytes ${inici}-${fi}/${mida}`, 'Accept-Ranges': 'bytes', 'Cache-Control': 'no-cache' });
+    return fs.createReadStream(fitxer, { start: inici, end: fi }).pipe(res);
+  }
+  res.writeHead(200, { 'Content-Type': tipus, 'Content-Length': mida, 'Accept-Ranges': 'bytes', 'Cache-Control': 'no-cache' });
+  fs.createReadStream(fitxer).pipe(res);
+}
+
 // Consultor training: the tutor creates and drives the session; students answer from their phones without password
 function apiAula(req, res, ruta, params, cos, autoritzat) {
   const delTutor = ['/api/aula/nova', '/api/aula/ordre', '/api/aula/tutor'].includes(ruta);
@@ -290,7 +386,7 @@ function estatic(res, ruta) {
 
 const DRECERES = { '/': '/app/index.html', '/vota': '/app/vota.html', '/tutor': '/app/tutor.html', '/uct': '/app/uct.html',
   '/sala': '/app/uct.html', '/consultor': '/app/consultor.html', '/cap': '/app/cap.html', '/editor': '/app/editor.html',
-  '/aprenentatge': '/app/aprenentatge.html', '/aula': '/app/aula.html', '/projector': '/app/projector.html' };
+  '/aprenentatge': '/app/aprenentatge.html', '/aula': '/app/aula.html', '/projector': '/app/projector.html', '/aula-admin': '/app/aula-admin.html' };
 
 async function arrenca() {
   ({ Guardia } = await import('./joc.mjs'));

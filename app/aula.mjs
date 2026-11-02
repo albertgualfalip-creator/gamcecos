@@ -16,6 +16,7 @@ const SECCIONS = [
   { id: 'anamnesi', nom: 'Anamnesi', pregunta: 'Què preguntaries?' },
   { id: 'signes', nom: 'Signes i símptomes', pregunta: 'Què has escoltat a la gravació?' },
   { id: 'maniobres', nom: 'Maniobres salvadores', pregunta: 'Quines instruccions donaries?' },
+  { id: 'noavaluable', nom: 'No avaluable', pregunta: 'La gravació no en dona informació' },
 ];   // as in motor.mjs
 const nouEsborrany = () => ({ xabcde: new Set(), lletra: 0, nivell: null, recursos: new Set() });
 let esborrany = nouEsborrany();
@@ -48,7 +49,7 @@ function rep(v, força = false) {
 
 function render() {
   const v = vista, r = v.resposta;
-  const capçal = `<p class="marcador">${esc(nom)} · <b>${esc(v.titol)}</b></p>`;
+  const capçal = `<p class="marcador">${esc(nom)} · <b>${esc(v.titol)}</b></p>${v.carta ? `<p class="carta-text carta-mobil">${esc(v.carta)}</p>` : ''}`;
   if (v.estat === 'preparada') { contingut.innerHTML = `${capçal}<p class="xifra">Escolta la gravació.</p><p class="suau">Les respostes s'obriran d'aquí a un moment.</p>`; return; }
   if (v.estat === 'resultats') { contingut.innerHTML = capçal + resultats(v); return; }
   if (!r?.xabcde) return pasXabcde(capçal);
