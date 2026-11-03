@@ -2,10 +2,10 @@
 // the results, next case), and the tutor sees what the students have to do in this case, where each of them is and
 // the time left. Cases are prepared in /aula-admin.
 import { $, esc, avis } from './client.mjs';
-import { panellsResultats, classificacio, panellsEscenari, estatEquips } from './aula-resultats.mjs';
+import { panellsResultats, classificacio, panellsEscenari, estatEquips, diapositives } from './aula-resultats.mjs';
 import { COLOR } from './territori.mjs';
 
-let codi = null, casos = [], actual = null, vista = null, clauUnitats = '', fets = new Set();
+let codi = null, clauControl = '', casos = [], actual = null, vista = null, clauUnitats = '', fets = new Set();
 const PANTALLES = [['escolta', '👂 Escolta', 'marquen què senten a cada lletra'], ['preguntes', '❓ Preguntes', 'trien les preguntes clau'],
   ['instruccio', '🖐 Instrucció', 'trien la primera instrucció'], ['nivell', 'Nivell', 'posen el nivell'], ['recursos', '🚑 Recursos', 'trien les unitats']];
 const TIPUS = { veu: '🔊 Gravació', carta: '📄 Carta del 112', escenari: '👥 Escenari en equip' };
@@ -50,7 +50,7 @@ function boto() {
   } else if (estat === 'resultats') {
     const s = seguent();
     text = s ? `Cas següent: ${s.titol} ▸` : 'Fi de la classe ✓';
-    explica = s ? 'Comenteu els resultats i passeu al següent cas.' : 'Heu fet tots els casos.';
+    explica = s ? 'Els resultats surten al projector: passeu-los amb ◀ ▶ i comenteu-los.' : 'Heu fet tots els casos. Comenteu els resultats al projector.';
     accio = s ? () => posa(s) : null;
   } else text = 'Carregant...';
   b.textContent = text;
@@ -152,6 +152,7 @@ function render() {
     rel.textContent = v.queden != null ? (v.queden ? `⏱ Queden ${mmss(v.queden)}` : '⏱ Temps esgotat') : `⏱ ${mmss(v.segons || 0)}`;
     rel.classList.toggle('poc', v.queden != null && v.queden <= 20);
   }
+  controlFeedback(v);
   $('que-fan').hidden = false;
   $('que-fan').innerHTML = queFan(v);
   const escenari = v.config.tipus === 'escenari';
@@ -165,6 +166,23 @@ function render() {
   renderUnitats(v);
   const veure = v.estat === 'resultats' || (v.estat === 'oberta' && $('en-directe').checked);
   $('resultats').innerHTML = veure ? resultats(v) : '';
+}
+
+// On the results, the projector shows them full screen one slide at a time: the tutor chooses which one
+function controlFeedback(v) {
+  const caixa = $('control-feedback');
+  caixa.hidden = v.estat !== 'resultats';
+  if (caixa.hidden) { clauControl = ''; return; }
+  const titols = diapositives(v).map(d => d.titol.replace(/<[^>]+>/g, '')), p = v.pagina ?? 0;
+  const clau = JSON.stringify([v.ronda, p, titols]);
+  if (clau === clauControl) return;
+  clauControl = clau;
+  caixa.innerHTML = `<span class="suau">📽 Al projector:</span>
+    <button class="diapo-boto" data-p="${Math.max(0, p - 1)}" ${p <= 0 ? 'disabled' : ''}>◀</button>
+    ${titols.map((t, i) => `<button class="diapo-boto ${i === p ? 'actiu' : ''}" data-p="${i}">${esc(t)}</button>`).join('')}
+    <button class="diapo-boto" data-p="${p < 0 ? 0 : Math.min(titols.length - 1, p + 1)}" ${p === titols.length - 1 ? 'disabled' : ''}>▶</button>
+    <button class="diapo-boto ${p < 0 ? 'actiu' : ''}" data-p="-1">▦ Tot</button>`;
+  caixa.querySelectorAll('[data-p]').forEach(b => b.onclick = () => ordre({ tipus: 'pagina', pagina: Number(b.dataset.p) }));
 }
 
 function renderUnitats(v) {

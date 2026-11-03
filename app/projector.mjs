@@ -2,14 +2,14 @@
 // Incident tray, incident record, 112 information, resources table, map and status bar; at the end, the results.
 // Card-only cases can have a background of the coordination room (radios, phones, voices) from a button.
 import { $, esc } from './client.mjs';
-import { barres, panellsResultats, classificacio, panellsEscenari, estatEquips } from './aula-resultats.mjs';
+import { barres, panellsResultats, classificacio, panellsEscenari, estatEquips, diapositives } from './aula-resultats.mjs';
 import { COLOR, nouMapa } from './territori.mjs';
 import { engega, atura, sona } from './ambient.mjs';
 
 const codi = (new URLSearchParams(location.search).get('codi') || '').toUpperCase();
 const NOM_CAT = { SVA: 'SVA', SVB: 'SVB', HEMS: 'HELI' };
 const ESTAT = { preparada: ['PENDENT', 'pendent'], oberta: ['EN VALORACIÓ', 'valoracio'], resultats: ['TANCAT', 'tancat'] };
-let mapa, capa, rondaMapa = null, clauMapa = '', qrFet = false, ronda = null, horaAlerta = '', vista = null, ambientVolgut = false;
+let mapa, capa, clauFeedback = '', diapoActual = '', amagaFeedback = null, rondaMapa = null, clauMapa = '', qrFet = false, ronda = null, horaAlerta = '', vista = null, ambientVolgut = false;
 const hora = (d = new Date()) => d.toLocaleTimeString('ca', { hour12: false });
 const mmss = s => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
 // With a limit, the time left (in red at the end); without, the time running
@@ -39,6 +39,7 @@ $('ambient').onclick = () => { ambientVolgut = !ambientVolgut; ambient(); };
 
 function render(v) {
   vista = v;
+  feedback(v);
   const resultats = v.estat === 'resultats', { config: c } = v;
   if (v.ronda !== ronda) { ronda = v.ronda; horaAlerta = hora(); }
   $('codi').textContent = codi;
@@ -174,5 +175,55 @@ function pintaMapa(v) {
     mapa.fitBounds([[lloc.lat, lloc.lon], ...v.unitats.filter(u => u.tipus !== 'HELI').map(u => [u.lat, u.lon])], { padding: [30, 30], maxZoom: 13 });
   }
 }
+
+// Results for the class: full screen, one slide at a time. The tutor moves them from the class page;
+// here the arrows (or the buttons) do the same, and Esc goes back to the coordination centre screen.
+function feedback(v) {
+  const resultats = v.estat === 'resultats';
+  if (amagaFeedback !== null && amagaFeedback !== v.ronda) amagaFeedback = null;
+  const mostra = resultats && amagaFeedback === null;
+  $('feedback').hidden = !mostra;
+  document.body.classList.toggle('amb-feedback', mostra);
+  if (!mostra) { clauFeedback = ''; diapoActual = ''; return; }
+  const llista = diapositives(v), pagina = Math.min(v.pagina ?? 0, llista.length - 1), tot = pagina < 0;
+  const clau = JSON.stringify([v.ronda, pagina, v.distribucio, v.classificacio, v.correctes, v.solucio]);
+  if (clau === clauFeedback) return;
+  const canvi = diapoActual !== `${v.ronda}|${pagina}`;
+  clauFeedback = clau;
+  diapoActual = `${v.ronda}|${pagina}`;
+  $('feedback-num').textContent = v.numero;
+  $('feedback-cas').textContent = v.config.titol;
+  $('feedback-alumnes').textContent = v.config.tipus === 'escenari' ? `${v.classificacio.length} equips` : `${v.progres.connectats} alumnes`;
+  $('feedback-titol').innerHTML = tot ? 'Tots els resultats' : llista[pagina].titol;
+  $('feedback-punts').innerHTML = llista.map((d, i) => `<span class="${i === pagina ? 'actiu' : ''}" title="${esc(d.titol.replace(/<[^>]+>/g, ''))}"></span>`).join('');
+  const cos = $('feedback-cos');
+  cos.className = `feedback-cos ${tot ? 'tot' : ''}`;
+  cos.innerHTML = tot ? llista.map(d => `<div class="panell"><h3>${d.titol}</h3>${d.html}</div>`).join('') : `<div class="feedback-diapo">${llista[pagina].html}</div>`;
+  if (canvi) { cos.scrollTop = 0; cos.animate([{ opacity: 0, transform: 'translateY(12px)' }, { opacity: 1, transform: 'none' }], { duration: 350, easing: 'ease-out' }); }
+  $('fb-enrere').disabled = !tot && pagina === 0;
+  $('fb-endavant').disabled = !tot && pagina === llista.length - 1;
+}
+
+async function pagina(n) {
+  if (!vista || vista.estat !== 'resultats') return;
+  const total = diapositives(vista).length;
+  const p = Math.max(-1, Math.min(total - 1, n));
+  vista.pagina = p;
+  feedback(vista);
+  fetch(`/api/aula/ordre?codi=${codi}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ tipus: 'pagina', pagina: p }) }).catch(() => {});
+}
+const actual = () => vista?.pagina ?? 0;
+$('fb-endavant').onclick = () => pagina(actual() < 0 ? 0 : actual() + 1);
+$('fb-enrere').onclick = () => pagina(actual() < 0 ? 0 : actual() - 1);
+$('fb-tot').onclick = () => pagina(actual() < 0 ? 0 : -1);
+$('fb-tanca').onclick = () => { amagaFeedback = vista?.ronda ?? null; feedback(vista); };
+document.addEventListener('keydown', e => {
+  if (!vista || vista.estat !== 'resultats') return;
+  if (e.key === 'Escape') { amagaFeedback = amagaFeedback === null ? vista.ronda : null; feedback(vista); return; }
+  if (amagaFeedback !== null) return;
+  if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); $('fb-endavant').click(); }
+  else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); $('fb-enrere').click(); }
+  else if (e.key.toLowerCase() === 't') $('fb-tot').click();
+});
 
 if (codi) bucle(); else $('fitxa').innerHTML = '<p>Obriu aquesta pantalla des de la pàgina del tutor.</p>';

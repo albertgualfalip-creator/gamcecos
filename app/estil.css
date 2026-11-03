@@ -616,3 +616,64 @@ body.presentacio { background: #0b1220; color: #e8edf6; min-height: 100vh; margi
 .explicacio { background: var(--tria); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: .5rem .7rem; margin: .6rem 0; }
 .explicacio p { margin: .2rem 0 0; }
 .taula-interval td, .taula-interval th { padding: .2rem .6rem; }
+
+/* ---------- Results for the class on the projector: full screen, one slide at a time ---------- */
+body.cecos.amb-feedback > header, body.cecos.amb-feedback > main, body.cecos.amb-feedback > footer { visibility: hidden; }
+.feedback { position: fixed; inset: 0; z-index: 2000; background: radial-gradient(ellipse at top, #13213a, var(--fons) 70%); color: var(--text);
+  display: grid; grid-template-rows: auto auto 1fr auto; padding: 1.2rem 2.2rem 1rem; gap: .8rem; font-size: 1.3rem; }
+.feedback-cap { display: flex; align-items: center; gap: 1.4rem; border-bottom: 1px solid var(--vora); padding-bottom: .7rem; }
+.feedback-cap h1 { margin: 0; font-size: 2rem; color: #fff; }
+.feedback-cap .suau { font-size: 1rem; text-transform: uppercase; letter-spacing: .08em; }
+.feedback-alumnes { margin-left: auto; color: var(--suau); font-size: 1.1rem; }
+.feedback-titol { display: flex; align-items: center; gap: 1.5rem; }
+.feedback-titol h2 { margin: 0; font-size: 2.4rem; color: #fff; }
+.feedback-punts { display: flex; gap: .45rem; margin-left: auto; }
+.feedback-punts span { width: .8rem; height: .8rem; border-radius: 50%; background: #2a3a58; }
+.feedback-punts span.actiu { background: var(--accent); transform: scale(1.3); }
+.feedback-cos { overflow: auto; min-height: 0; }
+.feedback-diapo { max-width: 1400px; margin: 0 auto; }
+.feedback .barra-fila { font-size: 1.6rem; grid-template-columns: minmax(0, 2.4fr) 1.4fr 2.5em; padding: .35rem 0; }
+.feedback .barra { height: 1.4rem; }
+.feedback .suau { font-size: .9em; }
+.feedback-cos.tot { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 12px; align-content: start; font-size: 1rem; }
+.feedback-cos.tot .panell { background: var(--panell); border: 1px solid var(--vora); border-radius: 6px; padding: .6rem .8rem; }
+.feedback-cos.tot h3 { font-size: .9rem; text-transform: uppercase; letter-spacing: .06em; color: var(--suau); margin: 0 0 .4rem; }
+.feedback-cos.tot .barra-fila { font-size: 1.05rem; }
+.feedback-cos.tot .barra { height: .9rem; }
+.feedback-cos.tot .podi { font-size: .7rem; }
+.feedback-nav { display: flex; justify-content: center; gap: .6rem; opacity: .35; transition: opacity .2s; }
+.feedback-nav:hover { opacity: 1; }
+.feedback-nav button { background: var(--panell); color: var(--text); border: 1px solid var(--vora); border-radius: 6px; padding: .3rem 1rem; font-size: 1rem; }
+.feedback-nav button:disabled { opacity: .3; }
+.feedback-resum { display: grid; grid-template-columns: 1.6fr 1fr; gap: 1.5rem; align-items: start; }
+.feedback-resposta { display: grid; gap: .8rem; }
+.feedback-fila { background: var(--panell); border: 1px solid var(--vora); border-left: 6px solid #00c853; border-radius: 6px; padding: .7rem 1rem; display: grid; grid-template-columns: 9em 1fr; gap: 1rem; align-items: center; font-size: 1.5rem; }
+.feedback-etiqueta { text-transform: uppercase; letter-spacing: .06em; color: var(--suau); font-size: 1rem; }
+.feedback-fila .nivell { font-size: 1.6rem; padding: .1rem .7rem; }
+.feedback-perque { background: #1b2c4f; border-radius: 6px; padding: .8rem 1rem; font-size: 1.4rem; line-height: 1.4; }
+.feedback-encerts { display: grid; gap: .8rem; }
+.feedback-xifra { background: var(--panell); border: 1px solid var(--vora); border-radius: 6px; padding: .7rem 1rem; display: grid; }
+.feedback-xifra b { font-size: 3.4rem; color: #fff; line-height: 1; font-variant-numeric: tabular-nums; }
+.feedback-xifra span { font-size: 1.2rem; }
+.feedback-xifra .suau { font-size: 1rem; }
+.podi { display: flex; justify-content: center; align-items: flex-end; gap: 1.2rem; margin-top: 1rem; font-size: 1rem; }
+.podi-lloc { display: grid; justify-items: center; gap: .3rem; width: 15em; text-align: center; }
+.podi-lloc b { font-size: 1.8em; color: #fff; word-break: break-word; }
+.podi-lloc span { font-size: 1.4em; }
+.podi-lloc .medalla { font-size: 2.8em; }
+.podi-grao { width: 100%; background: linear-gradient(#1f6fd1, #144a8c); border-radius: 8px 8px 0 0; color: #fff; font-size: 3em; font-weight: 800; display: grid; place-items: center; }
+.lloc-1 .podi-grao { height: 6em; background: linear-gradient(#f2c230, #a77d00); }
+.lloc-2 .podi-grao { height: 4.2em; background: linear-gradient(#c9d3e0, #7f8a99); }
+.lloc-3 .podi-grao { height: 3em; background: linear-gradient(#d98a4a, #8a4f20); }
+.ranquing-resta { display: grid; grid-template-columns: repeat(auto-fill, minmax(16em, 1fr)); gap: .3rem 1.5rem; font-size: 1.3rem; margin: 1.2rem auto 0; max-width: 1200px; padding-left: 2em; }
+.feedback .taula-equips { width: 100%; font-size: 1.5rem; }
+.feedback .resultat-llista { font-size: 1.5rem; line-height: 1.6; }
+@media (max-width: 900px) { .feedback { padding: 1rem; font-size: 1rem; } .feedback-resum { grid-template-columns: 1fr; } .feedback-titol h2 { font-size: 1.6rem; } }
+
+/* Tutor: which slide of the results is on the projector */
+.control-feedback { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; }
+.control-feedback .diapo-boto { border: 1px solid var(--vora); background: var(--camp); color: var(--text); border-radius: 999px; padding: .25rem .7rem; font-size: .9rem; }
+.control-feedback .diapo-boto.actiu { background: var(--accent); color: #fff; border-color: var(--accent); }
+.barra-classe .control-feedback { flex-basis: 100%; }
+.barra .barra-perillosa { background: var(--perillosa); } .barra .barra-acceptable { background: var(--acceptable); }
+.feedback .barra-fila .nivell { font-size: 1.4rem; padding: .05rem .6rem; }

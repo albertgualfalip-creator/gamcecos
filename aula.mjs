@@ -75,6 +75,7 @@ export class Aula {
     this.respostes = new Map();
     this.estat = 'preparada';
     this.obertaT = null;
+    this.pagina = 0;            // feedback slide shown on the projector once the results are out (-1 = all at once)
     this.ronda++;
     this.numero = 261800000 + Math.floor(aleatori(llavor + 1)() * 99999);   // incident number shown on the projector
     this.temps = Math.max(0, Math.min(1800, Math.round(Number(c.temps) || 0)));   // seconds to answer, 0 = no limit
@@ -155,9 +156,10 @@ export class Aula {
     return n;
   }
 
-  ordre({ tipus, config, correctes }) {
+  ordre({ tipus, config, correctes, pagina }) {
     if (tipus === 'obre' && this.estat === 'preparada') { this.estat = 'oberta'; this.obertaT = Date.now(); }
-    else if (tipus === 'resultats' && this.estat === 'oberta') this.estat = 'resultats';
+    else if (tipus === 'resultats' && this.estat === 'oberta') { this.estat = 'resultats'; this.pagina = 0; }
+    else if (tipus === 'pagina' && this.estat === 'resultats' && Number.isInteger(pagina)) this.pagina = Math.max(-1, Math.min(30, pagina));
     else if (tipus === 'nova') this.configura(config);
     else if (tipus === 'correctes' && Array.isArray(correctes)) {
       this.correctes = correctes.filter(id => this.unitats.some(u => u.indicatiu === id && !u.ocupada));
@@ -369,7 +371,7 @@ export class Aula {
       const resultats = this.estat === 'resultats';
       const equips = this.config.equips.map(e => this.vistaEquip(e, resultats));
       return {
-        estat: this.estat, ronda: this.ronda, numero: this.numero, config: this.config, historia: this.historia.slice(0, 8), ...this.rellotge(),
+        estat: this.estat, pagina: this.pagina, ronda: this.ronda, numero: this.numero, config: this.config, historia: this.historia.slice(0, 8), ...this.rellotge(),
         correctes: [], correcte: { text: '' }, ...this.esc.publics(), unitats: this.esc.unitats, solucio: this.esc.solucio(), equips,
         progres: { connectats: this.equipDe.size, acabats: equips.filter(e => e.confirmat != null).length, equips: equips.length },
         classificacio: resultats ? equips.map(e => ({ nom: `Equip ${e.nom}`, membres: e.membres.length, temps: e.confirmat, ...e.puntuacio }))
@@ -380,7 +382,7 @@ export class Aula {
     const compta = (llista, clau) => llista.reduce((m, x) => { const k = clau(x); if (k != null) m[k] = (m[k] || 0) + 1; return m; }, {});
     const fets = rs.filter(r => r.recursos);
     return {
-      estat: this.estat, ronda: this.ronda, numero: this.numero, config: this.config, unitats: this.unitats, correctes: this.correctes,
+      estat: this.estat, pagina: this.pagina, ronda: this.ronda, numero: this.numero, config: this.config, unitats: this.unitats, correctes: this.correctes,
       correcte: this.correcte(), historia: this.historia.slice(0, 8), ...this.rellotge(),
       progres: { connectats: rs.length, activats: rs.filter(r => r.activacio).length, xabcde: rs.filter(r => r.xabcde).length,
         nivell: rs.filter(r => r.nivell).length, recursos: fets.length, acabats: rs.filter(r => r.fet).length,

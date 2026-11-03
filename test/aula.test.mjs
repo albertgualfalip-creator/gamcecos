@@ -231,3 +231,26 @@ test('diversos nivells correctes', () => {
     assert.equal(a.puntua(a.respostes.get(c)).nivell, esperat, `N${n}`);
   }
 });
+
+test('aprenentatge: el tutor passa les diapositives dels resultats al projector', async () => {
+  const { diapositives } = await import('../app/aula-resultats.mjs');
+  const a = new Aula({ titol: 'Prova', nivell: 1, lloc, xabcde, llavor: 1, explicacio: 'Cal RCP' }, dades);
+  assert.equal(a.ordre({ tipus: 'pagina', pagina: 2 }), 'Ordre no disponible ara');
+  a.ordre({ tipus: 'obre' });
+  a.respon('c1', { nom: 'Anna', xabcde: [] });
+  a.respon('c1', { nivell: 1 });
+  a.respon('c1', { recursos: a.correctes });
+  a.ordre({ tipus: 'resultats' });
+  assert.equal(a.vistaTutor().pagina, 0);
+  a.ordre({ tipus: 'pagina', pagina: 3 });
+  assert.equal(a.vistaTutor().pagina, 3);
+  a.ordre({ tipus: 'pagina', pagina: -1 });
+  assert.equal(a.vistaTutor().pagina, -1);
+  const llista = diapositives(a.vistaTutor());
+  assert.equal(llista[0].titol, '✓ La resposta');
+  assert.match(llista[0].html, /Cal RCP/);
+  assert.equal(llista.at(-1).titol, '🏆 Classificació');
+  assert.match(llista.at(-1).html, /Anna/);
+  a.ordre({ tipus: 'nova', config: { titol: 'Altre', nivell: 2, lloc, xabcde, llavor: 2 } });
+  assert.equal(a.vistaTutor().pagina, 0);
+});
